@@ -44,9 +44,9 @@
             background-image: radial-gradient(#A1824A 0.4px, transparent 0.4px);
             background-size: 24px 24px;
         }
-        /* 圖片精緻縮小比例容器 */
+        /* 圖片高度降半的精緻縮小容器 */
         .img-compact-box {
-            max-width: 320px;
+            max-width: 280px;
             margin: 0 auto;
             background: #000;
             overflow: hidden;
@@ -76,7 +76,7 @@
             border-radius: 3px;
         }
         .banner-item {
-            flex: 0 0 85%;
+            flex: 0 0 90%;
             scroll-snap-align: center;
         }
     </style>
@@ -87,7 +87,7 @@
     <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur-md border-b border-gold/30 shadow-sm">
         <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center border-2 border-gold text-gold font-bold shadow-inner text-lg">
+                <div class="w-11 h-11 rounded-full bg-gold/20 flex items-center justify-center border-2 border-gold text-gold font-bold shadow-inner text-xl">
                     紫
                 </div>
                 <div>
@@ -127,7 +127,7 @@
     <!-- 主內容區塊 (10 大獨立區塊) -->
     <main class="max-w-xl mx-auto px-4 py-8 space-y-8 w-full">
         
-        <!-- 1. 首頁標頭視覺 (圖片縮小) -->
+        <!-- 1. 首頁標頭視覺 (圖片高度降半) -->
         <section id="section1" class="img-compact-box chinese-border shadow-md">
             <img src="1792354723564.png" alt="首頁標頭視覺">
         </section>
@@ -149,19 +149,29 @@
             </div>
         </section>
 
-        <!-- 3. 品牌宣文橫幅 (圖片放在上方，文宣附帶滑桿) -->
+        <!-- 3. 品牌宣文橫幅 (圖片上方，下方滑桿顯示老師的心靈美學文宣) -->
         <section id="section3" class="space-y-3">
             <div class="img-compact-box chinese-border shadow-md">
                 <img src="1792317738179.jpg" alt="品牌宣文圖片">
             </div>
             <div class="banner-scroll-container px-2 py-1">
-                <div class="banner-item bg-warm/70 p-4 rounded-xl border border-gold/30 shadow-sm text-center">
-                    <h4 class="font-bold text-xs text-ink mb-1">📖 彭品心老師心靈美學</h4>
-                    <p class="text-[11px] text-gold-dark">在木質書房的茶香與墨寶中，尋找生命最純粹平靜的出口。</p>
+                <div class="banner-item bg-warm/80 p-5 rounded-xl border border-gold/30 shadow-sm space-y-2">
+                    <h4 class="font-bold text-xs text-ink text-center">🌿 尋一方心靈庇護所 · 開一條順遂人生路</h4>
+                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify">
+                        喧囂的世間，每個人都在找尋安放靈魂的角落。老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，清雅脫俗地出落在紅塵萬里天地之間，悉心等待著為值得的人送去福音，將畢生學術研究成果耕織於實際需求，廣結善緣、讓靈慧助人於無形之中。
+                    </p>
                 </div>
-                <div class="banner-item bg-warm/70 p-4 rounded-xl border border-gold/30 shadow-sm text-center">
-                    <h4 class="font-bold text-xs text-ink mb-1">✨ 數字風水與磁場重塑</h4>
-                    <p class="text-[11px] text-gold-dark">解碼隨身密碼，精準挑選吉祥號碼，開創順遂人生路。</p>
+                <div class="banner-item bg-warm/80 p-5 rounded-xl border border-gold/30 shadow-sm space-y-2">
+                    <h4 class="font-bold text-xs text-ink text-center">📖 學術創作與心靈出口</h4>
+                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify">
+                        作為學術創作者，透過著作《進階思維的後裔》與《生命的出口》，為現代喧囂中迷惘的靈魂尋找通往內在清明的出口；同時將對自然的體悟化為古琴、竹笛與自然音律交織的禪音，搭配AI人聲及音樂洗滌日常疲憊，生命可貴，且要好好善待自己。
+                    </p>
+                </div>
+                <div class="banner-item bg-warm/80 p-5 rounded-xl border border-gold/30 shadow-sm space-y-2">
+                    <h4 class="font-bold text-xs text-ink text-center">✨ 數字風水與重生願力</h4>
+                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify">
+                        作為數字風水紫墨老師，深信萬物皆數。經歷二十載磨難與劫數，倚靠家祖智慧與高端數字吉數調配，逐漸蛻變並還原自身風水屬性。為感恩宇宙潤澤，願以我之願力，將家祖爺爺賜予的智慧布施於苦難人間，換取眾生之福祉。
+                    </p>
                 </div>
             </div>
         </section>
@@ -294,7 +304,7 @@
             <button onclick="addToCart('AI 藝術畫作數位收藏', 680)" class="bg-gold hover:bg-gold-dark text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow transition">預訂數位藝術收藏</button>
         </section>
 
-        <!-- 8. 聯絡方式 (附帶正確的 FB 粉絲專頁網址) -->
+        <!-- 8. 聯絡方式 (正確的 FB 粉絲專頁網址) -->
         <section id="section8" class="bg-warm/60 p-6 rounded-2xl chinese-border space-y-3 text-center shadow-sm">
             <h3 class="text-base font-bold text-ink">📞 聯絡彭品心老師</h3>
             <p class="text-xs text-gold-dark">歡迎透過以下管道與老師聯繫，獲取專業一對一諮詢服務：</p>
@@ -303,10 +313,10 @@
                     <i class="fa-brands fa-line text-base"></i> 官方 LINE 諮詢
                 </a>
                 <a href="https://www.facebook.com/bookspctv/" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl shadow transition flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-facebook text-base"></i> FB 粉絲專頁[span_1](start_span)[span_1](end_span)
+                    <i class="fa-brands fa-facebook text-base"></i> FB 粉絲專頁
                 </a>
                 <a href="mailto:bookspctv@gmail.com" class="bg-gold hover:bg-gold-dark text-white px-4 py-2.5 rounded-xl shadow transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-envelope text-base"></i> Google 郵箱[span_2](start_span)[span_2](end_span)
+                    <i class="fa-solid fa-envelope text-base"></i> Google 郵箱
                 </a>
             </div>
         </section>
@@ -333,19 +343,4 @@
         <div class="bg-paper rounded-2xl max-w-md w-full p-6 chinese-border space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-gold/30 pb-3">
                 <h3 class="font-bold text-base text-ink">🛒 您的預約與購物車</h3>
-                <button onclick="closeCartModal()" class="text-gray-500 hover:text-ink"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            
-            <div id="modal-vip-status-text" class="text-xs text-gold-dark bg-warm/50 p-2.5 rounded-lg border border-gold/20 text-center font-medium">
-                目前身分：一般會員 (點擊頂部 VIP 按鈕可切換)
-            </div>
-
-            <!-- 購物車清單 -->
-            <div id="cart-items-container" class="space-y-3 max-h-40 overflow-y-auto text-xs divide-y divide-gold/10">
-                <!-- 動態插入項目 -->
-            </div>
-            <div id="empty-cart-msg" class="text-center text-gray-500 py-4 text-xs">目前購物車是空的</div>
-
-            <!-- 客戶結帳表單 (含說明與備註) -->
-            <div class="border-t border-gold/30 pt-3 space-y-2.5 text-xs">
-            
+                <button onclick="c
