@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>紫墨數字風水 · 彭品心 官方網站</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Cinzel:wght@500;700&display=swap');
+        body { font-family: 'Noto Serif TC', serif; background-color: #f7f3ed; color: #2c241d; }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .bg-wood { background-color: #3b2314; }
+        .bg-volcanic { background-color: #221c18; }
+        .bg-paper { background-color: #fcf9f2; }
+        .bg-card { background-color: #f5efe6; }
+        .text-gold { color: #c5a059; }
+        .bg-gold { background-color: #c5a059; }
+        .border-gold { border-color: #c5a059; }
+        .border-gold-light { border-color: #dfd3c3; }
+        .bg-purple-brand { background-color: #3a2342; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f5efe6; }
+        ::-webkit-scrollbar-thumb { background: #c5a059; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-paper text-volcanic min-h-screen flex flex-col selection:bg-gold selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-paper/95 backdrop-blur-md border-b border-gold-light px-4 py-3 flex items-center justify-between shadow-xs">
+        <div class="flex items-center space-x-2.5">
+            <div class="w-11 h-11 rounded-full bg-purple-brand border-2 border-gold flex items-center justify-center text-gold font-black shadow-md text-lg">
+                紫
+            </div>
+            <div>
+                <h1 class="text-sm font-bold tracking-wider text-wood">紫墨數字風水</h1>
+                <p class="text-[10px] text-stone-500 tracking-tight">彭品心老師官方網站</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center space-x-2">
+            <button onclick="toggleVip()" id="vip-btn" class="flex items-center space-x-1 px-3 py-1.5 rounded-full border border-gold bg-card text-wood text-xs font-bold transition-all shadow-xs hover:bg-gold hover:text-white">
+                <svg class="w-3.5 h-3.5 text-gold" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5m14 3a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-1h14v1Z"/></svg>
+                <span id="vip-btn-text">VIP</span>
+            </button>
+            <button onclick="openCartModal()" class="relative p-2 rounded-full border border-gold bg-card text-wood hover:bg-gold hover:text-white transition-all shadow-xs flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <span id="cart-badge" class="absolute -top-1 -right-1 bg-wood text-gold text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-gold">0</span>
+            </button>
+            <button onclick="openMenuModal()" class="p-2 rounded-full border border-gold bg-card text-wood hover:bg-gold hover:text-white transition-all shadow-xs flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container (Strict 10 Sections in Order) -->
+    <main class="flex-grow max-w-md mx-auto w-full px-4 py-6 space-y-8">
+
+        <!-- 1. 首頁標頭視覺 -->
+        <section class="bg-card border border-gold-light rounded-2xl p-4 text-center shadow-sm overflow-hidden">
+            <div class="rounded-xl overflow-hidden border border-gold-light mb-4 shadow-xs">
+                <img src="1792354723564.png" alt="首頁標頭視覺" class="w-full h-48 object-cover">
+            </div>
+            <div class="inline-block px-3 py-1 rounded-full bg-paper border border-gold-light text-[11px] text-wood font-medium mb-2 tracking-widest">
+                紫墨數字風水 · 彭品心 官方網站
+            </div>
+            <h2 class="text-xl font-black text-wood mb-2">解碼數字磁場 · 指引生命出口</h2>
+            <p class="text-xs text-stone-600 leading-relaxed mb-4">由彭品心老師親自為您解析手機、車牌、住址與店舖門牌磁場，重塑人生順勢格局。</p>
+            <a href="#services" class="block w-full py-2.5 bg-wood text-gold font-bold text-xs rounded-xl shadow-md hover:bg-stone-900 transition-all tracking-wider text-center">探索數字風水服務</a>
+        </section>
+
+        <!-- 2. VIP 尊榮會員專區 -->
+        <section id="vip" class="bg-card border border-gold rounded-2xl p-6 text-center shadow-sm relative">
+            <div class="absolute top-4 right-4 text-gold">👑</div>
+            <h3 id="vip-status-title" class="text-sm font-bold text-wood mb-1">VIP 尊榮會員專區</h3>
+            <p id="vip-status-desc" class="text-xs text-stone-600 mb-4">加入 NT$880 享終身會員價，全站服務與書籍享 9 折與流年大運批算！</p>
+            <div class="bg-paper p-4 rounded-xl border border-gold-light text-left text-xs space-y-2 mb-5">
+                <div class="flex items-center text-stone-700"><span class="text-gold mr-2 font-bold">✓</span> 全站數字風水服務與著作全面 9 折</div>
+                <div class="flex items-center text-stone-700"><span class="text-gold mr-2 font-bold">✓</span> 隨單免費索取價值 NT$980 當年流年大運批算</div>
+                <div class="flex items-center text-stone-700"><span class="text-gold mr-2 font-bold">✓</span> 享獨家親簽版與數位藝術優先珍藏權</div>
+            </div>
+            <button onclick="addVipToCart()" id="vip-action-btn" class="w-full py-3 bg-wood text-gold font-bold text-xs rounded-xl shadow-md hover:bg-stone-900 transition-all">加入 NT$880 終身 VIP Pass 到購物車</button>
+        </section>
+
+        <!-- 3. 品牌宣文橫幅 -->
+        <section class="bg-volcanic text-paper rounded-2xl p-5 shadow-md space-y-4 overflow-hidden">
+            <div class="text-center">
+                <h3 class="text-xs font-cinzel text-gold tracking-widest mb-1">BRAND BANNER</h3>
+                <h2 class="text-sm font-bold text-gold">尋一方心靈庇護所 · 開一條順遂人生路</h2>
+            </div>
+            <div class="relative rounded-xl overflow-hidden border border-gold/40 shadow-inner">
+                <img src="1792317738179.jpg" alt="品牌宣文橫幅" class="w-full h-44 object-cover opacity-75">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end p-3">
+                    <p class="text-[11px] text-stone-200 italic">「在木質書房的茶香與墨寶中，尋找生命最純粹平靜的出口。」—— 彭品心</p>
+                </div>
+            </div>
+            <div class="bg-stone-900/90 border border-gold/30 rounded-xl p-4 text-xs text-stone-300 space-y-3 max-h-56 overflow-y-auto leading-relaxed">
+                <p class="text-gold font-bold text-center">喧囂的世間，每個人都在找尋安放靈魂的角落。</p>
+                <p>老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學、及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，她清雅脫俗地出落在紅塵萬里天地之間，悉心等待著為值得的人送去福音，將她畢生的學術研究成果，盡心耕織於人類與環境實際需求，廣結善緣、讓福音傳遍千里之外，讓靈慧助人於無形之中。</p>
+                <p>作為一名學術創作者，我透過文字探索思維與文學的邊界。從著作《進階思維的後裔》到《生命的出口》，我試圖為在現代喧囂中迷惘的靈魂，尋找一條通往內在清明的出口；同時，我也將對自然的體悟化為古琴、竹笛與自然音律交織的禪音，搭配全權授權 AI 人聲及音樂，讓宇宙智慧與美妙音符、為我們洗滌日常的疲憊感、以及無意義的精神內耗，生命可貴，且要好好善待自己。</p>
+                <p>作為數字風水的紫墨老師，我深信萬物皆數，數字不只是符號，更是宇宙自然無形磁場的密碼。多年來，我專注於數字命理與高端空間風水的研究，協助無數朋友透過手機號碼、車牌、店鋪與住址的精準配置，調整磁場、引導其自身吉運增加。</p>
+                <p>老師也曾歷經過各種人生磨難，也曾找不到生命的出口，幸好少年遺傳家祖爺爺的測字絕學、加上父母嚴苛訓練、又承蒙各方親朋好友之庇佑，才有幸渡過各種劫數。這其中最為關鍵的二十載磨難期間，倚靠家祖遺傳的智慧，且配置了高端數字吉數，在天時、地利、人和、又加上自身五行命理數字與吉數配置的平衡調配下，逐漸蛻變、脫離苦海、並還原了本真的自身風水屬性，因為有了數字風水高端平衡調配，再加上命中吉星護佑，才孕育了今天的品心 & 紫墨。</p>
+                <p class="text-gold font-medium">為感恩之心、為還宇宙潤澤我能活下去的恩澤，我將用重生的機會去做最有意義的事情，那就是將家祖爺爺賜予我的智慧，以及我後天所學布施於苦難的人間，願以我之願力，換取眾生之福祉。</p>
+            </div>
+        </section>
+
+        <!-- 4. 經典著作專區 -->
+        <section class="bg-card border border-gold-light rounded-2xl p-6 shadow-sm space-y-6">
+            <div class="text-center">
+                <span class="text-[10px] bg-wood text-gold px-3 py-1 rounded-full font-medium">暢銷心靈著作（皆含親簽版）</span>
+                <div class="rounded-xl overflow-hidden border border-gold-light my-3 shadow-xs bg-stone-900">
+                    <img src="1791987571319.jpg" alt="經典著作背景" class="w-full h-36 object-cover opacity-90">
+                </div>
+            </div>
+            <div class="bg-paper p-4 rounded-xl border border-gold-light flex flex-col sm:flex-row items-center gap-4">
+                <img src="1792440195898.jpg" alt="生命的出口" class="w-28 h-36 object-cover rounded-lg border border-gold-light">
+                <div class="flex-grow text-center sm:text-left">
+                    <h4 class="text-base font-bold text-wood mb-1">《生命的出口》</h4>
+                    <p class="text-[11px] text-stone-500 mb-2">彭品心 著 · 心靈療癒與人生轉折之作</p>
+                    <div class="flex items-center justify-between sm:justify-start space-x-4 mb-3">
+                        <span class="text-base font-bold text-wood item-price" data-base="269">NT$ 269</span>
+                        <span class="text-[10px] text-gold bg-wood/10 px-2 py-0.5 rounded">附親筆簽名</span>
+                    </div>
+                    <button onclick="addToCart('《生命的出口》 (親簽版)', 269)" class="w-full sm:w-auto px-5 py-2 bg-wood text-gold font-bold text-xs rounded-xl shadow-xs hover:bg-stone-900">放入購物車</button>
+                </div>
+            </div>
+            <div class="bg-paper p-4 rounded-xl border border-gold-light flex flex-col sm:flex-row items-center gap-4">
+                <img src="1792450518058.jpg" alt="進階思維的後裔" class="w-28 h-36 object-cover rounded-lg border border-gold-light">
+                <div class="flex-grow text-center sm:text-left">
+                    <h4 class="text-base font-bold text-wood mb-1">《進階思維的後裔》</h4>
+                    <p class="text-[11px] text-stone-500 mb-2">彭品心 著 · 能量躍升與智慧引導</p>
+                    <div class="flex items-center justify-between sm:justify-start space-x-4 mb-3">
+                        <span class="text-base font-bold text-wood item-price" data-base="269">NT$ 269</span>
+                        <span class="text-[10px] text-gold bg-wood/10 px-2 py-0.5 rounded">附親筆簽名</span>
+                    </div>
+                    <button onclick="addToCart('《進階思維的後裔》 (親簽版)', 269)" class="w-full sm:w-auto px-5 py-2 bg-wood text-gold font-bold text-xs rounded-xl shadow-xs hover:bg-stone-900">放入購物車</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 6大數字風水服務 -->
+        <section id="services" class="bg-card border border-gold-light rounded-2xl p-6 shadow-sm space-y-4">
+            <div class="text-center">
+                <h3 class="text-base font-bold text-wood mb-1">6大數字風水與命理服務</h3>
+                <p class="text-[11px] text-stone-500 mb-3">由彭品心老師親自一對一深度排盤解析（2～7天完成）</p>
+                <div class="rounded-xl overflow-hidden border border-gold-light mb-4">
+                    <img src="1792361766610.png" alt="數字風水意境" class="w-full h-36 object-cover">
+                </div>
+            </div>
+            <div class="space-y-3 text-xs">
+                <div class="bg-paper p-3 rounded-xl border border-gold-light flex items-center justify-between">
+                    <div><div class="font-bold text-wood">手機號碼高配吉數諮詢</div><div class="text-[10px] text-stone-500">催旺財運、貴人與事業磁場</div></div>
+                    <div class="text-right"><div class="font-bold text-wood item-price" data-base="1680">NT$ 1,680</div><button onclick="addToCart('手機號碼高配吉數諮詢', 1680)" class="mt-1 px-3 py-1 bg-wood text-gold rounded-lg font-bold text-[10px]">預約</button></div>
+                </div>
+                <div class="bg-paper p-3 rounded-xl border border-gold-light flex items-center justify-between">
+                    <div><div class="font-bold text-wood">車牌號碼行車平安吉數</div><div class="text-[10px] text-stone-500">避災納福、行車順遂幸運號</div></div>
+                    <div class="text-right"><div class="font-bold text-wood item-price" data-base="2280">NT$ 2,280</div><button onclick="addToCart('車牌號碼行車平安吉數', 2280)" class="mt-1 px-3 py-1 bg-wood text-gold rounded-lg font-bold text-[10px]">預約</button></div>
+                </div>
+                <div class="bg-paper p-3 rounded-xl border border-gold-light flex items-center justify-between">
+                    <div><div class="font-bold text-wood">住址與店舖門牌風水磁場</div><div class="text-[10px] text-stone-500">改善居住及營業磁場順勢格局</div></div>
+                    <div class="text-right"><div class="font-bold text-wood item-price" data-base="3680">NT$ 3,680</div><button onclick="addToCart('住址與店舖門牌風水磁場', 3680)" class="mt-1 px-3 py-1 bg-wood text-gold rounded-lg font-bold text-[10px]">預約</button></div>
+                </div>
+                <div class="bg-paper p-3 rounded-xl border border-gold-light flex items-center justify-between">
+                    <div><div class="font-bold text-wood">生辰八字流年大運深度詳批</div><div class="text-[10px] text-stone-500">洞察命理契機與年度運勢走向</div></div>
+                    <div class="text-right"><div class="font-bold text-wood item-price" data-base="6680">NT$ 6,680</div><button onclick="addToCart('生辰八字流年大運深度詳批', 6680)" class="mt-1 px-3 py-1 bg-wood text-gold rounded-lg font-bold text-[10px]">預約</button></div>
+                </div>
+                <div class="bg-paper p-3 rounded-xl border border-gold-light flex items-center justify-between">
+                    <div><div class="font-bold text-wood">公司命名與事業合夥磁場分析</div><div class="text-[10px] text-stone-500">商號數字與團隊能量完美契合</div></div>
+                    <div class="text-right"><div class="font-bold text-wood item-price" data-base="1880">NT$ 1,880</div><button onclick="addToCart('公司命名與事業合夥磁場分析', 1880)" class="mt-1 px-3 py-1 bg-wood text-gold rounded-lg font-bold text-[10px]">預約</button></div>
+                </div>
+                <div class="bg-paper p-3 rounded-xl border border-gold-light flex items-center justify-between">
+                    <div><div class="font-bold text-wood">個人幸運號碼急件速配</div><div class="text-[10px] text-stone-500">快速挑選日常密碼專屬吉數</div></div>
+                    <div class="text-right"><div class="font-bold text-wood item-price" data-base="980">NT$ 980</div><button onclick="addToCart('個人幸運號碼急件速配', 980)" class="mt-1 px-3 py-1 bg-wood text-gold rounded-lg font-bold text-[10px]">預約</button></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. 禪意音樂播放器 -->
+        <section class="bg-volcanic text-paper rounded-2xl p-5 text-center shadow-md space-y-3">
+            <h3 class="text-xs font-cinzel text-gold tracking-widest">ZEN MUSIC PLAYER</h3>
+            <h4 class="text-sm font-bold">品心書閣 · 紫墨禪音</h4>
+            <p class="text-[11px] text-stone-300">結合古箏、古琴, 木魚、竹笛、洞簫與自然山水風鳴的沉浸式禪音</p>
+            <div class="bg-stone-900/90 border border-gold/40 rounded-xl p-3 text-left space-y-2">
+                <div class="flex items-center justify-between text-xs text-gold"><span>▶ YouTube 禪意音樂清單播放</span><span class="text-[10px] animate-pulse">● 播放中</span></div>
+                <div class="w-full h-32 bg-black rounded-lg overflow-hidden border border-gold/25 flex items-center justify-center relative">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/videoseries?list=PLWCv8aarvh3s" title="YouTube playlist" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. AI 藝術畫作即將上新 -->
+        <section class="bg-card border border-gold-light rounded-2xl p-6 shadow-sm space-y-4">
+            <div class="rounded-xl overflow-hidden border border-gold-light shadow-xs">
+                <img src="1792360264868.png" alt="AI 藝術畫作橫幅" class="w-full h-32 object-cover">
+            </div>
+            <div class="text-center pt-2">
+                <span class="text-[10px] bg-wood text-gold px-3 py-1 rounded-full font-medium">獨家數位典藏（防盜圖保護）</span>
+                <h3 class="text-base font-bold text-wood mt-2 mb-1">AI 新中式禪意藝術畫作</h3>
+                <p class="text-xs text-stone-600 mb-3">高畫質數位授權珍藏，每幅均帶有防盜防偽像素保護機制</p>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="rounded-xl overflow-hidden border border-gold-light bg-stone-900"><img src="1792526901350.jpg" alt="AI 藝術畫作 1" class="w-full h-32 object-cover"></div>
+                <div class="rounded-xl overflow-hidden border border-gold-light bg-stone-900"><img src="1792527313372.jpg" alt="AI 藝術畫作 2" class="w-full h-32 object-cover"></div>
+            </div>
+            <div class="flex items-center justify-between bg-paper p-3 rounded-xl border border-gold-light mt-2">
+                <div><span class="text-xs font-bold text-wood">數位典藏授權版權</span><p class="text-[10px] text-stone-500">高解析檔案，嚴禁未授權商業印刷</p></div>
+                <div class="text-right"><span class="text-base font-bold text-wood item-price" data-base="680">NT$ 680</span></div>
+            </div>
+            <button onclick="addToCart('AI 新中式禪意藝術畫作 (數位典藏)', 680)" class="w-full py-2.5 bg-wood text-gold font-bold text-xs rounded-xl shadow-xs hover:bg-stone-900">收藏數位藝術畫作</button>
+        </section>
+
+        <!-- 8. 聯絡方式 -->
+        <section class="bg-card border border-gold-light rounded-2xl p-6 shadow-sm space-y-3 text-center">
+            <h3 class="text-base font-bold text-wood mb-2">聯絡與官方社群</h3>
+            <div class="bg-paper p-3 rounded-xl border border-gold-light space-y-1">
+                <div class="text-xs font-bold text-wood">💬 官方 LINE 諮詢</div>
+                <p class="text-[10px] text-stone-500">一對一專屬助理線上服務</p>
+                <a href="https://line.me" target="_blank" class="inline-block mt-1 px-4 py-1.5 bg-emerald-700 text-white text-xs font-bold rounded-lg">點擊加 LINE</a>
+            </div>
+            <div class="bg-paper p-3 rounded-xl border border-gold-light space-y-1">
+                <div class="text-xs font-bold text-wood">📘 FB 粉絲專頁</div>
+                <p class="text-[10px] text-stone-500">追蹤彭品心老師專頁獲取最新心靈語錄</p>
+                <a href="https://www.facebook.com/pengpinxin/" target="_blank" class="inline-block mt-1 px-4 py-1.5 bg-blue-600 text-white text-xs font-bold rounded-lg">點擊前往粉專</a>
+            </div>
+            <div class="bg-paper p-3 rounded-xl border border-gold-light space-y-1">
+                <div class="text-xs font-bold text-wood">✉ Google 郵箱</div>
+                <p class="text-[10px] text-stone-500 select-all font-mono">aaa0987955906aaa@gmail.com</p>
+                <a href="mailto:aaa0987955906aaa@gmail.com" class="inline-block mt-1 px-4 py-1.5 bg-wood text-gold text-xs font-bold rounded-lg">發送電子郵件</a>
+            </div>
+        </section>
+
+        <!-- 9. 法律權益聲明 -->
+        <section class="bg-card border border-gold-light rounded-2xl p-5 text-center shadow-sm">
+            <h3 class="text-sm font-bold text-wood mb-2">法律權益與服務聲明</h3>
+            <p class="text-[11px] text-stone-600 leading-relaxed">本站所有數字風水解析、心靈著作與文化諮詢服務均秉持嚴謹專業與誠信原則。個人隱私資料絕對嚴格保密，所有排版解析與親簽著作皆由彭品心老師親自審核把關。</p>
+        </section>
+
+        <!-- 10. 結尾：品心美學 & 紫墨禪音 -->
+        <section class="bg-wood text-gold rounded-2xl p-6 text-center shadow-lg border border-gold space-y-2">
+            <h3 class="text-xs font-cinzel tracking-widest text-gold/80">PINXIN AESTHETICS</h3>
+            <h2 class="text-base font-bold text-gold">品心美學 & 紫墨禪音</h2>
+            <div class="w-10 h-0.5 bg-gold mx-auto my-2"></div>
+            <p class="text-xs text-stone-300 leading-relaxed">書籍藝術審美與和諧一體的品心家園。願每一位到訪的同行者，都能在此找尋到內心的安寧與生命的真實出口。</p>
+            <div class="pt-3 border-t border-gold/20 text-[10px] text-stone-400">© 紫墨數字風水 · 彭品心 版權所有 All Rights Reserved.</div>
+        </section>
+
+    </main>
+
+    <!-- Floating Quick Cart Bar -->
+    <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-
