@@ -65,26 +65,20 @@
             object-fit: contain;
             display: block;
         }
-        .banner-scroll-container {
-            display: flex;
-            overflow-x: auto;
-            gap: 1rem;
-            scroll-snap-type: x mandatory;
+        /* 上下滑動卷軸容器 */
+        .banner-vertical-scroll {
+            max-height: 320px;
+            overflow-y: auto;
             scrollbar-width: thin;
             scrollbar-color: #C5A059 #F4EFEA;
-            padding-bottom: 0.75rem;
-            -webkit-overflow-scrolling: touch;
+            padding-right: 4px;
         }
-        .banner-scroll-container::-webkit-scrollbar {
-            height: 6px;
+        .banner-vertical-scroll::-webkit-scrollbar {
+            width: 6px;
         }
-        .banner-scroll-container::-webkit-scrollbar-thumb {
+        .banner-vertical-scroll::-webkit-scrollbar-thumb {
             background-color: #C5A059;
             border-radius: 3px;
-        }
-        .banner-item {
-            flex: 0 0 90%;
-            scroll-snap-align: center;
         }
     </style>
 </head>
@@ -158,27 +152,27 @@
             </div>
         </section>
 
-        <!-- 3. 品牌文宣橫幅 (左右滑動滑桿呈現) -->
+        <!-- 3. 品牌宣文橫幅 (上下垂直滑動滑桿呈現) -->
         <section id="section3" class="space-y-4">
             <div class="img-full-card">
                 <div class="img-full-box">
                     <img src="1792317738179.jpg" alt="品牌宣文圖片">
                 </div>
             </div>
-            <div class="banner-scroll-container px-1">
-                <div class="banner-item bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+            <div class="bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md banner-vertical-scroll space-y-4">
+                <div class="space-y-1.5 border-b border-gold/20 pb-3">
                     <h4 class="font-bold text-xs sm:text-sm text-ink text-center tracking-wider">🌿 尋一方心靈庇護所 · 開一條順遂人生路</h4>
                     <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed text-justify font-medium">
                         喧囂的世間，每個人都在找尋安放靈魂的角落。老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，清雅脫俗地出落在紅塵萬里天地之間，悉心等待著為值得的人送去福音，將畢生學術研究成果耕織於實際需求，廣結善緣、讓靈慧助人於無形之中。
                     </p>
                 </div>
-                <div class="banner-item bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+                <div class="space-y-1.5 border-b border-gold/20 pb-3">
                     <h4 class="font-bold text-xs sm:text-sm text-ink text-center tracking-wider">📖 文大推廣與心靈出口</h4>
                     <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed text-justify font-medium">
                         立足於文化大學推廣深厚學術底蘊，彭品心老師融合數十年命理教學與實務精華，透過著作《進階思維的後裔》與《生命的出口》，為現代喧囂中迷惘的靈魂尋找通往內在清明的出口；同時將對自然的體悟化為古琴、竹笛與自然音律交織的禪音，搭配AI人聲及療愈洗滌日常疲憊，生命可貴，且要好好善待自己。
                     </p>
                 </div>
-                <div class="banner-item bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+                <div class="space-y-1.5">
                     <h4 class="font-bold text-xs sm:text-sm text-ink text-center tracking-wider">✨ 數字風水與重生願力</h4>
                     <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed text-justify font-medium">
                         作為數字風水紫墨老師，深信萬物皆數。經歷二十載磨難與劫數，倚靠家祖智慧與高端數字吉數調配，逐漸蛻變並還原自身風水屬性。為感恩宇宙潤澤，願以我之願力，將家祖爺爺賜予的智慧布施於苦難人間，換取眾生之福祉。
@@ -316,4 +310,8 @@
                     </div>
                     <button onclick="addToCart('企業商號全方位數字佈局', 6680)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-sm transition shrink-0 tracking-wider">預約</button>
                 </div>
-                <div class="bg-warm/80 p-3.5 sm:p-4 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md g
+                <div class="bg-warm/80 p-3.5 sm:p-4 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md gap-3">
+                    <div class="pr-1">
+                        <h4 class="font-bold text-xs sm:text-sm text-ink tracking-wide">公司命名與事業合夥磁場分析</h4>
+                        <p class="text-[10px] sm:text-[11px] text-gold-dark mt-0.5 font-medium">合夥人能量磁場契合度評估與事業助運</p>
+                       
