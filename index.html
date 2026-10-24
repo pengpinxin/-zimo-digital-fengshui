@@ -17,8 +17,6 @@
                     'gold-dark': '#816634',
                     warm: '#F4EFEA',
                     volcanic: '#241A15',
-                    wood: '#3D2817',
-                    'earth-box': '#594236',
                 },
                 fontFamily: {
                     serif: ['"Noto Serif TC"', '"Songti TC"', 'serif'],
@@ -47,35 +45,35 @@
         }
     </style>
 </head>
-<body class="bg-paper text-ink bg-pattern min-h-screen flex flex-col selection:bg-gold selection:text-white pb-28">
+<body class="bg-paper text-ink bg-pattern min-h-screen flex flex-col selection:bg-gold selection:text-white pb-32">
 
     <!-- 頂部導覽列 -->
     <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur-md border-b border-gold/30 shadow-sm">
-        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-1">
-            <div class="flex items-center space-x-2 min-w-0">
-                <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gold/20 flex items-center justify-center border border-gold text-gold font-bold text-sm sm:text-base shrink-0 shadow-inner">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-full bg-gold/20 flex items-center justify-center border border-gold text-gold font-bold shadow-inner">
                     墨
                 </div>
-                <div class="min-w-0">
-                    <h1 class="text-xs sm:text-sm font-bold tracking-tight text-ink whitespace-nowrap">紫墨數字風水</h1>
-                    <p class="text-[9px] sm:text-[11px] text-gold-dark tracking-tighter whitespace-nowrap">彭品心老師官方網站</p>
+                <div>
+                    <h1 class="text-sm font-bold tracking-tight text-ink">紫墨數字風水</h1>
+                    <p class="text-[11px] text-gold-dark">彭品心老師官方網站</p>
                 </div>
             </div>
 
-            <div class="flex items-center space-x-1 sm:space-x-2 shrink-0">
-                <button onclick="toggleVipStatus()" id="vipNavBtn" class="px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-md bg-gradient-to-r from-warm to-gold/15 border border-gold hover:bg-gold/25 text-gold text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleVipStatus()" id="vipNavBtn" class="px-3 py-1.5 rounded-md bg-gradient-to-r from-warm to-gold/15 border border-gold text-gold text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
                     <i class="fa-solid fa-crown text-gold"></i>
-                    <span class="tracking-wider">VIP</span>
+                    <span>VIP</span>
                 </button>
 
-                <button onclick="toggleCartModal()" class="relative p-1.5 sm:p-2 rounded-md bg-warm border border-gold/40 hover:bg-gold/10 transition flex items-center justify-center shadow-sm">
-                    <i class="fa-solid fa-cart-shopping text-gold text-sm sm:text-base"></i>
-                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-gold text-white text-[9px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center shadow font-sans">0</span>
+                <button onclick="toggleCartModal()" class="relative p-2 rounded-md bg-warm border border-gold/40 text-gold flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-cart-shopping text-base"></i>
+                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-gold text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
                 </button>
 
-                <button onclick="toggleMenuDrawer()" class="px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-md bg-warm border border-gold/40 hover:bg-gold/10 text-gold text-xs font-bold transition flex items-center gap-1 shadow-sm">
+                <button onclick="toggleMenuDrawer()" class="px-2.5 py-1.5 rounded-md bg-warm border border-gold/40 text-gold text-xs font-bold transition flex items-center gap-1 shadow-sm">
                     <i class="fa-solid fa-bars text-sm"></i>
-                    <span class="hidden sm:inline">選單</span>
+                    <span>選單</span>
                 </button>
             </div>
         </div>
@@ -86,99 +84,99 @@
         <button onclick="toggleCartModal()" class="bg-gold hover:bg-gold-dark text-white px-4 py-3 rounded-full shadow-2xl flex items-center gap-2 border-2 border-paper transition-transform hover:scale-105 active:scale-95">
             <i class="fa-solid fa-cart-shopping text-lg"></i>
             <span class="text-xs font-bold tracking-wider">購物車與預約</span>
-            <span id="floatingCartBadge" class="bg-white text-gold text-xs px-2 py-0.5 rounded-full font-bold shadow-inner">0</span>
+            <span id="floatingCartBadge" class="bg-white text-gold text-xs px-2 py-0.5 rounded-full font-bold">0</span>
         </button>
     </div>
 
     <!-- 主內容區塊 -->
-    <main class="max-w-2xl mx-auto px-4 py-6 space-y-8 w-full">
+    <main class="max-w-xl mx-auto px-4 py-8 space-y-8 w-full">
         
-        <!-- 區塊一：品牌主視覺 -->
+        <!-- 品牌主視覺 -->
         <section id="section1" class="text-center space-y-4">
-            <div class="relative rounded-2xl overflow-hidden chinese-border bg-warm/50 p-6">
-                <h2 class="text-xl sm:text-2xl font-bold tracking-widest text-ink mb-2">尋一方心靈庇護所 · 開一條順遂人生路</h2>
+            <div class="relative rounded-2xl overflow-hidden chinese-border bg-warm/50 p-6 shadow-sm">
+                <h2 class="text-lg sm:text-xl font-bold tracking-widest text-ink mb-2">尋一方心靈庇護所 · 開一條順遂人生路</h2>
                 <p class="text-xs sm:text-sm text-gold-dark">在木質書房的茶香與墨寶中，尋找生命最純粹平靜的出口。 —— 彭品心</p>
             </div>
         </section>
 
-        <!-- 區塊二：VIP 尊榮會員專區 -->
-        <section id="section2" class="bg-gradient-to-br from-warm to-gold/10 p-6 rounded-2xl chinese-border text-center space-y-3">
-            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gold/20 text-gold text-xl mb-1 border border-gold/40">
+        <!-- VIP 尊榮會員專區 -->
+        <section id="section2" class="bg-gradient-to-br from-warm to-gold/10 p-6 rounded-2xl chinese-border text-center space-y-3 shadow-sm">
+            <div class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gold/20 text-gold text-lg mb-1 border border-gold/40">
                 <i class="fa-solid fa-crown"></i>
             </div>
-            <h3 class="text-lg font-bold text-ink">👑 VIP 尊榮會員專區</h3>
+            <h3 class="text-base font-bold text-ink">👑 VIP 尊榮會員專區</h3>
             <p class="text-xs sm:text-sm text-gold-dark leading-relaxed">
                 加入 NT$880 享終身會員價，全站服務與經典著作享 9 折優惠，並享專屬流年大運批算！
             </p>
             <div>
-                <button onclick="toggleVipStatus()" class="bg-gold hover:bg-gold-dark text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition">立即切換 VIP 狀態</button>
+                <button onclick="toggleVipStatus()" class="bg-gold hover:bg-gold-dark text-white px-5 py-2 rounded-xl text-xs font-bold shadow transition">立即切換 VIP 狀態</button>
             </div>
         </section>
 
-        <!-- 區塊三：品牌宣文橫幅 (16:9 完整呈現) -->
+        <!-- 品牌宣文橫幅 (16:9 完整呈現) -->
         <section id="section3" class="rounded-2xl overflow-hidden chinese-border shadow-md bg-black">
             <img src="1791987571319.jpg" alt="品牌宣文橫幅" class="w-full h-auto object-contain">
         </section>
 
-        <!-- 區塊四：經典著作專區 -->
+        <!-- 暢銷心靈著作 -->
         <section id="section4" class="space-y-4">
-            <h3 class="text-lg font-bold text-center border-b border-gold/30 pb-2 text-gold-dark">暢銷心靈著作（皆含親筆簽版）</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex flex-col justify-between">
+            <h3 class="text-base font-bold text-center border-b border-gold/30 pb-2 text-gold-dark">暢銷心靈著作（皆含親筆簽版）</h3>
+            <div class="space-y-3">
+                <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center shadow-sm">
                     <div>
                         <h4 class="font-bold text-sm text-ink">《進階思維的後裔》</h4>
-                        <p class="text-xs text-gold-dark mt-1">探索思維邊界與生命智慧的深度之作</p>
-                        <span class="text-sm font-bold text-red-800 mt-2 inline-block">NT$ 520</span>
+                        <p class="text-[11px] text-gold-dark mt-0.5">探索思維邊界與生命智慧的深度之作</p>
+                        <span class="text-xs font-bold text-red-800 mt-1 inline-block">NT$ 520</span>
                     </div>
-                    <button onclick="addToCart('暢銷著作：《進階思維的後裔》', 520)" class="mt-4 bg-gold hover:bg-gold-dark text-white py-2 rounded-lg text-xs font-bold shadow transition">放入購物車</button>
+                    <button onclick="addToCart('暢銷著作：《進階思維的後裔》', 520)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">放入購物車</button>
                 </div>
-                <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex flex-col justify-between">
+                <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center shadow-sm">
                     <div>
                         <h4 class="font-bold text-sm text-ink">《生命的出口》</h4>
-                        <p class="text-xs text-gold-dark mt-1">在紅塵喧囂中尋找安放靈魂的歸宿</p>
-                        <span class="text-sm font-bold text-red-800 mt-2 inline-block">NT$ 480</span>
+                        <p class="text-[11px] text-gold-dark mt-0.5">在紅塵喧囂中尋找安放靈魂的歸宿</p>
+                        <span class="text-xs font-bold text-red-800 mt-1 inline-block">NT$ 480</span>
                     </div>
-                    <button onclick="addToCart('暢銷著作：《生命的出口》', 480)" class="mt-4 bg-gold hover:bg-gold-dark text-white py-2 rounded-lg text-xs font-bold shadow transition">放入購物車</button>
+                    <button onclick="addToCart('暢銷著作：《生命的出口》', 480)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">放入購物車</button>
                 </div>
             </div>
         </section>
 
-        <!-- 區塊五：數字風水專業服務與預約 -->
+        <!-- 數字風水專業服務與預約 -->
         <section id="section5" class="space-y-4">
-            <h3 class="text-lg font-bold text-center border-b border-gold/30 pb-2 text-gold-dark">6大數字風水專業服務與預約</h3>
+            <h3 class="text-base font-bold text-center border-b border-gold/30 pb-2 text-gold-dark">數字風水專業服務與預約</h3>
             <div class="space-y-3">
-                <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center">
+                <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center shadow-sm">
                     <div>
                         <h4 class="font-bold text-sm">公司命名與事業合夥磁場分析</h4>
-                        <p class="text-xs text-gold-dark mt-1">商號數字與團隊能量完美契合</p>
-                        <span class="text-sm font-bold text-red-800 mt-1 inline-block">NT$ 1,880</span>
+                        <p class="text-[11px] text-gold-dark mt-0.5">商號數字與團隊能量完美契合</p>
+                        <span class="text-xs font-bold text-red-800 mt-1 inline-block">NT$ 1,880</span>
                     </div>
-                    <button onclick="addToCart('公司命名與事業合夥磁場分析', 1880)" class="bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition">預約</button>
+                    <button onclick="addToCart('公司命名與事業合夥磁場分析', 1880)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
                 </div>
-                <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center">
+                <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center shadow-sm">
                     <div>
                         <h4 class="font-bold text-sm">個人幸運號碼急件速配</h4>
-                        <p class="text-xs text-gold-dark mt-1">快速挑選日常密碼專屬吉數</p>
-                        <span class="text-sm font-bold text-red-800 mt-1 inline-block">NT$ 980</span>
+                        <p class="text-[11px] text-gold-dark mt-0.5">快速挑選日常密碼專屬吉數</p>
+                        <span class="text-xs font-bold text-red-800 mt-1 inline-block">NT$ 980</span>
                     </div>
-                    <button onclick="addToCart('個人幸運號碼急件速配', 980)" class="bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition">預約</button>
+                    <button onclick="addToCart('個人幸運號碼急件速配', 980)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
                 </div>
             </div>
         </section>
 
-        <!-- 區塊六：禪意音樂與心靈共振 (YouTube 播放清單) -->
-        <section id="section6" class="bg-volcanic text-paper p-6 rounded-2xl shadow-xl space-y-4">
+        <!-- 禪意音樂與心靈共振 (YouTube 播放清單) -->
+        <section id="section6" class="bg-volcanic text-paper p-5 rounded-2xl shadow-xl space-y-3">
             <div class="text-center">
-                <h3 class="text-gold tracking-widest text-sm font-bold">ZEN MUSIC PLAYER</h3>
-                <p class="text-xs text-gray-400 mt-1">品心書閣 · 紫墨禪音</p>
-                <p class="text-xs text-gray-300 mt-2">結合古箏、古琴、木魚、竹笛與自然山水風鳴的沉浸式禪音</p>
+                <h3 class="text-gold tracking-widest text-xs font-bold">ZEN MUSIC PLAYER</h3>
+                <p class="text-[11px] text-gray-400 mt-0.5">品心書閣 · 紫墨禪音</p>
+                <p class="text-[11px] text-gray-300 mt-1">結合古箏、古琴、木魚、竹笛與自然山水風鳴的沉浸式禪音</p>
             </div>
             <div class="aspect-video w-full rounded-xl overflow-hidden bg-black/40 border border-gold/30">
                 <iframe class="w-full h-full" src="https://www.youtube.com/embed/videoseries?list=PLWCv8aarvh3s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </section>
 
-        <!-- 區塊七：藝術 AI 畫作即將上新 -->
+        <!-- 藝術 AI 畫作 -->
         <section id="section7" class="rounded-2xl overflow-hidden chinese-border shadow-md bg-black">
             <img src="1792354723564.png" alt="AI 藝術畫作橫幅" class="w-full h-auto object-contain">
         </section>
@@ -189,17 +187,17 @@
     <div id="cartModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-paper rounded-2xl max-w-md w-full p-6 chinese-border space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-gold/30 pb-3">
-                <h3 class="font-bold text-lg text-ink">🛒 您的預約與購物車</h3>
-                <button onclick="toggleCartModal()" class="text-gray-500 hover:text-ink"><i class="fa-solid fa-xmark text-xl"></i></button>
+                <h3 class="font-bold text-base text-ink">🛒 您的預約與購物車</h3>
+                <button onclick="toggleCartModal()" class="text-gray-500 hover:text-ink"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div id="cartItemsList" class="space-y-3 max-h-60 overflow-y-auto text-sm">
                 <p class="text-center text-gray-500 py-4">目前購物車是空的</p>
             </div>
-            <div class="border-t border-gold/30 pt-3 flex justify-between items-center font-bold">
+            <div class="border-t border-gold/30 pt-3 flex justify-between items-center font-bold text-sm">
                 <span>總計金額：</span>
                 <span id="cartTotalPrice" class="text-red-800">NT$ 0</span>
             </div>
-            <button onclick="checkout()" class="w-full bg-gold hover:bg-gold-dark text-white py-3 rounded-xl font-bold shadow transition">確認送出預約</button>
+            <button onclick="checkout()" class="w-full bg-gold hover:bg-gold-dark text-white py-2.5 rounded-xl text-xs font-bold shadow transition">確認送出預約</button>
         </div>
     </div>
 
@@ -210,13 +208,13 @@
                 <div class="flex items-center justify-between pb-4 border-b border-gold/30">
                     <div class="flex items-center space-x-2">
                         <div class="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center border border-gold text-gold font-bold text-sm">墨</div>
-                        <span class="font-bold tracking-wider text-base">網站快速導覽</span>
+                        <span class="font-bold tracking-wider text-sm">網站快速導覽</span>
                     </div>
                     <button onclick="toggleMenuDrawer()" class="text-ink/60 hover:text-ink p-2">
-                        <i class="fa-solid fa-xmark text-xl"></i>
+                        <i class="fa-solid fa-xmark text-lg"></i>
                     </button>
                 </div>
-                <nav class="space-y-2 text-sm font-medium">
+                <nav class="space-y-2 text-xs font-medium">
                     <a href="#section1" onclick="toggleMenuDrawer()" class="block p-2.5 rounded-lg hover:bg-gold/10 transition">首頁品牌主視覺</a>
                     <a href="#section2" onclick="toggleMenuDrawer()" class="block p-2.5 rounded-lg hover:bg-gold/10 transition">VIP 尊榮會員專區</a>
                     <a href="#section3" onclick="toggleMenuDrawer()" class="block p-2.5 rounded-lg hover:bg-gold/10 transition">品牌宣文橫幅</a>
@@ -267,11 +265,11 @@
             let total = 0;
             cart.forEach((item, index) => {
                 total += item.price;
-                html += `<div class="flex justify-between items-center bg-warm/40 p-2 rounded-lg">
+                html += `<div class="flex justify-between items-center bg-warm/40 p-2.5 rounded-lg text-xs">
                     <span>${item.name}</span>
                     <div class="flex items-center gap-2">
                         <span class="font-bold text-red-800">NT$ ${item.price}</span>
-                        <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 p-1"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>`;
             });
