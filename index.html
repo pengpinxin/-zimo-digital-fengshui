@@ -44,21 +44,21 @@
             background-image: radial-gradient(#A1824A 0.4px, transparent 0.4px);
             background-size: 24px 24px;
         }
-        /* 圖片高度降半的精緻縮小容器 */
-        .img-compact-box {
-            max-width: 280px;
-            margin: 0 auto;
+        /* 統一 16:9 比例圖片容器，確保整齊精緻 */
+        .img-16-9 {
+            width: 100%;
+            aspect-ratio: 16 / 9;
             background: #000;
             overflow: hidden;
             border-radius: 0.75rem;
         }
-        .img-compact-box img {
+        .img-16-9 img {
             width: 100%;
-            height: auto;
-            object-fit: contain;
+            height: 100%;
+            object-fit: cover;
             display: block;
         }
-        /* 文宣區塊附帶橫向滑桿 */
+        /* 文宣橫向拉式滑桿容器 */
         .banner-scroll-container {
             display: flex;
             overflow-x: auto;
@@ -66,7 +66,8 @@
             scroll-snap-type: x mandatory;
             scrollbar-width: thin;
             scrollbar-color: #A1824A #F4EFEA;
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
+            -webkit-overflow-scrolling: touch;
         }
         .banner-scroll-container::-webkit-scrollbar {
             height: 6px;
@@ -76,7 +77,7 @@
             border-radius: 3px;
         }
         .banner-item {
-            flex: 0 0 90%;
+            flex: 0 0 88%;
             scroll-snap-align: center;
         }
     </style>
@@ -127,8 +128,8 @@
     <!-- 主內容區塊 (10 大獨立區塊) -->
     <main class="max-w-xl mx-auto px-4 py-8 space-y-8 w-full">
         
-        <!-- 1. 首頁標頭視覺 (圖片高度降半) -->
-        <section id="section1" class="img-compact-box chinese-border shadow-md">
+        <!-- 1. 首頁標頭視覺 (16:9 格式) -->
+        <section id="section1" class="img-16-9 chinese-border shadow-md">
             <img src="1792354723564.png" alt="首頁標頭視覺">
         </section>
 
@@ -149,25 +150,25 @@
             </div>
         </section>
 
-        <!-- 3. 品牌宣文橫幅 (圖片上方，下方滑桿顯示老師的心靈美學文宣) -->
-        <section id="section3" class="space-y-3">
-            <div class="img-compact-box chinese-border shadow-md">
+        <!-- 3. 品牌宣文橫幅 (圖片 16:9 上方，下方橫向拉式滑桿) -->
+        <section id="section3" class="space-y-4">
+            <div class="img-16-9 chinese-border shadow-md">
                 <img src="1792317738179.jpg" alt="品牌宣文圖片">
             </div>
-            <div class="banner-scroll-container px-2 py-1">
-                <div class="banner-item bg-warm/80 p-5 rounded-xl border border-gold/30 shadow-sm space-y-2">
+            <div class="banner-scroll-container px-2">
+                <div class="banner-item bg-warm/90 p-5 rounded-xl border border-gold/30 shadow-sm space-y-2">
                     <h4 class="font-bold text-xs text-ink text-center">🌿 尋一方心靈庇護所 · 開一條順遂人生路</h4>
                     <p class="text-[11px] text-gold-dark leading-relaxed text-justify">
                         喧囂的世間，每個人都在找尋安放靈魂的角落。老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，清雅脫俗地出落在紅塵萬里天地之間，悉心等待著為值得的人送去福音，將畢生學術研究成果耕織於實際需求，廣結善緣、讓靈慧助人於無形之中。
                     </p>
                 </div>
-                <div class="banner-item bg-warm/80 p-5 rounded-xl border border-gold/30 shadow-sm space-y-2">
+                <div class="banner-item bg-warm/90 p-5 rounded-xl border border-gold/30 shadow-sm space-y-2">
                     <h4 class="font-bold text-xs text-ink text-center">📖 學術創作與心靈出口</h4>
                     <p class="text-[11px] text-gold-dark leading-relaxed text-justify">
                         作為學術創作者，透過著作《進階思維的後裔》與《生命的出口》，為現代喧囂中迷惘的靈魂尋找通往內在清明的出口；同時將對自然的體悟化為古琴、竹笛與自然音律交織的禪音，搭配AI人聲及音樂洗滌日常疲憊，生命可貴，且要好好善待自己。
                     </p>
                 </div>
-                <div class="banner-item bg-warm/80 p-5 rounded-xl border border-gold/30 shadow-sm space-y-2">
+                <div class="banner-item bg-warm/90 p-5 rounded-xl border border-gold/30 shadow-sm space-y-2">
                     <h4 class="font-bold text-xs text-ink text-center">✨ 數字風水與重生願力</h4>
                     <p class="text-[11px] text-gold-dark leading-relaxed text-justify">
                         作為數字風水紫墨老師，深信萬物皆數。經歷二十載磨難與劫數，倚靠家祖智慧與高端數字吉數調配，逐漸蛻變並還原自身風水屬性。為感恩宇宙潤澤，願以我之願力，將家祖爺爺賜予的智慧布施於苦難人間，換取眾生之福祉。
@@ -176,10 +177,10 @@
             </div>
         </section>
 
-        <!-- 4. 經典著作專區 -->
+        <!-- 4. 暢銷心靈著作專區 (精心排版) -->
         <section id="section4" class="space-y-4">
             <h3 class="text-base font-bold text-center border-b border-gold/30 pb-2 text-gold-dark">暢銷心靈著作（皆含親筆簽版）</h3>
-            <div class="space-y-3">
+            <div class="grid grid-cols-1 gap-3">
                 <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex items-center gap-4 shadow-sm">
                     <img src="1792440195898.jpg" alt="生命的出口" class="w-16 h-16 object-cover rounded-lg border border-gold/30 shrink-0">
                     <div class="flex-1 min-w-0">
@@ -201,68 +202,68 @@
             </div>
         </section>
 
-        <!-- 過渡圖片 (縮小) -->
-        <section class="img-compact-box chinese-border shadow-md">
+        <!-- 過渡圖片 (16:9) -->
+        <section class="img-16-9 chinese-border shadow-md">
             <img src="1791987571319.jpg" alt="形象過渡圖">
         </section>
 
-        <!-- 5. 6大數字風水服務 (含詳細說明) -->
+        <!-- 5. 6大數字風水專業服務 (精心排版) -->
         <section id="section5" class="space-y-4">
             <h3 class="text-base font-bold text-center border-b border-gold/30 pb-2 text-gold-dark">6大數字風水專業服務與預約</h3>
             <div class="space-y-3">
                 <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center shadow-sm">
-                    <div>
+                    <div class="pr-2">
                         <h4 class="font-bold text-sm">手機吉祥號碼深度解析</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5">解碼隨身磁場，轉運納福與化解煞氣</p>
                         <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="1680">NT$ 1,680</span>
                     </div>
-                    <button onclick="addToCart('手機吉祥號碼深度解析', 1680)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
+                    <button onclick="addToCart('手機吉祥號碼深度解析', 1680)" class="bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
                 </div>
                 <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center shadow-sm">
-                    <div>
+                    <div class="pr-2">
                         <h4 class="font-bold text-sm">車牌磁場能量批算</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5">行車平安與事業助運專屬密碼挑選</p>
                         <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="2280">NT$ 2,280</span>
                     </div>
-                    <button onclick="addToCart('車牌磁場能量批算', 2280)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
+                    <button onclick="addToCart('車牌磁場能量批算', 2280)" class="bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
                 </div>
                 <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center shadow-sm">
-                    <div>
+                    <div class="pr-2">
                         <h4 class="font-bold text-sm">居家門牌與格局風水合盤</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5">住家磁場重塑，營造和諧家運昌隆</p>
                         <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="3680">NT$ 3,680</span>
                     </div>
-                    <button onclick="addToCart('居家門牌與格局風水合盤', 3680)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
+                    <button onclick="addToCart('居家門牌與格局風水合盤', 3680)" class="bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
                 </div>
                 <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center shadow-sm">
-                    <div>
+                    <div class="pr-2">
                         <h4 class="font-bold text-sm">企業商號全方位數字佈局</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5">商號、座機與團隊能量完美契合拓展財源</p>
                         <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="6680">NT$ 6,680</span>
                     </div>
-                    <button onclick="addToCart('企業商號全方位數字佈局', 6680)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
+                    <button onclick="addToCart('企業商號全方位數字佈局', 6680)" class="bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
                 </div>
                 <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center shadow-sm">
-                    <div>
+                    <div class="pr-2">
                         <h4 class="font-bold text-sm">公司命名與事業合夥磁場分析</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5">合夥人能量磁場契合度評估與事業助運</p>
                         <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="1880">NT$ 1,880</span>
                     </div>
-                    <button onclick="addToCart('公司命名與事業合夥磁場分析', 1880)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
+                    <button onclick="addToCart('公司命名與事業合夥磁場分析', 1880)" class="bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
                 </div>
                 <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex justify-between items-center shadow-sm">
-                    <div>
+                    <div class="pr-2">
                         <h4 class="font-bold text-sm">個人幸運號碼急件速配</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5">快速挑選日常密碼專屬吉數應急納福</p>
                         <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="980">NT$ 980</span>
                     </div>
-                    <button onclick="addToCart('個人幸運號碼急件速配', 980)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
+                    <button onclick="addToCart('個人幸運號碼急件速配', 980)" class="bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">預約</button>
                 </div>
             </div>
         </section>
 
-        <!-- 過渡圖 (縮小) -->
-        <section class="img-compact-box chinese-border shadow-md">
+        <!-- 過渡圖 (16:9) -->
+        <section class="img-16-9 chinese-border shadow-md">
             <img src="1792361766610.png" alt="過渡裝飾圖">
         </section>
 
@@ -278,8 +279,8 @@
             </div>
         </section>
 
-        <!-- 過渡圖 (縮小) -->
-        <section class="img-compact-box chinese-border shadow-md">
+        <!-- 過渡圖 (16:9) -->
+        <section class="img-16-9 chinese-border shadow-md">
             <img src="1792360264868.png" alt="過渡裝飾圖">
         </section>
 
@@ -289,10 +290,10 @@
             <p class="text-xs text-gold-dark">精選東方美學數位藝術創作，定價 <span class="font-bold text-red-800 item-price" data-base="680">NT$ 680</span></p>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div class="img-compact-box border border-gold/30">
+                <div class="img-16-9 border border-gold/30">
                     <img src="1792526901350.jpg" alt="AI 藝術畫作 1">
                 </div>
-                <div class="img-compact-box border border-gold/30">
+                <div class="img-16-9 border border-gold/30">
                     <img src="1792527313372.jpg" alt="AI 藝術畫作 2">
                 </div>
             </div>
@@ -342,5 +343,4 @@
     <div id="cart-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-paper rounded-2xl max-w-md w-full p-6 chinese-border space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-gold/30 pb-3">
-                <h3 class="font-bold text-base text-ink">🛒 您的預約與購物車</h3>
-                <button onclick="c
+                <h3 class=
