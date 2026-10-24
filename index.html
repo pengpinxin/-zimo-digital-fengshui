@@ -187,27 +187,36 @@
             </div>
         </section>
 
-        <!-- 4. 暢銷心靈著作專區 (精心排版) -->
+        <!-- 4. 暢銷心靈著作專區 (書籍圖片改為橫向全面鋪開展示) -->
         <section id="section4" class="space-y-4">
             <h3 class="text-base font-bold text-center border-b border-gold/30 pb-2 text-gold-dark">暢銷心靈著作（皆含親筆簽版）</h3>
-            <div class="grid grid-cols-1 gap-3">
-                <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex items-center gap-4 shadow-sm">
-                    <img src="1792440195898.jpg" alt="生命的出口" class="w-16 h-16 object-cover rounded-lg border border-gold/30 shrink-0">
-                    <div class="flex-1 min-w-0">
-                        <h4 class="font-bold text-sm text-ink truncate">《生命的出口》</h4>
+            <div class="space-y-4">
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1792440195898.jpg" alt="生命的出口">
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-ink">《生命的出口》</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5">在紅塵喧囂中尋找安放靈魂的歸宿</p>
-                        <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="269">NT$ 269</span>
+                        <div class="mt-2 flex items-center justify-between px-2">
+                            <span class="text-sm font-bold text-red-800 item-price" data-base="269">NT$ 269</span>
+                            <button onclick="addToCart('暢銷著作：《生命的出口》', 269)" class="bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-xl text-xs font-bold shadow transition">放入購物車</button>
+                        </div>
                     </div>
-                    <button onclick="addToCart('暢銷著作：《生命的出口》', 269)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">放入購物車</button>
                 </div>
-                <div class="bg-warm/60 p-4 rounded-xl border border-gold/30 flex items-center gap-4 shadow-sm">
-                    <img src="1792450518058.jpg" alt="進階思維的後裔" class="w-16 h-16 object-cover rounded-lg border border-gold/30 shrink-0">
-                    <div class="flex-1 min-w-0">
-                        <h4 class="font-bold text-sm text-ink truncate">《進階思維的後裔》</h4>
-                        <p class="text-[11px] text-gold-dark mt-0.5">探索思維邊界與生命智慧的深度之作</p>
-                        <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="269">NT$ 269</span>
+
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1792450518058.jpg" alt="進階思維的後裔">
                     </div>
-                    <button onclick="addToCart('暢銷著作：《進階思維的後裔》', 269)" class="bg-gold hover:bg-gold-dark text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow transition shrink-0">放入購物車</button>
+                    <div>
+                        <h4 class="font-bold text-sm text-ink">《進階思維的後裔》</h4>
+                        <p class="text-[11px] text-gold-dark mt-0.5">探索思維邊界與生命智慧的深度之作</p>
+                        <div class="mt-2 flex items-center justify-between px-2">
+                            <span class="text-sm font-bold text-red-800 item-price" data-base="269">NT$ 269</span>
+                            <button onclick="addToCart('暢銷著作：《進階思維的後裔》', 269)" class="bg-gold hover:bg-gold-dark text-white px-4 py-2 rounded-xl text-xs font-bold shadow transition">放入購物車</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -352,5 +361,4 @@
 
         <!-- 10. 結尾：品心美學 & 紫墨禪音 -->
         <section id="section10" class="text-center py-4 space-y-2 border-t border-gold/30">
-            <h4 class="font-bold text-sm tracking-widest text-ink">品心美學 & 紫墨禪音</h4>
-            <p class="text-xs
+            <h4 class="font-bold text-sm tracking-widest text-ink">品心
