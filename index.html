@@ -65,20 +65,26 @@
             object-fit: contain;
             display: block;
         }
-        /* 上下滑動卷軸容器 */
-        .banner-vertical-scroll {
-            max-height: 320px;
-            overflow-y: auto;
+        .banner-scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            scroll-snap-type: x mandatory;
             scrollbar-width: thin;
             scrollbar-color: #C5A059 #F4EFEA;
-            padding-right: 4px;
+            padding-bottom: 0.75rem;
+            -webkit-overflow-scrolling: touch;
         }
-        .banner-vertical-scroll::-webkit-scrollbar {
-            width: 6px;
+        .banner-scroll-container::-webkit-scrollbar {
+            height: 6px;
         }
-        .banner-vertical-scroll::-webkit-scrollbar-thumb {
+        .banner-scroll-container::-webkit-scrollbar-thumb {
             background-color: #C5A059;
             border-radius: 3px;
+        }
+        .banner-item {
+            flex: 0 0 90%;
+            scroll-snap-align: center;
         }
     </style>
 </head>
@@ -125,7 +131,7 @@
         </button>
     </div>
 
-    <!-- 主內容區塊 (共 11 個大區塊) -->
+    <!-- 主內容區塊 (共 11 項完整內容) -->
     <main class="max-w-xl mx-auto px-3 py-4 sm:py-6 space-y-6 sm:space-y-8 w-full">
         
         <!-- 1. 首頁標頭視覺 -->
@@ -152,29 +158,29 @@
             </div>
         </section>
 
-        <!-- 3. 品牌文宣橫幅 (上下垂直滑動滑桿呈現) -->
+        <!-- 3. 品牌宣文橫幅 -->
         <section id="section3" class="space-y-4">
             <div class="img-full-card">
                 <div class="img-full-box">
                     <img src="1792317738179.jpg" alt="品牌宣文圖片">
                 </div>
             </div>
-            <div class="bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md banner-vertical-scroll space-y-4">
-                <div class="space-y-1.5 border-b border-gold/20 pb-3">
-                    <h4 class="font-bold text-xs sm:text-sm text-ink text-center tracking-wider">🌿 尋一方心靈庇護所 · 開一條順遂人生路</h4>
-                    <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed text-justify font-medium">
+            <div class="banner-scroll-container px-1">
+                <div class="banner-item bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+                    <h4 class="font-bold text-xs text-ink text-center tracking-wider">🌿 尋一方心靈庇護所 · 開一條順遂人生路</h4>
+                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">
                         喧囂的世間，每個人都在找尋安放靈魂的角落。老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，清雅脫俗地出落在紅塵萬里天地之間，悉心等待著為值得的人送去福音，將畢生學術研究成果耕織於實際需求，廣結善緣、讓靈慧助人於無形之中。
                     </p>
                 </div>
-                <div class="space-y-1.5 border-b border-gold/20 pb-3">
-                    <h4 class="font-bold text-xs sm:text-sm text-ink text-center tracking-wider">📖 進階思維與生命的出口</h4>
-                    <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed text-justify font-medium">
-                        人生沒有苦過，就不會知道甜是什麽滋味；人生沒有努力過，就不會懂得珍惜眼前所擁有的。回首來時路，正因歷經了歲月無常的淬鍊與深刻考驗，方能將生命的風雨化作破繭而出的智慧。透過著作《進階思維的後裔》與《生命的出口》，引領每一位在現代喧囂中迷惘的靈魂，走向內在清明的出口；同時她將天地自然的感悟化作溫柔的筆墨洗滌塵勞、安放疲憊；生命曾可貴，且要好好善待自己，就讓智慧的燭光照亮我們前行的每一步。
+                <div class="banner-item bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+                    <h4 class="font-bold text-xs text-ink text-center tracking-wider">📖 品心書閣與音樂療癒</h4>
+                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">
+                        「品心書閣」融合古琴、古箏、竹笛與自然流水鳥鳴音效，結合專屬 AI 複製人聲朗讀與溫暖心靈語音腳本，為現代人洗滌塵勞、安放疲憊。透過著作《進階思維的後裔》與《生命的出口》，引領靈魂走向內在清明的出口，好好善待自己。
                     </p>
                 </div>
-                <div class="space-y-1.5">
-                    <h4 class="font-bold text-xs sm:text-sm text-ink text-center tracking-wider">✨ 數字風水與重生願力</h4>
-                    <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed text-justify font-medium">
+                <div class="banner-item bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+                    <h4 class="font-bold text-xs text-ink text-center tracking-wider">✨ 數字風水與重生願力</h4>
+                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">
                         作為數字風水紫墨老師，深信萬物皆數。經歷二十載磨難與劫數，倚靠家祖智慧與高端數字吉數調配，逐漸蛻變並還原自身風水屬性。為感恩宇宙潤澤，願以我之願力，將家祖爺爺賜予的智慧布施於苦難人間，換取眾生之福祉。
                     </p>
                 </div>
@@ -221,21 +227,21 @@
             </div>
         </section>
 
-        <!-- 5. 個人命理與大運批算服務 -->
+        <!-- 5. 數字風水專業服務與大運批算 -->
         <section id="section5" class="space-y-4 pt-2">
             <div class="text-center space-y-2 pb-3 border-b-2 border-gold/40">
-                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">個人命理與大運批算服務</h3>
-                <p class="text-xs text-gold-dark font-semibold tracking-wide">深入八字命盤 · 洞悉近兩年大運流年契機</p>
+                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">數字風水與命理專業服務</h3>
+                <p class="text-xs text-gold-dark font-semibold tracking-wide">精準解碼磁場能量 · 助您開運納福、事業昌隆</p>
             </div>
 
             <!-- 溫宣字引專區 -->
             <div class="bg-gradient-to-br from-warm via-gold/15 to-gold/10 p-4 sm:p-5 rounded-2xl chinese-border shadow-sm space-y-2 text-justify">
                 <div class="flex items-center gap-2 text-wood font-bold text-xs sm:text-sm tracking-wider justify-center">
                     <i class="fa-solid fa-sparkles text-gold"></i>
-                    <span>引言：解碼命理玄機 · 把握運勢先機</span>
+                    <span>引言：解碼生命密碼 · 點亮順遂坦途</span>
                 </div>
                 <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed font-medium">
-                    人生的順逆有時，八字流年更是關鍵的轉折點。彭品心老師以數十年命理心得，為您提供細緻的八字命盤解析與近兩年大運流年批算，助您在迷惘中看清方向，順應天時、開創吉運。
+                    生活中無處不數字，隨身的手機、代步的車牌、居安的門牌，皆默默牽引著您的磁場與福慧。彭品心老師以家祖深厚絕學與二十載修持願力，為您抽絲剝繭、撥雲見日。請卸下心中的迷惘與重擔，讓吉祥好數成為您開運納福、安身立命的溫柔力量。
                 </p>
             </div>
             
@@ -256,28 +262,6 @@
                     </div>
                     <button onclick="addToCart('近兩年大運流年批算', 980)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-sm transition shrink-0 tracking-wider">預約</button>
                 </div>
-            </div>
-        </section>
-
-        <!-- 6. 數字風水專業服務 -->
-        <section id="section6" class="space-y-4 pt-2">
-            <div class="text-center space-y-2 pb-3 border-b-2 border-gold/40">
-                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">數字風水專業服務</h3>
-                <p class="text-xs text-gold-dark font-semibold tracking-wide">精準解碼磁場能量 · 助您開運納福、事業昌隆</p>
-            </div>
-
-            <!-- 溫宣字引專區 -->
-            <div class="bg-gradient-to-br from-warm via-gold/15 to-gold/10 p-4 sm:p-5 rounded-2xl chinese-border shadow-sm space-y-2 text-justify">
-                <div class="flex items-center gap-2 text-wood font-bold text-xs sm:text-sm tracking-wider justify-center">
-                    <i class="fa-solid fa-sparkles text-gold"></i>
-                    <span>引言：解碼生命密碼 · 點亮順遂坦途</span>
-                </div>
-                <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed font-medium">
-                    生活中無處不數字，隨身的手機、代步的車牌、居安的門牌，皆默默牽引著您的磁場與福慧。彭品心老師以家祖深厚絕學與二十載修持願力，為您抽絲剝繭、撥雲見日。請卸下心中的迷惘與重擔，讓吉祥好數成為您開運納福、安身立命的溫柔力量。
-                </p>
-            </div>
-            
-            <div class="space-y-3">
                 <div class="bg-warm/80 p-3.5 sm:p-4 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md gap-3">
                     <div class="pr-1">
                         <h4 class="font-bold text-xs sm:text-sm text-ink tracking-wide">手機吉祥號碼深度解析</h4>
@@ -313,8 +297,27 @@
             </div>
         </section>
 
-        <!-- 7. 禪意療愈 靈魂棲息之處 -->
-        <section id="section7" class="space-y-4 pt-2">
+        <!-- 6. 禪意療愈 靈魂棲息之處 -->
+        <section id="section6" class="space-y-4 pt-2">
             <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
                 <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">禪意療愈 靈魂棲息之處</h3>
-                <p class="text-xs text-gold-dark font-semibol
+                <p class="text-xs text-gold-dark font-semibold tracking-wide">琴音洗滌塵勞 · 讓心靈回歸最初的清明與平靜</p>
+            </div>
+
+            <div class="img-full-card space-y-3 text-center">
+                <div class="img-full-box">
+                    <img src="1792361766610.png" alt="禪意療愈靈魂棲息之處">
+                </div>
+                <div class="px-3 py-2 bg-paper/95 rounded-lg border border-gold/30">
+                    <p class="text-xs text-gold-dark font-semibold leading-relaxed tracking-wider">
+                        ✨ <b>溫暖療癒</b>：生命縱有千般繁雜與疲憊，請記得停下腳步，好好善待自己。在這裡，讓靈魂沉澱、讓內在重燃希望，願溫柔的清風與琴音，時刻守護您心中的安寧與自在。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. AI 藝術畫作即將上新 -->
+        <section id="section7" class="space-y-4 pt-2">
+            <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
+                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">東方美學 · AI 藝術珍藏系列</h3>
+                <p class="text-xs text-gold-dark font-semibold tracking-wide">汲取天地靈氣與筆墨意境 · 打造專屬心靈的高端數
