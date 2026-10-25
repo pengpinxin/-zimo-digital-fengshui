@@ -74,18 +74,30 @@
             color: var(--text-muted);
         }
 
-        .cart-btn {
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-btn, .menu-btn {
             background: var(--gold);
             color: #1a1714;
             border: none;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
+        }
+
+        .menu-btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
         }
 
         .container {
@@ -109,7 +121,7 @@
             display: block;
         }
 
-        /* VIP 優惠區塊 (移至圖片下方) */
+        /* VIP 優惠區塊 */
         .vip-banner-card {
             background: rgba(212, 175, 55, 0.08);
             border: 1px solid var(--gold);
@@ -236,7 +248,7 @@
             margin-bottom: 25px;
         }
 
-        .service-card, .aesthetic-card, .artwork-card {
+        .service-card, .artwork-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 10px;
@@ -246,7 +258,7 @@
             justify-content: space-between;
         }
 
-        .service-card h4, .aesthetic-card h4, .artwork-card h4 {
+        .service-card h4, .artwork-card h4 {
             font-size: 1.05rem;
             color: var(--gold-light);
             margin-bottom: 8px;
@@ -259,7 +271,7 @@
             margin-bottom: 8px;
         }
 
-        .service-card p, .aesthetic-card p, .artwork-card p {
+        .service-card p, .artwork-card p {
             font-size: 0.82rem;
             color: var(--text-muted);
             margin-bottom: 15px;
@@ -282,16 +294,16 @@
             color: #1a1714;
         }
 
-        .aesthetic-card img, .artwork-card img {
+        .artwork-card img {
             width: 100%;
-            height: 120px;
+            height: 140px;
             object-fit: cover;
             border-radius: 6px;
             margin-bottom: 10px;
             border: 1px solid var(--card-border);
         }
 
-        /* 聯絡窗口 3欄並排 (移至服務下方) */
+        /* 聯絡窗口 3欄並排 (LINE, FB, 郵箱) */
         .contact-3col {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -324,21 +336,16 @@
             text-decoration: underline;
         }
 
-        /* 管理員上傳區塊 */
-        .admin-panel {
-            background: rgba(212, 175, 55, 0.03);
+        /* 開放式上傳畫作面板 (隨時上傳無限增加) */
+        .upload-panel {
+            background: rgba(212, 175, 55, 0.05);
             border: 1px dashed var(--gold);
             border-radius: 10px;
             padding: 20px;
-            margin-bottom: 30px;
-            display: none;
+            margin-bottom: 25px;
         }
 
-        .admin-panel.active {
-            display: block;
-        }
-
-        .admin-panel input, .admin-panel button {
+        .upload-panel input, .upload-panel button {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -346,36 +353,23 @@
             border: 1px solid var(--card-border);
             background: #1a1714;
             color: var(--text-main);
+            font-size: 0.9rem;
         }
 
-        .admin-panel button {
+        .upload-panel button {
             background: var(--gold);
             color: #1a1714;
             font-weight: bold;
             cursor: pointer;
         }
 
-        .admin-toggle-btn {
-            background: transparent;
-            border: 1px solid var(--card-border);
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 20px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* 購物車側邊欄 */
-        .cart-drawer {
+        /* 右側主選單抽屜 */
+        .menu-drawer, .cart-drawer {
             position: fixed;
             top: 0;
             right: -100%;
             width: 100%;
-            max-width: 400px;
+            max-width: 360px;
             height: 100%;
             background: var(--card-bg);
             border-left: 1px solid var(--card-border);
@@ -386,17 +380,31 @@
             flex-direction: column;
         }
 
-        .cart-drawer.open {
+        .menu-drawer.open, .cart-drawer.open {
             right: 0;
         }
 
-        .cart-header {
+        .drawer-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--card-border);
             padding-bottom: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu-links a {
+            color: var(--gold-light);
+            text-decoration: none;
+            font-size: 1.05rem;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(74, 61, 49, 0.3);
         }
 
         .cart-items {
@@ -462,8 +470,26 @@
                 <p>學術文學創作</p>
             </div>
         </div>
-        <button class="cart-btn" onclick="toggleCart()">🛒 購物車 (<span id="cartCount">0</span>)</button>
+        <div class="header-actions">
+            <button class="cart-btn" onclick="toggleCart()">🛒 購物車 (<span id="cartCount">0</span>)</button>
+            <button class="menu-btn" onclick="toggleMenu()">☰ 選單</button>
+        </div>
     </header>
+
+    <!-- 右側主選單抽屜 -->
+    <div class="menu-drawer" id="menuDrawer">
+        <div class="drawer-header">
+            <h3 style="color: var(--gold-light);">📌 網站導覽主選單</h3>
+            <button onclick="toggleMenu()" style="background:none; border:none; color:var(--text-main); font-size:1.2rem; cursor:pointer;">✕</button>
+        </div>
+        <div class="menu-links">
+            <a href="#" onclick="toggleMenu()">首頁形象</a>
+            <a href="#booksSection" onclick="toggleMenu()">學術文學著作 (NT$ 269)</a>
+            <a href="#servicesSection" onclick="toggleMenu()">四大核心數字配置服務</a>
+            <a href="#contactSection" onclick="toggleMenu()">官方聯絡窗口 (LINE / FB / 郵箱)</a>
+            <a href="#artworkSection" onclick="toggleMenu()">原創畫作珍藏專區 (無限上傳)</a>
+        </div>
+    </div>
 
     <div class="container">
 
@@ -471,10 +497,10 @@
             <img src="1792354723564.png" alt="獨品禪香">
         </div>
 
-        <!-- VIP880 優惠區塊 (置於圖片下方) -->
+        <!-- VIP880 優惠與會員加入說明 -->
         <div class="vip-banner-card">
-            <h3>✨ VIP 880 專屬會員福利</h3>
-            <p>結帳時輸入代碼 <strong>VIP880</strong>，即可享有全館書籍、服務與畫作<strong>終身九折</strong>優惠！</p>
+            <h3>✨ VIP 880 會員專屬福利</h3>
+            <p>如何加入會員？只需在結帳時於優惠欄位輸入代碼 <strong>VIP880</strong>，即可直接升級 VIP 並享全館書籍、服務與畫作<strong>終身九折</strong>優惠！</p>
         </div>
 
         <div class="section-badge">
@@ -489,8 +515,8 @@
             </div>
         </section>
 
-        <!-- 書籍出版品 (16:9) -->
-        <section>
+        <!-- 第壹類：學術文學著作 (16:9 橫式書封完整文宣) -->
+        <section id="booksSection">
             <h3 class="section-title">學術文學著作 (NT$ 269)</h3>
             
             <div class="book-card">
@@ -500,7 +526,7 @@
                 <div class="book-info">
                     <h3>生命的出口</h3>
                     <div class="price">NT$ 269</div>
-                    <p>深刻探討心靈轉折與生命出口的經典力作，引領您在逆境中找回內在平靜。</p>
+                    <p>深刻探討心靈轉折與生命出口的經典力作，引領您在逆境中找回內在平靜與生命曙光。</p>
                     <button class="btn-action" onclick="addToCart('生命的出口', 269)">加入購物車</button>
                 </div>
             </div>
@@ -512,14 +538,14 @@
                 <div class="book-info">
                     <h3>進階思維的後裔</h3>
                     <div class="price">NT$ 269</div>
-                    <p>突破傳統框架，開啟高維度思維模式與人生格局的學術哲理巨著。</p>
+                    <p>突破傳統框架，開啟高維度思維模式與人生格局的學術哲理巨著，啟迪智慧新境界。</p>
                     <button class="btn-action" onclick="addToCart('進階思維的後裔', 269)">加入購物車</button>
                 </div>
             </div>
         </section>
 
-        <!-- 四大核心數字配置服務 -->
-        <section>
+        <!-- 第貳類：四大核心數字配置服務 -->
+        <section id="servicesSection">
             <h3 class="section-title">四大核心數字配置服務</h3>
             <div class="grid-2col">
                 <div class="service-card">
@@ -557,59 +583,37 @@
             </div>
         </section>
 
-        <!-- 聯絡方式窗口 (三欄並排，置於服務下方) -->
-        <div class="contact-3col">
+        <!-- 官方聯絡方式窗口 (LINE, FB, 郵箱 - 三欄並排) -->
+        <div class="contact-3col" id="contactSection">
             <div class="contact-mini-card">
-                <h5>電子信箱</h5>
+                <h5>官方 LINE</h5>
+                <a href="https://line.me/" target="_blank">點擊加入官方LINE</a>
+            </div>
+            <div class="contact-mini-card">
+                <h5>FB 官方粉專</h5>
+                <a href="https://www.facebook.com/pengpinxin/" target="_blank">造訪 Facebook 專頁[span_0](start_span)[span_0](end_span)</a>
+            </div>
+            <div class="contact-mini-card">
+                <h5>電子郵箱</h5>
                 <a href="mailto:Aaa0987955906aaa@gmail.com">Aaa0987955906aaa@gmail.com</a>
-            </div>
-            <div class="contact-mini-card">
-                <h5>官方粉專</h5>
-                <a href="https://www.facebook.com/pengpinxin/" target="_blank">Facebook 專頁[span_0](start_span)[span_0](end_span)</a>
-            </div>
-            <div class="contact-mini-card">
-                <h5>學術服務窗口</h5>
-                <a href="javascript:void(0);" onclick="toggleCart()">線上預約填單</a>
             </div>
         </div>
 
-        <!-- 品心美學 -->
-        <section>
-            <h3 class="section-title">品心美學藝廊</h3>
-            <div class="grid-2col">
-                <div class="aesthetic-card">
-                    <img src="1792354723564.png" alt="獨品禪香">
-                    <div>
-                        <h4>獨品禪香</h4>
-                        <p>焚香靜心，品味心靈的清靜與安寧。</p>
-                    </div>
-                </div>
-                <div class="aesthetic-card">
-                    <img src="1792450518058.jpg" alt="墨寶書香">
-                    <div>
-                        <h4>墨寶書香</h4>
-                        <p>筆墨流轉間，盡顯傳統東方美學底蘊。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 自行上傳畫作專區 (前台兩列並排，無限向下延伸) -->
-        <section>
-            <h3 class="section-title">原創畫作珍藏專區</h3>
-            <div class="grid-2col" id="artworkGallery">
-                <!-- 動態上傳畫作顯示區 -->
-            </div>
-
-            <!-- 管理員專屬解鎖按鈕 -->
-            <button class="admin-toggle-btn" onclick="toggleAdminPanel()">🔒 管理員上傳通道</button>
-
-            <!-- 管理員專屬上傳面板 (僅您可見) -->
-            <div class="admin-panel" id="adminPanel">
-                <h4 style="color: var(--gold-light); margin-bottom: 10px;">🎨 管理員專屬：上傳新畫作</h4>
-                <input type="text" id="artName" placeholder="請輸入畫作名稱">
+        <!-- 第參類：原創畫作珍藏專區 (無限量上傳、自動加浮水印、統一 NT$ 680、兩張一排) -->
+        <section id="artworkSection">
+            <h3 class="section-title">原創畫作珍藏專區 (定價 NT$ 680)</h3>
+            
+            <!-- 開放式上傳介面 (無須密碼鎖，隨時自行上傳新畫作) -->
+            <div class="upload-panel">
+                <h4 style="color: var(--gold-light); margin-bottom: 10px; font-size: 1rem;">🎨 自行上傳新畫作（自動加浮水印）</h4>
+                <input type="text" id="artName" placeholder="請輸入畫作名稱 (例: 雲山禪韻)">
                 <input type="file" id="artFile" accept="image/*">
-                <button onclick="confirmUpload()">確認上傳 (定價 NT$ 680)</button>
+                <button onclick="confirmUpload()">確認上傳並上架 (定價 NT$ 680)</button>
+            </div>
+
+            <!-- 畫作展示藝廊 (兩列並排，無限向下延伸) -->
+            <div class="grid-2col" id="artworkGallery">
+                <!-- 動態上傳畫作將自動排列於此 -->
             </div>
         </section>
 
@@ -621,9 +625,9 @@
 
     </div>
 
-    <!-- 購物車抽屜與結帳預約表單 -->
+    <!-- 購物車抽屜與完整預約表單 -->
     <div class="cart-drawer" id="cartDrawer">
-        <div class="cart-header">
+        <div class="drawer-header">
             <h3 style="color: var(--gold-light);">🛒 您的購物車與預約單</h3>
             <button onclick="toggleCart()" style="background:none; border:none; color:var(--text-main); font-size:1.2rem; cursor:pointer;">✕</button>
         </div>
@@ -631,19 +635,13 @@
             <p style="color: var(--text-muted); text-align: center; margin-top: 20px;">購物車目前是空的</p>
         </div>
         <div class="checkout-form">
-            <div style="margin-bottom: 10px;">
-                <input type="text" id="vipCode" placeholder="請輸入 VIP 優惠碼 (例: VIP880)">
+            <div style="margin-bottom: 12px;">
+                <input type="text" id="vipCode" placeholder="請輸入會員優惠碼 (輸入 VIP880 享9折)">
                 <button class="btn-action" style="width: 100%;" onclick="applyVIP()">套用 VIP 九折</button>
             </div>
-            <div style="border-top: 1px solid var(--card-border); padding-top: 10px; margin-bottom: 10px;">
-                <p style="color: var(--gold-light); font-weight: bold; margin-bottom: 5px;">客戶預約與聯絡窗口：</p>
-                <input type="text" id="custName" placeholder="聯絡姓名 *">
+            <div style="border-top: 1px solid var(--card-border); padding-top: 10px; margin-bottom: 12px;">
+                <p style="color: var(--gold-light); font-weight: bold; margin-bottom: 6px; font-size: 0.9rem;">客戶聯絡與預約填單窗口：</p>
+                <input type="text" id="custName" placeholder="您的姓名 *">
                 <input type="tel" id="custPhone" placeholder="聯絡電話 / 手機 *">
                 <input type="email" id="custEmail" placeholder="電子信箱 Email *">
-                <textarea id="custRemark" rows="3" placeholder="備註需求 (例如：預約號碼候選名單、寄送地址等)"></textarea>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; color: var(--gold-light); font-weight: bold;">
-                <span>總計金額：</span>
-                <span id="cartTotal">NT$ 0</span>
-            </div>
-            <button class="btn-action" style="width: 100%; background: var(--gold); color: #1a1714; font-weight: bold;" oncli
+                <texta
