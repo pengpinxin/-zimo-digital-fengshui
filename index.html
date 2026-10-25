@@ -71,8 +71,8 @@
             display: block;
             pointer-events: none;
         }
-        /* 專為好書介紹設計的 16:11 黃金比例與高度限制 */
-        .banner-169-box {
+        /* 好書推薦專用優化比例框 */
+        .banner-custom-box {
             width: 100%;
             aspect-ratio: 16 / 11;
             max-height: 480px;
@@ -84,7 +84,7 @@
             align-items: center;
             justify-content: center;
         }
-        .banner-169-box img {
+        .banner-custom-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -215,12 +215,12 @@
             </div>
         </section>
 
-        <!-- 4. 暢銷心靈著作專區 (品心好書介紹圖採 16:11 黃金比例) -->
+        <!-- 4. 暢銷心靈著作專區 (品心好書推薦圖已完美套用 16:11 黃金比例) -->
         <section id="section4" class="space-y-4">
             <h3 class="text-base font-bold text-center border-b-2 border-gold/40 pb-2 text-wood tracking-widest">暢銷心靈著作（皆含親筆簽版）</h3>
             
             <div class="img-full-card">
-                <div class="banner-169-box">
+                <div class="banner-custom-box">
                     <div class="img-protect-overlay"></div>
                     <img src="1000053524_3.jpg" alt="品心好書介紹">
                 </div>
@@ -237,7 +237,7 @@
                         <h4 class="font-bold text-sm text-ink tracking-wide mt-2">《生命的出口》</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5 font-semibold">在紅塵喧囂中尋找安放靈魂的歸宿</p>
                         <div class="my-2.5 px-3 py-2 bg-paper/95 rounded-lg border border-gold/30 text-[11px] text-gold-dark leading-relaxed text-justify font-medium">
-                            💡 <b>品心老師專文導讀</b>：在無常與迷惘交織的歲月裡，這本書 is 寫給每一位渴望在紅塵中找回內在清明與平靜的靈魂。翻開書頁，讓智慧的溫暖燭光，引領您走向柳暗花明的心靈出口。
+                            💡 <b>品心老師專文導讀</b>：在無常與迷惘交織的歲月裡，這本書是寫給每一位渴望在紅塵中找回內在清明與平靜的靈魂。翻開書頁，讓智慧的溫暖燭光，引領您走向柳暗花明的心靈出口。
                         </div>
                         <div class="mt-2 flex items-center justify-between px-2">
                             <span class="text-sm font-bold text-red-800 item-price" data-base="269">NT$ 269</span>
@@ -340,4 +340,4 @@
                 <div class="bg-warm/80 p-3.5 sm:p-4 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md gap-3">
                     <div class="pr-1">
                         <h4 class="font-bold text-xs sm:text-sm text-ink tracking-wide">居家門牌與格局風水合盤</h4>
-                        <p class="text-[10px] sm:text-[11px] text-gold-dark mt-0.5 f
+                        <p class="text-[10px] sm:text-[11px] text-gold-dark mt-0.5 font-
