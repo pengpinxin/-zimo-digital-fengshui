@@ -196,7 +196,7 @@
             </div>
         </section>
 
-        <!-- 4. 下方自主無線上架畫廊區 -->
+        <!-- 4. 下方自主無線上架畫廊區（附有清楚的確認上傳按鈕） -->
         <section class="space-y-4 pt-6 border-t-2 border-gold/40">
             <div class="text-center space-y-1 pb-2 border-b-2 border-gold/40">
                 <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">品心美學 · 數位典藏藝廊</h3>
@@ -205,15 +205,23 @@
 
             <div class="bg-warm p-4 rounded-2xl chinese-border space-y-3 shadow-md">
                 <h3 class="text-xs font-bold text-ink flex items-center gap-2"><i class="fa-solid fa-paintbrush text-gold"></i><span>老師專屬：新增典藏畫作（免寫程式碼）</span></h3>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-                    <input type="text" id="new-art-name" placeholder="請輸入典藏品名 (例: 牡丹迎春)" class="px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
-                    <input type="number" id="new-art-price" placeholder="價格 (預設 680)" value="680" class="px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
-                    <label class="bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white py-2.5 rounded-lg font-bold text-center cursor-pointer hover:brightness-110 flex items-center justify-center gap-1.5 shadow">
-                        <i class="fa-solid fa-images"></i><span>從手機相簿選照片上架</span>
-                        <input type="file" accept="image/*" class="hidden" onchange="uploadPermanentArt(event)">
+                
+                <div class="space-y-2.5 text-xs">
+                    <input type="text" id="new-art-name" placeholder="請輸入典藏品名 (例: 牡丹迎春)" class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
+                    <input type="number" id="new-art-price" placeholder="價格 (預設 680)" value="680" class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
+                    
+                    <!-- 步驟一：選擇照片 -->
+                    <label class="block bg-paper text-gold-dark border-2 border-gold/60 py-2.5 rounded-lg font-bold text-center cursor-pointer hover:bg-gold/10 shadow-sm">
+                        <i class="fa-solid fa-images mr-1"></i><span id="file-chosen-text">1. 點此從相簿選擇圖片</span>
+                        <input type="file" id="art-file-input" accept="image/*" class="hidden" onchange="previewFile()">
                     </label>
+
+                    <!-- 步驟二：明確的確認上傳按鈕 -->
+                    <button onclick="confirmUpload()" class="w-full bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white py-3 rounded-lg font-bold text-center hover:brightness-110 shadow flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up"></i><span>2. 確認上傳至下方藝廊</span>
+                    </button>
                 </div>
-                <p class="text-[10px] text-gold-dark font-semibold">💡 點擊上方按鈕後，請在手機選單中點選「檔案」或「相簿」挑選照片，系統將自動永久儲存於下方藝廊！</p>
+                <p class="text-[10px] text-gold-dark font-semibold">💡 操作步驟：輸入名稱與價格 ➔ 點選步驟一選照片 ➔ 點選步驟二確認上傳，照片就會永久儲存於下方藝廊中！</p>
             </div>
 
             <div class="infinite-scroll-gallery">
@@ -257,11 +265,4 @@
             <div class="border-t-2 border-gold/30 pt-3 flex justify-between items-center font-bold text-sm">
                 <span>總計金額：</span><span id="cart-total-price" class="text-red-800 text-base">NT$ 0</span>
             </div>
-            <button onclick="submitCheckout()" class="w-full bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white py-3.5 rounded-xl text-xs font-bold shadow">確認送出訂單</button>
-        </div>
-    </div>
-
-    <!-- 📞 快速聯絡老師懸浮彈窗 -->
-    <div id="contact-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-paper rounded-2xl max-w-sm w-full p-6 chinese-border space-y-4 shadow-2xl text-center">
-            <div class="flex justify-between items-center border-b-2 bo
+            <button onclick="submitCheckout()" class="w-full bg-gradient-to-r from
