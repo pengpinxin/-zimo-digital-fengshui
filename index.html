@@ -21,12 +21,11 @@
         body { font-family: 'Noto Serif TC', serif; background-color: #FDFBF7; color: #2C2416; letter-spacing: 0.025em; -webkit-user-select: none; user-select: none; }
         .chinese-border { border: 1.5px solid #C5A059; box-shadow: inset 0 0 16px rgba(197, 160, 89, 0.12), 0 4px 15px rgba(44, 36, 22, 0.05); }
         .bg-pattern { background-image: radial-gradient(#C5A059 0.5px, transparent 0.5px); background-size: 24px 24px; }
-        /* 網格卡片與防下載保護 */
-        .art-grid-card { background: #F4EFEA; border: 1.5px solid #C5A059; border-radius: 0.75rem; padding: 0.4rem; box-shadow: 0 4px 12px rgba(44, 36, 22, 0.06); display: flex; flex-direction: column; justify-content: space-between; }
+        .art-grid-card { background: #F4EFEA; border: 1.5px solid #C5A059; border-radius: 0.75rem; padding: 0.4rem; box-shadow: 0 4px 12px rgba(44, 36, 22, 0.06); display: flex; flex-direction: column; justify-content: space-between; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .art-img-box { width: 100%; aspect-ratio: 1 / 1; background: #241A15; overflow: hidden; border-radius: 0.4rem; position: relative; }
         .art-img-box img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; -webkit-touch-callout: none; }
         .img-protect-overlay { position: absolute; inset: 0; z-index: 10; background: transparent; }
-        /* 無限下滑滑軌區塊 */
         .infinite-scroll-gallery { max-height: 650px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #C5A059 #F4EFEA; padding-right: 4px; }
         .infinite-scroll-gallery::-webkit-scrollbar { width: 5px; }
         .infinite-scroll-gallery::-webkit-scrollbar-thumb { background-color: #C5A059; border-radius: 3px; }
@@ -68,55 +67,41 @@
     <!-- 主內容區塊 -->
     <main class="max-w-2xl mx-auto px-3 py-4 sm:py-6 space-y-6 w-full">
         
-        <!-- 老師專屬：畫作無限上架後台面板 -->
+        <!-- 老師專屬：手機直覺上架面板 -->
         <section class="bg-warm p-4 rounded-2xl chinese-border space-y-3 shadow-md">
-            <h3 class="text-sm font-bold text-ink flex items-center gap-2"><i class="fa-solid fa-paintbrush text-gold"></i><span>老師專屬：畫作快速上架區</span></h3>
+            <h3 class="text-sm font-bold text-ink flex items-center gap-2"><i class="fa-solid fa-paintbrush text-gold"></i><span>老師專屬：點擊相簿直接上架</span></h3>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-                <input type="text" id="new-art-name" placeholder="請輸入畫作名稱 (例: 福祿牡丹新作)" class="px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
+                <input type="text" id="new-art-name" placeholder="請輸入畫作名稱 (例: 牡丹迎春)" class="px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
                 <input type="number" id="new-art-price" placeholder="價格 (預設 680)" value="680" class="px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
-                <label class="bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white py-2 rounded-lg font-bold text-center cursor-pointer hover:brightness-110 flex items-center justify-center gap-1.5 shadow">
-                    <i class="fa-solid fa-upload"></i><span>選擇圖片並上架</span>
-                    <input type="file" accept="image/*" class="hidden" onchange="addNewArt(event)">
+                <label class="bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white py-2.5 rounded-lg font-bold text-center cursor-pointer hover:brightness-110 flex items-center justify-center gap-1.5 shadow">
+                    <i class="fa-solid fa-images"></i><span>選擇手機相簿圖片上架</span>
+                    <input type="file" accept="image/*" class="hidden" onchange="uploadDirectArt(event)">
                 </label>
             </div>
-            <p class="text-[10px] text-gold-dark font-semibold">💡 提示：點擊上方按鈕選擇圖片後，系統將**自動生成一排多張網格與專屬購買按鈕**，無限延伸您的線上畫廊！</p>
+            <p class="text-[10px] text-gold-dark font-semibold">💡 只要點擊按鈕從相簿選照片，系統就會立刻在下方生成一排多張網格與專屬購買按鈕！</p>
         </section>
 
-        <!-- 畫廊展示區（手機一排2張，電腦平板一排4張，支援下滑滑軌） -->
+        <!-- 畫廊展示區（手機2欄，電腦4欄，支援下滑滑軌） -->
         <section class="space-y-4">
             <div class="text-center space-y-1 pb-2 border-b-2 border-gold/40">
                 <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">品心美學 · 線上典藏畫廊</h3>
                 <p class="text-xs text-gold-dark font-semibold">典藏原創藝術 · 支援下滑瀏覽與即時下單</p>
             </div>
 
-            <!-- 無下滑軌容器：自動保持整齊網格 -->
+            <!-- 無限下滑滑軌容器 -->
             <div class="infinite-scroll-gallery">
                 <div id="art-gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    
-                    <!-- 預設範例畫作 1 -->
+                    <!-- 預設範例畫作 -->
                     <div class="art-grid-card">
                         <div>
-                            <div class="art-img-box"><div class="img-protect-overlay"></div><img src="1000053447.jpg" alt="福祿牡丹"></div>
-                            <h4 class="font-bold text-xs text-ink mt-1.5 truncate">福祿牡丹（一）</h4>
+                            <div class="art-img-box"><div class="img-protect-overlay"></div><img src="1000053440.jpg" alt="福祿牡丹"></div>
+                            <h4 class="font-bold text-xs text-ink mt-1.5 truncate">福祿牡丹（精選原創）</h4>
                         </div>
                         <div class="pt-2 border-t border-gold/20 flex items-center justify-between">
-                            <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                            <button onclick="addToCart('品心美學·福祿牡丹（一）', 680)" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded text-[11px] font-bold transition">購買</button>
+                            <span class="text-xs font-bold text-red-800 item-price">NT$ 680</span>
+                            <button onclick="addToCart('福祿牡丹（精選原創）', 680)" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded text-[11px] font-bold transition">購買</button>
                         </div>
                     </div>
-
-                    <!-- 預設範例畫作 2 -->
-                    <div class="art-grid-card">
-                        <div>
-                            <div class="art-img-box"><div class="img-protect-overlay"></div><img src="1792526901350.jpg" alt="江山如畫"></div>
-                            <h4 class="font-bold text-xs text-ink mt-1.5 truncate">江山如畫（一）</h4>
-                        </div>
-                        <div class="pt-2 border-t border-gold/20 flex items-center justify-between">
-                            <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                            <button onclick="addToCart('品心美學·江山如畫（一）', 680)" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded text-[11px] font-bold transition">購買</button>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </section>
@@ -162,8 +147,8 @@
         let cart = [];
         let isVip = false;
 
-        // 動態新增畫作並自動生成購買按鈕
-        function addNewArt(event) {
+        // 直接從手機相簿選取並上架
+        function uploadDirectArt(event) {
             const file = event.target.files[0];
             if (!file) return;
 
@@ -177,10 +162,8 @@
             reader.onload = function(e) {
                 const imageSrc = e.target.result;
                 const galleryGrid = document.getElementById('art-gallery-grid');
-
                 const finalPrice = isVip ? Math.round(artPrice * 0.9) : artPrice;
 
-                // 自動生成網格卡片與購買按鈕
                 const card = document.createElement('div');
                 card.className = 'art-grid-card';
                 card.innerHTML = `
@@ -189,17 +172,15 @@
                         <h4 class="font-bold text-xs text-ink mt-1.5 truncate">${artName}</h4>
                     </div>
                     <div class="pt-2 border-t border-gold/20 flex items-center justify-between">
-                        <span class="text-xs font-bold text-red-800 item-price" data-base="${artPrice}">NT$ ${finalPrice} ${isVip ? '<span class="text-[9px] text-emerald-600">9折</span>' : ''}</span>
+                        <span class="text-xs font-bold text-red-800 item-price">NT$ ${finalPrice} ${isVip ? '<span class="text-[9px] text-emerald-600">9折</span>' : ''}</span>
                         <button onclick="addToCart('${artName}', ${artPrice})" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded text-[11px] font-bold transition">購買</button>
                     </div>
                 `;
 
-                // 自動加到畫廊最前方或最後方
+                // 放到最前面讓老師立刻看到
                 galleryGrid.prepend(card);
-
-                // 清空輸入框
                 nameInput.value = '';
-                alert(`「${artName}`}」已成功上架！買家點擊購買即可直接加入購物車。`);
+                alert(`「${artName}」已成功上架！`);
             };
             reader.readAsDataURL(file);
         }
