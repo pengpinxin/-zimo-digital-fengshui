@@ -30,7 +30,6 @@
             padding-bottom: 80px;
         }
 
-        /* 頂部導覽列 */
         header {
             background-color: rgba(26, 23, 20, 0.95);
             border-bottom: 1px solid var(--card-border);
@@ -121,7 +120,6 @@
             display: block;
         }
 
-        /* VIP 優惠區塊 */
         .vip-banner-card {
             background: rgba(212, 175, 55, 0.08);
             border: 1px solid var(--gold);
@@ -197,7 +195,6 @@
             letter-spacing: 1px;
         }
 
-        /* 16:9 書籍卡片 */
         .book-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -247,7 +244,6 @@
             margin-bottom: 12px;
         }
 
-        /* 網格 2x2 */
         .grid-2col {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -310,7 +306,6 @@
             border: 1px solid var(--card-border);
         }
 
-        /* 聯絡窗口 3欄並排 (LINE, FB, 郵箱) */
         .contact-3col {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -343,7 +338,6 @@
             text-decoration: underline;
         }
 
-        /* 開放式上傳畫作面板 */
         .upload-panel {
             background: rgba(212, 175, 55, 0.05);
             border: 1px dashed var(--gold);
@@ -370,7 +364,6 @@
             cursor: pointer;
         }
 
-        /* 右側主選單抽屜 */
         .menu-drawer, .cart-drawer {
             position: fixed;
             top: 0;
@@ -483,7 +476,6 @@
         </div>
     </header>
 
-    <!-- 右側主選單抽屜 -->
     <div class="menu-drawer" id="menuDrawer">
         <div class="drawer-header">
             <h3 style="color: var(--gold-light);">📌 網站導覽主選單</h3>
@@ -504,7 +496,6 @@
             <img src="1792354723564.png" alt="獨品禪香">
         </div>
 
-        <!-- VIP880 優惠與會員加入說明 -->
         <div class="vip-banner-card">
             <h3>✨ VIP 880 會員專屬福利</h3>
             <p>如何加入會員？只需在結帳時於優惠欄位輸入代碼 <strong>VIP880</strong>，即可直接升級 VIP 並享全館書籍、服務與畫作<strong>終身九折</strong>優惠！</p>
@@ -514,7 +505,6 @@
             <span>彭品心老師官方網站</span>
         </div>
 
-        <!-- 靈魂的棲息之處文宣 -->
         <section class="intro-section">
             <h2 class="intro-title">靈魂的棲息之處</h2>
             <p class="intro-subtitle">喧囂的世間，每個人都在找尋安放靈魂的角落。</p>
@@ -523,7 +513,6 @@
             </div>
         </section>
 
-        <!-- 第壹類：學術文學著作 (16:9 橫式書封) -->
         <section id="booksSection">
             <h3 class="section-title">學術文學著作 (NT$ 269)</h3>
             
@@ -552,7 +541,6 @@
             </div>
         </section>
 
-        <!-- 第貳類：四大核心數字配置服務 -->
         <section id="servicesSection">
             <h3 class="section-title">四大核心數字配置服務</h3>
             <div class="grid-2col">
@@ -591,7 +579,6 @@
             </div>
         </section>
 
-        <!-- 官方聯絡方式窗口 (LINE, FB, 郵箱) -->
         <div class="contact-3col" id="contactSection">
             <div class="contact-mini-card">
                 <h5>官方 LINE</h5>
@@ -607,11 +594,9 @@
             </div>
         </div>
 
-        <!-- 第參類：原創畫作珍藏專區 (手機本機記憶同步、自動浮水印、NT$ 680、購買按鈕) -->
         <section id="artworkSection">
             <h3 class="section-title">原創畫作珍藏專區 (定價 NT$ 680)</h3>
             
-            <!-- 自行上傳畫作介面 -->
             <div class="upload-panel">
                 <h4 style="color: var(--gold-light); margin-bottom: 10px; font-size: 1rem;">🎨 自行上傳新畫作與浮水印設定</h4>
                 <input type="text" id="artName" placeholder="請輸入畫作名稱 (例: 雲山禪韻)">
@@ -620,10 +605,7 @@
                 <button onclick="confirmUpload()">確認上傳並上架 (定價 NT$ 680)</button>
             </div>
 
-            <!-- 畫作展示藝廊 (兩列並排，無限向下延伸) -->
-            <div class="grid-2col" id="artworkGallery">
-                <!-- 動態上傳畫作將自動排列於此 -->
-            </div>
+            <div class="grid-2col" id="artworkGallery"></div>
         </section>
 
         <footer class="legal-disclaimer">
@@ -634,7 +616,6 @@
 
     </div>
 
-    <!-- 購物車抽屜與完整預約表單 -->
     <div class="cart-drawer" id="cartDrawer">
         <div class="drawer-header">
             <h3 style="color: var(--gold-light);">🛒 您的購物車與預約單</h3>
@@ -655,163 +636,4 @@
                 <input type="email" id="custEmail" placeholder="電子信箱 Email *">
                 <textarea id="custRemark" rows="3" placeholder="備註需求 (例如：預約號碼候選名單、書本寄送地址等)"></textarea>
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: var(--gold-light); font-weight: bold;">
-                <span>總計金額：</span>
-                <span id="cartTotal">NT$ 0</span>
-            </div>
-            <button class="btn-action" style="width: 100%; background: var(--gold); color: #1a1714; font-weight: bold;" onclick="submitOrder()">送出預約訂單</button>
-        </div>
-    </div>
-
-    <script>
-        let cart = [];
-        let isVIP = false;
-        let artworks = JSON.parse(localStorage.getItem('pinxin_artworks')) || [];
-
-        // 頁面載入時自動渲染已儲存的畫作
-        window.onload = function() {
-            renderArtworks();
-        };
-
-        function toggleMenu() {
-            document.getElementById('menuDrawer').classList.toggle('open');
-        }
-
-        function toggleCart() {
-            document.getElementById('cartDrawer').classList.toggle('open');
-        }
-
-        function addToCart(name, price) {
-            cart.push({ name, price });
-            updateCartUI();
-            alert('已成功加入購物車！');
-        }
-
-        function updateCartUI() {
-            document.getElementById('cartCount').innerText = cart.length;
-            let listEl = document.getElementById('cartItemsList');
-            if (cart.length === 0) {
-                listEl.innerHTML = '<p style="color: var(--text-muted); text-align: center; margin-top: 20px;">購物車目前是空的</p>';
-                document.getElementById('cartTotal').innerText = 'NT$ 0';
-                return;
-            }
-            let html = '';
-            let total = 0;
-            cart.forEach((item, index) => {
-                total += item.price;
-                html += `<div class="cart-item"><span>${item.name}</span><span>NT$ ${item.price} <button onclick="removeItem(${index})" style="background:none; border:none; color:#e74c3c; cursor:pointer; margin-left:8px;">🗑️</button></span></div>`;
-            });
-            if (isVIP) {
-                total = Math.round(total * 0.9);
-                html += `<div style="color: var(--gold); font-size: 0.85rem; margin-top: 5px;">✨已套用 VIP880 終身九折優惠</div>`;
-            }
-            listEl.innerHTML = html;
-            document.getElementById('cartTotal').innerText = 'NT$ ' + total;
-        }
-
-        function removeItem(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        function applyVIP() {
-            let code = document.getElementById('vipCode').value.trim();
-            if (code === 'VIP880') {
-                isVIP = true;
-                alert('VIP880 驗證成功！已成功升級會員並享有終身九折優惠');
-                updateCartUI();
-            } else {
-                alert('優惠碼有誤，請輸入 VIP880');
-            }
-        }
-
-        function confirmUpload() {
-            let nameInput = document.getElementById('artName');
-            let wmInput = document.getElementById('watermarkText');
-            let fileInput = document.getElementById('artFile');
-            let name = nameInput.value.trim();
-            let wmText = wmInput.value.trim() || '品心書閣 · 彭品心原創';
-
-            if (!name) {
-                alert('請輸入畫作名稱！');
-                return;
-            }
-            if (fileInput.files.length === 0) {
-                alert('請選擇要上傳的畫作圖片！');
-                return;
-            }
-
-            let reader = new FileReader();
-            reader.onload = function(e) {
-                let imgData = e.target.result;
-                artworks.push({ name: name, price: 680, img: imgData, watermark: wmText });
-                
-                // 自動儲存到手機瀏覽器記憶中，重新整理或長期保存不遺失
-                localStorage.setItem('pinxin_artworks', JSON.stringify(artworks));
-                
-                renderArtworks();
-                nameInput.value = '';
-                fileInput.value = '';
-                alert('上架成功！已自動同步儲存、加入浮水印與固定 NT$ 680 定價');
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-
-        function deleteArtwork(index) {
-            if (confirm('確定要刪除這張畫作嗎？')) {
-                artworks.splice(index, 1);
-                localStorage.setItem('pinxin_artworks', JSON.stringify(artworks));
-                renderArtworks();
-            }
-        }
-
-        function renderArtworks() {
-            let gallery = document.getElementById('artworkGallery');
-            let html = '';
-            if (artworks.length === 0) {
-                gallery.innerHTML = '<p style="color: var(--text-muted); grid-column: span 2; text-align: center; padding: 20px;">目前尚無上傳畫作，請透過上方面板新增。</p>';
-                return;
-            }
-            artworks.forEach((art, index) => {
-                html += `
-                    <div class="artwork-card">
-                        <div>
-                            <div style="position:relative;">
-                                <img src="${art.img}" alt="${art.name}">
-                                <div style="position:absolute; bottom:12px; right:10px; font-size:0.68rem; color:rgba(255,255,255,0.75); pointer-events:none; background:rgba(0,0,0,0.6); padding:3px 6px; border-radius:3px; letter-spacing:0.5px;">${art.watermark}</div>
-                            </div>
-                            <h4>${art.name}</h4>
-                            <div class="price">NT$ ${art.price}</div>
-                            <p>彭品心老師原創精選美學畫作，值得珍藏。</p>
-                        </div>
-                        <div style="display: flex; gap: 8px; margin-top: 10px;">
-                            <button class="btn-action" style="flex: 1;" onclick="addToCart('${art.name}', ${art.price})">加入購物車</button>
-                            <button class="btn-action" style="border-color: #e74c3c; color: #e74c3c;" onclick="deleteArtwork(${index})">刪除</button>
-                        </div>
-                    </div>
-                `;
-            });
-            gallery.innerHTML = html;
-        }
-
-        function submitOrder() {
-            let name = document.getElementById('custName').value.trim();
-            let phone = document.getElementById('custPhone').value.trim();
-            let email = document.getElementById('custEmail').value.trim();
-            if (!name || !phone || !email) {
-                alert('請完整填寫姓名、電話與 Email 聯絡窗口！');
-                return;
-            }
-            if (cart.length === 0) {
-                alert('購物車目前是空的喔！');
-                return;
-            }
-            alert(`感謝 ${name} 緣主！您的預約與訂單已成功送出。\n老師將盡快透過您的聯絡電話（${phone}）與信箱與您聯繫確認。`);
-            cart = [];
-            isVIP = false;
-            updateCartUI();
-            toggleCart();
-        }
-    </script>
-</body>
-</html>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: var(--gold-light
