@@ -76,7 +76,7 @@
             <p class="text-gold-dark font-semibold leading-relaxed">💡 本站全面啟動智慧財產權保護（防右鍵與長按下載）。提供原創藝術典藏、心靈成長著作，以及專業數字風水命理諮詢預約服務。</p>
         </section>
 
-        <!-- 1. 原創畫廊展示區（自動從清單安全載入雲端圖片） -->
+        <!-- 1. 原創畫廊展示區（自動讀取 GitHub 雲端圖片） -->
         <section class="space-y-4">
             <div class="text-center space-y-1 pb-2 border-b-2 border-gold/40">
                 <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">原創藝術作品清單</h3>
@@ -85,12 +85,12 @@
 
             <div class="infinite-scroll-gallery">
                 <div id="art-gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <!-- 畫作由 JavaScript 自動載入 -->
+                    <!-- 畫作由 JavaScript 自動從 GitHub 倉庫讀取生成 -->
                 </div>
             </div>
         </section>
 
-        <!-- 2. 心靈著作與專業諮詢服務專區（一次性固定做好） -->
+        <!-- 2. 心靈著作與專業諮詢服務專區（永久固定） -->
         <section class="space-y-4 pt-4 border-t-2 border-gold/40">
             <div class="text-center space-y-1 pb-2">
                 <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">心靈著作與命理諮詢服務</h3>
@@ -175,43 +175,64 @@
         </div>
     </div>
 
-    <!-- JavaScript 核心管理邏輯 -->
+    <!-- JavaScript 核心管理邏輯：自動從 GitHub 倉庫抓取圖片 -->
     <script>
-        // 🌟 老師的永久畫作清單：
-        // 當您把圖片上傳到 GitHub 後，在此處填入檔案名稱與名稱即可對應顯示！
-        const paintings = [
-            { file: '1000053440.jpg', name: '福祿牡丹（精品原創）', price: 680 },
-            { file: '1792526901350.jpg', name: '江山如畫（典藏系列）', price: 680 }
-        ];
+        // 🌟 自動抓取 GitHub 倉庫中的圖片檔案
+        async function fetchGitHubGallery() {
+            const grid = document.getElementById('art-gallery-grid');
+            if (!grid) return;
+
+            const repoOwner = "pengpinxin"; // 您的 GitHub 帳號
+            const repoName = "-zimo-digital-fengshui"; // 您的專案名稱
+            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const files = await response.json();
+
+                // 過濾出圖片檔案 (jpg, png, jpeg, webp)
+                const imageFiles = files.filter(file => {
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    return file.type === 'file' && ['jpg', 'jpeg', 'png', 'webp'].includes(ext);
+                });
+
+                grid.innerHTML = '';
+
+                if (imageFiles.length === 0) {
+                    grid.innerHTML = '<p class="col-span-2 sm:col-span-4 text-center text-xs text-gray-500 py-6">目前資料夾尚無圖片，請至 GitHub 上傳您的畫作照片！</p>';
+                    return;
+                }
+
+                imageFiles.forEach((file, index) => {
+                    const artName = `品心美學原創藏品 (${index + 1})`;
+                    const basePrice = 680;
+                    const finalPrice = isVip ? Math.round(basePrice * 0.9) : basePrice;
+
+                    const card = document.createElement('div');
+                    card.className = 'art-grid-card';
+                    card.innerHTML = `
+                        <div>
+                            <div class="art-img-box">
+                                <div class="img-protect-overlay" oncontextmenu="return false;"></div>
+                                <img src="${file.download_url}" alt="${artName}" draggable="false">
+                            </div>
+                            <h4 class="font-bold text-xs text-ink mt-1.5 truncate">${artName}</h4>
+                        </div>
+                        <div class="pt-2 border-t border-gold/20 flex items-center justify-between">
+                            <span class="text-xs font-bold text-red-800 item-price">NT$ ${finalPrice} ${isVip ? '<span class="text-[9px] text-emerald-600">9折</span>' : ''}</span>
+                            <button onclick="addToCart('${artName}', ${basePrice})" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded text-[11px] font-bold transition">購買</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (error) {
+                grid.innerHTML = '<p class="col-span-2 sm:col-span-4 text-center text-xs text-red-500 py-6">載入畫廊失敗，請確認網路連線或稍後再試。</p>';
+            }
+        }
 
         let cart = [];
         let isVip = false;
-
-        function loadGallery() {
-            const grid = document.getElementById('art-gallery-grid');
-            if (!grid) return;
-            grid.innerHTML = '';
-
-            paintings.forEach((art) => {
-                const finalPrice = isVip ? Math.round(art.price * 0.9) : art.price;
-                const card = document.createElement('div');
-                card.className = 'art-grid-card';
-                card.innerHTML = `
-                    <div>
-                        <div class="art-img-box">
-                            <div class="img-protect-overlay" oncontextmenu="return false;"></div>
-                            <img src="${art.file}" alt="${art.name}" draggable="false">
-                        </div>
-                        <h4 class="font-bold text-xs text-ink mt-1.5 truncate">${art.name}</h4>
-                    </div>
-                    <div class="pt-2 border-t border-gold/20 flex items-center justify-between">
-                        <span class="text-xs font-bold text-red-800 item-price">NT$ ${finalPrice} ${isVip ? '<span class="text-[9px] text-emerald-600">9折</span>' : ''}</span>
-                        <button onclick="addToCart('${art.name}', ${art.price})" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded text-[11px] font-bold transition">購買</button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
 
         function toggleVip() {
             isVip = !isVip;
@@ -224,7 +245,7 @@
                 btnText.innerText = "VIP";
                 if (modalVipText) modalVipText.innerText = "目前身分：一般會員";
             }
-            loadGallery();
+            fetchGitHubGallery();
             renderCart();
         }
 
@@ -302,7 +323,8 @@
             closeCartModal();
         }
 
-        window.onload = loadGallery;
+        // 頁面載入時自動執行 GitHub 圖片抓取
+        window.onload = fetchGitHubGallery;
     </script>
 </body>
 </html>
