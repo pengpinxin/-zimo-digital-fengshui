@@ -59,15 +59,24 @@
             overflow: hidden;
             border-radius: 0.5rem;
             position: relative;
+            -webkit-user-select: none;
+            user-select: none;
         }
-        /* 圖片正常顯示與瀏覽，解除所有封鎖限制 */
         .img-full-box img {
             width: 100%;
             height: auto;
             object-fit: contain;
             display: block;
+            pointer-events: none; /* 禁止直接對圖片進行任何滑鼠/觸控互動 */
         }
-        /* 直拉式垂直隱藏/精簡滑桿容器 */
+        /* 透明防護層：徹底阻擋長按儲存與右鍵下載 */
+        .img-protect-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            background: transparent;
+        }
+        /* 固定高度的框架，內部可上下滑動 */
         .vertical-scroll-container {
             max-height: 580px;
             overflow-y: auto;
@@ -84,7 +93,7 @@
         }
     </style>
 </head>
-<body class="bg-paper text-ink bg-pattern min-h-screen flex flex-col selection:bg-gold selection:text-white pb-32">
+<body class="bg-paper text-ink bg-pattern min-h-screen flex flex-col selection:bg-gold selection:text-white pb-32" oncontextmenu="return false;">
 
     <!-- 頂部導覽列 -->
     <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur-md border-b-2 border-gold/40 shadow-md">
@@ -133,6 +142,7 @@
         <!-- 1. 首頁標頭視覺 -->
         <section id="section1" class="img-full-card">
             <div class="img-full-box">
+                <div class="img-protect-overlay"></div>
                 <img src="1792354723564.png" alt="首頁標頭視覺">
             </div>
         </section>
@@ -154,10 +164,11 @@
             </div>
         </section>
 
-        <!-- 3. 品牌宣文與圖片專區（直拉式垂直滑感） -->
+        <!-- 3. 品牌宣文與圖片專區 -->
         <section id="section3" class="space-y-4">
             <div class="img-full-card">
                 <div class="img-full-box">
+                    <div class="img-protect-overlay"></div>
                     <img src="1792317738179.jpg" alt="品牌宣文圖片">
                 </div>
             </div>
@@ -189,6 +200,7 @@
             <div class="space-y-4">
                 <div class="img-full-card space-y-3 text-center">
                     <div class="img-full-box">
+                        <div class="img-protect-overlay"></div>
                         <img src="1792440195898.jpg" alt="生命的出口">
                     </div>
                     <div>
@@ -206,6 +218,7 @@
 
                 <div class="img-full-card space-y-3 text-center">
                     <div class="img-full-box">
+                        <div class="img-protect-overlay"></div>
                         <img src="1792450518058.jpg" alt="進階思維的後裔">
                     </div>
                     <div>
@@ -223,14 +236,13 @@
             </div>
         </section>
 
-        <!-- 5. 數字風水與命理專業服務（直拉式垂直滑感） -->
+        <!-- 5. 數字風水與命理專業服務 -->
         <section id="section5" class="space-y-4 pt-2">
             <div class="text-center space-y-2 pb-3 border-b-2 border-gold/40">
                 <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">數字風水與命理專業服務</h3>
                 <p class="text-xs text-gold-dark font-semibold tracking-wide">精準解碼磁場能量 · 助您開運納福、事業昌隆</p>
             </div>
 
-            <!-- 數字命理與專業內容直拉式垂直滑感容器 -->
             <div class="vertical-scroll-container space-y-3 px-1">
                 <div class="bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
                     <div class="flex items-center gap-2 text-wood font-bold text-xs sm:text-sm tracking-wider justify-center">
@@ -306,458 +318,4 @@
                     <div class="pr-1">
                         <h4 class="font-bold text-xs sm:text-sm text-ink tracking-wide">企業商號全方位數字佈局</h4>
                         <p class="text-[10px] sm:text-[11px] text-gold-dark mt-0.5 font-medium">商號、座機與團隊能量完美契合拓展財源</p>
-                        <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="6680">NT$ 6,680</span>
-                    </div>
-                    <button onclick="addToCart('企業商號全方位數字佈局', 6680)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-sm transition shrink-0 tracking-wider">預約</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6. 品心美學 福祿牡丹 -->
-        <section id="section6" class="space-y-4 pt-2">
-            <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
-                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">品心美學 · 福祿牡丹</h3>
-                <p class="text-xs text-gold-dark font-semibold tracking-wide">國畫牡丹雍容華貴 · 讓心靈回歸最初的清明與平靜</p>
-            </div>
-
-            <div class="vertical-scroll-container space-y-4 px-1">
-                <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <img src="1000053447.jpg" alt="品心美學 福祿牡丹一">
-                    </div>
-                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
-                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                        <button onclick="addToCart('品心美學·福祿牡丹（一）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
-                    </div>
-                </div>
-
-                <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <img src="1000053440.jpg" alt="品心美學 福祿牡丹二">
-                    </div>
-                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
-                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                        <button onclick="addToCart('品心美學·福祿牡丹（二）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
-                    </div>
-                </div>
-
-                <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <img src="1000053437.jpg" alt="品心美學 福祿牡丹三">
-                    </div>
-                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
-                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                        <button onclick="addToCart('品心美學·福祿牡丹（三）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="px-3 py-2 bg-paper/95 rounded-lg border border-gold/30 text-center">
-                <p class="text-xs text-gold-dark font-semibold leading-relaxed tracking-wider">
-                    ✨ <b>溫暖療癒</b>：生命縱有千般繁雜與疲憊，請記得停下腳步，好好善待自己。在這裡，讓靈魂沉澱、讓內在重燃希望，願國畫牡丹之雍容與清幽，時刻守護您心中的安寧與自在。
-                </p>
-            </div>
-        </section>
-
-        <!-- 7. 品心美學 萬里江山 -->
-        <section id="section7" class="space-y-4 pt-2">
-            <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
-                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">品心美學 · 萬里江山</h3>
-                <p class="text-xs text-gold-dark font-semibold tracking-wide">汲取天地靈氣與筆墨意境 · 打造專屬心靈的高端數位美學</p>
-            </div>
-
-            <div class="vertical-scroll-container space-y-4 px-1">
-                <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <img src="1792526901350.jpg" alt="品心美學 萬里江山一">
-                    </div>
-                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
-                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                        <button onclick="addToCart('品心美學·萬里江山（一）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
-                    </div>
-                </div>
-                <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <img src="1792527313372.jpg" alt="品心美學 萬里江山二">
-                    </div>
-                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
-                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                        <button onclick="addToCart('品心美學·萬里江山（二）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 8. 品心美學 · 淡雅清歡 -->
-        <section id="section8" class="space-y-4 pt-2">
-            <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
-                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">品心美學 · 淡雅清歡</h3>
-                <p class="text-xs text-gold-dark font-semibold tracking-wide">筆墨寄情 · 尋求心靈深處的清雅與淡泊</p>
-            </div>
-
-            <div class="vertical-scroll-container space-y-4 px-1">
-                <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <img src="1000053445.jpg" alt="品心美學 淡雅清歡一">
-                    </div>
-                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
-                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                        <button onclick="addToCart('品心美學·淡雅清歡（一）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
-                    </div>
-                </div>
-                <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <img src="1000053439.jpg" alt="品心美學 淡雅清歡二">
-                    </div>
-                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
-                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                        <button onclick="addToCart('品心美學·淡雅清歡（二）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 9. 品心美學 · 高峰傲骨 -->
-        <section id="section9" class="space-y-4 pt-2">
-            <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
-                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">品心美學 · 高峰傲骨</h3>
-                <p class="text-xs text-gold-dark font-semibold tracking-wide">傲雪迎春 · 展現生命不屈的高峰傲骨與浩然正氣</p>
-            </div>
-
-            <div class="vertical-scroll-container space-y-4 px-1">
-                <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <img src="1000053450.jpg" alt="品心美學 高峰傲骨一">
-                    </div>
-                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
-                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                        <button onclick="addToCart('品心美學·高峰傲骨（一）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
-                    </div>
-                </div>
-                <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <img src="1000053444.jpg" alt="品心美學 高峰傲骨二">
-                    </div>
-                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
-                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                        <button onclick="addToCart('品心美學·高峰傲骨（二）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 10. 聯絡方式 -->
-        <section id="section10" class="bg-warm/80 p-6 rounded-2xl chinese-border space-y-3 text-center shadow-md">
-            <h3 class="text-base font-bold text-ink tracking-wide">📞 聯絡彭品心老師</h3>
-            <p class="text-xs text-gold-dark font-semibold">歡迎透過以下管道與老師聯繫，獲取專業一對一諮詢服務：</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2 text-xs font-bold">
-                <a href="https://line.me" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-5 py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 tracking-wider">
-                    <i class="fa-brands fa-line text-base"></i> 官方 LINE 諮詢
-                </a>
-                <a href="https://www.facebook.com/pengpinxin/" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 tracking-wider">
-                    <i class="fa-brands fa-facebook text-base"></i> FB 個人主頁
-                </a>
-                <a href="mailto:bookspctv@gmail.com" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-5 py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 tracking-wider">
-                    <i class="fa-solid fa-envelope text-base"></i> Google 郵箱
-                </a>
-            </div>
-        </section>
-
-        <!-- 11. 智慧財產權與法律權益嚴正聲明 -->
-        <section id="section11" class="space-y-4 pt-2">
-            <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
-                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">智慧財產權與法律權益嚴正聲明</h3>
-                <p class="text-xs text-gold-dark font-semibold tracking-wide">恪遵著作權法規 · 捍衛原創心靈智慧與數位資產權益</p>
-            </div>
-
-            <div class="bg-paper p-5 rounded-2xl border-2 border-gold/40 text-[11px] text-gray-700 space-y-2.5 leading-relaxed shadow-md">
-                <p class="text-justify font-semibold text-ink">
-                    📌 <b>權益告知與保護聲明</b>：本官方網站（紫墨數字風水 · 彭品心）所載之所有原創內容（包含但不限於文字著作、詩文、數字風水解析架構、專利授權概念、AI 藝術畫作、音頻與影音素材）均受中華民國著作權法及國際智慧財產權公約之嚴格保護。
-                </p>
-                <p class="text-justify font-medium">
-                    任何未經「紫墨數字風水 · 彭品心」正式書面授權同意，擅自進行重製、改作、轉載、散布、截圖販售或作任何商業印刷使用者，本團隊將依法追究相關民事與刑事法律責任，絕不寬貸。如需引用或商業授權合作，請透過上方官方管道聯繫洽談。
-                </p>
-            </div>
-        </section>
-
-        <!-- 12. 結尾：品心美學 & 紫墨禪音 -->
-        <section id="section12" class="text-center py-6 space-y-3 border-t-2 border-gold/40 bg-warm/60 p-6 rounded-2xl chinese-border shadow-md">
-            <h4 class="font-bold text-base tracking-widest text-wood">紫墨數字風水 · 法律權威與智慧原創保護宣告</h4>
-            <p class="text-xs text-gold-dark font-medium leading-relaxed max-w-md mx-auto">
-                本站所有服務項目、心靈著作、專利字學架構與數位美學創作皆為彭品心老師原創心血。我們致力於以最嚴謹的學術態度、最清明的靈性智慧服務大眾，並堅決捍衛一切原創智慧財產權。
-            </p>
-            <div class="pt-2">
-                <h5 class="font-bold text-sm tracking-widest text-ink">品心美學 & 紫墨禪音</h5>
-                <p class="text-xs text-gold-dark mt-0.5 font-semibold">書籍藝術審美與和諧一體的品心心靈家園</p>
-                <p class="text-[10px] text-gray-500 mt-3 font-medium">© 2026 彭品心老師 (紫墨老師) All Rights Reserved.</p>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- 13. 購物車與預約結帳彈窗系統 -->
-    <div id="cart-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-paper rounded-2xl max-w-md w-full p-6 chinese-border space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b-2 border-gold/30 pb-3">
-                <h3 class="font-bold text-base text-ink tracking-wider">🛒 您的預約與購物車</h3>
-                <button onclick="closeCartModal()" class="text-gray-500 hover:text-ink"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            
-            <div id="modal-vip-status-text" class="text-xs text-gold-dark bg-warm/80 p-2.5 rounded-lg border border-gold/30 text-center font-bold">
-                目前身分：一般會員 (點擊頂部 VIP 按鈕可切換)
-            </div>
-
-            <div id="cart-items-container" class="space-y-3 max-h-40 overflow-y-auto text-xs divide-y divide-gold/10"></div>
-            <div id="empty-cart-msg" class="text-center text-gray-500 py-4 text-xs font-medium">目前購物車是空的</div>
-
-            <div class="border-t-2 border-gold/30 pt-3 space-y-2.5 text-xs font-medium">
-                <h4 class="font-bold text-ink tracking-wide">📝 請填寫預約與測算資訊：</h4>
-                <div>
-                    <label class="block text-gold-dark mb-1 font-semibold">您的姓名 *</label>
-                    <input type="text" id="cust-name" placeholder="請輸入真實姓名" class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-warm/50 text-xs focus:outline-none focus:border-gold font-medium">
-                </div>
-                <div>
-                    <label class="block text-gold-dark mb-1 font-semibold">聯絡電話 *</label>
-                    <input type="tel" id="cust-phone" placeholder="請輸入聯絡電話" class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-warm/50 text-xs focus:outline-none focus:border-gold font-medium">
-                </div>
-                <div>
-                    <label class="block text-gold-dark mb-1 font-semibold">LINE ID *</label>
-                    <input type="text" id="cust-line" placeholder="請輸入您的 LINE ID" class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-warm/50 text-xs focus:outline-none focus:border-gold font-medium">
-                </div>
-                <div>
-                    <label class="block text-gold-dark mb-1 font-semibold">電子郵件 (Email)</label>
-                    <input type="email" id="cust-email" placeholder="請輸入電子郵件" class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-warm/50 text-xs focus:outline-none focus:border-gold font-medium">
-                </div>
-                <div>
-                    <label class="block text-gold-dark mb-1 font-semibold">測算目標號碼 / 服務備註說明 *</label>
-                    <textarea id="cust-target" rows="2" placeholder="請填寫欲解析的手機, 車牌, 門牌數字或相關需求說明..." class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-warm/50 text-xs focus:outline-none focus:border-gold font-medium"></textarea>
-                </div>
-            </div>
-
-            <div class="border-t-2 border-gold/30 pt-3 flex justify-between items-center font-bold text-sm">
-                <span class="tracking-wide">總計金額：</span>
-                <span id="cart-total-price" class="text-red-800 text-base">NT$ 0</span>
-            </div>
-
-            <button onclick="submitCheckout()" class="w-full bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white py-3.5 rounded-xl text-xs font-bold shadow-[0_4px_15px_rgba(197,160,89,0.4)] transition tracking-wider">確認送出預約與結帳</button>
-        </div>
-    </div>
-
-    <!-- 滑出式導覽選單 -->
-    <div id="menu-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex justify-start">
-        <div class="w-80 max-w-[85vw] bg-paper h-full shadow-2xl flex flex-col justify-between p-6 overflow-y-auto border-r-2 border-gold/40">
-            <div class="space-y-6">
-                <div class="flex items-center justify-between pb-4 border-b-2 border-gold/30">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center border-2 border-gold text-gold font-bold text-sm font-serif shadow-[0_0_8px_rgba(197,160,89,0.3)]">禪</div>
-                        <span class="font-bold tracking-wider text-sm">網站快速導覽</span>
-                    </div>
-                    <button onclick="closeMenuModal()" class="text-ink/60 hover:text-ink p-2">
-                        <i class="fa-solid fa-xmark text-lg"></i>
-                    </button>
-                </div>
-                <nav class="space-y-2.5 text-xs font-semibold">
-                    <a href="#section1" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">首頁標頭視覺</a>
-                    <a href="#section2" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">VIP 尊榮會員專區</a>
-                    <a href="#section3" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品牌心靈美學與橫幅</a>
-                    <a href="#section4" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">暢銷心靈著作</a>
-                    <a href="#section5" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">數字風水與命理服務</a>
-                    <a href="#section6" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學福祿牡丹</a>
-                    <a href="#section7" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學萬里江山</a>
-                    <a href="#section8" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學淡雅清歡</a>
-                    <a href="#section9" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學高峰傲骨</a>
-                    <a href="#section10" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">聯絡老師</a>
-                    <a href="#section11" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">法律權益與聲明</a>
-                    <a href="#section12" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學結語</a>
-                </nav>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript 核心邏輯 -->
-    <script>
-        let cart = [];
-        let isVip = false;
-
-        function toggleVip() {
-            isVip = !isVip;
-            updateVipUI();
-            updatePrices();
-            renderCart();
-        }
-
-        function updateVipUI() {
-            const btnText = document.getElementById('vip-btn-text');
-            const statusTitle = document.getElementById('vip-status-title');
-            const statusDesc = document.getElementById('vip-status-desc');
-            const actionBtn = document.getElementById('vip-action-btn');
-            const modalVipText = document.getElementById('modal-vip-status-text');
-
-            if (!btnText) return;
-
-            if (isVip) {
-                btnText.innerText = "VIP (已享9折)";
-                if (statusTitle) statusTitle.innerText = "目前身分：終身 VIP 會員";
-                if (statusDesc) statusDesc.innerText = "全站商品與服務已自動享 9 折優惠中！";
-                if (actionBtn) {
-                    actionBtn.innerText = "已擁有終身 VIP Pass";
-                    actionBtn.disabled = true;
-                    actionBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                }
-                if (modalVipText) modalVipText.innerText = "目前身分：終身 VIP 會員 (全站 9 折中)";
-            } else {
-                btnText.innerText = "VIP";
-                if (statusTitle) statusTitle.innerText = "VIP 尊榮會員專區";
-                if (statusDesc) statusDesc.innerText = "加入 NT$880 享終身會員價，全站服務與書籍享 9 折與流年大運批算！";
-                if (actionBtn) {
-                    actionBtn.innerText = "加入 NT$880 終身 VIP Pass 到購物車";
-                    actionBtn.disabled = false;
-                    actionBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                }
-                if (modalVipText) modalVipText.innerText = "目前身分：一般會員 (點擊頂部 VIP 按鈕可切換)";
-            }
-        }
-
-        function updatePrices() {
-            const priceElements = document.querySelectorAll('.item-price');
-            priceElements.forEach(el => {
-                const base = parseInt(el.getAttribute('data-base'));
-                if (isVip) {
-                    const discounted = Math.round(base * 0.9);
-                    el.innerHTML = `NT$ ${discounted} <span class="text-[10px] text-emerald-600 font-bold">VIP 9折</span>`;
-                } else {
-                    el.innerHTML = `NT$ ${base}`;
-                }
-            });
-        }
-
-        function addVipToCart() {
-            if (isVip) return;
-            const existing = cart.find(item => item.name === '終身 VIP Pass');
-            if (!existing) {
-                cart.push({ name: '終身 VIP Pass', price: 880 });
-            }
-            renderCart();
-            openCartModal();
-        }
-
-        function addToCart(name, basePrice) {
-            const finalPrice = isVip ? Math.round(basePrice * 0.9) : basePrice;
-            const existing = cart.find(item => item.name === name);
-            if (existing) {
-                existing.price = finalPrice;
-            } else {
-                cart.push({ name: name, price: finalPrice });
-            }
-            renderCart();
-            openCartModal();
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            renderCart();
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cart-items-container');
-            const emptyMsg = document.getElementById('empty-cart-msg');
-            const badge = document.getElementById('cart-badge');
-            const floatingCount = document.getElementById('floating-cart-count');
-            const totalPriceEl = document.getElementById('cart-total-price');
-
-            if (!container) return;
-
-            container.innerHTML = '';
-            if (cart.length === 0) {
-                if (emptyMsg) emptyMsg.style.display = 'block';
-                if (badge) badge.innerText = '0';
-                if (floatingCount) floatingCount.innerText = '0';
-                if (totalPriceEl) totalPriceEl.innerText = 'NT$ 0';
-                return;
-            }
-
-            if (emptyMsg) emptyMsg.style.display = 'none';
-            if (badge) badge.innerText = cart.length;
-            if (floatingCount) floatingCount.innerText = cart.length;
-
-            let total = 0;
-            cart.forEach((item, idx) => {
-                total += item.price;
-                const div = document.createElement('div');
-                div.className = 'py-2.5 flex items-center justify-between text-xs font-semibold';
-                div.innerHTML = `
-                    <span class="text-stone-800">${item.name}</span>
-                    <div class="flex items-center space-x-3">
-                        <span class="font-bold text-wood">NT$ ${item.price}</span>
-                        <button onclick="removeFromCart(${idx})" class="text-red-500 hover:text-red-700">🗑</button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-
-            if (totalPriceEl) totalPriceEl.innerText = `NT$ ${total}`;
-        }
-
-        function openCartModal() { 
-            const modal = document.getElementById('cart-modal');
-            if (modal) {
-                modal.classList.add('flex');
-                modal.classList.remove('hidden');
-            }
-        }
-
-        function closeCartModal() { 
-            const modal = document.getElementById('cart-modal');
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        }
-
-        function openMenuModal() { 
-            const modal = document.getElementById('menu-modal');
-            if (modal) {
-                modal.classList.add('flex');
-                modal.classList.remove('hidden');
-            }
-        }
-
-        function closeMenuModal() { 
-            const modal = document.getElementById('menu-modal');
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        }
-
-        function submitCheckout() {
-            const nameEl = document.getElementById('cust-name');
-            const phoneEl = document.getElementById('cust-phone');
-            const lineEl = document.getElementById('cust-line');
-            const emailEl = document.getElementById('cust-email');
-            const targetEl = document.getElementById('cust-target');
-
-            const name = nameEl ? nameEl.value.trim() : '';
-            const phone = phoneEl ? phoneEl.value.trim() : '';
-            const line = lineEl ? lineEl.value.trim() : '';
-            const email = emailEl ? emailEl.value.trim() : '';
-            const target = targetEl ? targetEl.value.trim() : '';
-
-            if (!name || !phone || !line || !target) {
-                alert('請完整填寫姓名, 電話, LINE ID 與目標號碼/八字等必填欄位！');
-                return;
-            }
-
-            if (cart.length === 0) {
-                alert('您的購物車目前是空的，請先選擇商品或服務！');
-                return;
-            }
-
-            alert(`感謝 ${name} 老師/貴賓！您的預約與結帳申請已成功送出。\n彭品心老師將於 2～7 天內親自為您解析，並透過 LINE (${line}) 或信箱 (${email}) 與您聯繫！`);
-            cart = [];
-            renderCart();
-            closeCartModal();
-        }
-    </script>
-</body>
-</html>
+                        <span c
