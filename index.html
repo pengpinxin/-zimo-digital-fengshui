@@ -53,28 +53,24 @@
             padding: 0.6rem;
             box-shadow: 0 6px 16px rgba(44, 36, 22, 0.08);
         }
-        .img-full-box {
+        /* 終極防護：改用 CSS 背景圖片顯示，絕對無法被長按或右鍵下載 */
+        .secure-bg-img {
             width: 100%;
-            background: #000;
-            overflow: hidden;
+            height: 320px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #000;
             border-radius: 0.5rem;
-            position: relative;
-            -webkit-user-select: none;
-            user-select: none;
         }
-        .img-full-box img {
+        .secure-bg-img-header {
             width: 100%;
-            height: auto;
-            object-fit: contain;
-            display: block;
-            pointer-events: none; /* 禁止直接對圖片進行任何滑鼠/觸控互動 */
-        }
-        /* 透明防護層：徹底阻擋長按儲存與右鍵下載 */
-        .img-protect-overlay {
-            position: absolute;
-            inset: 0;
-            z-index: 10;
-            background: transparent;
+            height: 220px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #000;
+            border-radius: 0.5rem;
         }
         /* 固定高度的框架，內部可上下滑動 */
         .vertical-scroll-container {
@@ -141,10 +137,7 @@
         
         <!-- 1. 首頁標頭視覺 -->
         <section id="section1" class="img-full-card">
-            <div class="img-full-box">
-                <div class="img-protect-overlay"></div>
-                <img src="1792354723564.png" alt="首頁標頭視覺">
-            </div>
+            <div class="secure-bg-img-header" style="background-image: url('1792354723564.png');"></div>
         </section>
 
         <!-- 2. VIP 尊榮會員專區 -->
@@ -167,10 +160,7 @@
         <!-- 3. 品牌宣文與圖片專區 -->
         <section id="section3" class="space-y-4">
             <div class="img-full-card">
-                <div class="img-full-box">
-                    <div class="img-protect-overlay"></div>
-                    <img src="1792317738179.jpg" alt="品牌宣文圖片">
-                </div>
+                <div class="secure-bg-img" style="background-image: url('1792317738179.jpg');"></div>
             </div>
             <div class="vertical-scroll-container space-y-3 px-1">
                 <div class="bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
@@ -199,10 +189,7 @@
             <h3 class="text-base font-bold text-center border-b-2 border-gold/40 pb-2 text-wood tracking-widest">暢銷心靈著作（皆含親筆簽版）</h3>
             <div class="space-y-4">
                 <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <div class="img-protect-overlay"></div>
-                        <img src="1792440195898.jpg" alt="生命的出口">
-                    </div>
+                    <div class="secure-bg-img" style="background-image: url('1792440195898.jpg');"></div>
                     <div>
                         <h4 class="font-bold text-sm text-ink tracking-wide">《生命的出口》</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5 font-semibold">在紅塵喧囂中尋找安放靈魂的歸宿</p>
@@ -217,10 +204,7 @@
                 </div>
 
                 <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <div class="img-protect-overlay"></div>
-                        <img src="1792450518058.jpg" alt="進階思維的後裔">
-                    </div>
+                    <div class="secure-bg-img" style="background-image: url('1792450518058.jpg');"></div>
                     <div>
                         <h4 class="font-bold text-sm text-ink tracking-wide">《進階思維的後裔》</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5 font-semibold">探索思維邊界與生命智慧的深度之作</p>
@@ -318,4 +302,7 @@
                     <div class="pr-1">
                         <h4 class="font-bold text-xs sm:text-sm text-ink tracking-wide">企業商號全方位數字佈局</h4>
                         <p class="text-[10px] sm:text-[11px] text-gold-dark mt-0.5 font-medium">商號、座機與團隊能量完美契合拓展財源</p>
-                        <span c
+                        <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="6680">NT$ 6,680</span>
+                    </div>
+                    <button onclick="addToCart('企業商號全方位數字佈局', 6680)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-sm transition shrink-0 tracking-wider">預約</button>
+                </div>
