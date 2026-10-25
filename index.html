@@ -23,9 +23,9 @@
         .bg-pattern { background-image: radial-gradient(#C5A059 0.5px, transparent 0.5px); background-size: 24px 24px; }
         .img-full-card { background: #F4EFEA; border: 1.5px solid #C5A059; border-radius: 1rem; padding: 0.6rem; box-shadow: 0 6px 16px rgba(44, 36, 22, 0.08); }
         .img-full-box { width: 100%; background: #241A15; overflow: hidden; border-radius: 0.5rem; position: relative; }
-        .img-full-box img { width: 100%; height: auto; object-fit: contain; display: block; pointer-events: none; }
+        .img-full-box img { width: 100%; height: auto; object-fit: contain; display: block; pointer-events: none; -webkit-touch-callout: none; }
         .banner-custom-box { width: 100%; aspect-ratio: 16 / 11; max-height: 480px; background: #241A15; overflow: hidden; border-radius: 0.5rem; position: relative; display: flex; align-items: center; justify-content: center; }
-        .banner-custom-box img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; pointer-events: none; }
+        .banner-custom-box img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; pointer-events: none; -webkit-touch-callout: none; }
         .img-protect-overlay { position: absolute; inset: 0; z-index: 10; background: transparent; }
         .vertical-scroll-container { max-height: 580px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #C5A059 #F4EFEA; padding-right: 4px; }
         .vertical-scroll-container::-webkit-scrollbar { width: 5px; }
@@ -72,8 +72,9 @@
     <main class="max-w-xl mx-auto px-3 py-4 sm:py-6 space-y-6 sm:space-y-8 w-full">
         
         <!-- 1. 首頁標頭視覺 -->
-        <section id="section1" class="img-full-card">
-            <div class="img-full-box"><div class="img-protect-overlay"></div><img src="1792354723564.png" alt="首頁標頭"></div>
+        <section id="section1" class="img-full-card space-y-2">
+            <div class="img-full-box"><div class="img-protect-overlay"></div><img id="img-1" src="1792354723564.png" alt="首頁標頭"></div>
+            <div class="text-center"><label class="inline-block bg-warm hover:bg-gold hover:text-white text-gold border border-gold px-3 py-1 rounded-lg text-[11px] font-bold cursor-pointer transition"><i class="fa-solid fa-upload"></i> 更換此圖片<input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'img-1')"></label></div>
         </section>
 
         <!-- 2. VIP 尊榮會員專區 -->
@@ -90,22 +91,9 @@
         <!-- 3. 品牌宣文與圖片 -->
         <section id="section3" class="space-y-4">
             <h3 class="text-base font-bold text-center border-b-2 border-gold/40 pb-2 text-wood tracking-widest">好書推薦 陪你渡流年</h3>
-            <div class="img-full-card">
-                <div class="banner-custom-box"><div class="img-protect-overlay"></div><img src="1000053524.jpg" alt="好書推薦"></div>
-            </div>
-            <div class="vertical-scroll-container space-y-3 px-1">
-                <div class="bg-warm/95 p-4 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
-                    <h4 class="font-bold text-xs text-ink text-center">🌿 尋一方心靈庇護所 · 開一條順遂人生路</h4>
-                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">喧囂世間每個人都在找尋安放靈魂的角落。老師十歲繼承家祖精準測字絕學，傾一生對數字與玄學之興趣，藏拙於身靈性與道行，歷經幾十載世俗考驗，悉心等待為值得的人送去福音。</p>
-                </div>
-                <div class="bg-warm/95 p-4 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
-                    <h4 class="font-bold text-xs text-ink text-center">📖 學術創作與心靈出口</h4>
-                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">作為學術創作者，透過著作《進階思維的後裔》與《生命的出口》，為現代喧囂中迷惘的靈魂尋找通往內在清明的出口。</p>
-                </div>
-                <div class="bg-warm/95 p-4 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
-                    <h4 class="font-bold text-xs text-ink text-center">✨ 數字風水與重生願力</h4>
-                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">作為數字風水紫墨老師，深信萬物皆數。經歷二十載磨難與劫數，倚靠家祖智慧與高端數字吉數調配，還原自身風水屬性，廣結善緣、助人於無形之中。</p>
-                </div>
+            <div class="img-full-card space-y-2">
+                <div class="banner-custom-box"><div class="img-protect-overlay"></div><img id="img-3" src="1000053524.jpg" alt="好書推薦"></div>
+                <div class="text-center"><label class="inline-block bg-warm hover:bg-gold hover:text-white text-gold border border-gold px-3 py-1 rounded-lg text-[11px] font-bold cursor-pointer transition"><i class="fa-solid fa-upload"></i> 更換此圖片<input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'img-3')"></label></div>
             </div>
         </section>
 
@@ -114,11 +102,11 @@
             <h3 class="text-base font-bold text-center border-b-2 border-gold/40 pb-2 text-wood tracking-widest">暢銷心靈著作（皆含親筆簽版）</h3>
             <div class="space-y-4">
                 <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box"><div class="img-protect-overlay"></div><img src="1792450518058.jpg" alt="生命的出口"></div>
+                    <div class="img-full-box"><div class="img-protect-overlay"></div><img id="img-4-1" src="1792450518058.jpg" alt="生命的出口"></div>
+                    <div><label class="inline-block bg-warm hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition mb-2"><i class="fa-solid fa-upload"></i> 更換圖片<input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'img-4-1')"></label></div>
                     <div>
                         <h4 class="font-bold text-sm text-ink mt-2">《生命的出口》</h4>
                         <p class="text-[11px] text-gold-dark font-semibold">在紅塵喧囂中尋找安放靈魂的歸宿</p>
-                        <div class="my-2.5 px-3 py-2 bg-paper/95 rounded-lg border border-gold/30 text-[11px] text-gold-dark text-justify font-medium">💡 <b>品心老師導讀</b>：在無常歲月裡找回內在清明與平靜。</div>
                         <div class="mt-2 flex items-center justify-between px-2">
                             <span class="text-sm font-bold text-red-800 item-price" data-base="269">NT$ 269</span>
                             <button onclick="addToCart('暢銷著作：《生命的出口》', 269)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition">購買</button>
@@ -126,11 +114,11 @@
                     </div>
                 </div>
                 <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box"><div class="img-protect-overlay"></div><img src="1792440195898.jpg" alt="進階思維的後裔"></div>
+                    <div class="img-full-box"><div class="img-protect-overlay"></div><img id="img-4-2" src="1792440195898.jpg" alt="進階思維的後裔"></div>
+                    <div><label class="inline-block bg-warm hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition mb-2"><i class="fa-solid fa-upload"></i> 更換圖片<input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'img-4-2')"></label></div>
                     <div>
                         <h4 class="font-bold text-sm text-ink mt-2">《進階思維的後裔》</h4>
                         <p class="text-[11px] text-gold-dark font-semibold">探索思維邊界與生命智慧的深度之作</p>
-                        <div class="my-2.5 px-3 py-2 bg-paper/95 rounded-lg border border-gold/30 text-[11px] text-gold-dark text-justify font-medium">💡 <b>品心老師導讀</b>：跳脫思維框架，解鎖生命深層能量磁場。</div>
                         <div class="mt-2 flex items-center justify-between px-2">
                             <span class="text-sm font-bold text-red-800 item-price" data-base="269">NT$ 269</span>
                             <button onclick="addToCart('暢銷著作：《進階思維的後裔》', 269)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition">購買</button>
@@ -140,49 +128,35 @@
             </div>
         </section>
 
-        <!-- 5. 數字風水與命理專業服務 (六大服務) -->
+        <!-- 5. 數字風水與命理專業服務 -->
         <section id="section5" class="space-y-4 pt-2">
             <div class="text-center space-y-2 pb-3 border-b-2 border-gold/40">
                 <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">數字風水與命理專業服務</h3>
                 <p class="text-xs text-gold-dark font-semibold">精準解碼磁場能量 · 助您開運納福、事業昌隆</p>
             </div>
-            <div class="vertical-scroll-container space-y-3 px-1">
-                <div class="bg-warm/95 p-4 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
-                    <div class="flex items-center gap-2 text-wood font-bold text-xs justify-center"><i class="fa-solid fa-gem text-gold"></i><span>高端生旺號碼配置說明</span></div>
-                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">手機、車牌、店鋪、住址配置高端生旺風水號碼，請先向相關單位申請或初步選定 3～5 組號碼，透過預約表單告訴紫墨老師進行人工深度解析與吉凶配置！</p>
-                </div>
-                <div class="bg-warm/95 p-4 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
-                    <div class="flex items-center gap-2 text-wood font-bold text-xs justify-center"><i class="fa-solid fa-triangle-exclamation text-gold"></i><span>注意事項</span></div>
-                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">如若原生號碼本身就是吉數則無需更換，老師仍會收取鑑定費用，因屬消耗大量精力的專業諮詢服務，敬請緣主理解與尊重學術文學的強大驅動力。</p>
-                </div>
-                <div class="bg-warm/95 p-4 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
-                    <div class="flex items-center gap-2 text-wood font-bold text-xs justify-center"><i class="fa-solid fa-sparkles text-gold"></i><span>引言：解碼生命密碼</span></div>
-                    <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">生活中無處不數字，隨身手機、代步車牌、居安門牌皆默默牽引磁場與福慧，讓吉祥好數成為您開運納福的溫柔力量。</p>
-                </div>
-            </div>
             <div class="space-y-3 pt-2">
                 <div class="bg-warm/80 p-3.5 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md gap-3">
-                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">個人八字詳細批算</h4><p class="text-[10px] text-gold-dark">本命八字與五行磁場專屬詳批</p><span class="text-xs font-bold text-red-800 item-price" data-base="1980">NT$ 1,980</span></div>
+                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">個人八字詳細批算</h4><span class="text-xs font-bold text-red-800 item-price" data-base="1980">NT$ 1,980</span></div>
                     <button onclick="addToCart('個人八字詳細批算', 1980)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition shrink-0">預約</button>
                 </div>
                 <div class="bg-warm/80 p-3.5 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md gap-3">
-                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">近兩年大運流年批算</h4><p class="text-[10px] text-gold-dark">精準預判未來兩年運勢起伏、趨吉避凶</p><span class="text-xs font-bold text-red-800 item-price" data-base="980">NT$ 980</span></div>
+                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">近兩年大運流年批算</h4><span class="text-xs font-bold text-red-800 item-price" data-base="980">NT$ 980</span></div>
                     <button onclick="addToCart('近兩年大運流年批算', 980)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition shrink-0">預約</button>
                 </div>
                 <div class="bg-warm/80 p-3.5 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md gap-3">
-                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">手機吉祥號碼深度解析</h4><p class="text-[10px] text-gold-dark">解碼隨身磁場，轉運納福化解煞氣</p><span class="text-xs font-bold text-red-800 item-price" data-base="1680">NT$ 1,680</span></div>
+                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">手機吉祥號碼深度解析</h4><span class="text-xs font-bold text-red-800 item-price" data-base="1680">NT$ 1,680</span></div>
                     <button onclick="addToCart('手機吉祥號碼深度解析', 1680)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition shrink-0">預約</button>
                 </div>
                 <div class="bg-warm/80 p-3.5 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md gap-3">
-                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">車牌磁場能量批算</h4><p class="text-[10px] text-gold-dark">行車平安與事業助運專屬密碼挑選</p><span class="text-xs font-bold text-red-800 item-price" data-base="2280">NT$ 2,280</span></div>
+                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">車牌磁場能量批算</h4><span class="text-xs font-bold text-red-800 item-price" data-base="2280">NT$ 2,280</span></div>
                     <button onclick="addToCart('車牌磁場能量批算', 2280)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition shrink-0">預約</button>
                 </div>
                 <div class="bg-warm/80 p-3.5 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md gap-3">
-                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">居家門牌與格局風水合盤</h4><p class="text-[10px] text-gold-dark">住家磁場重塑，營造和諧家運昌隆</p><span class="text-xs font-bold text-red-800 item-price" data-base="3680">NT$ 3,680</span></div>
+                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">居家門牌與格局風水合盤</h4><span class="text-xs font-bold text-red-800 item-price" data-base="3680">NT$ 3,680</span></div>
                     <button onclick="addToCart('居家門牌與格局風水合盤', 3680)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition shrink-0">預約</button>
                 </div>
                 <div class="bg-warm/80 p-3.5 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md gap-3">
-                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">企業商號全方位數字佈局</h4><p class="text-[10px] text-gold-dark">商號、座機與團隊能量完美契合拓展財源</p><span class="text-xs font-bold text-red-800 item-price" data-base="6680">NT$ 6,680</span></div>
+                    <div class="pr-1"><h4 class="font-bold text-xs sm:text-sm text-ink">企業商號全方位數字佈局</h4><span class="text-xs font-bold text-red-800 item-price" data-base="6680">NT$ 6,680</span></div>
                     <button onclick="addToCart('企業商號全方位數字佈局', 6680)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition shrink-0">預約</button>
                 </div>
             </div>
@@ -192,25 +166,27 @@
         <section id="section6" class="space-y-4 pt-2">
             <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
                 <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">品心美學 · 福祿牡丹</h3>
-                <p class="text-xs text-gold-dark font-semibold">國畫牡丹雍容華貴 · 讓心靈回歸最初的清明與平靜</p>
             </div>
             <div class="vertical-scroll-container space-y-4 px-1">
                 <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box"><div class="img-protect-overlay"></div><img src="1000053447.jpg" alt="福祿牡丹一"></div>
+                    <div class="img-full-box"><div class="img-protect-overlay"></div><img id="img-6-1" src="1000053447.jpg" alt="福祿牡丹一"></div>
+                    <div><label class="inline-block bg-warm hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition mb-1"><i class="fa-solid fa-upload"></i> 更換圖片<input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'img-6-1')"></label></div>
                     <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
                         <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
                         <button onclick="addToCart('品心美學·福祿牡丹（一）', 680)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition">購買</button>
                     </div>
                 </div>
                 <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box"><div class="img-protect-overlay"></div><img src="1000053440.jpg" alt="福祿牡丹二"></div>
+                    <div class="img-full-box"><div class="img-protect-overlay"></div><img id="img-6-2" src="1000053440.jpg" alt="福祿牡丹二"></div>
+                    <div><label class="inline-block bg-warm hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition mb-1"><i class="fa-solid fa-upload"></i> 更換圖片<input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'img-6-2')"></label></div>
                     <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
                         <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
                         <button onclick="addToCart('品心美學·福祿牡丹（二）', 680)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition">購買</button>
                     </div>
                 </div>
                 <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box"><div class="img-protect-overlay"></div><img src="1000053437.jpg" alt="福祿牡丹三"></div>
+                    <div class="img-full-box"><div class="img-protect-overlay"></div><img id="img-6-3" src="1000053437.jpg" alt="福祿牡丹三"></div>
+                    <div><label class="inline-block bg-warm hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition mb-1"><i class="fa-solid fa-upload"></i> 更換圖片<input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'img-6-3')"></label></div>
                     <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
                         <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
                         <button onclick="addToCart('品心美學·福祿牡丹（三）', 680)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition">購買</button>
@@ -223,11 +199,16 @@
         <section id="section7" class="space-y-4 pt-2">
             <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
                 <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">品心美學 · 江山如畫</h3>
-                <p class="text-xs text-gold-dark font-semibold">汲取天地靈氣與筆墨意境 · 打造專屬心靈的高端數位美學</p>
             </div>
             <div class="vertical-scroll-container space-y-4 px-1">
                 <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box"><div class="img-protect-overlay"></div><img src="1792526901350.jpg" alt="江山如畫一"></div>
+                    <div class="img-full-box"><div class="img-protect-overlay"></div><img id="img-7-1" src="1792526901350.jpg" alt="江山如畫一"></div>
+                    <div><label class="inline-block bg-warm hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition mb-1"><i class="fa-solid fa-upload"></i> 更換圖片<input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'img-7-1')"></label></div>
                     <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
                         <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
-                        <button onclick="addToCart('品心美學·江山如畫（一）'
+                        <button onclick="addToCart('品心美學·江山如畫（一）', 680)" class="bg-paper hover:bg-gold hover:text-white text-gold border-2 border-gold px-3.5 py-1.5 rounded-lg text-xs font-bold transition">購買</button>
+                    </div>
+                </div>
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box"><div class="img-protect-overlay"></div><img id="img-7-2" src="1792527313372.jpg" alt="江山如畫二"></div>
+                    <div><label class="inline-block bg-warm hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded-lg text-[10px] font-bold cursor-pointer transition mb-1"><i class="fa-solid fa-upload"></i> 更換圖片<input type="file" accept="image/*" class="hidden" onchange="upload
