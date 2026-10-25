@@ -73,10 +73,10 @@
         <!-- 老師公告與導覽說明 -->
         <section class="bg-warm p-4 rounded-2xl chinese-border space-y-1.5 shadow-md text-xs">
             <h3 class="font-bold text-ink flex items-center gap-2"><i class="fa-solid fa-shield-halved text-gold"></i><span>品心美學 · 數位典藏與服務藝廊</span></h3>
-            <p class="text-gold-dark font-semibold leading-relaxed">💡 本站全面啟動智慧財產權保護。包含原創畫作線上典藏、自著心靈書籍發行，以及專業數字風水與命理諮詢預約。</p>
+            <p class="text-gold-dark font-semibold leading-relaxed">💡 本站全面啟動智慧財產權保護（防右鍵與長按下載）。提供原創藝術典藏、心靈成長著作，以及專業數字風水命理諮詢預約服務。</p>
         </section>
 
-        <!-- 1. 原創畫廊展示區 -->
+        <!-- 1. 原創畫廊展示區（自動從清單安全載入雲端圖片） -->
         <section class="space-y-4">
             <div class="text-center space-y-1 pb-2 border-b-2 border-gold/40">
                 <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">原創藝術作品清單</h3>
@@ -85,12 +85,12 @@
 
             <div class="infinite-scroll-gallery">
                 <div id="art-gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <!-- 畫作由 JavaScript 自動安全載入 -->
+                    <!-- 畫作由 JavaScript 自動載入 -->
                 </div>
             </div>
         </section>
 
-        <!-- 2. 書籍與專業諮詢服務專區（固定顯示，不需頻繁改動） -->
+        <!-- 2. 心靈著作與專業諮詢服務專區（一次性固定做好） -->
         <section class="space-y-4 pt-4 border-t-2 border-gold/40">
             <div class="text-center space-y-1 pb-2">
                 <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">心靈著作與命理諮詢服務</h3>
@@ -124,7 +124,7 @@
                     </div>
                 </div>
 
-                <!-- 服務 1 -->
+                <!-- 服務項目 -->
                 <div class="bg-warm p-4 rounded-xl chinese-border flex flex-col justify-between space-y-3 sm:col-span-2">
                     <div>
                         <span class="bg-gold text-white px-2 py-0.5 rounded text-[10px] font-bold">紫墨老師專業諮詢</span>
@@ -177,7 +177,8 @@
 
     <!-- JavaScript 核心管理邏輯 -->
     <script>
-        // 🌟 老師的永久畫作清單
+        // 🌟 老師的永久畫作清單：
+        // 當您把圖片上傳到 GitHub 後，在此處填入檔案名稱與名稱即可對應顯示！
         const paintings = [
             { file: '1000053440.jpg', name: '福祿牡丹（精品原創）', price: 680 },
             { file: '1792526901350.jpg', name: '江山如畫（典藏系列）', price: 680 }
