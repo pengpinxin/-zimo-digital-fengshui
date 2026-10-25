@@ -196,7 +196,7 @@
             </div>
         </section>
 
-        <!-- 4. 下方自主無線上架畫廊區（附有清楚的確認上傳按鈕） -->
+        <!-- 4. 下方自主無線上架畫廊區（附有即時縮圖預覽與確認上傳） -->
         <section class="space-y-4 pt-6 border-t-2 border-gold/40">
             <div class="text-center space-y-1 pb-2 border-b-2 border-gold/40">
                 <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">品心美學 · 數位典藏藝廊</h3>
@@ -204,24 +204,33 @@
             </div>
 
             <div class="bg-warm p-4 rounded-2xl chinese-border space-y-3 shadow-md">
-                <h3 class="text-xs font-bold text-ink flex items-center gap-2"><i class="fa-solid fa-paintbrush text-gold"></i><span>老師專屬：新增典藏畫作（免寫程式碼）</span></h3>
+                <h3 class="text-xs font-bold text-ink flex items-center gap-2"><i class="fa-solid fa-paintbrush text-gold"></i><span>老師專屬：新增典藏畫作（即時預覽確認）</span></h3>
                 
-                <div class="space-y-2.5 text-xs">
-                    <input type="text" id="new-art-name" placeholder="請輸入典藏品名 (例: 牡丹迎春)" class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
-                    <input type="number" id="new-art-price" placeholder="價格 (預設 680)" value="680" class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
-                    
+                <div class="space-y-3 text-xs">
                     <!-- 步驟一：選擇照片 -->
-                    <label class="block bg-paper text-gold-dark border-2 border-gold/60 py-2.5 rounded-lg font-bold text-center cursor-pointer hover:bg-gold/10 shadow-sm">
-                        <i class="fa-solid fa-images mr-1"></i><span id="file-chosen-text">1. 點此從相簿選擇圖片</span>
+                    <label class="block bg-paper text-gold-dark border-2 border-gold/60 py-3 rounded-lg font-bold text-center cursor-pointer hover:bg-gold/10 shadow-sm">
+                        <i class="fa-solid fa-images mr-1 text-sm"></i><span id="file-chosen-text">1. 點此從相簿選擇圖片</span>
                         <input type="file" id="art-file-input" accept="image/*" class="hidden" onchange="previewFile()">
                     </label>
 
+                    <!-- 即時縮圖預覽區 -->
+                    <div id="preview-container" class="hidden flex items-center gap-3 bg-paper p-2.5 rounded-lg border border-gold/30">
+                        <img id="image-preview-tag" src="" alt="預覽圖" class="w-14 h-14 object-cover rounded border border-gold/40">
+                        <div class="text-[11px] text-stone-700 font-semibold">
+                            <p class="text-gold-dark font-bold">✨ 照片已就緒，請確認左側預覽無誤：</p>
+                            <p>請在下方填寫作品名稱與價格，再點擊確認上傳！</p>
+                        </div>
+                    </div>
+
+                    <input type="text" id="new-art-name" placeholder="請輸入典藏品名 (例: 牡丹迎春)" class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
+                    <input type="number" id="new-art-price" placeholder="價格 (預設 680)" value="680" class="w-full px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
+                    
                     <!-- 步驟二：明確的確認上傳按鈕 -->
                     <button onclick="confirmUpload()" class="w-full bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white py-3 rounded-lg font-bold text-center hover:brightness-110 shadow flex items-center justify-center gap-2">
                         <i class="fa-solid fa-cloud-arrow-up"></i><span>2. 確認上傳至下方藝廊</span>
                     </button>
                 </div>
-                <p class="text-[10px] text-gold-dark font-semibold">💡 操作步驟：輸入名稱與價格 ➔ 點選步驟一選照片 ➔ 點選步驟二確認上傳，照片就會永久儲存於下方藝廊中！</p>
+                <p class="text-[10px] text-gold-dark font-semibold">💡 操作指南：點選步驟一選照片 ➔ 檢查預覽縮圖確認無誤 ➔ 輸入名稱與價格 ➔ 點擊步驟二確認上傳！</p>
             </div>
 
             <div class="infinite-scroll-gallery">
@@ -265,4 +274,239 @@
             <div class="border-t-2 border-gold/30 pt-3 flex justify-between items-center font-bold text-sm">
                 <span>總計金額：</span><span id="cart-total-price" class="text-red-800 text-base">NT$ 0</span>
             </div>
-            <button onclick="submitCheckout()" class="w-full bg-gradient-to-r from
+            <button onclick="submitCheckout()" class="w-full bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white py-3.5 rounded-xl text-xs font-bold shadow">確認送出訂單</button>
+        </div>
+    </div>
+
+    <!-- 📞 快速聯絡老師懸浮彈窗 -->
+    <div id="contact-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-paper rounded-2xl max-w-sm w-full p-6 chinese-border space-y-4 shadow-2xl text-center">
+            <div class="flex justify-between items-center border-b-2 border-gold/30 pb-2">
+                <h3 class="font-bold text-sm text-wood">📞 聯絡彭品心老師</h3>
+                <button onclick="toggleContactModal()" class="text-gray-500 hover:text-ink"><i class="fa-solid fa-xmark text-base"></i></button>
+            </div>
+            <p class="text-xs text-gold-dark font-semibold">歡迎透過以下官方管道與老師聯繫諮詢</p>
+            <div class="space-y-3 pt-2">
+                <a href="https://line.me" target="_blank" class="block w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-xl text-xs font-bold shadow flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-line text-base"></i><span>官方 LINE 專人諮詢</span>
+                </a>
+                <a href="mailto:bookspctv@gmail.com" class="block w-full bg-warm hover:bg-gold/20 text-wood border-2 border-gold py-3 rounded-xl text-xs font-bold shadow-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-envelope text-gold-dark text-base"></i><span>Google 官方信箱</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript 核心管理邏輯 -->
+    <script>
+        let defaultPaintings = [
+            { image: '1000053440.jpg', name: '福祿牡丹（精品原創）', price: 680 },
+            { image: '1792526901350.jpg', name: '江山如畫（典藏系列）', price: 680 }
+        ];
+
+        let cart = [];
+        let isVip = true;
+        let selectedFileBase64 = null;
+
+        function loadGallery() {
+            const grid = document.getElementById('art-gallery-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            let savedArtworks = JSON.parse(localStorage.getItem('zimo_artworks')) || defaultPaintings;
+
+            savedArtworks.forEach((art, index) => {
+                const finalPrice = isVip ? Math.round(art.price * 0.9) : art.price;
+                const card = document.createElement('div');
+                card.className = 'art-grid-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="art-img-box">
+                            <div class="img-protect-overlay" oncontextmenu="return false;"></div>
+                            <img src="${art.image}" alt="${art.name}" draggable="false">
+                        </div>
+                        <h4 class="font-bold text-xs text-ink mt-1.5 truncate">${art.name}</h4>
+                    </div>
+                    <div class="pt-2 border-t border-gold/20 flex items-center justify-between">
+                        <span class="text-xs font-bold text-red-800 item-price">NT$ ${finalPrice} ${isVip ? '<span class="text-[9px] text-emerald-600">9折</span>' : ''}</span>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="addToCart('${art.name}', ${art.price})" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2 py-1 rounded text-[10px] font-bold transition">購買</button>
+                            <button onclick="deleteArtwork(${index})" class="text-red-400 hover:text-red-600 px-1 text-[11px]" title="刪除"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            updateVipUI();
+            updateStaticPrices();
+        }
+
+        // 選擇照片後立即產生縮圖預覽，確保萬無一失
+        function previewFile() {
+            const fileInput = document.getElementById('art-file-input');
+            const fileChosenText = document.getElementById('file-chosen-text');
+            const previewContainer = document.getElementById('preview-container');
+            const imagePreviewTag = document.getElementById('image-preview-tag');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                fileChosenText.innerText = `已選擇照片: ${file.name || '相簿圖片'}`;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedFileBase64 = e.target.result;
+                    imagePreviewTag.src = selectedFileBase64;
+                    previewContainer.classList.remove('hidden');
+                    previewContainer.classList.add('flex');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function confirmUpload() {
+            if (!selectedFileBase64) {
+                alert('請先點擊步驟一從相簿選擇圖片！');
+                return;
+            }
+
+            const nameInput = document.getElementById('new-art-name');
+            const priceInput = document.getElementById('new-art-price');
+            
+            const artName = nameInput.value.trim() || '品心美學·典藏新作';
+            const artPrice = parseInt(priceInput.value) || 680;
+
+            let savedArtworks = JSON.parse(localStorage.getItem('zimo_artworks')) || defaultPaintings;
+            savedArtworks.unshift({ image: selectedFileBase64, name: artName, price: artPrice });
+            localStorage.setItem('zimo_artworks', JSON.stringify(savedArtworks));
+
+            // 清空輸入框與預覽狀態
+            nameInput.value = '';
+            priceInput.value = '680';
+            selectedFileBase64 = null;
+            document.getElementById('file-chosen-text').innerText = '1. 點此從相簿選擇圖片';
+            document.getElementById('art-file-input').value = '';
+            document.getElementById('preview-container').classList.add('hidden');
+            document.getElementById('preview-container').classList.remove('flex');
+
+            loadGallery();
+            alert(`「${artName}」已成功上架並永久保存於下方藝廊！`);
+        }
+
+        function updateStaticPrices() {
+            const book1PriceEl = document.querySelector('.book-price-1');
+            const book2PriceEl = document.querySelector('.book-price-2');
+            if (book1PriceEl) book1PriceEl.innerHTML = isVip ? 'NT$ 342 <span class="text-[10px] text-emerald-700">9折</span>' : 'NT$ 380';
+            if (book2PriceEl) book2PriceEl.innerHTML = isVip ? 'NT$ 378 <span class="text-[10px] text-emerald-700">9折</span>' : 'NT$ 420';
+        }
+
+        function updateVipUI() {
+            const btnText = document.getElementById('vip-btn-text');
+            const modalVipText = document.getElementById('modal-vip-status-text');
+            if (isVip) {
+                if (btnText) btnText.innerText = "終身 VIP (享9折)";
+                if (modalVipText) modalVipText.innerText = "目前身分：終身 VIP 會員 (全站商品與服務全面 9 折優惠中)";
+            } else {
+                if (btnText) btnText.innerText = "一般會員 (升級VIP)";
+                if (modalVipText) modalVipText.innerText = "目前身分：一般會員";
+            }
+        }
+
+        function toggleVip() {
+            isVip = !isVip;
+            loadGallery();
+            renderCart();
+        }
+
+        function deleteArtwork(index) {
+            if (confirm('確定要移除這件典藏作品嗎？')) {
+                let savedArtworks = JSON.parse(localStorage.getItem('zimo_artworks')) || defaultPaintings;
+                savedArtworks.splice(index, 1);
+                localStorage.setItem('zimo_artworks', JSON.stringify(savedArtworks));
+                loadGallery();
+            }
+        }
+
+        function addToCart(name, basePrice) {
+            const finalPrice = isVip ? Math.round(basePrice * 0.9) : basePrice;
+            cart.push({ name: name, price: finalPrice });
+            renderCart();
+            openCartModal();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            const emptyMsg = document.getElementById('empty-cart-msg');
+            const badge = document.getElementById('cart-badge');
+            const floatingCount = document.getElementById('floating-cart-count');
+            const totalPriceEl = document.getElementById('cart-total-price');
+
+            if (!container) return;
+            container.innerHTML = '';
+            if (cart.length === 0) {
+                if (emptyMsg) emptyMsg.style.display = 'block';
+                if (badge) badge.innerText = '0';
+                if (floatingCount) floatingCount.innerText = '0';
+                if (totalPriceEl) totalPriceEl.innerText = 'NT$ 0';
+                return;
+            }
+
+            if (emptyMsg) emptyMsg.style.display = 'none';
+            if (badge) badge.innerText = cart.length;
+            if (floatingCount) floatingCount.innerText = cart.length;
+
+            let total = 0;
+            cart.forEach((item, idx) => {
+                total += item.price;
+                const div = document.createElement('div');
+                div.className = 'py-2 flex items-center justify-between text-xs font-semibold';
+                div.innerHTML = `
+                    <span class="text-stone-800">${item.name}</span>
+                    <div class="flex items-center space-x-3">
+                        <span class="font-bold text-wood">NT$ ${item.price}</span>
+                        <button onclick="removeFromCart(${idx})" class="text-red-500">🗑</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            if (totalPriceEl) totalPriceEl.innerText = `NT$ ${total}`;
+        }
+
+        function openCartModal() { document.getElementById('cart-modal')?.classList.remove('hidden'); document.getElementById('cart-modal')?.classList.add('flex'); }
+        function closeCartModal() { document.getElementById('cart-modal')?.classList.add('hidden'); document.getElementById('cart-modal')?.classList.remove('flex'); }
+
+        function toggleContactModal() {
+            const modal = document.getElementById('contact-modal');
+            modal?.classList.toggle('hidden');
+            modal?.classList.toggle('flex');
+        }
+
+        function submitCheckout() {
+            const name = document.getElementById('cust-name')?.value.trim() || '';
+            const phone = document.getElementById('cust-phone')?.value.trim() || '';
+            const line = document.getElementById('cust-line')?.value.trim() || '';
+            const target = document.getElementById('cust-target')?.value.trim() || '';
+
+            if (!name || !phone || !line || !target) {
+                alert('請完整填寫姓名、電話、LINE ID 與收件地址！');
+                return;
+            }
+            if (cart.length === 0) {
+                alert('您的購物車是空的！');
+                return;
+            }
+
+            alert(`感謝 ${name}老師/貴賓！您的預約與購書訂單已成功送出。\n我們將盡快透過 LINE (${line}) 與您聯繫確認！`);
+            cart = [];
+            renderCart();
+            closeCartModal();
+        }
+
+        window.onload = loadGallery;
+    </script>
+</body>
+</html>
