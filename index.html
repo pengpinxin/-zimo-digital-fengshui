@@ -58,33 +58,29 @@
             background: #000;
             overflow: hidden;
             border-radius: 0.5rem;
+            position: relative;
         }
+        /* 圖片正常顯示與瀏覽，解除所有封鎖限制 */
         .img-full-box img {
             width: 100%;
             height: auto;
             object-fit: contain;
             display: block;
         }
-        .banner-scroll-container {
-            display: flex;
-            overflow-x: auto;
-            gap: 1rem;
-            scroll-snap-type: x mandatory;
+        /* 直拉式垂直隱藏/精簡滑桿容器 */
+        .vertical-scroll-container {
+            max-height: 580px;
+            overflow-y: auto;
             scrollbar-width: thin;
             scrollbar-color: #C5A059 #F4EFEA;
-            padding-bottom: 0.75rem;
-            -webkit-overflow-scrolling: touch;
+            padding-right: 4px;
         }
-        .banner-scroll-container::-webkit-scrollbar {
-            height: 6px;
+        .vertical-scroll-container::-webkit-scrollbar {
+            width: 5px;
         }
-        .banner-scroll-container::-webkit-scrollbar-thumb {
+        .vertical-scroll-container::-webkit-scrollbar-thumb {
             background-color: #C5A059;
             border-radius: 3px;
-        }
-        .banner-item {
-            flex: 0 0 90%;
-            scroll-snap-align: center;
         }
     </style>
 </head>
@@ -131,7 +127,7 @@
         </button>
     </div>
 
-    <!-- 主內容區塊 (共 11 個大區塊) -->
+    <!-- 主內容區塊 -->
     <main class="max-w-xl mx-auto px-3 py-4 sm:py-6 space-y-6 sm:space-y-8 w-full">
         
         <!-- 1. 首頁標頭視覺 -->
@@ -158,27 +154,27 @@
             </div>
         </section>
 
-        <!-- 3. 品牌宣文橫幅 (已移除音樂字引相關文字) -->
+        <!-- 3. 品牌宣文與圖片專區（直拉式垂直滑感） -->
         <section id="section3" class="space-y-4">
             <div class="img-full-card">
                 <div class="img-full-box">
                     <img src="1792317738179.jpg" alt="品牌宣文圖片">
                 </div>
             </div>
-            <div class="banner-scroll-container px-1">
-                <div class="banner-item bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+            <div class="vertical-scroll-container space-y-3 px-1">
+                <div class="bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
                     <h4 class="font-bold text-xs text-ink text-center tracking-wider">🌿 尋一方心靈庇護所 · 開一條順遂人生路</h4>
                     <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">
                         喧囂的世間，每個人都在找尋安放靈魂的角落。老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，清雅脫俗地出落在紅塵萬里天地之間，悉心等待著為值得的人送去福音，將畢生學術研究成果耕織於實際需求，廣結善緣、讓靈慧助人於無形之中。
                     </p>
                 </div>
-                <div class="banner-item bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+                <div class="bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
                     <h4 class="font-bold text-xs text-ink text-center tracking-wider">📖 學術創作與心靈出口</h4>
                     <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">
                         作為學術創作者，透過著作《進階思維的後裔》與《生命的出口》，為現代喧囂中迷惘的靈魂尋找通往內在清明的出口，生命可貴，且要好好善待自己。
                     </p>
                 </div>
-                <div class="banner-item bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+                <div class="bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
                     <h4 class="font-bold text-xs text-ink text-center tracking-wider">✨ 數字風水與重生願力</h4>
                     <p class="text-[11px] text-gold-dark leading-relaxed text-justify font-medium">
                         作為數字風水紫墨老師，深信萬物皆數。經歷二十載磨難與劫數，倚靠家祖智慧與高端數字吉數調配，逐漸蛻變並還原自身風水屬性。為感恩宇宙潤澤，願以我之願力，將家祖爺爺賜予的智慧布施於苦難人間，換取眾生之福祉。
@@ -199,7 +195,7 @@
                         <h4 class="font-bold text-sm text-ink tracking-wide">《生命的出口》</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5 font-semibold">在紅塵喧囂中尋找安放靈魂的歸宿</p>
                         <div class="my-2.5 px-3 py-2 bg-paper/95 rounded-lg border border-gold/30 text-[11px] text-gold-dark leading-relaxed text-justify font-medium">
-                            💡 <b>品心老師專文導讀</b>：在無常與迷惘交織的歲月裡，這本書 is 寫給每一位渴望在紅塵中找回內在清明與平靜的靈魂。翻開書頁，讓智慧的溫暖燭光，引領您走向柳暗花明的心靈出口。
+                            💡 <b>品心老師專文導讀</b>：在無常與迷惘交織的歲月裡，這本書是寫給每一位渴望在紅塵中找回內在清明與平靜的靈魂。翻開書頁，讓智慧的溫暖燭光，引領您走向柳暗花明的心靈出口。
                         </div>
                         <div class="mt-2 flex items-center justify-between px-2">
                             <span class="text-sm font-bold text-red-800 item-price" data-base="269">NT$ 269</span>
@@ -227,25 +223,45 @@
             </div>
         </section>
 
-        <!-- 5. 數字風水與命理專業服務 -->
+        <!-- 5. 數字風水與命理專業服務（直拉式垂直滑感） -->
         <section id="section5" class="space-y-4 pt-2">
             <div class="text-center space-y-2 pb-3 border-b-2 border-gold/40">
                 <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">數字風水與命理專業服務</h3>
                 <p class="text-xs text-gold-dark font-semibold tracking-wide">精準解碼磁場能量 · 助您開運納福、事業昌隆</p>
             </div>
 
-            <!-- 溫宣字引專區 -->
-            <div class="bg-gradient-to-br from-warm via-gold/15 to-gold/10 p-4 sm:p-5 rounded-2xl chinese-border shadow-sm space-y-2 text-justify">
-                <div class="flex items-center gap-2 text-wood font-bold text-xs sm:text-sm tracking-wider justify-center">
-                    <i class="fa-solid fa-sparkles text-gold"></i>
-                    <span>引言：解碼生命密碼 · 點亮順遂坦途</span>
+            <!-- 數字命理與專業內容直拉式垂直滑感容器 -->
+            <div class="vertical-scroll-container space-y-3 px-1">
+                <div class="bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+                    <div class="flex items-center gap-2 text-wood font-bold text-xs sm:text-sm tracking-wider justify-center">
+                        <i class="fa-solid fa-gem text-gold"></i>
+                        <span>高端生旺號碼配置說明</span>
+                    </div>
+                    <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed font-medium text-justify">
+                        手機、車牌、店鋪、住址配置高端生旺風水號碼，須請您先自行向相關單位申請或初步選定您喜歡的 3～5 組號碼，再透過預約表單告訴紫墨老師，老師將為您進行人工深度解析與最終吉凶配置！
+                    </p>
                 </div>
-                <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed font-medium">
-                    生活中無處不數字，隨身的手機、代步的車牌、居安的門牌，皆默默牽引著您的磁場與福慧。彭品心老師以家祖深厚絕學與二十載修持願力，為您抽絲剝繭、撥雲見日。請卸下心中的迷惘與重擔，讓吉祥好數成為您開運納福、安身立命的溫柔力量。
-                </p>
+                <div class="bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+                    <div class="flex items-center gap-2 text-wood font-bold text-xs sm:text-sm tracking-wider justify-center">
+                        <i class="fa-solid fa-triangle-exclamation text-gold"></i>
+                        <span>注意事項</span>
+                    </div>
+                    <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed font-medium text-justify">
+                        經過老師數字分析之後，如若您的原生號碼本身就是生旺您的吉數，那麼便是最好的數字配置，則不需要更換，老師則同樣會收取您的鑑定費用，因為是服務性諮詢服務，需要消耗老師大量精力，所以還請緣主務必尊重學術文學的強大驅動力，這也證實了，知因果者、則不畏因果的推理。
+                    </p>
+                </div>
+                <div class="bg-warm/95 p-4 sm:p-5 rounded-xl border-2 border-gold/40 shadow-md space-y-2">
+                    <div class="flex items-center gap-2 text-wood font-bold text-xs sm:text-sm tracking-wider justify-center">
+                        <i class="fa-solid fa-sparkles text-gold"></i>
+                        <span>引言：解碼生命密碼 · 點亮順遂坦途</span>
+                    </div>
+                    <p class="text-[11px] sm:text-xs text-gold-dark leading-relaxed font-medium text-justify">
+                        生活中無處不數字，隨身的手機、代步的車牌、居安的門牌，皆默默牽引著您的磁場與福慧。彭品心老師以家祖深厚絕學與二十載修持願力，為您抽絲剝繭、撥雲見日。請卸下心中的迷惘與重擔，讓吉祥好數成為您開運納福、安身立命的溫柔力量。
+                    </p>
+                </div>
             </div>
             
-            <div class="space-y-3">
+            <div class="space-y-3 pt-2">
                 <div class="bg-warm/80 p-3.5 sm:p-4 rounded-xl border-2 border-gold/40 flex justify-between items-center shadow-md gap-3">
                     <div class="pr-1">
                         <h4 class="font-bold text-xs sm:text-sm text-ink tracking-wide">個人八字詳細批算</h4>
@@ -297,58 +313,141 @@
             </div>
         </section>
 
-        <!-- 6. 禪意療愈 靈魂棲息之處 -->
+        <!-- 6. 品心美學 福祿牡丹 -->
         <section id="section6" class="space-y-4 pt-2">
             <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
-                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">禪意療愈 靈魂棲息之處</h3>
-                <p class="text-xs text-gold-dark font-semibold tracking-wide">琴音洗滌塵勞 · 讓心靈回歸最初的清明與平靜</p>
+                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">品心美學 · 福祿牡丹</h3>
+                <p class="text-xs text-gold-dark font-semibold tracking-wide">國畫牡丹雍容華貴 · 讓心靈回歸最初的清明與平靜</p>
             </div>
 
-            <div class="img-full-card space-y-3 text-center">
-                <div class="img-full-box">
-                    <img src="1792361766610.png" alt="禪意療愈靈魂棲息之處">
+            <div class="vertical-scroll-container space-y-4 px-1">
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1000053447.jpg" alt="品心美學 福祿牡丹一">
+                    </div>
+                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
+                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
+                        <button onclick="addToCart('品心美學·福祿牡丹（一）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
+                    </div>
                 </div>
-                <div class="px-3 py-2 bg-paper/95 rounded-lg border border-gold/30">
-                    <p class="text-xs text-gold-dark font-semibold leading-relaxed tracking-wider">
-                        ✨ <b>溫暖療癒</b>：生命縱有千般繁雜與疲憊，請記得停下腳步，好好善待自己。在這裡，讓靈魂沉澱、讓內在重燃希望，願溫柔的清風與琴音，時刻守護您心中的安寧與自在。
-                    </p>
+
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1000053440.jpg" alt="品心美學 福祿牡丹二">
+                    </div>
+                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
+                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
+                        <button onclick="addToCart('品心美學·福祿牡丹（二）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
+                    </div>
                 </div>
+
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1000053437.jpg" alt="品心美學 福祿牡丹三">
+                    </div>
+                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
+                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
+                        <button onclick="addToCart('品心美學·福祿牡丹（三）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-3 py-2 bg-paper/95 rounded-lg border border-gold/30 text-center">
+                <p class="text-xs text-gold-dark font-semibold leading-relaxed tracking-wider">
+                    ✨ <b>溫暖療癒</b>：生命縱有千般繁雜與疲憊，請記得停下腳步，好好善待自己。在這裡，讓靈魂沉澱、讓內在重燃希望，願國畫牡丹之雍容與清幽，時刻守護您心中的安寧與自在。
+                </p>
             </div>
         </section>
 
-        <!-- 7. AI 藝術畫作即將上新 -->
+        <!-- 7. 品心美學 萬里江山 -->
         <section id="section7" class="space-y-4 pt-2">
             <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
-                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">東方美學 · AI 藝術珍藏系列</h3>
+                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">品心美學 · 萬里江山</h3>
                 <p class="text-xs text-gold-dark font-semibold tracking-wide">汲取天地靈氣與筆墨意境 · 打造專屬心靈的高端數位美學</p>
             </div>
 
-            <div class="bg-warm/80 p-5 rounded-2xl chinese-border space-y-4 shadow-md text-center">
-                <p class="text-xs text-gold-dark font-semibold">精選東方禪意數位藝術創作，定價 <span class="font-bold text-red-800 item-price" data-base="680">NT$ 680</span></p>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div class="img-full-card">
-                        <div class="img-full-box">
-                            <img src="1792526901350.jpg" alt="AI 藝術畫作 1">
-                        </div>
+            <div class="vertical-scroll-container space-y-4 px-1">
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1792526901350.jpg" alt="品心美學 萬里江山一">
                     </div>
-                    <div class="img-full-card">
-                        <div class="img-full-box">
-                            <img src="1792527313372.jpg" alt="AI 藝術畫作 2">
-                        </div>
+                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
+                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
+                        <button onclick="addToCart('品心美學·萬里江山（一）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
                     </div>
                 </div>
-
-                <p class="text-[11px] text-gray-600 bg-paper/90 p-2.5 rounded-lg border border-gold/30 font-medium">
-                    ⚠️ <b>防護宣告</b>：本系列作品採高畫質數位發行，具備不可印刷像素防護機制，僅供數位珍藏與賞析。
-                </p>
-
-                <button onclick="addToCart('AI 藝術畫作數位收藏', 680)" class="w-full sm:w-auto bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-8 py-3.5 rounded-xl text-xs sm:text-sm font-bold shadow-[0_4px_15px_rgba(197,160,89,0.45)] transition tracking-wider">預訂數位藝術收藏</button>
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1792527313372.jpg" alt="品心美學 萬里江山二">
+                    </div>
+                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
+                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
+                        <button onclick="addToCart('品心美學·萬里江山（二）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- 8. 聯絡方式 -->
-        <section id="section8" class="bg-warm/80 p-6 rounded-2xl chinese-border space-y-3 text-center shadow-md">
+        <!-- 8. 品心美學 · 淡雅清歡 -->
+        <section id="section8" class="space-y-4 pt-2">
+            <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
+                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">品心美學 · 淡雅清歡</h3>
+                <p class="text-xs text-gold-dark font-semibold tracking-wide">筆墨寄情 · 尋求心靈深處的清雅與淡泊</p>
+            </div>
+
+            <div class="vertical-scroll-container space-y-4 px-1">
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1000053445.jpg" alt="品心美學 淡雅清歡一">
+                    </div>
+                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
+                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
+                        <button onclick="addToCart('品心美學·淡雅清歡（一）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
+                    </div>
+                </div>
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1000053439.jpg" alt="品心美學 淡雅清歡二">
+                    </div>
+                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
+                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
+                        <button onclick="addToCart('品心美學·淡雅清歡（二）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. 品心美學 · 高峰傲骨 -->
+        <section id="section9" class="space-y-4 pt-2">
+            <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
+                <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">品心美學 · 高峰傲骨</h3>
+                <p class="text-xs text-gold-dark font-semibold tracking-wide">傲雪迎春 · 展現生命不屈的高峰傲骨與浩然正氣</p>
+            </div>
+
+            <div class="vertical-scroll-container space-y-4 px-1">
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1000053450.jpg" alt="品心美學 高峰傲骨一">
+                    </div>
+                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
+                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
+                        <button onclick="addToCart('品心美學·高峰傲骨（一）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
+                    </div>
+                </div>
+                <div class="img-full-card space-y-3 text-center">
+                    <div class="img-full-box">
+                        <img src="1000053444.jpg" alt="品心美學 高峰傲骨二">
+                    </div>
+                    <div class="flex items-center justify-between px-2 bg-paper/90 py-2 rounded-lg border border-gold/30">
+                        <span class="text-xs font-bold text-red-800 item-price" data-base="680">NT$ 680</span>
+                        <button onclick="addToCart('品心美學·高峰傲骨（二）', 680)" class="bg-gradient-to-r from-gold-light via-gold to-gold-dark hover:brightness-110 text-white px-4 py-1.5 rounded-lg text-xs font-bold shadow transition tracking-wider">放入購物車</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. 聯絡方式 -->
+        <section id="section10" class="bg-warm/80 p-6 rounded-2xl chinese-border space-y-3 text-center shadow-md">
             <h3 class="text-base font-bold text-ink tracking-wide">📞 聯絡彭品心老師</h3>
             <p class="text-xs text-gold-dark font-semibold">歡迎透過以下管道與老師聯繫，獲取專業一對一諮詢服務：</p>
             <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2 text-xs font-bold">
@@ -364,8 +463,8 @@
             </div>
         </section>
 
-        <!-- 9. 智慧財產權與法律權益嚴正聲明 -->
-        <section id="section9" class="space-y-4 pt-2">
+        <!-- 11. 智慧財產權與法律權益嚴正聲明 -->
+        <section id="section11" class="space-y-4 pt-2">
             <div class="text-center space-y-1.5 pb-3 border-b-2 border-gold/40">
                 <h3 class="text-xl sm:text-2xl font-bold tracking-widest text-wood">智慧財產權與法律權益嚴正聲明</h3>
                 <p class="text-xs text-gold-dark font-semibold tracking-wide">恪遵著作權法規 · 捍衛原創心靈智慧與數位資產權益</p>
@@ -381,8 +480,8 @@
             </div>
         </section>
 
-        <!-- 10. 結尾：品心美學 & 紫墨禪音 -->
-        <section id="section10" class="text-center py-6 space-y-3 border-t-2 border-gold/40 bg-warm/60 p-6 rounded-2xl chinese-border shadow-md">
+        <!-- 12. 結尾：品心美學 & 紫墨禪音 -->
+        <section id="section12" class="text-center py-6 space-y-3 border-t-2 border-gold/40 bg-warm/60 p-6 rounded-2xl chinese-border shadow-md">
             <h4 class="font-bold text-base tracking-widest text-wood">紫墨數字風水 · 法律權威與智慧原創保護宣告</h4>
             <p class="text-xs text-gold-dark font-medium leading-relaxed max-w-md mx-auto">
                 本站所有服務項目、心靈著作、專利字學架構與數位美學創作皆為彭品心老師原創心血。我們致力於以最嚴謹的學術態度、最清明的靈性智慧服務大眾，並堅決捍衛一切原創智慧財產權。
@@ -396,7 +495,7 @@
 
     </main>
 
-    <!-- 11. 購物車與預約結帳彈窗系統 -->
+    <!-- 13. 購物車與預約結帳彈窗系統 -->
     <div id="cart-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-paper rounded-2xl max-w-md w-full p-6 chinese-border space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b-2 border-gold/30 pb-3">
@@ -463,11 +562,13 @@
                     <a href="#section3" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品牌心靈美學與橫幅</a>
                     <a href="#section4" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">暢銷心靈著作</a>
                     <a href="#section5" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">數字風水與命理服務</a>
-                    <a href="#section6" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">禪意療愈專區</a>
-                    <a href="#section7" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">AI 藝術畫作專區</a>
-                    <a href="#section8" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">聯絡老師</a>
-                    <a href="#section9" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">法律權益與聲明</a>
-                    <a href="#section10" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學結語</a>
+                    <a href="#section6" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學福祿牡丹</a>
+                    <a href="#section7" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學萬里江山</a>
+                    <a href="#section8" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學淡雅清歡</a>
+                    <a href="#section9" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學高峰傲骨</a>
+                    <a href="#section10" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">聯絡老師</a>
+                    <a href="#section11" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">法律權益與聲明</a>
+                    <a href="#section12" onclick="closeMenuModal()" class="block p-2.5 rounded-lg hover:bg-gold/15 transition">品心美學結語</a>
                 </nav>
             </div>
         </div>
