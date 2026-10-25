@@ -21,12 +21,15 @@
         body { font-family: 'Noto Serif TC', serif; background-color: #FDFBF7; color: #2C2416; letter-spacing: 0.025em; -webkit-user-select: none; user-select: none; }
         .chinese-border { border: 1.5px solid #C5A059; box-shadow: inset 0 0 16px rgba(197, 160, 89, 0.12), 0 4px 15px rgba(44, 36, 22, 0.05); }
         .bg-pattern { background-image: radial-gradient(#C5A059 0.5px, transparent 0.5px); background-size: 24px 24px; }
-        .art-grid-card { background: #F4EFEA; border: 1.5px solid #C5A059; border-radius: 0.75rem; padding: 0.4rem; box-shadow: 0 4px 12px rgba(44, 36, 22, 0.06); display: flex; flex-direction: column; justify-content: space-between; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 🛡️ 嚴格防盜圖與防長按保護 */
+        .art-grid-card { background: #F4EFEA; border: 1.5px solid #C5A059; border-radius: 0.75rem; padding: 0.4rem; box-shadow: 0 4px 12px rgba(44, 36, 22, 0.06); display: flex; flex-direction: column; justify-content: space-between; }
         .art-img-box { width: 100%; aspect-ratio: 1 / 1; background: #241A15; overflow: hidden; border-radius: 0.4rem; position: relative; }
-        .art-img-box img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; -webkit-touch-callout: none; }
-        .img-protect-overlay { position: absolute; inset: 0; z-index: 10; background: transparent; }
-        .infinite-scroll-gallery { max-height: 650px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #C5A059 #F4EFEA; padding-right: 4px; }
+        .art-img-box img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+        .img-protect-overlay { position: absolute; inset: 0; z-index: 20; background: transparent; }
+
+        /* 無限下滑滑軌 */
+        .infinite-scroll-gallery { max-height: 680px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #C5A059 #F4EFEA; padding-right: 4px; }
         .infinite-scroll-gallery::-webkit-scrollbar { width: 5px; }
         .infinite-scroll-gallery::-webkit-scrollbar-thumb { background-color: #C5A059; border-radius: 3px; }
     </style>
@@ -67,40 +70,70 @@
     <!-- 主內容區塊 -->
     <main class="max-w-2xl mx-auto px-3 py-4 sm:py-6 space-y-6 w-full">
         
-        <!-- 老師專屬：手機直覺上架面板 -->
-        <section class="bg-warm p-4 rounded-2xl chinese-border space-y-3 shadow-md">
-            <h3 class="text-sm font-bold text-ink flex items-center gap-2"><i class="fa-solid fa-paintbrush text-gold"></i><span>老師專屬：點擊相簿直接上架</span></h3>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-                <input type="text" id="new-art-name" placeholder="請輸入畫作名稱 (例: 牡丹迎春)" class="px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
-                <input type="number" id="new-art-price" placeholder="價格 (預設 680)" value="680" class="px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
-                <label class="bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white py-2.5 rounded-lg font-bold text-center cursor-pointer hover:brightness-110 flex items-center justify-center gap-1.5 shadow">
-                    <i class="fa-solid fa-images"></i><span>選擇手機相簿圖片上架</span>
-                    <input type="file" accept="image/*" class="hidden" onchange="uploadDirectArt(event)">
-                </label>
-            </div>
-            <p class="text-[10px] text-gold-dark font-semibold">💡 只要點擊按鈕從相簿選照片，系統就會立刻在下方生成一排多張網格與專屬購買按鈕！</p>
+        <!-- 老師公告與導覽說明 -->
+        <section class="bg-warm p-4 rounded-2xl chinese-border space-y-1.5 shadow-md text-xs">
+            <h3 class="font-bold text-ink flex items-center gap-2"><i class="fa-solid fa-shield-halved text-gold"></i><span>品心美學 · 數位典藏與服務藝廊</span></h3>
+            <p class="text-gold-dark font-semibold leading-relaxed">💡 本站全面啟動智慧財產權保護。包含原創畫作線上典藏、自著心靈書籍發行，以及專業數字風水與命理諮詢預約。</p>
         </section>
 
-        <!-- 畫廊展示區（手機2欄，電腦4欄，支援下滑滑軌） -->
+        <!-- 1. 原創畫廊展示區 -->
         <section class="space-y-4">
             <div class="text-center space-y-1 pb-2 border-b-2 border-gold/40">
-                <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">品心美學 · 線上典藏畫廊</h3>
-                <p class="text-xs text-gold-dark font-semibold">典藏原創藝術 · 支援下滑瀏覽與即時下單</p>
+                <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">原創藝術作品清單</h3>
+                <p class="text-xs text-gold-dark font-semibold">典藏原創藝術 · 嚴禁轉載與下載</p>
             </div>
 
-            <!-- 無限下滑滑軌容器 -->
             <div class="infinite-scroll-gallery">
                 <div id="art-gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <!-- 預設範例畫作 -->
-                    <div class="art-grid-card">
-                        <div>
-                            <div class="art-img-box"><div class="img-protect-overlay"></div><img src="1000053440.jpg" alt="福祿牡丹"></div>
-                            <h4 class="font-bold text-xs text-ink mt-1.5 truncate">福祿牡丹（精選原創）</h4>
-                        </div>
-                        <div class="pt-2 border-t border-gold/20 flex items-center justify-between">
-                            <span class="text-xs font-bold text-red-800 item-price">NT$ 680</span>
-                            <button onclick="addToCart('福祿牡丹（精選原創）', 680)" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded text-[11px] font-bold transition">購買</button>
-                        </div>
+                    <!-- 畫作由 JavaScript 自動安全載入 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 書籍與專業諮詢服務專區（固定顯示，不需頻繁改動） -->
+        <section class="space-y-4 pt-4 border-t-2 border-gold/40">
+            <div class="text-center space-y-1 pb-2">
+                <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">心靈著作與命理諮詢服務</h3>
+                <p class="text-xs text-gold-dark font-semibold">彭品心 (紫墨老師) 專業著作與開運諮詢</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <!-- 書籍 1 -->
+                <div class="bg-warm p-4 rounded-xl chinese-border flex flex-col justify-between space-y-3">
+                    <div>
+                        <span class="bg-gold/20 text-gold-dark px-2 py-0.5 rounded text-[10px] font-bold">自著心靈散文</span>
+                        <h4 class="font-bold text-sm text-ink mt-1">《生命的出口》</h4>
+                        <p class="text-gray-600 text-[11px] mt-1">探尋生命轉折與內在覺察的啟發之作，引領心靈走向寬廣與釋懷。</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-gold/20">
+                        <span class="font-bold text-red-800">NT$ 380</span>
+                        <button onclick="addToCart('《生命的出口》(書籍)', 380)" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-3 py-1 rounded text-[11px] font-bold transition">購書</button>
+                    </div>
+                </div>
+
+                <!-- 書籍 2 -->
+                <div class="bg-warm p-4 rounded-xl chinese-border flex flex-col justify-between space-y-3">
+                    <div>
+                        <span class="bg-gold/20 text-gold-dark px-2 py-0.5 rounded text-[10px] font-bold">深度思維著作</span>
+                        <h4 class="font-bold text-sm text-ink mt-1">《進階思維的後裔》</h4>
+                        <p class="text-gray-600 text-[11px] mt-1">突破盲點與傳統框架，建立高階思維格局的智慧指南。</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-gold/20">
+                        <span class="font-bold text-red-800">NT$ 420</span>
+                        <button onclick="addToCart('《進階思維的後裔》(書籍)', 420)" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-3 py-1 rounded text-[11px] font-bold transition">購書</button>
+                    </div>
+                </div>
+
+                <!-- 服務 1 -->
+                <div class="bg-warm p-4 rounded-xl chinese-border flex flex-col justify-between space-y-3 sm:col-span-2">
+                    <div>
+                        <span class="bg-gold text-white px-2 py-0.5 rounded text-[10px] font-bold">紫墨老師專業諮詢</span>
+                        <h4 class="font-bold text-sm text-ink mt-1">數字命理與數字風水吉數挑選</h4>
+                        <p class="text-gray-600 text-[11px] mt-1">專為手機號碼、車牌號碼、營業地點與居家門牌挑選吉祥磁場數字，提升運勢能量。</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-gold/20">
+                        <span class="font-bold text-red-800">NT$ 1,680 / 次</span>
+                        <button onclick="addToCart('數字命理與風水諮詢服務', 1680)" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-3 py-1 rounded text-[11px] font-bold transition">預約諮詢</button>
                     </div>
                 </div>
             </div>
@@ -142,47 +175,41 @@
         </div>
     </div>
 
-    <!-- JavaScript 核心邏輯 -->
+    <!-- JavaScript 核心管理邏輯 -->
     <script>
+        // 🌟 老師的永久畫作清單
+        const paintings = [
+            { file: '1000053440.jpg', name: '福祿牡丹（精品原創）', price: 680 },
+            { file: '1792526901350.jpg', name: '江山如畫（典藏系列）', price: 680 }
+        ];
+
         let cart = [];
         let isVip = false;
 
-        // 直接從手機相簿選取並上架
-        function uploadDirectArt(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        function loadGallery() {
+            const grid = document.getElementById('art-gallery-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
 
-            const nameInput = document.getElementById('new-art-name');
-            const priceInput = document.getElementById('new-art-price');
-            
-            const artName = nameInput.value.trim() || '品心美學·典藏新作';
-            const artPrice = parseInt(priceInput.value) || 680;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imageSrc = e.target.result;
-                const galleryGrid = document.getElementById('art-gallery-grid');
-                const finalPrice = isVip ? Math.round(artPrice * 0.9) : artPrice;
-
+            paintings.forEach((art) => {
+                const finalPrice = isVip ? Math.round(art.price * 0.9) : art.price;
                 const card = document.createElement('div');
                 card.className = 'art-grid-card';
                 card.innerHTML = `
                     <div>
-                        <div class="art-img-box"><div class="img-protect-overlay"></div><img src="${imageSrc}" alt="${artName}"></div>
-                        <h4 class="font-bold text-xs text-ink mt-1.5 truncate">${artName}</h4>
+                        <div class="art-img-box">
+                            <div class="img-protect-overlay" oncontextmenu="return false;"></div>
+                            <img src="${art.file}" alt="${art.name}" draggable="false">
+                        </div>
+                        <h4 class="font-bold text-xs text-ink mt-1.5 truncate">${art.name}</h4>
                     </div>
                     <div class="pt-2 border-t border-gold/20 flex items-center justify-between">
                         <span class="text-xs font-bold text-red-800 item-price">NT$ ${finalPrice} ${isVip ? '<span class="text-[9px] text-emerald-600">9折</span>' : ''}</span>
-                        <button onclick="addToCart('${artName}', ${artPrice})" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded text-[11px] font-bold transition">購買</button>
+                        <button onclick="addToCart('${art.name}', ${art.price})" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded text-[11px] font-bold transition">購買</button>
                     </div>
                 `;
-
-                // 放到最前面讓老師立刻看到
-                galleryGrid.prepend(card);
-                nameInput.value = '';
-                alert(`「${artName}」已成功上架！`);
-            };
-            reader.readAsDataURL(file);
+                grid.appendChild(card);
+            });
         }
 
         function toggleVip() {
@@ -196,6 +223,7 @@
                 btnText.innerText = "VIP";
                 if (modalVipText) modalVipText.innerText = "目前身分：一般會員";
             }
+            loadGallery();
             renderCart();
         }
 
@@ -267,11 +295,13 @@
                 return;
             }
 
-            alert(`感謝 ${name}老師/貴賓！您的購畫訂單已成功送出。\n我們將盡快透過 LINE (${line}) 與您確認寄送與付款事宜！`);
+            alert(`感謝 ${name}老師/貴賓！您的購畫與諮詢訂單已成功送出。\n我們將盡快透過 LINE (${line}) 與您聯繫確認！`);
             cart = [];
             renderCart();
             closeCartModal();
         }
+
+        window.onload = loadGallery;
     </script>
 </body>
 </html>
