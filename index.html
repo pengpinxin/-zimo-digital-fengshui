@@ -37,6 +37,8 @@
             background-color: #FDFBF7;
             color: #2C2416;
             letter-spacing: 0.025em;
+            -webkit-user-select: none;
+            user-select: none;
         }
         .chinese-border {
             border: 1.5px solid #C5A059;
@@ -195,12 +197,17 @@
         <!-- 4. 暢銷心靈著作專區 -->
         <section id="section4" class="space-y-4">
             <h3 class="text-base font-bold text-center border-b-2 border-gold/40 pb-2 text-wood tracking-widest">暢銷心靈著作（皆含親筆簽版）</h3>
+            
+            <!-- 品心好書介紹質感品牌圖片區塊 -->
+            <div class="img-full-card">
+                <div class="img-full-box">
+                    <div class="img-protect-overlay"></div>
+                    <img src="1000053524_3.jpg" alt="品心好書介紹">
+                </div>
+            </div>
+
             <div class="space-y-4">
                 <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <div class="img-protect-overlay"></div>
-                        <img src="1792440195898.jpg" alt="生命的出口">
-                    </div>
                     <div>
                         <h4 class="font-bold text-sm text-ink tracking-wide">《生命的出口》</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5 font-semibold">在紅塵喧囂中尋找安放靈魂的歸宿</p>
@@ -215,10 +222,6 @@
                 </div>
 
                 <div class="img-full-card space-y-3 text-center">
-                    <div class="img-full-box">
-                        <div class="img-protect-overlay"></div>
-                        <img src="1792450518058.jpg" alt="進階思維的後裔">
-                    </div>
                     <div>
                         <h4 class="font-bold text-sm text-ink tracking-wide">《進階思維的後裔》</h4>
                         <p class="text-[11px] text-gold-dark mt-0.5 font-semibold">探索思維邊界與生命智慧的深度之作</p>
@@ -318,4 +321,4 @@
                         <p class="text-[10px] sm:text-[11px] text-gold-dark mt-0.5 font-medium">商號、座機與團隊能量完美契合拓展財源</p>
                         <span class="text-xs font-bold text-red-800 mt-1 inline-block item-price" data-base="6680">NT$ 6,680</span>
                     </div>
-                    <button onclick="ad
+                    <button onclick="addToCart('企業商號全方位數字佈局', 6680)" class="bg-pap
