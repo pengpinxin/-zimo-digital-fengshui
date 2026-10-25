@@ -23,13 +23,13 @@
         .bg-pattern { background-image: radial-gradient(#C5A059 0.5px, transparent 0.5px); background-size: 24px 24px; }
         
         /* 🛡️ 嚴格防盜圖與防長按保護 */
-        .art-grid-card { background: #F4EFEA; border: 1.5px solid #C5A059; border-radius: 0.75rem; padding: 0.4rem; box-shadow: 0 4px 12px rgba(44, 36, 22, 0.06); display: flex; flex-direction: column; justify-content: space-between; }
+        .art-grid-card { background: #F4EFEA; border: 1.5px solid #C5A059; border-radius: 0.75rem; padding: 0.5rem; box-shadow: 0 4px 12px rgba(44, 36, 22, 0.06); display: flex; flex-direction: column; justify-content: space-between; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .art-img-box { width: 100%; aspect-ratio: 1 / 1; background: #241A15; overflow: hidden; border-radius: 0.4rem; position: relative; }
         .art-img-box img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
         .img-protect-overlay { position: absolute; inset: 0; z-index: 20; background: transparent; }
 
-        /* 無限下滑滑軌 */
-        .infinite-scroll-gallery { max-height: 680px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #C5A059 #F4EFEA; padding-right: 4px; }
+        .infinite-scroll-gallery { max-height: 720px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #C5A059 #F4EFEA; padding-right: 4px; }
         .infinite-scroll-gallery::-webkit-scrollbar { width: 5px; }
         .infinite-scroll-gallery::-webkit-scrollbar-thumb { background-color: #C5A059; border-radius: 3px; }
     </style>
@@ -70,27 +70,35 @@
     <!-- 主內容區塊 -->
     <main class="max-w-2xl mx-auto px-3 py-4 sm:py-6 space-y-6 w-full">
         
-        <!-- 老師公告與導覽說明 -->
-        <section class="bg-warm p-4 rounded-2xl chinese-border space-y-1.5 shadow-md text-xs">
-            <h3 class="font-bold text-ink flex items-center gap-2"><i class="fa-solid fa-shield-halved text-gold"></i><span>品心美學 · 數位典藏與服務藝廊</span></h3>
-            <p class="text-gold-dark font-semibold leading-relaxed">💡 本站全面啟動智慧財產權保護（防右鍵與長按下載）。提供原創藝術典藏、心靈成長著作，以及專業數字風水命理諮詢預約服務。</p>
+        <!-- 🌟 老師專屬：自主無線上架面板（免寫程式碼，上架永久儲存） -->
+        <section class="bg-warm p-4 rounded-2xl chinese-border space-y-3 shadow-md">
+            <h3 class="text-sm font-bold text-ink flex items-center gap-2"><i class="fa-solid fa-paintbrush text-gold"></i><span>老師專屬：手機相簿自主無線上架</span></h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                <input type="text" id="new-art-name" placeholder="請輸入典藏品名 (例: 牡丹迎春)" class="px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
+                <input type="number" id="new-art-price" placeholder="價格 (預設 680)" value="680" class="px-3 py-2 rounded-lg border-2 border-gold/40 bg-paper focus:outline-none focus:border-gold">
+                <label class="bg-gradient-to-r from-gold-light via-gold to-gold-dark text-white py-2.5 rounded-lg font-bold text-center cursor-pointer hover:brightness-110 flex items-center justify-center gap-1.5 shadow">
+                    <i class="fa-solid fa-images"></i><span>選擇相簿圖片並上架</span>
+                    <input type="file" accept="image/*" class="hidden" onchange="uploadPermanentArt(event)">
+                </label>
+            </div>
+            <p class="text-[10px] text-gold-dark font-semibold">💡 點擊按鈕從手機相簿選照片並命名，系統將自動永久儲存並排入下方典藏藝廊中！</p>
         </section>
 
-        <!-- 1. 原創畫廊展示區（自動讀取 GitHub 雲端圖片） -->
+        <!-- 1. 原創畫廊展示區 -->
         <section class="space-y-4">
             <div class="text-center space-y-1 pb-2 border-b-2 border-gold/40">
-                <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">原創藝術作品清單</h3>
+                <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">品心美學 · 數位典藏藝廊</h3>
                 <p class="text-xs text-gold-dark font-semibold">典藏原創藝術 · 嚴禁轉載與下載</p>
             </div>
 
             <div class="infinite-scroll-gallery">
                 <div id="art-gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <!-- 畫作由 JavaScript 自動從 GitHub 倉庫讀取生成 -->
+                    <!-- 畫作由 JavaScript 自動動態加載 -->
                 </div>
             </div>
         </section>
 
-        <!-- 2. 心靈著作與專業諮詢服務專區（永久固定） -->
+        <!-- 2. 心靈著作與專業諮詢服務專區 -->
         <section class="space-y-4 pt-4 border-t-2 border-gold/40">
             <div class="text-center space-y-1 pb-2">
                 <h3 class="text-lg sm:text-xl font-bold tracking-widest text-wood">心靈著作與命理諮詢服務</h3>
@@ -175,64 +183,86 @@
         </div>
     </div>
 
-    <!-- JavaScript 核心管理邏輯：自動從 GitHub 倉庫抓取圖片 -->
+    <!-- JavaScript 核心管理邏輯：自主無線上架與永久保存 -->
     <script>
-        // 🌟 自動抓取 GitHub 倉庫中的圖片檔案
-        async function fetchGitHubGallery() {
-            const grid = document.getElementById('art-gallery-grid');
-            if (!grid) return;
-
-            const repoOwner = "pengpinxin"; // 您的 GitHub 帳號
-            const repoName = "-zimo-digital-fengshui"; // 您的專案名稱
-            const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
-
-            try {
-                const response = await fetch(apiUrl);
-                const files = await response.json();
-
-                // 過濾出圖片檔案 (jpg, png, jpeg, webp)
-                const imageFiles = files.filter(file => {
-                    const ext = file.name.split('.').pop().toLowerCase();
-                    return file.type === 'file' && ['jpg', 'jpeg', 'png', 'webp'].includes(ext);
-                });
-
-                grid.innerHTML = '';
-
-                if (imageFiles.length === 0) {
-                    grid.innerHTML = '<p class="col-span-2 sm:col-span-4 text-center text-xs text-gray-500 py-6">目前資料夾尚無圖片，請至 GitHub 上傳您的畫作照片！</p>';
-                    return;
-                }
-
-                imageFiles.forEach((file, index) => {
-                    const artName = `品心美學原創藏品 (${index + 1})`;
-                    const basePrice = 680;
-                    const finalPrice = isVip ? Math.round(basePrice * 0.9) : basePrice;
-
-                    const card = document.createElement('div');
-                    card.className = 'art-grid-card';
-                    card.innerHTML = `
-                        <div>
-                            <div class="art-img-box">
-                                <div class="img-protect-overlay" oncontextmenu="return false;"></div>
-                                <img src="${file.download_url}" alt="${artName}" draggable="false">
-                            </div>
-                            <h4 class="font-bold text-xs text-ink mt-1.5 truncate">${artName}</h4>
-                        </div>
-                        <div class="pt-2 border-t border-gold/20 flex items-center justify-between">
-                            <span class="text-xs font-bold text-red-800 item-price">NT$ ${finalPrice} ${isVip ? '<span class="text-[9px] text-emerald-600">9折</span>' : ''}</span>
-                            <button onclick="addToCart('${artName}', ${basePrice})" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2.5 py-1 rounded text-[11px] font-bold transition">購買</button>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-
-            } catch (error) {
-                grid.innerHTML = '<p class="col-span-2 sm:col-span-4 text-center text-xs text-red-500 py-6">載入畫廊失敗，請確認網路連線或稍後再試。</p>';
-            }
-        }
+        // 預設精選作品（若無自訂作品時顯示）
+        let defaultPaintings = [
+            { image: '1000053440.jpg', name: '福祿牡丹（精品原創）', price: 680 },
+            { image: '1792526901350.jpg', name: '江山如畫（典藏系列）', price: 680 }
+        ];
 
         let cart = [];
         let isVip = false;
+
+        // 載入藝廊畫作（結合永久儲存資料）
+        function loadGallery() {
+            const grid = document.getElementById('art-gallery-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            // 從瀏覽器永久記憶體讀取老師自行上傳的畫作
+            let savedArtworks = JSON.parse(localStorage.getItem('zimo_artworks')) || defaultPaintings;
+
+            savedArtworks.forEach((art, index) => {
+                const finalPrice = isVip ? Math.round(art.price * 0.9) : art.price;
+                const card = document.createElement('div');
+                card.className = 'art-grid-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="art-img-box">
+                            <div class="img-protect-overlay" oncontextmenu="return false;"></div>
+                            <img src="${art.image}" alt="${art.name}" draggable="false">
+                        </div>
+                        <h4 class="font-bold text-xs text-ink mt-1.5 truncate">${art.name}</h4>
+                    </div>
+                    <div class="pt-2 border-t border-gold/20 flex items-center justify-between">
+                        <span class="text-xs font-bold text-red-800 item-price">NT$ ${finalPrice} ${isVip ? '<span class="text-[9px] text-emerald-600">9折</span>' : ''}</span>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="addToCart('${art.name}', ${art.price})" class="bg-paper hover:bg-gold hover:text-white text-gold border border-gold px-2 py-1 rounded text-[10px] font-bold transition">購買</button>
+                            <button onclick="deleteArtwork(${index})" class="text-red-400 hover:text-red-600 px-1 text-[11px]" title="刪除"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // 手機相簿自主上架並永久保存
+        function uploadPermanentArt(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const nameInput = document.getElementById('new-art-name');
+            const priceInput = document.getElementById('new-art-price');
+            
+            const artName = nameInput.value.trim() || '品心美學·典藏新作';
+            const artPrice = parseInt(priceInput.value) || 680;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageSrc = e.target.result;
+                let savedArtworks = JSON.parse(localStorage.getItem('zimo_artworks')) || defaultPaintings;
+
+                // 新作品加入最前方
+                savedArtworks.unshift({ image: imageSrc, name: artName, price: artPrice });
+                localStorage.setItem('zimo_artworks', JSON.stringify(savedArtworks));
+
+                nameInput.value = '';
+                loadGallery();
+                alert(`「${artName}」已成功上架並永久保存！`);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 刪除作品功能
+        function deleteArtwork(index) {
+            if (confirm('確定要移除這件典藏作品嗎？')) {
+                let savedArtworks = JSON.parse(localStorage.getItem('zimo_artworks')) || defaultPaintings;
+                savedArtworks.splice(index, 1);
+                localStorage.setItem('zimo_artworks', JSON.stringify(savedArtworks));
+                loadGallery();
+            }
+        }
 
         function toggleVip() {
             isVip = !isVip;
@@ -245,7 +275,7 @@
                 btnText.innerText = "VIP";
                 if (modalVipText) modalVipText.innerText = "目前身分：一般會員";
             }
-            fetchGitHubGallery();
+            loadGallery();
             renderCart();
         }
 
@@ -300,31 +330,4 @@
         }
 
         function openCartModal() { document.getElementById('cart-modal')?.classList.remove('hidden'); document.getElementById('cart-modal')?.classList.add('flex'); }
-        function closeCartModal() { document.getElementById('cart-modal')?.classList.add('hidden'); document.getElementById('cart-modal')?.classList.remove('flex'); }
-
-        function submitCheckout() {
-            const name = document.getElementById('cust-name')?.value.trim() || '';
-            const phone = document.getElementById('cust-phone')?.value.trim() || '';
-            const line = document.getElementById('cust-line')?.value.trim() || '';
-            const target = document.getElementById('cust-target')?.value.trim() || '';
-
-            if (!name || !phone || !line || !target) {
-                alert('請完整填寫姓名、電話、LINE ID 與收件地址！');
-                return;
-            }
-            if (cart.length === 0) {
-                alert('您的購物車是空的！');
-                return;
-            }
-
-            alert(`感謝 ${name}老師/貴賓！您的購畫與諮詢訂單已成功送出。\n我們將盡快透過 LINE (${line}) 與您聯繫確認！`);
-            cart = [];
-            renderCart();
-            closeCartModal();
-        }
-
-        // 頁面載入時自動執行 GitHub 圖片抓取
-        window.onload = fetchGitHubGallery;
-    </script>
-</body>
-</html>
+        function closeCartModal()
