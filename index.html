@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>品心書閣 · 彭品心老師官方網站</title>
+    <title>紫墨數字 品心書畫 · 彭品心老師官方網站</title>
     <style>
         :root {
             --bg-color: #1a1714;
@@ -63,40 +63,42 @@
         }
 
         .brand-text h1 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--gold-light);
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .brand-text p {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .cart-btn, .menu-btn {
-            background: var(--gold);
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
             color: #1a1714;
             border: none;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
         }
 
         .menu-btn {
             background: transparent;
             border: 1px solid var(--gold);
             color: var(--gold-light);
+            box-shadow: none;
         }
 
         .container {
@@ -124,20 +126,21 @@
             background: rgba(212, 175, 55, 0.08);
             border: 1px solid var(--gold);
             border-radius: 10px;
-            padding: 15px 20px;
+            padding: 20px;
             margin-bottom: 25px;
             text-align: center;
         }
 
         .vip-banner-card h3 {
             color: var(--gold-light);
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+            font-size: 1.15rem;
+            margin-bottom: 8px;
         }
 
         .vip-banner-card p {
             color: var(--text-muted);
             font-size: 0.85rem;
+            margin-bottom: 12px;
         }
 
         .section-badge {
@@ -168,7 +171,7 @@
             text-align: center;
             font-size: 1.8rem;
             color: var(--gold-light);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             letter-spacing: 3px;
         }
 
@@ -290,6 +293,7 @@
             cursor: pointer;
             text-align: center;
             transition: all 0.2s;
+            width: 100%;
         }
 
         .btn-action:hover {
@@ -306,6 +310,7 @@
             border: 1px solid var(--card-border);
         }
 
+        /* 隱藏代碼的精美聯絡按鈕群組 */
         .contact-3col {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -317,25 +322,31 @@
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 8px;
-            padding: 12px 8px;
+            padding: 15px 10px;
             text-align: center;
         }
 
         .contact-mini-card h5 {
             color: var(--gold-light);
-            font-size: 0.8rem;
-            margin-bottom: 5px;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
         }
 
-        .contact-mini-card a {
-            color: var(--text-muted);
-            font-size: 0.72rem;
+        .contact-btn-link {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
             text-decoration: none;
-            word-break: break-all;
+            transition: all 0.2s;
         }
 
-        .contact-mini-card a:hover {
-            text-decoration: underline;
+        .contact-btn-link:hover {
+            background: var(--gold);
+            color: #1a1714;
         }
 
         .upload-panel {
@@ -466,8 +477,8 @@
         <div class="brand-container">
             <div class="brand-logo">品</div>
             <div class="brand-text">
-                <h1>品心書閣</h1>
-                <p>學術文學創作</p>
+                <h1>紫墨數字 品心書畫</h1>
+                <p>學術文學創作 彭品心老師</p>
             </div>
         </div>
         <div class="header-actions">
@@ -476,17 +487,19 @@
         </div>
     </header>
 
+    <!-- 清晰明確的右側主選單 -->
     <div class="menu-drawer" id="menuDrawer">
         <div class="drawer-header">
             <h3 style="color: var(--gold-light);">📌 網站導覽主選單</h3>
             <button onclick="toggleMenu()" style="background:none; border:none; color:var(--text-main); font-size:1.2rem; cursor:pointer;">✕</button>
         </div>
         <div class="menu-links">
-            <a href="#" onclick="toggleMenu()">首頁形象</a>
-            <a href="#booksSection" onclick="toggleMenu()">學術文學著作 (NT$ 269)</a>
-            <a href="#servicesSection" onclick="toggleMenu()">四大核心數字配置服務</a>
-            <a href="#contactSection" onclick="toggleMenu()">官方聯絡窗口 (LINE / FB / 郵箱)</a>
-            <a href="#artworkSection" onclick="toggleMenu()">原創畫作珍藏專區 (無限上傳)</a>
+            <a href="#" onclick="toggleMenu()">🌟 首頁形象導覽</a>
+            <a href="#vipSection" onclick="toggleMenu()">💎 VIP 880 終身會員專區</a>
+            <a href="#booksSection" onclick="toggleMenu()">📚 學術文學著作專區 (NT$ 269)</a>
+            <a href="#servicesSection" onclick="toggleMenu()">🔮 四大核心數字配置服務</a>
+            <a href="#contactSection" onclick="toggleMenu()">📞 官方聯絡諮詢窗口</a>
+            <a href="#artworkSection" onclick="toggleMenu()">🎨 原創畫作珍藏專區 (無限上傳)</a>
         </div>
     </div>
 
@@ -496,15 +509,18 @@
             <img src="1792354723564.png" alt="獨品禪香">
         </div>
 
-        <div class="vip-banner-card">
+        <!-- VIP 優惠區塊 (附帶加入購買按鈕) -->
+        <div class="vip-banner-card" id="vipSection">
             <h3>✨ VIP 880 會員專屬福利</h3>
-            <p>如何加入會員？只需在結帳時於優惠欄位輸入代碼 <strong>VIP880</strong>，即可直接升級 VIP 並享全館書籍、服務與畫作<strong>終身九折</strong>優惠！</p>
+            <p>成為尊榮 VIP 會員，即可享有全館學術著作、數字配置服務與原創美學畫作<strong>終身九折</strong>之尊榮禮遇！</p>
+            <button class="btn-action" style="max-width: 220px; margin: 0 auto; background: var(--gold); color: #1a1714; font-weight: bold;" onclick="addToCart('VIP 880 終身會員方案', 880)">💎 加入 VIP 880 方案 (NT$ 880)</button>
         </div>
 
         <div class="section-badge">
             <span>彭品心老師官方網站</span>
         </div>
 
+        <!-- 修潤後的文宣內容 -->
         <section class="intro-section">
             <h2 class="intro-title">靈魂的棲息之處</h2>
             <p class="intro-subtitle">喧囂的世間，每個人都在找尋安放靈魂的角落。</p>
@@ -513,6 +529,7 @@
             </div>
         </section>
 
+        <!-- 學術文學著作 (NT$ 269) -->
         <section id="booksSection">
             <h3 class="section-title">學術文學著作 (NT$ 269)</h3>
             
@@ -541,6 +558,7 @@
             </div>
         </section>
 
+        <!-- 四大核心數字配置服務 -->
         <section id="servicesSection">
             <h3 class="section-title">四大核心數字配置服務</h3>
             <div class="grid-2col">
@@ -579,21 +597,23 @@
             </div>
         </section>
 
+        <!-- 聯絡方式（隱藏代碼、美化按鈕） -->
         <div class="contact-3col" id="contactSection">
             <div class="contact-mini-card">
                 <h5>官方 LINE</h5>
-                <a href="https://line.me/" target="_blank">點擊加入官方LINE</a>
+                <a href="https://line.me/" target="_blank" class="contact-btn-link">點擊加入 LINE</a>
             </div>
             <div class="contact-mini-card">
                 <h5>FB 官方粉專</h5>
-                <a href="https://www.facebook.com/pengpinxin/" target="_blank">造訪 Facebook 專頁[span_0](start_span)[span_0](end_span)</a>
+                <a href="https://www.facebook.com/pengpinxin/" target="_blank" class="contact-btn-link">造訪粉專[span_0](start_span)[span_0](end_span)</a>
             </div>
             <div class="contact-mini-card">
                 <h5>電子郵箱</h5>
-                <a href="mailto:Aaa0987955906aaa@gmail.com">Aaa0987955906aaa@gmail.com</a>
+                <a href="mailto:Aaa0987955906aaa@gmail.com" class="contact-btn-link">發送信件[span_1](start_span)[span_1](end_span)</a>
             </div>
         </div>
 
+        <!-- 原創畫作珍藏專區 -->
         <section id="artworkSection">
             <h3 class="section-title">原創畫作珍藏專區 (定價 NT$ 680)</h3>
             
@@ -608,32 +628,19 @@
             <div class="grid-2col" id="artworkGallery"></div>
         </section>
 
+        <!-- 修潤後的法律責任聲明 -->
         <footer class="legal-disclaimer">
-            <h5>【法律免責聲明】</h5>
-            <p>本網站所提供之數字風水、門牌選吉及所有學術文學內容，僅供個人心靈參考、文化研究與生活格局優化之輔助。命理玄學與數字磁場非絕對科學，使用者對於自身之重大決策、財務投資及法律行為仍須自行獨立判斷並負全責。</p>
-            <p style="margin-top: 10px; text-align: center; color: var(--gold);">© 品心書閣 & 學術文學創作 彭品心 ｜ 數字風水</p>
+            <h5 style="color: var(--gold-light); margin-bottom: 8px;">【智慧財產與服務免責聲明】</h5>
+            <p>本網站所載之所有學術文學著作、原創美學畫作、數字風水配置及門牌選吉內容，均受智慧財產權與著作權法保護，未經授權切勿任意轉載。相關命理與數字磁場解析係結合傳統文化與心靈輔助研究，僅供個人格局優化與心靈參考，重大決策與財務投資仍須依循個人獨立判斷並自負其責。</p>
+            <p style="margin-top: 15px; text-align: center; color: var(--gold);">© 紫墨數字 品心書畫 ｜ 學術文學創作 彭品心老師 官方網站</p>
         </footer>
 
     </div>
 
+    <!-- 精美購物車與預約訂單側邊欄 -->
     <div class="cart-drawer" id="cartDrawer">
         <div class="drawer-header">
-            <h3 style="color: var(--gold-light);">🛒 您的購物車與預約單</h3>
+            <h3 style="color: var(--gold-light);">🛒 您的專屬結帳與預約單</h3>
             <button onclick="toggleCart()" style="background:none; border:none; color:var(--text-main); font-size:1.2rem; cursor:pointer;">✕</button>
         </div>
-        <div class="cart-items" id="cartItemsList">
-            <p style="color: var(--text-muted); text-align: center; margin-top: 20px;">購物車目前是空的</p>
-        </div>
-        <div class="checkout-form">
-            <div style="margin-bottom: 12px;">
-                <input type="text" id="vipCode" placeholder="請輸入會員優惠碼 (輸入 VIP880 享9折)">
-                <button class="btn-action" style="width: 100%;" onclick="applyVIP()">套用 VIP 九折</button>
-            </div>
-            <div style="border-top: 1px solid var(--card-border); padding-top: 10px; margin-bottom: 12px;">
-                <p style="color: var(--gold-light); font-weight: bold; margin-bottom: 6px; font-size: 0.9rem;">客戶聯絡與預約填單窗口：</p>
-                <input type="text" id="custName" placeholder="您的姓名 *">
-                <input type="tel" id="custPhone" placeholder="聯絡電話 / 手機 *">
-                <input type="email" id="custEmail" placeholder="電子信箱 Email *">
-                <textarea id="custRemark" rows="3" placeholder="備註需求 (例如：預約號碼候選名單、書本寄送地址等)"></textarea>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: var(--gold-light
+        <div cl
