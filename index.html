@@ -158,7 +158,7 @@
             <div class="c-card" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;text-align:center;"><h5 style="color:var(--gold-l);font-size:0.82rem;margin-bottom:8px;">電子郵箱</h5><a href="mailto:Aaa0987955906aaa@gmail.com" class="c-link">發送電子郵件</a></div>
         </div>
 
-        <!-- 原創藝術畫作專區：改回 localStorage 永久保存版 -->
+        <!-- 原創藝術畫作專區：localStorage 永久保存版 -->
         <section id="art">
             <h3 class="sec-title">原創藝術畫作珍藏專區 (NT$ 680)</h3>
             
@@ -206,27 +206,57 @@
     </div>
 
     <script>
-        let cart = [], isVip = false, artworksList = JSON.parse(localStorage.getItem('pinxin_artworks')) || [];
+        let cart = JSON.parse(localStorage.getItem('pinxin_cart')) || [];
+        let isVip = JSON.parse(localStorage.getItem('pinxin_vip')) || false;
+        let artworksList = JSON.parse(localStorage.getItem('pinxin_artworks')) || [];
+
         function toggleMenu(){document.getElementById('menuDrawer').classList.toggle('open');}
         function toggleCart(){document.getElementById('cartDrawer').classList.toggle('open');}
-        function add(name, price){cart.push({name,price});updateCart();alert(`已將「${name}」加入購物車！`);}
+        
+        function add(name, price){
+            cart.push({name, price});
+            localStorage.setItem('pinxin_cart', JSON.stringify(cart));
+            updateCart();
+            alert(`已將「${name}」加入購物車！`);
+        }
+
         function updateCart(){
             document.getElementById('cCount').innerText = cart.length;
             let list = document.getElementById('cList'), total = 0, html = '';
-            if(cart.length === 0){list.innerHTML='<p style="color:var(--muted);text-align:center;margin-top:20px;">購物車目前是空的</p>';document.getElementById('cTotal').innerText='NT$ 0';return;}
+            if(cart.length === 0){
+                list.innerHTML = '<p style="color:var(--muted);text-align:center;margin-top:20px;">購物車目前是空的</p>';
+                document.getElementById('cTotal').innerText = 'NT$ 0';
+                return;
+            }
             cart.forEach((i, idx)=>{
                 total += i.price;
                 html += `<div class="d-item"><span>${i.name}</span><span>NT$ ${i.price} <button onclick="rm(${idx})" style="background:none;border:none;color:#e74c3c;cursor:pointer;">🗑️</button></span></div>`;
             });
-            if(isVip){total = Math.round(total*0.9); html+=`<div style="color:var(--gold);font-size:0.85rem;margin-top:5px;">✨ 已套用 VIP 九折優惠</div>`;}
+            if(isVip){
+                total = Math.round(total * 0.9);
+                html += `<div style="color:var(--gold);font-size:0.85rem;margin-top:5px;">✨ 已套用 VIP 九折優惠</div>`;
+            }
             list.innerHTML = html;
             document.getElementById('cTotal').innerText = 'NT$ ' + total;
         }
-        function rm(idx){cart.splice(idx,1);updateCart();}
-        function applyVip(){
-            if(document.getElementById('vCode').value.trim() === 'VIP880'){isVip = true;alert('VIP880 驗證成功！享9折');updateCart();}
-            else{alert('優惠碼錯誤');}
+
+        function rm(idx){
+            cart.splice(idx, 1);
+            localStorage.setItem('pinxin_cart', JSON.stringify(cart));
+            updateCart();
         }
+
+        function applyVip(){
+            if(document.getElementById('vCode').value.trim() === 'VIP880'){
+                isVip = true;
+                localStorage.setItem('pinxin_vip', JSON.stringify(isVip));
+                alert('VIP880 驗證成功！享9折');
+                updateCart();
+            } else {
+                alert('優惠碼錯誤');
+            }
+        }
+
         function uploadArt(){
             let nameInput = document.getElementById('aName');
             let wmInput = document.getElementById('aWm');
@@ -252,7 +282,7 @@
                     renderArt();
                     if(nameInput) nameInput.value = '';
                     if(fileInput) fileInput.value = '';
-                    alert(`上架成功并永久儲存！尺寸：${sizeStr}`);
+                    alert(`上架成功並永久儲存！尺寸：${sizeStr}`);
                 };
                 tempImg.onerror = function(){
                     artworksList.push({name: name, price: 680, img: base64Data, wm: wm, size: '原創規格'});
@@ -260,24 +290,26 @@
                     renderArt();
                     if(nameInput) nameInput.value = '';
                     if(fileInput) fileInput.value = '';
-                    alert('上架成功并永久儲存！');
+                    alert('上架成功並永久儲存！');
                 };
                 tempImg.src = base64Data;
             };
             reader.readAsDataURL(file);
         }
+
         function delArt(idx){
             if(confirm('確定刪除此畫作？')){
-                artworksList.splice(idx,1);
+                artworksList.splice(idx, 1);
                 localStorage.setItem('pinxin_artworks', JSON.stringify(artworksList));
                 renderArt();
             }
         }
+
         function renderArt(){
             let g = document.getElementById('artGallery');
             if(!g) return;
             if(artworksList.length === 0){
-                g.innerHTML='<p style="color:var(--muted);grid-column:span 2;text-align:center;padding:20px;">目前尚無上傳畫作</p>';
+                g.innerHTML = '<p style="color:var(--muted);grid-column:span 2;text-align:center;padding:20px;">目前尚無上傳畫作</p>';
                 return;
             }
             let html = '';
@@ -292,16 +324,3 @@
                             </div>
                             <h4 style="color:var(--gold-l);margin-top:8px;">${a.name}</h4>
                             <div class="art-size-info">${displaySize} <br>（不含裝裱，藏家可自理）</div>
-                            <div class="price">NT$ ${a.price}</div>
-                        </div>
-                        <div style="display:flex;gap:5px;margin-top:8px;">
-                            <button class="btn btn-o" style="flex:1;" onclick="add('${a.name}', 680)">加入購物車</button>
-                            <button class="btn btn-o" style="border-color:#e74c3c;color:#e74c3c;" onclick="delArt(${idx})">🗑️ 刪除</button>
-                        </div>
-                    </div>
-                `;
-            });
-            g.innerHTML = html;
-        }
-        function checkout(){
-            let name = document.getElementById('cN
