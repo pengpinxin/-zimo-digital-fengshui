@@ -158,7 +158,7 @@
             <div class="c-card" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;text-align:center;"><h5 style="color:var(--gold-l);font-size:0.82rem;margin-bottom:8px;">電子郵箱</h5><a href="mailto:Aaa0987955906aaa@gmail.com" class="c-link">發送電子郵件</a></div>
         </div>
 
-        <!-- 原創藝術畫作專區：手機完美壓縮與永久保存版 -->
+        <!-- 原創藝術畫作專區 -->
         <section id="art">
             <h3 class="sec-title">原創藝術畫作珍藏專區 (NT$ 680)</h3>
             
@@ -206,12 +206,18 @@
     </div>
 
     <script>
+        // 從 localStorage 同步讀取購物車、VIP狀態與畫作清單，確保重新整理絕不消失
         let cart = JSON.parse(localStorage.getItem('pinxin_cart')) || [];
         let isVip = JSON.parse(localStorage.getItem('pinxin_vip')) || false;
         let artworksList = JSON.parse(localStorage.getItem('pinxin_artworks')) || [];
 
-        function toggleMenu(){document.getElementById('menuDrawer').classList.toggle('open');}
-        function toggleCart(){document.getElementById('cartDrawer').classList.toggle('open');}
+        function toggleMenu(){
+            document.getElementById('menuDrawer').classList.toggle('open');
+        }
+
+        function toggleCart(){
+            document.getElementById('cartDrawer').classList.toggle('open');
+        }
         
         function add(name, price){
             cart.push({name, price});
@@ -247,7 +253,8 @@
         }
 
         function applyVip(){
-            if(document.getElementById('vCode').value.trim() === 'VIP880'){
+            let codeInput = document.getElementById('vCode');
+            if(codeInput && codeInput.value.trim() === 'VIP880'){
                 isVip = true;
                 localStorage.setItem('pinxin_vip', JSON.stringify(isVip));
                 alert('VIP880 驗證成功！享9折');
@@ -331,5 +338,4 @@
                     <div class="s-card">
                         <div>
                             <div style="position:relative;">
-                                <img src="${a.img}" style="width:100%;height:140px;object-fit:cover;border-radius:6px;border:1px solid var(--border);">
-                                <d
+                                <img src="${a.
