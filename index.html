@@ -164,7 +164,7 @@
             
             <div class="art-desc-box">
                 <h4>🎨 品心美學 · 老師精心精選原創藝術流傳與結緣</h4>
-                <p><strong>✨ 為什麼選擇老師精心精選的藝術美學？</strong> 每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶。本專區以親民實惠的結緣價格（均一價 NT$ 680）讓美學與靈性祝福毫無負擔地走入尋常百姓家，為居家或辦公空間營造高雅藝術氛圍，達到陶冶心靈、提升環境磁場的多重效益。</p>
+                <p><strong>✨ 為什麼選擇老師精心精選的藝術美學？</strong> 每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶。本專區以親民實惠的結緣價格（均一價 NT$ 680）讓美學與靈性祝福毫無負擔地走入尋常百姓家，為居家或辦公空間營造高雅藝術圍，達到陶冶心靈、提升環境磁場的多重效益。</p>
                 <p><strong>🎯 服務方向與彈性說明：</strong> 為了讓藏家免去繁複昂貴的裝裱開銷，並能完全依據個人空間風格、預算與審美喜好自由發揮，本專區採純原創作品售出（不含裝裱）。藏家可自行挑選喜愛的方式進行裝裱，讓藝術完美融合您的生活空間。</p>
             </div>
 
@@ -201,13 +201,13 @@
             <div style="display:flex;justify-content:space-between;margin:10px 0;color:var(--gold-l);font-weight:bold;">
                 <span>總計：</span><span id="cTotal">NT$ 0</span>
             </div>
-            <button class="btn" style="width:100%;" onclick="checkout()">送出預約訂單</button>
+            <button class="btn" style="width:100%;" onclick="checkout()">送出預約訂單並直達 LINE</button>
         </div>
     </div>
 
     <script>
         let cart = JSON.parse(localStorage.getItem('zimo_cart')) || [];
-        let isVip = false;
+        let isVip = localStorage.getItem('zimo_is_vip') === 'true';
         let artworksList = JSON.parse(localStorage.getItem('zimo_artworks')) || [];
         
         function toggleMenu(){document.getElementById('menuDrawer').classList.toggle('open');}
@@ -231,7 +231,10 @@
                 total += i.price;
                 html += `<div class="d-item"><span>${i.name}</span><span>NT$ ${i.price} <button onclick="rm(${idx})" style="background:none;border:none;color:#e74c3c;cursor:pointer;">🗑️</button></span></div>`;
             });
-            if(isVip){total = Math.round(total*0.9); html+=`<div style="color:var(--gold);font-size:0.85rem;margin-top:5px;">✨ 已套用 VIP 九折優惠</div>`;}
+            if(isVip){
+                total = Math.round(total*0.9); 
+                html+=`<div style="color:var(--gold);font-size:0.85rem;margin-top:5px;">✨ 已套用 VIP 九折優惠</div>`;
+            }
             list.innerHTML = html;
             document.getElementById('cTotal').innerText = 'NT$ ' + total;
         }
@@ -254,6 +257,7 @@
         function applyVip(){
             if(document.getElementById('vCode').value.trim() === 'VIP880'){
                 isVip = true;
+                localStorage.setItem('zimo_is_vip', 'true');
                 alert('VIP880 驗證成功！享9折');
                 updateCart();
             } else {
@@ -338,5 +342,4 @@
                             <div class="price">NT$ ${a.price}</div>
                         </div>
                         <div style="display:flex;gap:5px;margin-top:8px;">
-                            <button class="btn btn-o" style="flex:1;" onclick="add('${a.name}', 680)">加入購物車</button>
-                            <button class="btn btn-o" style="border-color:#e74c3c;color:#e74c3c
+                            <button class="btn btn-o" st
