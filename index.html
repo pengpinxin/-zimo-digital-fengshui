@@ -102,6 +102,7 @@
             </div>
         </section>
 
+        <!-- 書籍區：圖片正確對應 -->
         <section id="books">
             <h3 class="sec-title">學術文學著作</h3>
             <div class="card">
@@ -152,13 +153,14 @@
             </div>
         </section>
 
+        <!-- 聯絡方式：無任何亂碼 -->
         <div class="c-3">
             <div class="c-card"><h5>官方 LINE</h5><a href="https://line.me/" target="_blank" class="c-link">點擊加入 LINE</a></div>
-            <div class="c-card"><h5>FB 官方粉專</h5><a href="https://www.facebook.com/pengpinxin/" target="_blank" class="c-link">造訪粉絲專頁[span_0](start_span)[span_0](end_span)</a></div>
-            <div class="c-card"><h5>電子郵箱</h5><a href="mailto:Aaa0987955906aaa@gmail.com" class="c-link">發送電子郵件[span_1](start_span)[span_1](end_span)</a></div>
+            <div class="c-card"><h5>FB 官方粉專</h5><a href="https://www.facebook.com/pengpinxin/" target="_blank" class="c-link">造訪粉絲專頁</a></div>
+            <div class="c-card"><h5>電子郵箱</h5><a href="mailto:Aaa0987955906aaa@gmail.com" class="c-link">發送電子郵件</a></div>
         </div>
 
-        <!-- 原創藝術畫作專區：自動讀取尺寸與結緣理念說明 -->
+        <!-- 原創藝術畫作專區：修復上傳與尺寸讀取 -->
         <section id="art">
             <h3 class="sec-title">原創藝術畫作珍藏專區 (NT$ 680)</h3>
             
@@ -225,28 +227,33 @@
         }
         function rm(idx){cart.splice(idx,1);updateCart();}
         function applyVip(){
-            if(document.getElementById('vCode'].value.trim() === 'VIP880'){isVip = true;alert('VIP880 驗證成功！享9折');updateCart();}
+            if(document.getElementById('vCode').value.trim() === 'VIP880'){isVip = true;alert('VIP880 驗證成功！享9折');updateCart();}
             else{alert('優惠碼錯誤');}
         }
         function uploadArt(){
-            let name = document.getElementById('aName').value.trim(), wm = document.getElementById('aWm').value.trim() || '品心美學 · 原創', fileInput = document.getElementById('aFile');
-            if(!name || fileInput.files.length === 0){alert('請輸入畫作名稱並選擇圖片檔案！');return;}
+            let nameInput = document.getElementById('aName');
+            let wmInput = document.getElementById('aWm');
+            let fileInput = document.getElementById('aFile');
+            
+            let name = nameInput ? nameInput.value.trim() : '';
+            let wm = wmInput ? wmInput.value.trim() : '品心美學 · 原創';
+            
+            if(!name || !fileInput || fileInput.files.length === 0){
+                alert('請輸入畫作名稱並選擇圖片檔案！');
+                return;
+            }
             
             let file = fileInput.files[0];
             let reader = new FileReader();
             reader.onload = function(e){
                 let imgObj = new Image();
                 imgObj.onload = function(){
-                    // 自動讀取圖片像素尺寸
-                    let imgWidth = imgObj.width;
-                    let imgHeight = imgObj.height;
-                    let sizeStr = `${imgWidth} × ${imgHeight} px`;
-
+                    let sizeStr = `${imgObj.width} × ${imgObj.height} px`;
                     arts.push({name, price:680, img:e.target.result, wm, size: sizeStr});
                     localStorage.setItem('artworks', JSON.stringify(arts));
                     renderArt();
-                    document.getElementById('aName').value='';
-                    fileInput.value='';
+                    if(nameInput) nameInput.value='';
+                    if(fileInput) fileInput.value='';
                     alert(`上架成功！已自動偵測尺寸 (${sizeStr}) 並永久儲存至本機`);
                 };
                 imgObj.src = e.target.result;
@@ -256,9 +263,10 @@
         function delArt(idx){if(confirm('確定刪除？')){arts.splice(idx,1);localStorage.setItem('artworks', JSON.stringify(arts));renderArt();}}
         function renderArt(){
             let g = document.getElementById('artGallery'), html = '';
+            if(!g) return;
             if(arts.length === 0){g.innerHTML='<p style="color:var(--muted);grid-column:span 2;text-align:center;padding:20px;">目前尚無上傳畫作</p>';return;}
             arts.forEach((a, idx)=>{
-                let displaySize = a.size ? `📏 原始尺寸：${a.size}` : `📏 規格：原創作品售出（不含裝裱，藏家可自理）`;
+                let displaySize = a.size ? `📏 原始尺寸：${a.size}` : `📏 規格：原創作品售出`;
                 html += `
                     <div class="s-card">
                         <div>
@@ -272,7 +280,7 @@
                         </div>
                         <div style="display:flex;gap:5px;margin-top:8px;">
                             <button class="btn btn-o" style="flex:1;" onclick="add('${a.name}', 680)">加入購物車</button>
-                            <button class="btn btn-o" style="border-color:#e74c3c;color:#e74c3c;" onclick="delArt(${idx})">刪除</button>
+                            <button class="btn btn-o" style="border-color:#e74c3c;color:#e74c3c;" onclick="delArt(${idx})">🗑️ 刪除</button>
                         </div>
                     </div>
                 `;
