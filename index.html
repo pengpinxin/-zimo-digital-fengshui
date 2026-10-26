@@ -6,15 +6,15 @@
     <title>品心美學 · 彭品心老師官方網站</title>
     <style>
         :root{--bg:#1a1714;--card:#24201c;--border:#4a3d31;--text:#f3efe6;--muted:#d0c5b4;--gold:#d4af37;--gold-l:#f3e5ab;--gold-d:#aa8c2c;}
-        *{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;}
-        body{background:var(--bg);color:var(--text);line-height:1.8;padding-bottom:80px;}
+        *{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;-webkit-tap-highlight-color:transparent;}
+        body{background:var(--bg);color:var(--text);line-height:1.8;padding-bottom:80px;overflow-x:hidden;}
         header{background:rgba(26,23,20,0.95);border-bottom:1px solid var(--border);padding:12px 15px;position:sticky;top:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;}
         .brand{display:flex;align-items:center;gap:10px;}
         .logo{width:38px;height:38px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:bold;background:rgba(212,175,55,0.1);flex-shrink:0;}
         .b-text h1{font-size:0.95rem;color:var(--gold-l);white-space:nowrap;}
         .b-text p{font-size:0.68rem;color:var(--muted);white-space:nowrap;}
         .h-act{display:flex;gap:6px;}
-        .btn{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#1a1714;border:none;padding:6px 10px;border-radius:16px;font-size:0.75rem;font-weight:bold;cursor:pointer;white-space:nowrap;}
+        .btn{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#1a1714;border:none;padding:8px 12px;border-radius:16px;font-size:0.78rem;font-weight:bold;cursor:pointer;white-space:nowrap;display:inline-block;text-align:center;}
         .btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold-l);}
         .wrap{max-width:800px;margin:0 auto;padding:20px;}
         .banner{width:100%;border-radius:8px;overflow:hidden;border:1px solid var(--border);margin-bottom:20px;}
@@ -44,12 +44,12 @@
         .c-link{display:inline-block;background:rgba(212,175,55,0.1);border:1px solid var(--gold);color:var(--gold-l);padding:5px 10px;border-radius:15px;font-size:0.72rem;text-decoration:none;}
         .up-panel{background:rgba(212,175,55,0.05);border:1px dashed var(--gold);border-radius:10px;padding:20px;margin-bottom:25px;}
         .up-panel input{width:100%;padding:10px;margin-bottom:10px;border-radius:5px;border:1px solid var(--border);background:#1a1714;color:var(--text);}
-        .drawer{position:fixed;top:0;right:-100%;width:100%;max-width:360px;height:100%;background:var(--card);border-left:1px solid var(--border);z-index:2000;padding:20px;transition:0.3s;display:flex;flex-direction:column;}
+        .drawer{position:fixed;top:0;right:-380px;width:100%;max-width:360px;height:100%;background:var(--card);border-left:1px solid var(--border);z-index:9999;padding:20px;transition:right 0.3s ease;display:flex;flex-direction:column;box-shadow:-5px 0 15px rgba(0,0,0,0.5);}
         .drawer.open{right:0;}
         .d-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:15px;margin-bottom:20px;}
         .d-items{flex-grow:1;overflow-y:auto;margin-bottom:15px;}
-        .d-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(74,61,49,0.4);font-size:0.88rem;}
-        .cf input,.cf textarea{width:100%;padding:8px;margin-bottom:10px;background:#1a1714;border:1px solid var(--border);color:var(--text);border-radius:4px;}
+        .d-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(74,61,49,0.4);font-size:0.88rem;}
+        .cf input,.cf textarea{width:100%;padding:10px;margin-bottom:10px;background:#1a1714;border:1px solid var(--border);color:var(--text);border-radius:4px;}
         footer{background:#151311;border:1px dashed var(--border);border-radius:8px;padding:20px;margin-top:40px;font-size:0.78rem;color:#9c9182;}
         @media(max-width:480px){.card{flex-direction:column;text-align:center;}.card img{width:100%;}.c-3{grid-template-columns:1fr;}}
     </style>
@@ -69,7 +69,7 @@
         </div>
     </header>
 
-    <div class="drawer" id="menuDrawer">
+    <div class="drawer" id="menuDrawer" style="right:-380px;">
         <div class="d-head">
             <h3 style="color:var(--gold-l);">📌 網站導覽</h3>
             <button onclick="toggleMenu()" style="background:none;border:none;color:var(--text);font-size:1.2rem;cursor:pointer;">✕</button>
@@ -173,7 +173,7 @@
                 <input type="text" id="aName" placeholder="請輸入畫作名稱 (例: 雲山禪韻)">
                 <input type="text" id="aWm" value="品心美學 · 彭品心原創" placeholder="浮水印文字">
                 <input type="file" id="aFile" accept="image/*">
-                <button class="btn" style="width:100%;" onclick="uploadArt()">確認上傳並存入 Google 雲端 (NT$ 680)</button>
+                <button class="btn" style="width:100%;" onclick="uploadArt()">確認上傳並永久存入 Google 雲端 (NT$ 680)</button>
             </div>
             <div class="grid-2" id="artGallery"></div>
         </section>
@@ -185,7 +185,7 @@
         </footer>
     </div>
 
-    <div class="drawer" id="cartDrawer">
+    <div class="drawer" id="cartDrawer" style="right:-380px;">
         <div class="d-head">
             <h3 style="color:var(--gold-l);">🛒 您的專屬購物車與結帳單</h3>
             <button onclick="toggleCart()" style="background:none;border:none;color:var(--text);font-size:1.2rem;cursor:pointer;">✕</button>
@@ -210,66 +210,74 @@
         let isVip = localStorage.getItem('zimo_is_vip') === 'true';
         let artworksList = JSON.parse(localStorage.getItem('zimo_artworks')) || [];
         
-        function toggleMenu(){document.getElementById('menuDrawer').classList.toggle('open');}
-        function toggleCart(){document.getElementById('cartDrawer').classList.toggle('open');}
-        
-        function add(name, price){
-            cart.push({name, price});
-            saveCartAndSync();
-            // 點擊後自動滑出購物車，讓互動更直覺！
-            let drawer = document.getElementById('cartDrawer');
-            if(!drawer.classList.contains('open')){
-                drawer.classList.add('open');
-            }
+        function toggleMenu() {
+            let m = document.getElementById('menuDrawer');
+            m.style.right = (m.style.right === '0px') ? '-380px' : '0px';
         }
         
-        function updateCart(){
-            document.getElementById('cCount').innerText = cart.length;
+        function toggleCart() {
+            let c = document.getElementById('cartDrawer');
+            c.style.right = (c.style.right === '0px') ? '-380px' : '0px';
+        }
+        
+        function add(name, price) {
+            cart.push({name, price});
+            saveCartAndSync();
+            let c = document.getElementById('cartDrawer');
+            c.style.right = '0px';
+        }
+        
+        function updateCart() {
+            let badge = document.getElementById('cCount');
+            if(badge) badge.innerText = cart.length;
             let list = document.getElementById('cList'), total = 0, html = '';
-            if(cart.length === 0){
-                list.innerHTML='<p style="color:var(--muted);text-align:center;margin-top:20px;">購物車目前是空的</p>';
-                document.getElementById('cTotal').innerText='NT$ 0';
+            if(!list) return;
+            if(cart.length === 0) {
+                list.innerHTML = '<p style="color:var(--muted);text-align:center;margin-top:20px;">購物車目前是空的</p>';
+                document.getElementById('cTotal').innerText = 'NT$ 0';
                 return;
             }
-            cart.forEach((i, idx)=>{
+            cart.forEach((i, idx) => {
                 total += i.price;
-                html += `<div class="d-item"><span>${i.name}</span><span>NT$ ${i.price} <button onclick="rm(${idx})" style="background:none;border:none;color:#e74c3c;cursor:pointer;">🗑️</button></span></div>`;
+                html += `<div class="d-item"><span>${i.name}</span><span>NT$ ${i.price} <button onclick="rm(${idx})" style="background:none;border:none;color:#e74c3c;cursor:pointer;padding:4px;">🗑️</button></span></div>`;
             });
-            if(isVip){
-                total = Math.round(total*0.9); 
-                html+=`<div style="color:var(--gold);font-size:0.85rem;margin-top:5px;">✨ 已套用 VIP 九折優惠</div>`;
+            if(isVip) {
+                total = Math.round(total * 0.9); 
+                html += `<div style="color:var(--gold);font-size:0.85rem;margin-top:8px;">✨ 已套用 VIP 九折優惠</div>`;
             }
             list.innerHTML = html;
             document.getElementById('cTotal').innerText = 'NT$ ' + total;
         }
 
-        function saveCartAndSync(){
+        function saveCartAndSync() {
             localStorage.setItem('zimo_cart', JSON.stringify(cart));
             updateCart();
         }
 
-        function saveArtAndSync(){
+        function saveArtAndSync() {
             localStorage.setItem('zimo_artworks', JSON.stringify(artworksList));
             renderArt();
         }
 
-        function rm(idx){
+        function rm(idx) {
             cart.splice(idx, 1);
             saveCartAndSync();
         }
 
-        function applyVip(){
-            if(document.getElementById('vCode').value.trim() === 'VIP880'){
+        function applyVip() {
+            let codeInput = document.getElementById('vCode');
+            let code = codeInput ? codeInput.value.trim() : '';
+            if(code === 'VIP880') {
                 isVip = true;
                 localStorage.setItem('zimo_is_vip', 'true');
-                alert('VIP880 驗證成功！享9折');
+                alert('VIP880 驗證成功！享 9 折');
                 updateCart();
             } else {
                 alert('優惠碼錯誤');
             }
         }
         
-        async function uploadArt(){
+        async function uploadArt() {
             let nameInput = document.getElementById('aName');
             let wmInput = document.getElementById('aWm');
             let fileInput = document.getElementById('aFile');
@@ -277,7 +285,7 @@
             let name = nameInput ? nameInput.value.trim() : '';
             let wm = wmInput ? wmInput.value.trim() : '品心美學 · 彭品心原創';
             
-            if(!name || !fileInput || fileInput.files.length === 0){
+            if(!name || !fileInput || !fileInput.files || fileInput.files.length === 0) {
                 alert('請輸入畫作名稱並選擇圖片檔案！');
                 return;
             }
@@ -286,12 +294,13 @@
             alert('正在將圖片上傳至 Google 雲端儲存空間，請稍候...');
 
             let reader = new FileReader();
-            reader.onload = async function(e){
+            reader.onload = async function(e) {
                 let base64Image = e.target.result;
                 
                 try {
                     let response = await fetch('/api/upload', {
                         method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             filename: file.name,
                             data: base64Image,
@@ -300,15 +309,14 @@
                     });
                     
                     let result = await response.json();
-                    if(result.success){
-                        let cloudUrl = result.url;
-                        artworksList.push({name: name, price: 680, img: cloudUrl, wm: wm, size: 'Google雲端典藏'});
+                    if(result.success) {
+                        artworksList.push({name: name, price: 680, img: result.url, wm: wm, size: 'Google雲端典藏'});
                         saveArtAndSync();
                         if(nameInput) nameInput.value = '';
                         if(fileInput) fileInput.value = '';
-                        alert('成功上傳並永久保存至 Google 雲端！');
+                        alert('✅ 成功上傳並永久保存至 Google 雲端！');
                     } else {
-                        alert('上傳失敗：' + result.error);
+                        alert('上傳失敗：' + (result.error || '未知錯誤'));
                     }
                 } catch (err) {
                     alert('連線雲端發生錯誤，請稍後再試。');
@@ -318,29 +326,24 @@
             reader.readAsDataURL(file);
         }
 
-        function delArt(idx){
-            if(confirm('確定刪除此畫作？')){
+        function delArt(idx) {
+            if(confirm('確定刪除此畫作？')) {
                 artworksList.splice(idx, 1);
                 saveArtAndSync();
             }
         }
 
-        function renderArt(){
+        function renderArt() {
             let g = document.getElementById('artGallery');
             if(!g) return;
-            if(artworksList.length === 0){
-                g.innerHTML='<p style="color:var(--muted);grid-column:span 2;text-align:center;padding:20px;">目前尚無上傳畫作</p>';
+            if(artworksList.length === 0) {
+                g.innerHTML = '<p style="color:var(--muted);grid-column:span 2;text-align:center;padding:20px;">目前尚無上傳畫作</p>';
                 return;
             }
             let html = '';
-            artworksList.forEach((a, idx)=>{
+            artworksList.forEach((a, idx) => {
                 html += `
                     <div class="s-card">
                         <div>
                             <div style="position:relative;">
-                                <img src="${a.img}" style="width:100%;height:140px;object-fit:cover;border-radius:6px;border:1px solid var(--border);">
-                                <div style="position:absolute;bottom:8px;right:8px;font-size:0.65rem;background:rgba(0,0,0,0.7);color:#fff;padding:2px 5px;border-radius:3px;">${a.wm}</div>
-                            </div>
-                            <h4 style="color:var(--gold-l);margin-top:8px;">${a.name}</h4>
-                            <div class="art-size-info">📏 規格：雲端永久典藏 <br>（不含裝裱，藏家可自理）</div>
-                            <div class="price">NT$ ${a.pric
+                                <img src="${a.img}" style="width:100%;height:140px;object-f
