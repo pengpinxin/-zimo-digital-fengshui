@@ -41,7 +41,6 @@
         .art-size-info{font-size:0.78rem;color:var(--gold-l);margin-bottom:10px;background:rgba(212,175,55,0.06);padding:4px 8px;border-radius:4px;border:1px dashed var(--border);}
         .c-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:30px 0;}
         .c-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;text-align:center;}
-        .c-card h5{color:var(--gold-l);font-size:0.82rem;margin-bottom:8px;}
         .c-link{display:inline-block;background:rgba(212,175,55,0.1);border:1px solid var(--gold);color:var(--gold-l);padding:5px 10px;border-radius:15px;font-size:0.72rem;text-decoration:none;}
         .up-panel{background:rgba(212,175,55,0.05);border:1px dashed var(--gold);border-radius:10px;padding:20px;margin-bottom:25px;}
         .up-panel input{width:100%;padding:10px;margin-bottom:10px;border-radius:5px;border:1px solid var(--border);background:#1a1714;color:var(--text);}
@@ -102,7 +101,7 @@
             </div>
         </section>
 
-        <!-- 書籍專區：已精準修正圖片對應（生命的出口對應 40195898，進階思維對應 50518058） -->
+        <!-- 書籍專區 -->
         <section id="books">
             <h3 class="sec-title">學術文學著作</h3>
             <div class="card">
@@ -149,15 +148,14 @@
             <div class="service-note-box">
                 <h4>📌 購買服務注意事項與流程說明：</h4>
                 <p><strong>1. 預約流程：</strong>手機、車牌、店鋪、住址配置高端生旺風水號碼，須請您先自行向相關單位申請或初步選定您喜歡的 3～5 組號碼，再透過預約表單告訴紫墨老師，老師將為您進行人工深度解析與最終吉凶配置！</p>
-                <p><strong>2. 專業鑑定聲明：</strong>經過老師數字分析之後，如若您的原生號碼本身就是生旺您的吉數，那麼便是最好的數字配置，則不需要更換；然而,老師則同樣會收取您的鑑定費用。因為這是消耗老師大量精力的專業性諮詢服務，還請緣主務必尊重學術文學的強大驅動力，這也證實了：「知因果者、則不畏因果」的推理。</p>
+                <p><strong>2. 專業鑑定聲明：</strong>經過老師數字分析之後，如若您的原生號碼本身就是生旺您的吉數，那麼便是最好的數字配置，則不需要更換；然而，老師則同樣會收取您的鑑定費用。因為這是消耗老師大量精力的專業性諮詢服務，還請緣主務必尊重學術文學的強大驅動力，這也證實了：「知因果者、則不畏因果」的推理。</p>
             </div>
         </section>
 
-        <!-- 聯絡方式：絕對乾淨無亂碼 -->
         <div class="c-3">
-            <div class="c-card"><h5>官方 LINE</h5><a href="https://line.me/" target="_blank" class="c-link">點擊加入 LINE</a></div>
-            <div class="c-card"><h5>FB 官方粉專</h5><a href="https://www.facebook.com/pengpinxin/" target="_blank" class="c-link">造訪粉絲專頁</a></div>
-            <div class="c-card"><h5>電子郵箱</h5><a href="mailto:Aaa0987955906aaa@gmail.com" class="c-link">發送電子郵件</a></div>
+            <div class="c-card" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;text-align:center;"><h5 style="color:var(--gold-l);font-size:0.82rem;margin-bottom:8px;">官方 LINE</h5><a href="https://line.me/" target="_blank" class="c-link">點擊加入 LINE</a></div>
+            <div class="c-card" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;text-align:center;"><h5 style="color:var(--gold-l);font-size:0.82rem;margin-bottom:8px;">FB 官方粉專</h5><a href="https://www.facebook.com/pengpinxin/" target="_blank" class="c-link">造訪粉絲專頁</a></div>
+            <div class="c-card" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;text-align:center;"><h5 style="color:var(--gold-l);font-size:0.82rem;margin-bottom:8px;">電子郵箱</h5><a href="mailto:Aaa0987955906aaa@gmail.com" class="c-link">發送電子郵件</a></div>
         </div>
 
         <!-- 原創藝術畫作專區 -->
@@ -209,7 +207,7 @@
 
     <script>
         let cart = [], isVip = false, arts = JSON.parse(localStorage.getItem('artworks')) || [];
-        window.onload = renderArt;
+        window.onload = function(){ renderArt(); };
         function toggleMenu(){document.getElementById('menuDrawer').classList.toggle('open');}
         function toggleCart(){document.getElementById('cartDrawer').classList.toggle('open');}
         function add(name, price){cart.push({name,price});updateCart();alert(`已將「${name}」加入購物車！`);}
@@ -236,7 +234,7 @@
             let fileInput = document.getElementById('aFile');
             
             let name = nameInput ? nameInput.value.trim() : '';
-            let wm = wmInput ? wmInput.value.trim() : '品心美學 · 原創';
+            let wm = wmInput ? wmInput.value.trim() : '品心美學 · 彭品心原創';
             
             if(!name || !fileInput || fileInput.files.length === 0){
                 alert('請輸入畫作名稱並選擇圖片檔案！');
@@ -250,25 +248,25 @@
                 let imgObj = new Image();
                 imgObj.onload = function(){
                     let sizeStr = `${imgObj.width} × ${imgObj.height} px`;
-                    saveArtAndRender(name, base64Data, wm, sizeStr, nameInput, fileInput);
+                    arts.push({name: name, price: 680, img: base64Data, wm: wm, size: sizeStr});
+                    localStorage.setItem('artworks', JSON.stringify(arts));
+                    renderArt();
+                    if(nameInput) nameInput.value='';
+                    if(fileInput) fileInput.value='';
+                    alert(`上架成功！已自動偵測尺寸 (${sizeStr}) 並永久儲存至本機`);
                 };
                 imgObj.onerror = function(){
-                    saveArtAndRender(name, base64Data, wm, '原創規格', nameInput, fileInput);
+                    arts.push({name: name, price: 680, img: base64Data, wm: wm, size: '原創規格'});
+                    localStorage.setItem('artworks', JSON.stringify(arts));
+                    renderArt();
+                    if(nameInput) nameInput.value='';
+                    if(fileInput) fileInput.value='';
+                    alert('上架成功！已永久儲存至本機');
                 };
                 imgObj.src = base64Data;
             };
             reader.readAsDataURL(file);
         }
-
-        function saveArtAndRender(name, imgData, wm, sizeStr, nameInput, fileInput){
-            arts.push({name, price:680, img:imgData, wm, size: sizeStr});
-            localStorage.setItem('artworks', JSON.stringify(arts));
-            renderArt();
-            if(nameInput) nameInput.value='';
-            if(fileInput) fileInput.value='';
-            alert(`上架成功！已自動偵測尺寸 (${sizeStr}) 並永久儲存至本機`);
-        }
-
         function delArt(idx){
             if(confirm('確定刪除此畫作？')){
                 arts.splice(idx,1);
@@ -276,7 +274,6 @@
                 renderArt();
             }
         }
-
         function renderArt(){
             let g = document.getElementById('artGallery');
             if(!g) return;
@@ -307,16 +304,6 @@
             });
             g.innerHTML = html;
         }
-
         function checkout(){
             let name = document.getElementById('cName').value.trim();
-            let phone = document.getElementById('cPhone').value.trim();
-            let email = document.getElementById('cEmail').value.trim();
-            if(!name || !phone || !email){alert('請填寫姓名、電話與 Email！');return;}
-            if(cart.length === 0){alert('購物車是空的！');return;}
-            alert(`感謝 ${name} 緣主！訂單已成功送出，老師將盡快與您聯繫。`);
-            cart = []; isVip = false; updateCart(); toggleCart();
-        }
-    </script>
-</body>
-</html>
+            let phone = document.getElementById('c
