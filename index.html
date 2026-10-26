@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>紫墨數字 品心書畫 · 彭品心老師官方網站</title>
+    <title>品心書閣 · 彭品心老師官方網站</title>
     <style>
         :root {
             --bg-color: #1a1714;
@@ -33,7 +33,7 @@
         header {
             background-color: rgba(26, 23, 20, 0.95);
             border-bottom: 1px solid var(--card-border);
-            padding: 15px 20px;
+            padding: 12px 15px;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -45,12 +45,13 @@
         .brand-container {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            max-width: 60%;
         }
 
         .brand-logo {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             border: 1px solid var(--gold);
             border-radius: 50%;
             display: flex;
@@ -58,47 +59,49 @@
             justify-content: center;
             color: var(--gold);
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             background: rgba(212, 175, 55, 0.1);
+            flex-shrink: 0;
         }
 
         .brand-text h1 {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             color: var(--gold-light);
             letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
         .brand-text p {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             color: var(--text-muted);
+            white-space: nowrap;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .cart-btn, .menu-btn {
             background: linear-gradient(135deg, var(--gold), var(--gold-dark));
             color: #1a1714;
             border: none;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.82rem;
+            padding: 6px 10px;
+            border-radius: 16px;
+            font-size: 0.75rem;
             font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
-            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+            gap: 3px;
+            white-space: nowrap;
         }
 
         .menu-btn {
             background: transparent;
             border: 1px solid var(--gold);
             color: var(--gold-light);
-            box-shadow: none;
         }
 
         .container {
@@ -310,7 +313,6 @@
             border: 1px solid var(--card-border);
         }
 
-        /* 隱藏代碼的精美聯絡按鈕群組 */
         .contact-3col {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -328,7 +330,7 @@
 
         .contact-mini-card h5 {
             color: var(--gold-light);
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             margin-bottom: 8px;
         }
 
@@ -339,7 +341,7 @@
             color: var(--gold-light);
             padding: 5px 10px;
             border-radius: 15px;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             text-decoration: none;
             transition: all 0.2s;
         }
@@ -477,17 +479,16 @@
         <div class="brand-container">
             <div class="brand-logo">品</div>
             <div class="brand-text">
-                <h1>紫墨數字 品心書畫</h1>
+                <h1>品心書閣</h1>
                 <p>學術文學創作 彭品心老師</p>
             </div>
         </div>
         <div class="header-actions">
-            <button class="cart-btn" onclick="toggleCart()">🛒 購物車 (<span id="cartCount">0</span>)</button>
+            <button class="cart-btn" onclick="toggleCart()">🛒 購物車(<span id="cartCount">0</span>)</button>
             <button class="menu-btn" onclick="toggleMenu()">☰ 選單</button>
         </div>
     </header>
 
-    <!-- 清晰明確的右側主選單 -->
     <div class="menu-drawer" id="menuDrawer">
         <div class="drawer-header">
             <h3 style="color: var(--gold-light);">📌 網站導覽主選單</h3>
@@ -509,7 +510,6 @@
             <img src="1792354723564.png" alt="獨品禪香">
         </div>
 
-        <!-- VIP 優惠區塊 (附帶加入購買按鈕) -->
         <div class="vip-banner-card" id="vipSection">
             <h3>✨ VIP 880 會員專屬福利</h3>
             <p>成為尊榮 VIP 會員，即可享有全館學術著作、數字配置服務與原創美學畫作<strong>終身九折</strong>之尊榮禮遇！</p>
@@ -520,7 +520,6 @@
             <span>彭品心老師官方網站</span>
         </div>
 
-        <!-- 修潤後的文宣內容 -->
         <section class="intro-section">
             <h2 class="intro-title">靈魂的棲息之處</h2>
             <p class="intro-subtitle">喧囂的世間，每個人都在找尋安放靈魂的角落。</p>
@@ -529,7 +528,6 @@
             </div>
         </section>
 
-        <!-- 學術文學著作 (NT$ 269) -->
         <section id="booksSection">
             <h3 class="section-title">學術文學著作 (NT$ 269)</h3>
             
@@ -558,7 +556,6 @@
             </div>
         </section>
 
-        <!-- 四大核心數字配置服務 -->
         <section id="servicesSection">
             <h3 class="section-title">四大核心數字配置服務</h3>
             <div class="grid-2col">
@@ -597,7 +594,6 @@
             </div>
         </section>
 
-        <!-- 聯絡方式（隱藏代碼、美化按鈕） -->
         <div class="contact-3col" id="contactSection">
             <div class="contact-mini-card">
                 <h5>官方 LINE</h5>
@@ -613,7 +609,6 @@
             </div>
         </div>
 
-        <!-- 原創畫作珍藏專區 -->
         <section id="artworkSection">
             <h3 class="section-title">原創畫作珍藏專區 (定價 NT$ 680)</h3>
             
@@ -628,19 +623,22 @@
             <div class="grid-2col" id="artworkGallery"></div>
         </section>
 
-        <!-- 修潤後的法律責任聲明 -->
         <footer class="legal-disclaimer">
             <h5 style="color: var(--gold-light); margin-bottom: 8px;">【智慧財產與服務免責聲明】</h5>
             <p>本網站所載之所有學術文學著作、原創美學畫作、數字風水配置及門牌選吉內容，均受智慧財產權與著作權法保護，未經授權切勿任意轉載。相關命理與數字磁場解析係結合傳統文化與心靈輔助研究，僅供個人格局優化與心靈參考，重大決策與財務投資仍須依循個人獨立判斷並自負其責。</p>
-            <p style="margin-top: 15px; text-align: center; color: var(--gold);">© 紫墨數字 品心書畫 ｜ 學術文學創作 彭品心老師 官方網站</p>
+            <p style="margin-top: 15px; text-align: center; color: var(--gold);">© 品心書閣 ｜ 學術文學創作 彭品心老師 官方網站</p>
         </footer>
 
     </div>
 
-    <!-- 精美購物車與預約訂單側邊欄 -->
     <div class="cart-drawer" id="cartDrawer">
         <div class="drawer-header">
             <h3 style="color: var(--gold-light);">🛒 您的專屬結帳與預約單</h3>
             <button onclick="toggleCart()" style="background:none; border:none; color:var(--text-main); font-size:1.2rem; cursor:pointer;">✕</button>
         </div>
-        <div cl
+        <div class="cart-items" id="cartItemsList">
+            <p style="color: var(--text-muted); text-align: center; margin-top: 20px;">購物車目前是空的</p>
+        </div>
+        <div class="checkout-form">
+            <div style="margin-bottom: 12px;">
+        
