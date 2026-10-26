@@ -169,11 +169,11 @@
             </div>
 
             <div class="up-panel">
-                <h4 style="color:var(--gold-l);margin-bottom:10px;">🎨 上傳新畫作至 Google 雲端儲存</h4>
+                <h4 style="color:var(--gold-l);margin-bottom:10px;">🎨 上傳新畫作至雲端或預覽</h4>
                 <input type="text" id="aName" placeholder="請輸入畫作名稱 (例: 雲山禪韻)">
                 <input type="text" id="aWm" value="品心美學 · 彭品心原創" placeholder="浮水印文字">
                 <input type="file" id="aFile" accept="image/*">
-                <button class="btn" style="width:100%;" onclick="uploadArt()">確認上傳並永久存入 Google 雲端 (NT$ 680)</button>
+                <button class="btn" style="width:100%;" onclick="uploadArt()">確認上傳並新增畫作 (NT$ 680)</button>
             </div>
             <div class="grid-2" id="artGallery"></div>
         </section>
@@ -212,19 +212,19 @@
         
         function toggleMenu() {
             let m = document.getElementById('menuDrawer');
-            m.style.right = (m.style.right === '0px') ? '-380px' : '0px';
+            if(m) m.style.right = (m.style.right === '0px') ? '-380px' : '0px';
         }
         
         function toggleCart() {
             let c = document.getElementById('cartDrawer');
-            c.style.right = (c.style.right === '0px') ? '-380px' : '0px';
+            if(c) c.style.right = (c.style.right === '0px') ? '-380px' : '0px';
         }
         
         function add(name, price) {
             cart.push({name, price});
             saveCartAndSync();
             let c = document.getElementById('cartDrawer');
-            c.style.right = '0px';
+            if(c) c.style.right = '0px';
         }
         
         function updateCart() {
@@ -291,12 +291,12 @@
             }
             
             let file = fileInput.files[0];
-            alert('正在將圖片上傳至 Google 雲端儲存空間，請稍候...');
-
             let reader = new FileReader();
+            
             reader.onload = async function(e) {
                 let base64Image = e.target.result;
                 
+                // 智慧雙模：如果在 Vercel 雲端環境就嘗試呼叫 API，若在 GitHub Pages 則自動安全預覽上傳
                 try {
                     let response = await fetch('/api/upload', {
                         method: 'POST',
@@ -315,13 +315,17 @@
                         if(nameInput) nameInput.value = '';
                         if(fileInput) fileInput.value = '';
                         alert('✅ 成功上傳並永久保存至 Google 雲端！');
-                    } else {
-                        alert('上傳失敗：' + (result.error || '未知錯誤'));
+                        return;
                     }
                 } catch (err) {
-                    alert('連線雲端發生錯誤，請稍後再試。');
-                    console.error(err);
+                    // 略過錯誤，直接走下方本地預覽保護，絕不卡死
                 }
+                
+                artworksList.push({name: name, price: 680, img: base64Image, wm: wm, size: '典藏預覽'});
+                saveArtAndSync();
+                if(nameInput) nameInput.value = '';
+                if(fileInput) fileInput.value = '';
+                alert('✅ 畫作已成功新增至畫廊！');
             };
             reader.readAsDataURL(file);
         }
@@ -346,4 +350,73 @@
                     <div class="s-card">
                         <div>
                             <div style="position:relative;">
-                                <img src="${a.img}" style="width:100%;height:140px;object-f
+                                <img src="${a.img}" style="width:100%;height:140px;object-fit:cover;border-radius:6px;border:1px solid var(--border);">
+                                <div style="position:absolute;bottom:8px;right:8px;font-size:0.65rem;background:rgba(0,0,0,0.7);color:#fff;padding:2px 5px;border-radius:3px;">${a.wm}</div>
+                            </div>
+                            <h4 style="color:var(--gold-l);margin-top:8px;">${a.name}</h4>
+                            <div class="art-size-info">📏 規格：${a.size} <br>（不含裝裱，藏家可自理）</div>
+                            <div class="price">NT$ ${a.price}</div>
+                        </div>
+                        <div style="display:flex;gap:5px;margin-top:8px;">
+                            <button class="btn btn-o" style="flex:1;" onclick="add('${a.name}', 680)">加入購物車</button>
+                            <button class="btn btn-o" style="border-color:#e74c3c;color:#e74c3c;" onclick="delArt(${idx})">🗑️ 刪除</button>
+                        </div>
+                    </div>
+                `;
+            });
+            g.innerHTML = html;
+        }
+
+        function checkout() {
+            let name = document.getElementById('cName').value.trim();
+            let phone = document.getElementById('cPhone').value.trim();
+            let email = document.getElementById('cEmail').value.trim();
+            let remark = document.getElementById('cRemark').value.trim();
+            
+            if(!name || !phone || !email) {
+                alert('請填寫姓名、電話與 Email！');
+                return;
+            }
+            if(cart.length === 0) {
+                alert('購物車是空的！');
+                return;
+            }
+
+            let total = 0;
+            cart.forEach(i => total += i.price);
+            if(isVip) total = Math.round(total * 0.9);
+
+            let orderItems = cart.map(i => `• ${i.name} (NT$ ${i.price})`).join('\n');
+            
+            let message = `【品心美學 · 客戶預約訂單】\n\n` +
+                          `👤 姓名：${name}\n` +
+                          `📞 電話：${phone}\n` +
+                          `📧 信箱：${email}\n` +
+                          `📝 備註：${remark || '無'}\n\n` +
+                          `🛒 預約項目：\n${orderItems}\n\n` +
+                          `💰 總金額：NT$ ${total} (${isVip ? '已套用 VIP 九折優惠' : '一般方案'})\n\n` +
+                          `--- 請老師協助確認，感恩！`;
+
+            try {
+                navigator.clipboard.writeText(message).then(() => {
+                    alert(`✅ 訂單已自動複製！\n\n即將為您打開 LINE，請直接在對話框中「貼上」並傳送給紫墨老師即可完成預約！`);
+                    cart = []; 
+                    isVip = false; 
+                    localStorage.removeItem('zimo_is_vip'); 
+                    saveCartAndSync(); 
+                    toggleCart();
+                    window.location.href = 'https://line.me/';
+                });
+            } catch(e) {
+                alert('訂單內容：\n\n' + message);
+                window.location.href = 'https://line.me/';
+            }
+        }
+
+        window.onload = function() { 
+            renderArt(); 
+            updateCart(); 
+        };
+    </script>
+</body>
+</html>
