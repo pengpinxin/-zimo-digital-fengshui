@@ -10,11 +10,11 @@
         body{background:var(--bg);color:var(--text);line-height:1.8;padding-bottom:80px;}
         header{background:rgba(26,23,20,0.95);border-bottom:1px solid var(--border);padding:12px 15px;position:sticky;top:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;}
         .brand{display:flex;align-items:center;gap:10px;}
-        .logo{width:38px;height:38px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:bold;background:rgba(212,175,55,0.1);}
-        .b-text h1{font-size:0.95rem;color:var(--gold-l);}
-        .b-text p{font-size:0.68rem;color:var(--muted);}
+        .logo{width:38px;height:38px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:bold;background:rgba(212,175,55,0.1);flex-shrink:0;}
+        .b-text h1{font-size:0.95rem;color:var(--gold-l);white-space:nowrap;}
+        .b-text p{font-size:0.68rem;color:var(--muted);white-space:nowrap;}
         .h-act{display:flex;gap:6px;}
-        .btn{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#1a1714;border:none;padding:6px 10px;border-radius:16px;font-size:0.75rem;font-weight:bold;cursor:pointer;}
+        .btn{background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#1a1714;border:none;padding:6px 10px;border-radius:16px;font-size:0.75rem;font-weight:bold;cursor:pointer;white-space:nowrap;}
         .btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold-l);}
         .wrap{max-width:800px;margin:0 auto;padding:20px;}
         .banner{width:100%;border-radius:8px;overflow:hidden;border:1px solid var(--border);margin-bottom:20px;}
@@ -24,24 +24,35 @@
         .vip-box p{color:var(--muted);font-size:0.85rem;margin-bottom:12px;}
         .sec-title{font-size:1.4rem;color:var(--gold-l);border-left:4px solid var(--gold);padding-left:12px;margin:35px 0 20px 0;}
         .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px;display:flex;gap:20px;align-items:center;}
-        .card img{width:180px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
-        .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-bottom:25px;}
+        .card img{width:180px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--border);flex-shrink:0;}
+        
+        /* 強制固定 2 個一排的格線排版，絕不跑版 */
+        .grid-2 {display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-bottom:25px;}
         .s-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;}
         .price{color:var(--gold);font-weight:bold;margin-bottom:8px;}
+        
         .c-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:30px 0;}
         .c-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;text-align:center;}
         .c-card h5{color:var(--gold-l);font-size:0.82rem;margin-bottom:8px;}
         .c-link{display:inline-block;background:rgba(212,175,55,0.1);border:1px solid var(--gold);color:var(--gold-l);padding:5px 10px;border-radius:15px;font-size:0.72rem;text-decoration:none;}
+        
         .up-panel{background:rgba(212,175,55,0.05);border:1px dashed var(--gold);border-radius:10px;padding:20px;margin-bottom:25px;}
         .up-panel input{width:100%;padding:10px;margin-bottom:10px;border-radius:5px;border:1px solid var(--border);background:#1a1714;color:var(--text);}
+        
         .drawer{position:fixed;top:0;right:-100%;width:100%;max-width:360px;height:100%;background:var(--card);border-left:1px solid var(--border);z-index:2000;padding:20px;transition:0.3s;display:flex;flex-direction:column;}
         .drawer.open{right:0;}
         .d-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:15px;margin-bottom:20px;}
         .d-items{flex-grow:1;overflow-y:auto;margin-bottom:15px;}
         .d-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(74,61,49,0.4);font-size:0.88rem;}
         .cf input,.cf textarea{width:100%;padding:8px;margin-bottom:10px;background:#1a1714;border:1px solid var(--border);color:var(--text);border-radius:4px;}
+        
         footer{background:#151311;border:1px dashed var(--border);border-radius:8px;padding:20px;margin-top:40px;font-size:0.78rem;color:#9c9182;}
-        @media(max-width:480px){.card{flex-direction:column;text-align:center;}.card img{width:100%;}.grid,.c-3{grid-template-columns:1fr;}}
+        
+        @media(max-width:480px){
+            .card{flex-direction:column;text-align:center;}
+            .card img{width:100%;}
+            .c-3{grid-template-columns:1fr;}
+        }
     </style>
 </head>
 <body>
@@ -103,9 +114,10 @@
             </div>
         </section>
 
+        <!-- 四大服務強制維持 2 個一排 -->
         <section id="services">
             <h3 class="sec-title">四大核心數字配置服務</h3>
-            <div class="grid">
+            <div class="grid-2">
                 <div class="s-card">
                     <div><h4>手機號碼配置</h4><div class="price">NT$ 1,680</div><p>選定生旺手機吉號。</p></div>
                     <button class="btn btn-o" onclick="add('手機號碼配置', 1680)">加入購物車</button>
@@ -125,13 +137,14 @@
             </div>
         </section>
 
-        <!-- 聯絡方式（保證無亂碼） -->
+        <!-- 官方聯絡方式（百分百正確無亂碼） -->
         <div class="c-3">
             <div class="c-card"><h5>官方 LINE</h5><a href="https://line.me/" target="_blank" class="c-link">點擊加入 LINE</a></div>
             <div class="c-card"><h5>FB 官方粉專</h5><a href="https://www.facebook.com/pengpinxin/" target="_blank" class="c-link">造訪粉絲專頁</a></div>
             <div class="c-card"><h5>電子郵箱</h5><a href="mailto:Aaa0987955906aaa@gmail.com" class="c-link">發送電子郵件</a></div>
         </div>
 
+        <!-- 原創畫作珍藏專區 (修復圖片上傳問題) -->
         <section id="art">
             <h3 class="sec-title">原創畫作珍藏專區 (NT$ 680)</h3>
             <div class="up-panel">
@@ -141,13 +154,14 @@
                 <input type="file" id="aFile" accept="image/*">
                 <button class="btn" style="width:100%;" onclick="uploadArt()">確認上傳並上架 (NT$ 680)</button>
             </div>
-            <div class="grid" id="artGallery"></div>
+            <div class="grid-2" id="artGallery"></div>
         </section>
 
+        <!-- 法律責任聲明（完整置底，絕對不會不見） -->
         <footer>
-            <h5 style="color:var(--gold-l);margin-bottom:8px;">【免責聲明】</h5>
-            <p>本網站著作、畫作與配置內容均受版權保護。命理與磁場解析僅供個人格局優化與心靈參考。</p>
-            <p style="margin-top:10px;text-align:center;color:var(--gold);">© 品心美學 ｜ 學術文學創作 彭品心老師</p>
+            <h5 style="color:var(--gold-l);margin-bottom:8px;">【智慧財產與服務免責聲明】</h5>
+            <p>本網站所載之所有學術文學著作、原創美學畫作、數字風水配置及門牌選吉內容，均受智慧財產權與著作權法保護，未經授權切勿任意轉載。相關命理與數字磁場解析係結合傳統文化與心靈輔助研究，僅供個人格局優化與心靈參考，重大決策與財務投資仍須依循個人獨立判斷並自負其責。</p>
+            <p style="margin-top:15px;text-align:center;color:var(--gold);">© 品心美學 ｜ 學術文學創作 彭品心老師 官方網站</p>
         </footer>
     </div>
 
@@ -195,18 +209,17 @@
             else{alert('優惠碼錯誤');}
         }
         function uploadArt(){
-            let name = document.getElementById('aName').value.trim(), wm = document.getElementById('aWm').value.trim() || '品心美學 · 原創', file = document.getElementById('aFile').files[0];
-            if(!name || !file){alert('請輸入名稱並選擇圖片！');return;}
-            let reader = new FileReader();
-            reader.onload = function(e){
-                arts.push({name, price:680, img:e.target.result, wm});
-                localStorage.setItem('artworks', JSON.stringify(arts));
-                renderArt();
-                document.getElementById('aName').value='';
-                document.getElementById('aFile').value='';
-                alert('上架成功！');
-            };
-            reader.readAsDataURL(file);
+            let name = document.getElementById('aName').value.trim(), wm = document.getElementById('aWm').value.trim() || '品心美學 · 原創', fileInput = document.getElementById('aFile');
+            if(!name || fileInput.files.length === 0){alert('請輸入畫作名稱並選擇圖片檔案！');return;}
+            
+            // 使用穩定快速的 URL.createObjectURL 解決手機上傳卡住問題
+            let imgUrl = URL.createObjectURL(fileInput.files[0]);
+            arts.push({name, price:680, img:imgUrl, wm});
+            localStorage.setItem('artworks', JSON.stringify(arts));
+            renderArt();
+            document.getElementById('aName').value='';
+            fileInput.value='';
+            alert('上架成功！');
         }
         function delArt(idx){if(confirm('確定刪除？')){arts.splice(idx,1);localStorage.setItem('artworks', JSON.stringify(arts));renderArt();}}
         function renderArt(){
