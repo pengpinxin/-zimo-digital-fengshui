@@ -1,6 +1,15 @@
 import { google } from 'googleapis';
 import { Readable } from 'stream';
 
+// 放大 Next.js 預設的傳輸大小限制（避免大圖片上傳失敗）
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '10mb',
+        },
+    },
+};
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ success: false, error: 'Method not allowed' });
