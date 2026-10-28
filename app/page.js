@@ -185,7 +185,9 @@ export default function Home(){
                   </div>
                   <div style={{marginTop:'8px',display:'flex',flexDirection:'column',gap:'4px'}}>
                     <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem'}} onClick={()=>add(item.name,680)}>加入購物車</button>
-                    {admin&&<button className="btn" style={{width:'100%',fontSize:'0.7rem',background:'#8b0000',color:'#fff'}} onClick={()=>del(idx)}>刪除</button>}
+                    {admin && (
+                      <button className="btn" style={{width:'100%',fontSize:'0.7rem',background:'#8b0000',color:'#fff'}} onClick={()=>del(idx)}>刪除此畫作</button>
+                    )}
                   </div>
                 </div>
               ))
@@ -221,4 +223,4 @@ export default function Home(){
       </div>
     </>
   );
-  }
+            }
