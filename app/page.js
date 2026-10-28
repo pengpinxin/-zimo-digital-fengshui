@@ -203,12 +203,8 @@ export default function Home(){
 
         <section id="intro" className="notice-box" style={{textAlign:'center',padding:'20px'}}>
           <h2 style={{color:'var(--gold-l)',fontSize:'1.2rem',marginBottom:'12px'}}>靈魂的棲息之處</h2>
-          <p style={{fontSize:'0.85rem',color:'#f3efe6',marginBottom:'12px',lineHeight:'1.8'}}>
-            喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療癒、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！
-          </p>
-          <p style={{fontSize:'0.8rem',color:'#d0c5b4',lineHeight:'1.8',textAlign:'left'}}>
-            老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學、及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，她清雅脫俗地出落在紅塵萬里天地之間，悉心等待著值得的人送去福音，將她畢生的學術研究成果，盡心耕織於人類與環境實際需求，廣結善緣、讓福音傳遍千里之外，讓靈慧助人於無形之中。
-          </p>
+          <p style={{fontSize:'0.85rem',color:'#f3efe6',marginBottom:'12px',lineHeight:'1.8'}}>喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療癒、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！</p>
+          <p style={{fontSize:'0.8rem',color:'#d0c5b4',lineHeight:'1.8',textAlign:'left'}}>老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學、及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，她清雅脫俗地出落在紅塵萬里天地之間，悉心等待著值得的人送去福音，將她畢生的學術研究成果，盡心耕織於人類與環境實際需求，廣結善緣、讓福音傳遍千里之外，讓靈慧助人於無形之中。</p>
         </section>
 
         <section id="books">
@@ -300,12 +296,7 @@ export default function Home(){
 
         <footer style={{borderTop:'1px dashed var(--border)',paddingTop:'15px',marginTop:'30px',fontSize:'0.75rem',color:'#d0c5b4',textAlign:'center',display:'flex',flexDirection:'column',gap:'6px'}}>
           <p>© 品心美學 ｜ 學術文學創作 彭品心老師</p>
-          <p>
-            官方網站與粉專：
-            <a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>
-              https://www.facebook.com/pengpinxin/
-            </a>
-          </p>
+          <p>官方網站與粉專：<a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>https://www.facebook.com/pengpinxin/</a></p>
         </footer>
       </div>
 
@@ -329,4 +320,6 @@ export default function Home(){
             <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
           </div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
-        
+            <span>總計：</span><span>NT$ {total} {vipText}</span>
+          </div>
+          <input type="text" value={cName
