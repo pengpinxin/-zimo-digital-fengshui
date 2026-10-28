@@ -150,8 +150,7 @@ export default function Home() {
         .art-desc-box h4{color:var(--gold-l);font-size:1.1rem;margin-bottom:10px;text-align:center;}
         .art-desc-box p{margin-bottom:10px;}
         .art-size-info{font-size:0.78rem;color:var(--gold-l);margin-bottom:10px;background:rgba(212,175,55,0.06);padding:4px 8px;border-radius:4px;border:1px dashed var(--border);}
-        .c-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:30px 0;}
-        .c-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;text-align:center;}
+        .c-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;}
         .c-link{display:inline-block;background:rgba(212,175,55,0.1);border:1px solid var(--gold);color:var(--gold-l);padding:5px 10px;border-radius:15px;font-size:0.72rem;text-decoration:none;}
         .up-panel{background:rgba(212,175,55,0.05);border:1px dashed var(--gold);border-radius:10px;padding:20px;margin-bottom:25px;}
         .up-panel input{width:100%;padding:10px;margin-bottom:10px;border-radius:5px;border:1px solid var(--border);background:#1a1714;color:var(--text);}
@@ -162,7 +161,7 @@ export default function Home() {
         .d-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(74,61,49,0.4);font-size:0.88rem;}
         .cf input,.cf textarea{width:100%;padding:8px;margin-bottom:10px;background:#1a1714;border:1px solid var(--border);color:var(--text);border-radius:4px;}
         footer{background:#151311;border:1px dashed var(--border);border-radius:8px;padding:20px;margin-top:40px;font-size:0.78rem;color:#9c9182;}
-        @media(max-width:480px){.card{flex-direction:column;text-align:center;}.card img{width:100%;}.c-3{grid-template-columns:1fr;}}
+        @media(max-width:480px){.card{flex-direction:column;text-align:center;}.card img{width:100%;}}
       `}</style>
 
       <header>
@@ -261,10 +260,24 @@ export default function Home() {
             </div>
         </section>
 
-        <div className="c-3">
-            <div className="c-card"><h5 style={{color:'var(--gold-l)',fontSize:'0.82rem',marginBottom:'8px'}}>官方 LINE</h5><a href="https://line.me/" target="_blank" rel="noreferrer" className="c-link">點擊加入 LINE</a></div>
-            <div className="c-card"><h5 style={{color:'var(--gold-l)',fontSize:'0.82rem',marginBottom:'8px'}}>FB 官方粉專</h5><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noreferrer" className="c-link">造訪粉絲專頁</a></div>
-            <div className="c-card"><h5 style={{color:'var(--gold-l)',fontSize:'0.82rem',marginBottom:'8px'}}>電子郵箱</h5><a href="mailto:Aaa0987955906aaa@gmail.com" className="c-link">發送電子郵件</a></div>
+        {/* 聯絡資訊區塊（包含綠界審核所需的電話與信箱） */}
+        <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'15px', margin:'30px 0'}}>
+            <div className="c-card" style={{textAlign:'left'}}>
+                <h5 style={{color:'var(--gold-l)', marginBottom:'8px'}}>📞 服務專線</h5>
+                <p style={{fontSize:'0.85rem', color:'var(--text)'}}>0987-955-906</p>
+            </div>
+            <div className="c-card" style={{textAlign:'left'}}>
+                <h5 style={{color:'var(--gold-l)', marginBottom:'8px'}}>電子郵箱</h5>
+                <a href="mailto:Aaa0987955906aaa@gmail.com" className="c-link">Aaa0987955906aaa@gmail.com</a>
+            </div>
+            <div className="c-card" style={{textAlign:'left'}}>
+                <h5 style={{color:'var(--gold-l)', marginBottom:'8px'}}>官方 LINE</h5>
+                <a href="https://line.me/" target="_blank" rel="noreferrer" className="c-link">點擊加入 LINE</a>
+            </div>
+            <div className="c-card" style={{textAlign:'left'}}>
+                <h5 style={{color:'var(--gold-l)', marginBottom:'8px'}}>FB 官方粉專</h5>
+                <a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noreferrer" className="c-link">造訪粉絲專頁</a>
+            </div>
         </div>
 
         <section id="art">
@@ -272,7 +285,7 @@ export default function Home() {
             
             <div className="art-desc-box">
                 <h4>🎨 品心美學 · 老師精心精選原創藝術流傳與結緣</h4>
-                <p><strong>✨ 為什麼選擇老師精心精選的藝術美學？</strong> 每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶。本專區以親民實惠的結緣價格（均一價 NT$ 680）讓美學與靈性祝福毫無負擔地走入尋常百姓家，為居家或辦公空間營造高雅藝術圍，達到陶冶心靈、提升環境磁場的多重效益。</p>
+                <p><strong>✨ 為什麼選擇老師精心精選的藝術美學？</strong> 每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶。本專區以親民實惠的結緣價格（均一價 NT$ 680）讓美學與靈性祝福毫無負擔地走入尋常百姓家，為居家或辦公空間營造高雅藝術氛圍，達到陶冶心靈、提升環境磁場的多重效益。</p>
                 <p><strong>🎯 服務方向與彈性說明：</strong> 為了讓藏家免去繁複昂貴的裝裱開銷，並能完全依據個人空間風格、預算與審美喜好自由發揮，本專區採純原創作品售出（不含裝裱）。藏家可自行挑選喜愛的方式進行裝裱，讓藝術完美融合您的生活空間。</p>
             </div>
 
@@ -328,12 +341,4 @@ export default function Home() {
               cart.map((i, idx) => (
                 <div className="d-item" key={idx}>
                   <span>{i.name}</span>
-                  <span>NT$ {i.price} <button onClick={() => rm(idx)} style={{background:'none',border:'none',color:'#e74c3c',cursor:'pointer'}}>🗑️</button></span>
-                </div>
-              ))
-            )}
-            {isVip && <div style={{color:'var(--gold)',fontSize:'0.85rem',marginTop:'5px'}}>✨ 已套用 VIP 九折優惠</div>}
-        </div>
-        <div className="cf">
-            <input type="text" id="vCode" placeholder="優惠碼 (輸入 VIP880 享9折)" />
-            <button className="btn btn-o" style={{width:'100%',m
+                  <span>NT$ {i.price} <button onClick={() => rm(idx)} style={{background:'none',bord
