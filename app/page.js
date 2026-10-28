@@ -80,6 +80,15 @@ export default function Home(){
     }
   };
 
+  // 當使用者輸入電話時，自動檢查是否為已註冊的 VIP 手機號碼
+  const checkPhoneVip = (phone) => {
+    const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
+    if(vipPhones.includes(phone.trim())){
+      setIsVip(true);
+      alert('系統自動辨識：此電話已綁定 VIP 880 終身會員，已直接享有 9 折優惠！');
+    }
+  };
+
   const chk = () => {
     const n = document.getElementById('cn')?.value.trim();
     const p = document.getElementById('cp')?.value.trim();
@@ -87,6 +96,17 @@ export default function Home(){
     const a = document.getElementById('ca')?.value.trim();
     if(!n || !p || !e || !a){ alert('請完整填寫收件資訊'); return; }
     if(cart.length === 0){ alert('購物車是空的'); return; }
+
+    // 如果購物車包含 VIP 方案，自動將該電話號碼寫入 VIP 資料庫
+    const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
+    if(hasVipItem || isVip){
+      const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
+      if(!vipPhones.includes(p)){
+        vipPhones.push(p);
+        localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
+      }
+    }
+
     alert('感謝 ' + n + ' 緣主！訂單已送出。');
     setCart([]);
     setIsVip(false);
@@ -94,6 +114,7 @@ export default function Home(){
 
   let total = cart.reduce((s, i) => s + i.price, 0);
   if(isVip) total = Math.round(total * 0.9);
+  const vipText = isVip ? ' (已享9折)' : '';
 
   return (
     <>
@@ -211,10 +232,10 @@ export default function Home(){
             <button className="btn btn-o" onClick={()=>{if(document.getElementById('vc').value.trim()==='VIP880'){setIsVip(true);alert('VIP 驗證成功');}else{alert('錯誤');}}>驗證</button>
           </div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
-            <span>總計：</span><span>NT$ {total} {isVip&&<span>(9折)</span>}</span>
+            <span>總計：</span><span>NT$ {total} {vipText}</span>
           </div>
           <input type="text" id="cn" placeholder="姓名"/>
-          <input type="text" id="cp" placeholder="電話"/>
+          <input type="text" id="cp" placeholder="電話" onBlur={(e)=>checkPhoneVip(e.target.value)}/>
           <input type="email" id="ce" placeholder="Email"/>
           <input type="text" id="ca" placeholder="收件地址"/>
           <textarea id="co" rows="1" placeholder="備註（選填）"></textarea>
@@ -223,4 +244,4 @@ export default function Home(){
       </div>
     </>
   );
-}
+            }
