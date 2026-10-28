@@ -47,7 +47,6 @@ export default function Home() {
 
   const verifyAdmin = () => {
     let pwd = document.getElementById('adminPwd').value.trim();
-    // 老師管理密碼已更新為 08241977
     if (pwd === '08241977') {
       setIsAdmin(true);
       alert('老師身分驗證成功，已解鎖畫作上傳與管理功能！');
@@ -273,7 +272,7 @@ export default function Home() {
             </div>
             <div className="c-card" style={{textAlign:'left'}}>
                 <h5 style={{color:'var(--gold-l)', marginBottom:'8px'}}>官方 LINE</h5>
-                <a href="https://line.me/" target="_blank" rel="noreferrer" className="c-link">點擊加入 LINE</a>
+                <a href="https://line.me/ti/p/~0987955906" target="_blank" rel="noreferrer" className="c-link">點擊加入 LINE</a>
             </div>
             <div className="c-card" style={{textAlign:'left'}}>
                 <h5 style={{color:'var(--gold-l)', marginBottom:'8px'}}>FB 官方粉專</h5>
@@ -290,7 +289,6 @@ export default function Home() {
                 <p><strong>🎯 服務方向與彈性說明：</strong> 為了讓藏家免去繁複昂貴的裝裱開銷，並能完全依據個人空間風格、預算與審美喜好自由發揮，本專區採純原創作品售出（不含裝裱）。藏家可自行挑選喜愛的方式進行裝裱，讓藝術完美融合您的生活空間。</p>
             </div>
 
-            {/* 僅限老師本人上傳的管理解鎖區 */}
             {!isAdmin ? (
                 <div className="up-panel" style={{textAlign:'center'}}>
                     <h4 style={{color:'var(--gold-l)', marginBottom:'10px'}}>🔒 老師專用畫作上傳管理</h4>
@@ -344,4 +342,6 @@ export default function Home() {
         </footer>
       </div>
 
-      <div className="drawer" id="cartDra
+      <div className="drawer" id="cartDrawer">
+        <div className="d-head">
+       
