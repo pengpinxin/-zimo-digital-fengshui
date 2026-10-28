@@ -170,11 +170,11 @@ export default function Home(){
           <div style={{width:'34px',height:'34px',border:'1px solid var(--gold)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)'}}>品</div>
           <div>
             <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)'}}>品心美學</h1>
-            <p style={{fontSize:'0.65rem',color:'#d0c5b4'}}>彭品心老師官方網站</p>
+            <p style={{fontSize:'0.65rem',color:'#d0c5b4'}}>學術文學創作 彭品心老師</p>
           </div>
         </div>
         <div style={{display:'flex',gap:'6px'}}>
-          <button className="btn" onClick={openCart}>🛒({cart.length})</button>
+          <button className="btn" onClick={openCart}>🛒購物車({cart.length})</button>
           <button className="btn btn-o" onClick={openMenu}>☰選單</button>
         </div>
       </header>
@@ -182,12 +182,12 @@ export default function Home(){
       <div className="drawer" id="menu">
         <div style={{display:'flex',justifyContent:'space-between',marginBottom:'15px'}}><h3 style={{color:'var(--gold-l)'}}>導覽</h3><button onClick={closeMenu} style={{background:'none',border:'none',color:'#fff',fontSize:'1.2rem'}}>✕</button></div>
         <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
-          <a href="#vip" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>💎 VIP 880 會員</a>
-          <a href="#books" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📚 文學著作</a>
-          <a href="#services" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🔮 數字風水</a>
-          <a href="#art" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🎨 原創畫作</a>
+          <a href="#vip" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>💎 VIP 880 會員專屬福利</a>
+          <a href="#intro" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📖 靈魂的棲息之處</a>
+          <a href="#books" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📚 學術文學著作</a>
+          <a href="#services" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🔮 紫墨數字風水</a>
+          <a href="#art" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🎨 原創藝術畫作</a>
           <a href="#contact" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📞 聯絡方式</a>
-          <a href="#notice" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📌 購買注意事項</a>
           <a href="#legal" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>⚖️ 法律責任與聲明</a>
         </div>
       </div>
@@ -196,10 +196,20 @@ export default function Home(){
         <div style={{width:'100%',borderRadius:'8px',overflow:'hidden',border:'1px solid var(--border)',marginBottom:'15px'}}><img src="/1792354723564.png" style={{width:'100%',display:'block'}} alt="b"/></div>
         
         <div id="vip" style={{background:'rgba(212,175,55,0.08)',border:'1px solid var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'20px'}}>
-          <h3 style={{color:'var(--gold-l)',marginBottom:'5px'}}>✨ VIP 880 終身會員</h3>
-          <p style={{fontSize:'0.8rem',color:'#d0c5b4',marginBottom:'10px'}}>全館著作、數字配置與畫作<strong>終身9折</strong></p>
-          <button className="btn" onClick={()=>addToCart('VIP 880 終身會員方案',880)}>加入 VIP (NT$ 880)</button>
+          <h3 style={{color:'var(--gold-l)',marginBottom:'5px'}}>✨ VIP 880 會員專屬福利</h3>
+          <p style={{fontSize:'0.8rem',color:'#d0c5b4',marginBottom:'10px'}}>享有全館著作、數字配置與原創畫作<strong>終身九折</strong>禮遇！</p>
+          <button className="btn" onClick={()=>addToCart('VIP 880 終身會員方案',880)}>加入 VIP 880 方案 (NT$ 880)</button>
         </div>
+
+        <section id="intro" className="notice-box" style={{textAlign:'center',padding:'20px'}}>
+          <h2 style={{color:'var(--gold-l)',fontSize:'1.2rem',marginBottom:'12px'}}>靈魂的棲息之處</h2>
+          <p style={{fontSize:'0.85rem',color:'#f3efe6',marginBottom:'12px',lineHeight:'1.8'}}>
+            喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療癒、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！
+          </p>
+          <p style={{fontSize:'0.8rem',color:'#d0c5b4',lineHeight:'1.8',textAlign:'left'}}>
+            老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學、及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，她清雅脫俗地出落在紅塵萬里天地之間，悉心等待著值得的人送去福音，將她畢生的學術研究成果，盡心耕織於人類與環境實際需求，廣結善緣、讓福音傳遍千里之外，讓靈慧助人於無形之中。
+          </p>
+        </section>
 
         <section id="books">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>學術文學著作</h3>
@@ -319,11 +329,4 @@ export default function Home(){
             <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
           </div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
-            <span>總計：</span><span>NT$ {total} {vipText}</span>
-          </div>
-          <input type="text" value={cName} onChange={(e)=>setCName(e.target.value)} placeholder="姓名"/>
-          <input type="text" value={cPhone} onChange={(e)=>setCPhone(e.target.value)} onBlur={(e)=>checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的手機號碼即可"/>
-          <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
-          <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
-          <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
-          <butto
+        
