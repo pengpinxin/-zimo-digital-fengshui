@@ -260,7 +260,6 @@ export default function Home() {
             </div>
         </section>
 
-        {/* 聯絡資訊區塊（包含綠界審核所需的電話與信箱） */}
         <div style={{display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'15px', margin:'30px 0'}}>
             <div className="c-card" style={{textAlign:'left'}}>
                 <h5 style={{color:'var(--gold-l)', marginBottom:'8px'}}>📞 服務專線</h5>
@@ -335,13 +334,10 @@ export default function Home() {
             <button onClick={() => document.getElementById('cartDrawer').classList.remove('open')} style={{background:'none',border:'none',color:'var(--text)',fontSize:'1.2rem',cursor:'pointer'}}>✕</button>
         </div>
         <div className="d-items" id="cList">
-                          {cart.length === 0 ? (
-                <p style={{color:'var(--muted)', textAlign:'center', padding:'20px 0'}}>購物車是空的</p>
-              ) : (
-                cart.map((i, idx) => (
-                  <div className="d-item" key={idx}>
-                    <span>{i.name}</span>
-                    <span>NT$ {i.price} <button onClick={() => removeFromCart(idx)} style={{color:'var(--gold)', background:'none', border:'none', cursor:'pointer', marginLeft:'10px'}}>刪除</button></span>
-                  </div>
-                ))
-              )}
+          {cart.length === 0 ? (
+            <p style={{color:'var(--muted)', textAlign:'center', padding:'20px 0'}}>購物車是空的</p>
+          ) : (
+            cart.map((i, idx) => (
+              <div className="d-item" key={idx}>
+                <span>{i.name}</span>
+                <span>NT$ {i.price} <button onClick={() => rm(idx)} style={{color:'var(--gold)', background:'none', border:'none', cursor:'pointer', ma
