@@ -62,7 +62,6 @@ export default function Home(){
     if(!selectedFile){ alert('請選擇圖片檔案'); return; }
     const nameToUse = artName.trim() || '品心禪意原創畫作';
     setUploading(true);
-    
     const formData = new FormData();
     formData.append('file', selectedFile);
     formData.append('filename', selectedFile.name);
@@ -117,7 +116,6 @@ export default function Home(){
   const handleCheckout = () => {
     if(!cName || !cPhone || !cEmail || !cAddress){ alert('請完整填寫收件與聯絡資訊'); return; }
     if(cart.length === 0){ alert('購物車是空的'); return; }
-
     const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
     if(hasVipItem || isVip){
       const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
@@ -126,7 +124,6 @@ export default function Home(){
         localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
       }
     }
-
     alert('感謝 ' + cName + ' 緣主！訂單已送出。');
     setCart([]);
     setIsVip(false);
@@ -180,7 +177,10 @@ export default function Home(){
       </header>
 
       <div className="drawer" id="menu">
-        <div style={{display:'flex',justifyContent:'space-between',marginBottom:'15px'}}><h3 style={{color:'var(--gold-l)'}}>導覽</h3><button onClick={closeMenu} style={{background:'none',border:'none',color:'#fff',fontSize:'1.2rem'}}>✕</button></div>
+        <div style={{display:'flex',justifyContent:'space-between',marginBottom:'15px'}}>
+          <h3 style={{color:'var(--gold-l)'}}>導覽</h3>
+          <button onClick={closeMenu} style={{background:'none',border:'none',color:'#fff',fontSize:'1.2rem'}}>✕</button>
+        </div>
         <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
           <a href="#vip" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>💎 VIP 880 會員專屬福利</a>
           <a href="#intro" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📖 靈魂的棲息之處</a>
@@ -193,7 +193,9 @@ export default function Home(){
       </div>
 
       <div className="wrap">
-        <div style={{width:'100%',borderRadius:'8px',overflow:'hidden',border:'1px solid var(--border)',marginBottom:'15px'}}><img src="/1792354723564.png" style={{width:'100%',display:'block'}} alt="b"/></div>
+        <div style={{width:'100%',borderRadius:'8px',overflow:'hidden',border:'1px solid var(--border)',marginBottom:'15px'}}>
+          <img src="/1792354723564.png" style={{width:'100%',display:'block'}} alt="b"/>
+        </div>
         
         <div id="vip" style={{background:'rgba(212,175,55,0.08)',border:'1px solid var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'20px'}}>
           <h3 style={{color:'var(--gold-l)',marginBottom:'5px'}}>✨ VIP 880 會員專屬福利</h3>
@@ -201,10 +203,14 @@ export default function Home(){
           <button className="btn" onClick={()=>addToCart('VIP 880 終身會員方案',880)}>加入 VIP 880 方案 (NT$ 880)</button>
         </div>
 
-        <section id="intro" className="notice-box" style={{textAlign:'center',padding:'20px'}}>
-          <h2 style={{color:'var(--gold-l)',fontSize:'1.2rem',marginBottom:'12px'}}>靈魂的棲息之處</h2>
-          <p style={{fontSize:'0.85rem',color:'#f3efe6',marginBottom:'12px',lineHeight:'1.8'}}>喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療癒、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！</p>
-          <p style={{fontSize:'0.8rem',color:'#d0c5b4',lineHeight:'1.8',textAlign:'left'}}>老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學、及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，她清雅脫俗地出落在紅塵萬里天地之間，悉心等待著值得的人送去福音，將她畢生的學術研究成果，盡心耕織於人類與環境實際需求，廣結善緣、讓福音傳遍千里之外，讓靈慧助人於無形之中。</p>
+        <section id="intro" className="notice-box" style={{padding:'20px'}}>
+          <h2 style={{color:'var(--gold-l)',fontSize:'1.2rem',marginBottom:'12px',textAlign:'center'}}>靈魂的棲息之處</h2>
+          <p style={{fontSize:'0.85rem',color:'#f3efe6',marginBottom:'12px',lineHeight:'1.8',textAlign:'center'}}>
+            喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療愈、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！
+          </p>
+          <p style={{fontSize:'0.8rem',color:'#d0c5b4',lineHeight:'1.8'}}>
+            老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學、及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，她清雅脫俗地出落在紅塵萬里天地之間，悉心等待著為值得的人送去福音，將她畢生的學術研究成果，盡心耕織於人類與環境實際需求，廣結善緣、讓福音傳遍千里之外，讓靈慧助人於無形之中。
+          </p>
         </section>
 
         <section id="books">
@@ -243,7 +249,10 @@ export default function Home(){
             </div>
           ):(
             <div style={{background:'rgba(212,175,55,0.05)',border:'1px dashed var(--gold)',borderRadius:'8px',padding:'15px',marginBottom:'15px'}}>
-              <div style={{display:'flex',justifyContent:'space-between',marginBottom:'8px'}}><span style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>🎨 畫作上傳區 (直連 GitHub 雲端永久保存)</span><button className="btn btn-o" style={{fontSize:'0.6rem'}} onClick={()=>setAdmin(false)}>登出</button></div>
+              <div style={{display:'flex',justifyContent:'space-between',marginBottom:'8px'}}>
+                <span style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>🎨 畫作上傳區 (直連 GitHub 雲端永久保存)</span>
+                <button className="btn btn-o" style={{fontSize:'0.6rem'}} onClick={()=>setAdmin(false)}>登出</button>
+              </div>
               <input type="text" value={artName} onChange={(e)=>setArtName(e.target.value)} placeholder="請輸入中文畫名"/>
               <input type="text" value={artWm} onChange={(e)=>setArtWm(e.target.value)} placeholder="浮水印文字"/>
               <input type="file" accept="image/*" onChange={handleFileChange} style={{marginBottom:'8px',color:'var(--text)'}}/>
@@ -296,17 +305,15 @@ export default function Home(){
 
         <footer style={{borderTop:'1px dashed var(--border)',paddingTop:'15px',marginTop:'30px',fontSize:'0.75rem',color:'#d0c5b4',textAlign:'center',display:'flex',flexDirection:'column',gap:'6px'}}>
           <p>© 品心美學 ｜ 學術文學創作 彭品心老師</p>
-          <p>
-            官方網站與粉專：
-            <a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>
-              https://www.facebook.com/pengpinxin/
-            </a>
-          </p>
+          <p>官方網站與粉專：<a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>https://www.facebook.com/pengpinxin/</a></p>
         </footer>
       </div>
 
       <div className="drawer" id="cart">
-        <div style={{display:'flex',justifyContent:'space-between',marginBottom:'12px',borderBottom:'1px solid var(--border)',paddingBottom:'8px'}}><h3 style={{color:'var(--gold-l)',fontSize:'0.95rem'}}>🛒 購物車與結帳</h3><button onClick={closeCart} style={{background:'none',border:'none',color:'#fff',fontSize:'1.2rem'}}>✕</button></div>
+        <div style={{display:'flex',justifyContent:'space-between',marginBottom:'12px',borderBottom:'1px solid var(--border)',paddingBottom:'8px'}}>
+          <h3 style={{color:'var(--gold-l)',fontSize:'0.95rem'}}>🛒 購物車與結帳</h3>
+          <button onClick={closeCart} style={{background:'none',border:'none',color:'#fff',fontSize:'1.2rem'}}>✕</button>
+        </div>
         
         {isVip && (
           <div style={{background:'rgba(212,175,55,0.15)',border:'1px solid var(--gold)',borderRadius:'6px',padding:'8px',marginBottom:'10px',textAlign:'center'}}>
@@ -315,14 +322,19 @@ export default function Home(){
         )}
 
         <div style={{flexGrow:1,overflowY:'auto',marginBottom:'10px'}}>
-          {cart.length===0?(<p style={{color:'#d0c5b4',textAlign:'center',padding:'15px'}}>購物車是空的</p>):(
-            cart.map((i,idx)=>(<div key={idx} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid rgba(74,61,49,0.3)',fontSize:'0.8rem'}}><span>{i.name}</span><span>NT$ {i.price} <button onClick={()=>removeFromCart(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'6px'}}>刪除</button></span></div>))
+          {cart.length===0?(
+            <p style={{color:'#d0c5b4',textAlign:'center',padding:'15px'}}>購物車是空的</p>
+          ):(
+            cart.map((i,idx)=>(
+              <div key={idx} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid rgba(74,61,49,0.3)',fontSize:'0.8rem'}}>
+                <span>{i.name}</span>
+                <span>NT$ {i.price} <button onClick={()=>removeFromCart(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'6px'}}>刪除</button></span>
+              </div>
+            ))
           )}
         </div>
         <div style={{borderTop:'1px solid var(--border)',paddingTop:'10px'}}>
           <div style={{display:'flex',gap:'5px',marginBottom:'8px'}}>
             <input type="text" value={vipCode} onChange={(e)=>setVipCode(e.target.value)} placeholder="VIP碼 (VIP880)" style={{margin:0}}/>
             <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
-          </div>
-          <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
-            <span>總計：</span><span>NT$ {total} {vipText}</sp
+          </div
