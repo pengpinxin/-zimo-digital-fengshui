@@ -109,7 +109,19 @@ export default function Home(){
               <div style={{display:'flex',justifyContent:'space-between',marginBottom:'8px'}}><span style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>🎨 畫作上傳區</span><button className="btn btn-o" style={{fontSize:'0.6rem'}} onClick={()=>setAdmin(false)}>登出</button></div>
               <input type="text" id="an" placeholder="請輸入中文畫名（未填自動命名）"/>
               <input type="text" id="aw" defaultValue="品心美學 · 彭品心原創" placeholder="浮水印文字"/>
-              <input type="file" id="af" accept="image/*" onChange={(e)=>{const f=e.target.files[0];if(f){const ni=document.getElementById('an');if(ni&&!ni.value){let fn=f.name.substring(0,f.name.lastIndexOf('.'))||f.name;if(/^\d+$/.test(fn))fn='品心禪意原創畫作';ni.value=fn;}}}/>
+              <input type="file" id="af" onChange={(e)=>{
+                const f=e.target.files[0];
+                if(f){
+                  const ni=document.getElementById('an');
+                  if(ni&&!ni.value){
+                    let fn=f.name.substring(0,f.name.lastIndexOf('.'))||f.name;
+                    let isNum=true;
+                    for(let k=0;k<fn.length;k++){if(fn[k]<'0'||fn[k]>'9'){isNum=false;break;}}
+                    if(isNum||!fn)fn='品心禪意原創畫作';
+                    ni.value=fn;
+                  }
+                }
+              }}/>
               <button className="btn" style={{width:'100%',marginTop:'5px'}} onClick={up}>確認上架 (NT$ 680)</button>
             </div>
           )}
@@ -164,4 +176,4 @@ export default function Home(){
       </div>
     </>
   );
-            }
+                                                           }
