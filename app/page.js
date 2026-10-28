@@ -7,6 +7,22 @@ export default function Home() {
   const [artworksList, setArtworksList] = useState([]);
   const [uploading, setUploading] = useState(false);
 
+  // 每次開網頁時，自動從雲端 GitHub 載入所有遊客都看的到的畫作清單
+  useEffect(() => {
+    const savedCart = localStorage.getItem('zimo_cart');
+    if (savedCart) setCart(JSON.parse(savedCart));
+
+    // 從公開路徑讀取雲端畫作清單
+    fetch('/artworks.json?' + Date.now())
+      .then(res => res.json())
+      .then(data => { if (Array.isArray(data)) setArtworksList(data); })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('zimo_cart', JSON.stringify(cart));
+  }, [cart]);
+
   const add = (name, price) => {
     setCart([...cart, { name, price }]);
     alert(`已將「${name}」加入購物車！`);
@@ -48,44 +64,41 @@ export default function Home() {
         let filename = `images/${Date.now()}-${file.name}`;
         
         setUploading(true);
-        alert('正在將圖片永久上傳至 GitHub 倉庫，請稍候...');
+        alert('正在將圖片與畫作資訊同步至 GitHub 雲端，請稍候...');
 
         try {
-            let res = await fetch('/api/upload', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ filename, content: base64Content })
-            });
-            let data = await res.json();
-            
-            if (data.success) {
-                let permanentUrl = data.url;
+            let tempImg = new Image();
+            tempImg.onload = async function(){
+                let sizeStr = `${tempImg.width} × ${tempImg.height} px`;
+                let newArtwork = { name, price: 680, wm, size: sizeStr };
+
+                let res = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filename, content: base64Content, artwork: newArtwork })
+                });
+                let data = await res.json();
                 
-                let tempImg = new Image();
-                tempImg.onload = function(){
-                    let sizeStr = `${tempImg.width} × ${tempImg.height} px`;
-                    setArtworksList(prev => [...prev, {name: name, price: 680, img: permanentUrl, wm: wm, size: sizeStr}]);
+                if (data.success) {
+                    const listRes = await fetch('/artworks.json?' + Date.now());
+                    const listData = await listRes.json();
+                    if (Array.isArray(listData)) setArtworksList(listData);
+
                     if(nameInput) nameInput.value = '';
                     if(fileInput) fileInput.value = '';
                     setUploading(false);
-                    alert(`上架成功！圖片已永久儲存至 GitHub，尺寸：${sizeStr}`);
-                };
-                tempImg.src = permanentUrl;
-            } else {
-                setUploading(false);
-                alert('上傳失敗：' + (data.error || '未知錯誤'));
-            }
+                    alert(`上架成功！畫作已同步至雲端，所有遊客皆可見！`);
+                } else {
+                    setUploading(false);
+                    alert('上傳失敗：' + (data.error || '未知錯誤'));
+                }
+            };
+            tempImg.src = reader.result;
         } catch (err) {
             setUploading(false);
             alert('上傳發生網路錯誤，請稍後再試');
         }
     };
-  };
-
-  const delArt = (idx) => {
-    if(confirm('確定刪除此畫作？')){
-      setArtworksList(artworksList.filter((_, i) => i !== idx));
-    }
   };
 
   const checkout = () => {
@@ -261,17 +274,17 @@ export default function Home() {
             
             <div className="art-desc-box">
                 <h4>🎨 品心美學 · 老師精心精選原創藝術流傳與結緣</h4>
-                <p><strong>✨ 為什麼選擇老師精心精選的藝術美學？</strong> 每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶。本專區以親民實惠的結緣價格（均一價 NT$ 680）讓美學與靈性祝福毫無負擔地走入尋常百姓家，為居家或辦公空間營造高雅藝術圍，達到陶冶心靈、提升環境磁場的多重效益。</p>
+                <p><strong>✨ 為什麼選擇老師精心精選的藝術美學？</strong> 每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶。本專區以親民實惠的結緣價格（均一價 NT$ 680）讓美學與靈性祝福毫無負擔地走入尋常百姓家，為居家或辦公空間營造高雅藝術氛圍，達到陶冶心靈、提升環境磁場的多重效益。</p>
                 <p><strong>🎯 服務方向與彈性說明：</strong> 為了讓藏家免去繁複昂貴的裝裱開銷，並能完全依據個人空間風格、預算與審美喜好自由發揮，本專區採純原創作品售出（不含裝裱）。藏家可自行挑選喜愛的方式進行裝裱，讓藝術完美融合您的生活空間。</p>
             </div>
 
             <div className="up-panel">
-                <h4 style={{color:'var(--gold-l)',marginBottom:'10px'}}>🎨 自行上傳新畫作與浮水印設定 (永久儲存)</h4>
+                <h4 style={{color:'var(--gold-l)',marginBottom:'10px'}}>🎨 自行上傳新畫作與浮水印設定 (全球遊客同步)</h4>
                 <input type="text" id="aName" placeholder="請輸入畫作名稱 (例: 雲山禪韻)" />
                 <input type="text" id="aWm" defaultValue="品心美學 · 彭品心原創" placeholder="浮水印文字" />
                 <input type="file" id="aFile" accept="image/*" />
                 <button className="btn" style={{width:'100%'}} onClick={uploadArt} disabled={uploading}>
-                  {uploading ? '正在永久上傳至 GitHub...' : '確認上傳並自動讀取尺寸上架 (NT$ 680)'}
+                  {uploading ? '正在同步至雲端倉庫...' : '確認上傳並自動讀取尺寸上架 (NT$ 680)'}
                 </button>
             </div>
             <div className="grid-2" id="artGallery">
@@ -291,7 +304,6 @@ export default function Home() {
                       </div>
                       <div style={{display:'flex',gap:'5px',marginTop:'8px'}}>
                           <button className="btn btn-o" style={{flex:1}} onClick={() => add(a.name, 680)}>加入購物車</button>
-                          <button className="btn btn-o" style={{borderColor:'#e74c3c',color:'#e74c3c'}} onClick={() => delArt(idx)}>🗑️ 刪除</button>
                       </div>
                   </div>
                 ))
@@ -326,8 +338,4 @@ export default function Home() {
         </div>
         <div className="cf">
             <input type="text" id="vCode" placeholder="優惠碼 (輸入 VIP880 享9折)" />
-            <button className="btn btn-o" style={{width:'100%',marginBottom:'10px'}} onClick={applyVip}>套用 VIP 九折</button>
-            <input type="text" id="cName" placeholder="您的姓名 *" />
-            <input type="tel" id="cPhone" placeholder="聯絡電話 *" />
-            <input type="email" id="cEmail" placeholder="電子信箱 Email *" />
-         
+ 
