@@ -201,7 +201,6 @@ export default function Home(){
           <button className="btn" onClick={()=>addToCart('VIP 880 終身會員方案',880)}>加入 VIP (NT$ 880)</button>
         </div>
 
-        {/* 學術文學著作：文宣文字在書籍主標題下方 */}
         <section id="books">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>學術文學著作</h3>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師深具靈性與學術深度的經典力作，引領讀者開啟高維度思維與生命轉折。</p>
@@ -209,7 +208,6 @@ export default function Home(){
           <div className="card"><img src="/1792450518058.jpg" alt="b2"/><div><h4>進階思維的後裔</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div><p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p><button className="btn btn-o" style={{marginTop:'6px'}} onClick={()=>addToCart('進階思維的後裔',269)}>加入購物車</button></div></div>
         </section>
 
-        {/* 紫墨數字風水：四大服務注意事項在主標題下方 */}
         <section id="services">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>紫墨數字風水</h3>
           <div className="notice-box" style={{marginTop:'0', marginBottom:'12px'}}>
@@ -229,7 +227,6 @@ export default function Home(){
           </div>
         </section>
 
-        {/* 原創藝術畫作與管理上傳（直連 GitHub 雲端永久保存） */}
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 12px 0'}}>原創藝術畫作 (NT$ 680)</h3>
           {!admin?(
@@ -279,7 +276,7 @@ export default function Home(){
           <p><strong>服務老師：</strong>彭品心（紫墨老師）</p>
           <p><strong>預約電話：</strong>0987-955-906</p>
           <p><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
-          <p><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline'}}>https://www.facebook.com/pengpinxin/</a>[span_0](start_span)[span_0](end_span)</p>
+          <p><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline'}}>https://www.facebook.com/pengpinxin/</a></p>
         </section>
 
         <section id="legal" className="notice-box">
@@ -292,19 +289,19 @@ export default function Home(){
         </section>
 
         <footer style={{borderTop:'1px dashed var(--border)',paddingTop:'15px',marginTop:'30px',fontSize:'0.75rem',color:'#d0c5b4',textAlign:'center',display:'flex',flexDirection:'column',gap:'6px'}}>
-          <p>© 品心美學 ｜ 學術文學創作 彭品心老師[span_1](start_span)[span_1](end_span)</p>
+          <p>© 品心美學 ｜ 學術文學創作 彭品心老師</p>
           <p>
             官方網站與粉專：
             <a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>
               https://www.facebook.com/pengpinxin/
-            </a>[span_2](start_span)[span_2](end_span)
+            </a>
           </p>
         </footer>
       </div>
 
       <div className="drawer" id="cart">
         <div style={{display:'flex',justifyContent:'space-between',marginBottom:'12px',borderBottom:'1px solid var(--border)',paddingBottom:'8px'}}><h3 style={{color:'var(--gold-l)',fontSize:'0.95rem'}}>🛒 購物車與結帳</h3><button onClick={closeCart} style={{background:'none',border:'none',color:'#fff',fontSize:'1.2rem'}}>✕</button></div>
-
+        
         {isVip && (
           <div style={{background:'rgba(212,175,55,0.15)',border:'1px solid var(--gold)',borderRadius:'6px',padding:'8px',marginBottom:'10px',textAlign:'center'}}>
             <span style={{color:'var(--gold-l)',fontSize:'0.8rem',fontWeight:'bold'}}>👑 尊榮 VIP 9折會員已認證</span>
@@ -327,4 +324,6 @@ export default function Home(){
           <input type="text" value={cName} onChange={(e)=>setCName(e.target.value)} placeholder="姓名"/>
           <input type="text" value={cPhone} onChange={(e)=>setCPhone(e.target.value)} onBlur={(e)=>checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的手機號碼即可"/>
           <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
-          <input type=
+          <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
+          <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
+          <butto
