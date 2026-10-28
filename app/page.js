@@ -263,7 +263,7 @@ export default function Home() {
           <h3 className="sec-title">原創藝術畫作珍藏專區 (NT$ 680)</h3>
           <div className="art-desc-box">
             <h4>🎨 品心美學 · 老師精心精選原創藝術流傳與結緣</h4>
-            <p>每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶，均一價 NT$ 680，採純原創作品售出（不含裝裱），藏家可自行挑選裝裱方式。</p>
+            <p>每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶，均一價 NT$ 680，採純原創作品售出（不含裝裱），藏家可自行挑選裝裱方式。此專區支援**無限量上傳與加長**。</p>
           </div>
 
           {!isAdmin ? (
@@ -276,7 +276,7 @@ export default function Home() {
           ) : (
             <div className="up-panel">
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px'}}>
-                <h4 style={{color:'var(--gold-l)'}}>🎨 老師專用上傳區</h4>
+                <h4 style={{color:'var(--gold-l)'}}>🎨 老師專用上傳區 (無限量上傳)</h4>
                 <button className="btn btn-o" style={{fontSize:'0.65rem', padding:'3px 8px'}} onClick={() => setIsAdmin(false)}>鎖定登出</button>
               </div>
               <input type="text" id="aName" placeholder="請輸入畫作名稱" />
@@ -338,4 +338,4 @@ export default function Home() {
         <div style={{borderTop:'1px solid var(--border)', paddingTop:'15px', marginTop:'auto'}}>
           <div style={{marginBottom:'10px'}}>
             <div style={{display:'flex', gap:'6px', marginBottom:'6px'}}>
-              <input type="text" id="vCode" placeholder="輸入 VIP 優惠碼 (VIP880)" style={{flex:1, 
+              <input type="text" id="vCode" placeholder="輸入 VIP 優惠碼 
