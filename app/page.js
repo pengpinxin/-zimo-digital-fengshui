@@ -335,15 +335,13 @@ export default function Home() {
             <button onClick={() => document.getElementById('cartDrawer').classList.remove('open')} style={{background:'none',border:'none',color:'var(--text)',fontSize:'1.2rem',cursor:'pointer'}}>✕</button>
         </div>
         <div className="d-items" id="cList">
-            {cart.length === 0 ? (
-              <p style={{color:'var(--muted)',textAlign:'center',marginTop:'20px'}}>購物車目前是空的</p>
-            ) : (
-              cart.map((i, idx) => (
-                <div className="d-item" key={idx}>
-                  <span>{i.name}</span>
-                  <span>NT$ {i.price} <button onClick={() => rm(idx)} style={{background:'none',bord
-          </span>
-        </div>
-      ))}
-    </div>
-  );
+                          {cart.length === 0 ? (
+                <p style={{color:'var(--muted)', textAlign:'center', padding:'20px 0'}}>購物車是空的</p>
+              ) : (
+                cart.map((i, idx) => (
+                  <div className="d-item" key={idx}>
+                    <span>{i.name}</span>
+                    <span>NT$ {i.price} <button onClick={() => removeFromCart(idx)} style={{color:'var(--gold)', background:'none', border:'none', cursor:'pointer', marginLeft:'10px'}}>刪除</button></span>
+                  </div>
+                ))
+              )}
