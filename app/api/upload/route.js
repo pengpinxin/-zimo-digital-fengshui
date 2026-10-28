@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+
 import { NextResponse } from 'next/server';
 
 export async function POST(request) {
@@ -18,7 +20,7 @@ export async function POST(request) {
     const token = process.env.GITHUB_TOKEN;
 
     if (!token) {
-      return NextResponse.json({ success: false, error: '未設定 GITHUB_TOKEN 環境變數，請至 Vercel 檢查' }, { status: 500 });
+      return NextResponse.json({ success: false, error: '尚未設定 GITHUB_TOKEN 環境變數' }, { status: 500 });
     }
     
     const cleanFileName = filename.replace(/[^a-zA-Z0-9_.-]/g, '_');
@@ -39,15 +41,15 @@ export async function POST(request) {
     });
 
     const responseText = await githubRes.text();
-    let data;
+    let data = {};
     try {
-      data = JSON.parse(responseText);
-    } catch (e) {
-      return NextResponse.json({ success: false, error: `GitHub 回應錯誤: ${responseText.substring(0, 100)}` }, { status: 500 });
-    }
+      if (responseText) {
+        data = JSON.parse(responseText);
+      }
+    } catch (e) {}
 
     if (!githubRes.ok) {
-      return NextResponse.json({ success: false, error: data.message || 'GitHub 上傳失敗' }, { status: 500 });
+      return NextResponse.json({ success: false, error: data.message || `GitHub 上傳失敗 (${githubRes.status})` }, { status: 500 });
     }
 
     const publicUrl = `/artworks/${path.split('/').pop()}`;
