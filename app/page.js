@@ -1,57 +1,101 @@
 'use client';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 export default function Home(){
-  const [cart,setCart]=useState([]);
-  const [isVip,setIsVip]=useState(false);
-  const [artworks,setArtworks]=useState([]);
-  const [admin,setAdmin]=useState(false);
-  useEffect(()=>{
-    const c=localStorage.getItem('z_cart');if(c)setCart(JSON.parse(c));
-    const a=localStorage.getItem('z_art');if(a){try{setArtworks(JSON.parse(a));}catch(e){setArtworks([]);}}
-  },[]);
-  useEffect(()=>{localStorage.setItem('z_cart',JSON.stringify(cart));},[cart]);
-  const add=(n,p)=>{setCart([...cart,{name:n,price:p}]);alert('已將「' + n + '」加入購物車！');};
-  const rm=(i)=>setCart(cart.filter((_,idx)=>idx!==i));
-  const verify=()=>{if(document.getElementById('ap').value==='08241977'){setAdmin(true);alert('解鎖成功');}else{alert('密碼錯誤');}};
-  const handleFileChange=(e)=>{
-    const f=e.target.files[0];
+  const [cart, setCart] = useState([]);
+  const [isVip, setIsVip] = useState(false);
+  const [artworks, setArtworks] = useState([]);
+  const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    const c = localStorage.getItem('z_cart');
+    if(c) setCart(JSON.parse(c));
+    const a = localStorage.getItem('z_art');
+    if(a){ try{ setArtworks(JSON.parse(a)); }catch(e){ setArtworks([]); } }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('z_cart', JSON.stringify(cart));
+  }, [cart]);
+
+  const add = (n, p) => {
+    setCart([...cart, {name: n, price: p}]);
+    alert('已將「' + n + '」加入購物車！');
+  };
+
+  const rm = (i) => setCart(cart.filter((_, idx) => idx !== i));
+
+  const verify = () => {
+    const pwdInput = document.getElementById('ap');
+    if(pwdInput && pwdInput.value.trim() === '08241977'){
+      setAdmin(true);
+      alert('管理員解鎖成功！');
+    } else {
+      alert('密碼錯誤');
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const f = e.target.files[0];
     if(f){
-      const ni=document.getElementById('an');
-      if(ni&&!ni.value){
-        let fn=f.name.substring(0,f.name.lastIndexOf('.'))||f.name;
-        let isNum=true;
-        for(let k=0;k<fn.length;k++){if(fn.charCodeAt(k)<48||fn.charCodeAt(k)>57){isNum=false;break;}}
-        if(isNum||!fn)fn='品心禪意原創畫作';
-        ni.value=fn;
+      const ni = document.getElementById('an');
+      if(ni && !ni.value){
+        let fn = f.name.substring(0, f.name.lastIndexOf('.')) || f.name;
+        let isNum = true;
+        for(let k = 0; k < fn.length; k++){
+          if(fn.charCodeAt(k) < 48 || fn.charCodeAt(k) > 57){ isNum = false; break; }
+        }
+        if(isNum || !fn) fn = '品心禪意原創畫作';
+        ni.value = fn;
       }
     }
   };
-  const up=()=>{
-    const ni=document.getElementById('an');let name=ni?.value.trim()||'品心禪意原創畫作';
-    const wm=document.getElementById('aw')?.value.trim()||'品心美學 · 彭品心原創';
-    const f=document.getElementById('af')?.files[0];if(!f){alert('請選擇圖片');return;}
-    const r=new FileReader();r.readAsDataURL(f);
-    r.onload=()=>{
-      const img=new Image();img.onload=()=>{
-        const size=img.width + ' × ' + img.height + ' px';
-        const next=[{name,price:680,wm,size,img:r.result},...artworks];
-        setArtworks(next);localStorage.setItem('z_art',JSON.stringify(next));
-        if(ni)ni.value='';alert('上架成功！尺寸 ' + size);
-      };img.src=r.result;
+
+  const up = () => {
+    const ni = document.getElementById('an');
+    let name = ni?.value.trim() || '品心禪意原創畫作';
+    const wm = document.getElementById('aw')?.value.trim() || '品心美學 · 彭品心原創';
+    const f = document.getElementById('af')?.files[0];
+    if(!f){ alert('請選擇圖片'); return; }
+    const r = new FileReader();
+    r.readAsDataURL(f);
+    r.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const size = img.width + ' × ' + img.height + ' px';
+        const next = [{name, price: 680, wm, size, img: r.result}, ...artworks];
+        setArtworks(next);
+        localStorage.setItem('z_art', JSON.stringify(next));
+        if(ni) ni.value = '';
+        alert('上架成功！尺寸 ' + size);
+      };
+      img.src = r.result;
     };
   };
-  const del=(i)=>{if(confirm('確定刪除？')){const next=artworks.filter((_,idx)=>idx!==i);setArtworks(next);localStorage.setItem('z_art',JSON.stringify(next));}};
-  const chk=()=>{
-    const n=document.getElementById('cn')?.value.trim();
-    const p=document.getElementById('cp')?.value.trim();
-    const e=document.getElementById('ce')?.value.trim();
-    const a=document.getElementById('ca')?.value.trim();
-    if(!n||!p||!e||!a){alert('請完整填寫收件資訊');return;}
-    if(cart.length===0){alert('購物車是空的');return;}
-    alert('感謝 ' + n + ' 緣主！訂單已送出。');setCart([]);setIsVip(false);
+
+  const del = (i) => {
+    if(confirm('確定要刪除這幅畫作嗎？')){
+      const next = artworks.filter((_, idx) => idx !== i);
+      setArtworks(next);
+      localStorage.setItem('z_art', JSON.stringify(next));
+    }
   };
-  let total=cart.reduce((s,i)=>s+i.price,0);if(isVip)total=Math.round(total*0.9);
-  return(
+
+  const chk = () => {
+    const n = document.getElementById('cn')?.value.trim();
+    const p = document.getElementById('cp')?.value.trim();
+    const e = document.getElementById('ce')?.value.trim();
+    const a = document.getElementById('ca')?.value.trim();
+    if(!n || !p || !e || !a){ alert('請完整填寫收件資訊'); return; }
+    if(cart.length === 0){ alert('購物車是空的'); return; }
+    alert('感謝 ' + n + ' 緣主！訂單已送出。');
+    setCart([]);
+    setIsVip(false);
+  };
+
+  let total = cart.reduce((s, i) => s + i.price, 0);
+  if(isVip) total = Math.round(total * 0.9);
+
+  return (
     <>
       <style jsx global>{`
         :root{--bg:#1a1714;--card:#24201c;--border:#4a3d31;--text:#f3efe6;--gold:#d4af37;--gold-l:#f3e5ab;}
@@ -62,7 +106,7 @@ export default function Home(){
         .btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold-l);}
         .wrap{max-width:750px;margin:0 auto;padding:15px;}
         .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;margin-bottom:15px;display:flex;gap:15px;align-items:center;}
-        .card img{width:140px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
+        .card img{width:140px;height:85px;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
         .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
         .s-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;display:flex;flex-direction:column;justify-content:space-between;}
         .drawer{position:fixed;top:0;right:-100%;width:100%;max-width:320px;height:100%;background:var(--card);border-left:1px solid var(--border);z-index:1000;padding:15px;transition:0.3s;display:flex;flex-direction:column;}
@@ -177,4 +221,4 @@ export default function Home(){
       </div>
     </>
   );
-                                                                                                                                                                   }
+  }
