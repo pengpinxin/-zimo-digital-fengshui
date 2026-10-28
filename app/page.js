@@ -340,4 +340,32 @@ export default function Home() {
             cart.map((i, idx) => (
               <div className="d-item" key={idx}>
                 <span>{i.name}</span>
-                <span>NT$ {i.price} <button onClick={() => rm(idx)} style={{color:'var(--gold)', background:'none', border:'none', cursor:'pointer', ma
+                <span>NT$ {i.price} <button onClick={() => rm(idx)} style={{color:'var(--gold)', background:'none', border:'none', cursor:'pointer', marginLeft:'10px'}}>刪除</button></span>
+              </div>
+            ))
+          )}
+        </div>
+
+        <div style={{borderTop:'1px solid var(--border)', paddingTop:'15px', marginTop:'auto'}}>
+          <div style={{marginBottom:'10px'}}>
+            <input type="text" id="vCode" placeholder="輸入 VIP 優惠碼 (VIP880)" style={{width:'100%', padding:'8px', background:'#1a1714', border:'1px solid var(--border)', color:'var(--text)', borderRadius:'4px', marginBottom:'6px'}} />
+            <button className="btn btn-o" style={{width:'100%', padding:'6px'}} onClick={applyVip}>驗證 VIP 優惠</button>
+          </div>
+
+          <div style={{display:'flex', justifyContent:'space-between', fontSize:'1.05rem', fontWeight:'bold', color:'var(--gold-l)', marginBottom:'15px'}}>
+            <span>總計金額：</span>
+            <span>NT$ {total} {isVip && <span style={{fontSize:'0.8rem', color:'var(--gold)'}}>(已享9折)</span>}</span>
+          </div>
+
+          <div className="cf">
+            <input type="text" id="cName" placeholder="請輸入您的姓名" />
+            <input type="text" id="cPhone" placeholder="請輸入您的電話" />
+            <input type="email" id="cEmail" placeholder="請輸入您的 Email" />
+          </div>
+
+          <button className="btn" style={{width:'100%', padding:'10px'}} onClick={checkout}>確認送出訂單</button>
+        </div>
+      </div>
+    </>
+  );
+}
