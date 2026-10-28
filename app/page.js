@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-
 export default function Home() {
   const [cart, setCart] = useState([]);
   const [isVip, setIsVip] = useState(false);
@@ -15,23 +14,15 @@ export default function Home() {
     if (sa) { try { setArtworksList(JSON.parse(sa)); } catch (e) { setArtworksList([]); } }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('zimo_cart', JSON.stringify(cart));
-  }, [cart]);
+  useEffect(() => { localStorage.setItem('zimo_cart', JSON.stringify(cart)); }, [cart]);
 
-  const add = (name, price) => {
-    setCart([...cart, { name, price }]);
-    alert(`已將「${name}」加入購物車！`);
-  };
-
+  const add = (name, price) => { setCart([...cart, { name, price }]); alert(`已將「${name}」加入購物車！`); };
   const rm = (idx) => setCart(cart.filter((_, i) => i !== idx));
-
   const applyVip = () => {
     const code = document.getElementById('vCode').value.trim();
     if (code === 'VIP880') { setIsVip(true); alert('VIP880 驗證成功！享9折'); }
     else { alert('優惠碼錯誤'); }
   };
-
   const verifyAdmin = () => {
     const pwd = document.getElementById('adminPwd').value.trim();
     if (pwd === '08241977') { setIsAdmin(true); alert('老師身分驗證成功，已解鎖上傳功能！'); }
@@ -44,17 +35,11 @@ export default function Home() {
     const fileInput = document.getElementById('aFile');
     const name = nameInput ? nameInput.value.trim() : '';
     const wm = wmInput ? wmInput.value.trim() : '品心美學 · 彭品心原創';
-    
-    if (!name || !fileInput || fileInput.files.length === 0) {
-      alert('請輸入畫作名稱並選擇圖片檔案！');
-      return;
-    }
-    
+    if (!name || !fileInput || fileInput.files.length === 0) { alert('請輸入畫作名稱並選擇圖片！'); return; }
     const file = fileInput.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     setUploading(true);
-    
     reader.onload = function() {
       const base64Img = reader.result;
       const tempImg = new Image();
@@ -79,16 +64,10 @@ export default function Home() {
     const email = document.getElementById('cEmail').value.trim();
     const address = document.getElementById('cAddress').value.trim();
     const note = document.getElementById('cNote').value.trim();
-
-    if (!name || !phone || !email || !address) {
-      alert('請完整填寫姓名、電話、Email 與收件地址！');
-      return;
-    }
+    if (!name || !phone || !email || !address) { alert('請完整填寫姓名、電話、Email 與收件地址！'); return; }
     if (cart.length === 0) { alert('購物車是空的！'); return; }
-    
     alert(`感謝 ${name} 緣主！訂單已成功送出。\n\n收件地址：${address}\n${note ? '備註：' + note + '\n' : ''}老師將盡快與您聯繫。`);
-    setCart([]);
-    setIsVip(false);
+    setCart([]); setIsVip(false);
   };
 
   let total = cart.reduce((sum, i) => sum + i.price, 0);
@@ -263,7 +242,7 @@ export default function Home() {
           <h3 className="sec-title">原創藝術畫作珍藏專區 (NT$ 680)</h3>
           <div className="art-desc-box">
             <h4>🎨 品心美學 · 老師精心精選原創藝術流傳與結緣</h4>
-            <p>每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶，均一價 NT$ 680，採純原創作品售出（不含裝裱），藏家可自行挑選裝裱方式。此專區支援**無限量上傳與加長**。</p>
+            <p>每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶，均一價 NT$ 680，採純原創作品售出（不含裝裱），藏家可自行挑選裝裱方式。此專區支援無限量上傳與加長。</p>
           </div>
 
           {!isAdmin ? (
@@ -338,4 +317,4 @@ export default function Home() {
         <div style={{borderTop:'1px solid var(--border)', paddingTop:'15px', marginTop:'auto'}}>
           <div style={{marginBottom:'10px'}}>
             <div style={{display:'flex', gap:'6px', marginBottom:'6px'}}>
-              <input type="text" id="vCode" placeholder="輸入 VIP 優惠碼 
+              <input type="text" id="vCode" placeholder="輸入 VIP 優惠碼 (VIP880)" style={{flex:1, padding:'8px', background:'#1a1714', border:'1px solid va
