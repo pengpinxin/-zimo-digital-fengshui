@@ -10,7 +10,7 @@ export default function Home(){
     const a=localStorage.getItem('z_art');if(a){try{setArtworks(JSON.parse(a));}catch(e){setArtworks([]);}}
   },[]);
   useEffect(()=>{localStorage.setItem('z_cart',JSON.stringify(cart));},[cart]);
-  const add=(n,p)=>{setCart([...cart,{name:n,price:p}]);alert(`已將「${n}」加入購物車！`);};
+  const add=(n,p)=>{setCart([...cart,{name:n,price:p}]);alert('已將「' + n + '」加入購物車！');};
   const rm=(i)=>setCart(cart.filter((_,idx)=>idx!==i));
   const verify=()=>{if(document.getElementById('ap').value==='08241977'){setAdmin(true);alert('解鎖成功');}else{alert('密碼錯誤');}};
   const handleFileChange=(e)=>{
@@ -33,10 +33,10 @@ export default function Home(){
     const r=new FileReader();r.readAsDataURL(f);
     r.onload=()=>{
       const img=new Image();img.onload=()=>{
-        const size=`${img.width} × ${img.height} px`;
+        const size=img.width + ' × ' + img.height + ' px';
         const next=[{name,price:680,wm,size,img:r.result},...artworks];
         setArtworks(next);localStorage.setItem('z_art',JSON.stringify(next));
-        if(ni)ni.value='';alert(`上架成功！尺寸 ${size}`);
+        if(ni)ni.value='';alert('上架成功！尺寸 ' + size);
       };img.src=r.result;
     };
   };
@@ -48,7 +48,7 @@ export default function Home(){
     const a=document.getElementById('ca')?.value.trim();
     if(!n||!p||!e||!a){alert('請完整填寫收件資訊');return;}
     if(cart.length===0){alert('購物車是空的');return;}
-    alert(`感謝 ${n} 緣主！訂單已送出。`);setCart([]);setIsVip(false);
+    alert('感謝 ' + n + ' 緣主！訂單已送出。');setCart([]);setIsVip(false);
   };
   let total=cart.reduce((s,i)=>s+i.price,0);if(isVip)total=Math.round(total*0.9);
   return(
@@ -165,7 +165,7 @@ export default function Home(){
             <button className="btn btn-o" onClick={()=>{if(document.getElementById('vc').value.trim()==='VIP880'){setIsVip(true);alert('VIP 驗證成功');}else{alert('錯誤');}}>驗證</button>
           </div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
-            <span>總計：</span><span>NT$ {total} {isVip&&<span style={{fontSize:'0.7rem',color:'var(--gold)'}}>(9折)</span>}</span>
+            <span>總計：</span><span>NT$ {total} {isVip&&<span>(9折)</span>}</span>
           </div>
           <input type="text" id="cn" placeholder="姓名"/>
           <input type="text" id="cp" placeholder="電話"/>
@@ -177,4 +177,4 @@ export default function Home(){
       </div>
     </>
   );
-            }
+                                                                                                                                                                   }
