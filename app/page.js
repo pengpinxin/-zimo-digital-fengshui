@@ -16,22 +16,33 @@ export default function Home(){
   const applyVip=()=>{if(document.getElementById('vCode').value.trim()==='VIP880'){setIsVip(true);alert('VIP880 驗證成功！享9折');}else{alert('優惠碼錯誤');}};
   const verifyAdmin=()=>{if(document.getElementById('adminPwd').value.trim()==='08241977'){setIsAdmin(true);alert('管理員驗證成功！');}else{alert('密碼錯誤');}};
   const uploadArt=async()=>{
-    const n=document.getElementById('aName')?.value.trim();
+    const nInput=document.getElementById('aName');
+    let name=nInput?.value.trim();
+    if(!name) name='品心禪意原創畫作';
     const w=document.getElementById('aWm')?.value.trim()||'品心美學 · 彭品心原創';
     const f=document.getElementById('aFile')?.files[0];
-    if(!n||!f){alert('請輸入畫作名稱並選擇圖片！');return;}
+    if(!f){alert('請選擇要上傳的畫作圖片！');return;}
     setUploading(true);
     const r=new FileReader();r.readAsDataURL(f);
     r.onload=()=>{
       const img=new Image();
       img.onload=()=>{
         const size=`${img.width} × ${img.height} px`;
-        const updated=[{name:n,price:680,wm:w,size,img:r.result},...artworksList];
+        const updated=[{name,price:680,wm:w,size,img:r.result},...artworksList];
         setArtworksList(updated);localStorage.setItem('zimo_artworks',JSON.stringify(updated));
-        setUploading(false);alert(`上架成功！尺寸 ${size}`);
+        if(nInput) nInput.value='';
+        setUploading(false);
+        alert(`上架成功！尺寸 ${size}`);
       };
       img.src=r.result;
     };
+  };
+  const removeArtwork=(idx)=>{
+    if(confirm('確定要刪除這幅畫作嗎？')){
+      const updated=artworksList.filter((_,i)=>i!==idx);
+      setArtworksList(updated);
+      localStorage.setItem('zimo_artworks',JSON.stringify(updated));
+    }
   };
   const checkout=()=>{
     const name=document.getElementById('cName').value.trim();
@@ -161,9 +172,20 @@ export default function Home(){
           ):(
             <div className="up-panel">
               <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'10px'}}><h4 style={{color:'var(--gold-l)'}}>🎨 老師專用上傳區</h4><button className="btn btn-o" style={{fontSize:'0.65rem',padding:'3px 8px'}} onClick={()=>setIsAdmin(false)}>鎖定登出</button></div>
-              <input type="text" id="aName" placeholder="請輸入畫作名稱"/>
+              <p style={{fontSize:'0.8rem',color:'var(--gold-l)',marginBottom:'8px'}}>💡 請輸入中文畫名（未填寫將自動帶入優美預設名稱），再選擇手機圖片上架：</p>
+              <input type="text" id="aName" placeholder="請輸入畫作中文名稱（例如：觀音顯化、幽谷清泉）"/>
               <input type="text" id="aWm" defaultValue="品心美學 · 彭品心原創" placeholder="浮水印文字"/>
-              <input type="file" id="aFile" accept="image/*"/>
+              <input type="file" id="aFile" accept="image/*" onChange={(e)=>{
+                const f=e.target.files[0];
+                if(f){
+                  const nInput=document.getElementById('aName');
+                  if(nInput && !nInput.value){
+                    let fname=f.name.substring(0,f.name.lastIndexOf('.'))||f.name;
+                    if(/^\d+$/.test(fname)){fname='品心禪意原創畫作';}
+                    nInput.value=fname;
+                  }
+                }
+              }}/>
               <button className="btn" style={{width:'100%'}} onClick={uploadArt} disabled={uploading}>{uploading?'處理中...':'確認上傳並自動標示尺寸上架 (NT$ 680)'}</button>
             </div>
           )}
@@ -182,7 +204,12 @@ export default function Home(){
                     <div className="art-size-info">📏 原始尺寸：{a.size}</div>
                     <div className="price">NT$ {a.price}</div>
                   </div>
-                  <button className="btn btn-o" style={{width:'100%',marginTop:'8px'}} onClick={()=>add(a.name,680)}>加入購物車</button>
+                  <div>
+                    <button className="btn btn-o" style={{width:'100%',marginTop:'8px'}} onClick={()=>add(a.name,680)}>加入購物車</button>
+                    {isAdmin && (
+                      <button className="btn" style={{width:'100%',marginTop:'6px',background:'#8b0000',color:'#fff'}} onClick={()=>removeArtwork(idx)}>刪除此畫作</button>
+                    )}
+                  </div>
                 </div>
               ))
             )}
@@ -214,12 +241,4 @@ export default function Home(){
             <input type="text" id="cName" placeholder="請輸入您的姓名"/>
             <input type="text" id="cPhone" placeholder="請輸入您的電話"/>
             <input type="email" id="cEmail" placeholder="請輸入您的 Email"/>
-            <input type="text" id="cAddress" placeholder="請輸入收件地址 / 數位配置接收地址"/>
-            <textarea id="cNote" rows="2" placeholder="客戶備註或特殊需求留言（選填）" style={{width:'100%',padding:'8px',background:'#1a1714',border:'1px solid var(--border)',color:'var(--text)',borderRadius:'4px',marginBottom:'10px',resize:'vertical'}}></textarea>
-          </div>
-          <button className="btn" style={{width:'100%',padding:'10px'}} onClick={checkout}>確認送出訂單</button>
-        </div>
-      </div>
-    </>
-  );
-  }
+            <input type="text" id="cAddress" placeholder
