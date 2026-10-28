@@ -342,3 +342,8 @@ export default function Home() {
                 <div className="d-item" key={idx}>
                   <span>{i.name}</span>
                   <span>NT$ {i.price} <button onClick={() => rm(idx)} style={{background:'none',bord
+          </span>
+        </div>
+      ))}
+    </div>
+  );
