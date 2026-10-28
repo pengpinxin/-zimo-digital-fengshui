@@ -7,12 +7,10 @@ export default function Home() {
   const [artworksList, setArtworksList] = useState([]);
   const [uploading, setUploading] = useState(false);
 
-  // 每次開網頁時，自動從雲端 GitHub 載入所有遊客都看的到的畫作清單
   useEffect(() => {
     const savedCart = localStorage.getItem('zimo_cart');
     if (savedCart) setCart(JSON.parse(savedCart));
 
-    // 從公開路徑讀取雲端畫作清單
     fetch('/artworks.json?' + Date.now())
       .then(res => res.json())
       .then(data => { if (Array.isArray(data)) setArtworksList(data); })
@@ -274,7 +272,7 @@ export default function Home() {
             
             <div className="art-desc-box">
                 <h4>🎨 品心美學 · 老師精心精選原創藝術流傳與結緣</h4>
-                <p><strong>✨ 為什麼選擇老師精心精選的藝術美學？</strong> 每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶。本專區以親民實惠的結緣價格（均一價 NT$ 680）讓美學與靈性祝福毫無負擔地走入尋常百姓家，為居家或辦公空間營造高雅藝術氛圍，達到陶冶心靈、提升環境磁場的多重效益。</p>
+                <p><strong>✨ 為什麼選擇老師精心精選的藝術美學？</strong> 每一幅畫作均為彭品心老師傾注心力、經過嚴格精挑細選的藝術結晶。本專區以親民實惠的結緣價格（均一價 NT$ 680）讓美學與靈性祝福毫無負擔地走入尋常百姓家，為居家或辦公空間營造高雅藝術圍，達到陶冶心靈、提升環境磁場的多重效益。</p>
                 <p><strong>🎯 服務方向與彈性說明：</strong> 為了讓藏家免去繁複昂貴的裝裱開銷，並能完全依據個人空間風格、預算與審美喜好自由發揮，本專區採純原創作品售出（不含裝裱）。藏家可自行挑選喜愛的方式進行裝裱，讓藝術完美融合您的生活空間。</p>
             </div>
 
@@ -338,4 +336,4 @@ export default function Home() {
         </div>
         <div className="cf">
             <input type="text" id="vCode" placeholder="優惠碼 (輸入 VIP880 享9折)" />
- 
+            <button className="btn btn-o" style={{width:'100%',m
