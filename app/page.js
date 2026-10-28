@@ -227,7 +227,7 @@ export default function Home(){
         <div style={{borderTop:'1px solid var(--border)',paddingTop:'15px',marginTop:'auto'}}>
           <div style={{marginBottom:'10px'}}>
             <div style={{display:'flex',gap:'6px',marginBottom:'6px'}}>
-              <input type="text" id="vCode" placeholder="輸入 VIP 優惠碼 (VIP880)" style={{flex:1,padding:'8px',background:'#1a1714',border:'1px solid var(--border)',color:'var(--text)',borderRadius:'4px'}} />
+              <input type="text" id="vCode" placeholder="輸入 VIP 優惠碼 (VIP880)" style={{flex:1,padding:'8px',background:'#1a1714',border:'1px solid var(--border)',color:'var(--text)',borderRadius:'4px'}}/>
               <button className="btn btn-o" style={{padding:'6px 10px',fontSize:'0.75rem'}} onClick={applyVip}>驗證</button>
             </div>
             <button className="btn btn-o" style={{width:'100%',padding:'6px',fontSize:'0.78rem'}} onClick={()=>add('VIP 880 終身會員方案',880)}>✨ 點此直接加入 VIP 880 終身會員 (享全館9折)</button>
@@ -238,4 +238,4 @@ export default function Home(){
             <input type="text" id="cPhone" placeholder="請輸入您的電話"/>
             <input type="email" id="cEmail" placeholder="請輸入您的 Email"/>
             <input type="text" id="cAddress" placeholder="請輸入收件地址 / 數位配置接收地址"/>
-          
+           
