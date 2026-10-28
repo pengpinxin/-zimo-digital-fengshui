@@ -223,7 +223,6 @@ export default function Home(){
       <div className="drawer" id="cart">
         <div style={{display:'flex',justifyContent:'space-between',marginBottom:'12px',borderBottom:'1px solid var(--border)',paddingBottom:'8px'}}><h3 style={{color:'var(--gold-l)',fontSize:'0.95rem'}}>🛒 購物車與結帳</h3><button onClick={()=>document.getElementById('cart').classList.remove('open')} style={{background:'none',border:'none',color:'#fff',fontSize:'1.1rem'}}>✕</button></div>
         
-        {/* 會員專屬標誌辨識區 */}
         {isVip && (
           <div style={{background:'rgba(212,175,55,0.15)',border:'1px solid var(--gold)',borderRadius:'6px',padding:'8px',marginBottom:'10px',textAlign:'center'}}>
             <span style={{color:'var(--gold-l)',fontSize:'0.8rem',fontWeight:'bold'}}>👑 尊榮 VIP 9折會員已認證</span>
@@ -253,4 +252,4 @@ export default function Home(){
       </div>
     </>
   );
-                              }
+  }
