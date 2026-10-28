@@ -17,11 +17,10 @@ export default function Home(){
   const verifyAdmin=()=>{if(document.getElementById('adminPwd').value.trim()==='08241977'){setIsAdmin(true);alert('管理員驗證成功！');}else{alert('密碼錯誤');}};
   const uploadArt=async()=>{
     const nInput=document.getElementById('aName');
-    let name=nInput?.value.trim();
-    if(!name) name='品心禪意原創畫作';
+    let name=nInput?.value.trim();if(!name)name='品心禪意原創畫作';
     const w=document.getElementById('aWm')?.value.trim()||'品心美學 · 彭品心原創';
     const f=document.getElementById('aFile')?.files[0];
-    if(!f){alert('請選擇要上傳的畫作圖片！');return;}
+    if(!f){alert('請選擇圖片！');return;}
     setUploading(true);
     const r=new FileReader();r.readAsDataURL(f);
     r.onload=()=>{
@@ -30,9 +29,7 @@ export default function Home(){
         const size=`${img.width} × ${img.height} px`;
         const updated=[{name,price:680,wm:w,size,img:r.result},...artworksList];
         setArtworksList(updated);localStorage.setItem('zimo_artworks',JSON.stringify(updated));
-        if(nInput) nInput.value='';
-        setUploading(false);
-        alert(`上架成功！尺寸 ${size}`);
+        if(nInput)nInput.value='';setUploading(false);alert(`上架成功！尺寸 ${size}`);
       };
       img.src=r.result;
     };
@@ -40,15 +37,14 @@ export default function Home(){
   const removeArtwork=(idx)=>{
     if(confirm('確定要刪除這幅畫作嗎？')){
       const updated=artworksList.filter((_,i)=>i!==idx);
-      setArtworksList(updated);
-      localStorage.setItem('zimo_artworks',JSON.stringify(updated));
+      setArtworksList(updated);localStorage.setItem('zimo_artworks',JSON.stringify(updated));
     }
   };
   const checkout=()=>{
-    const name=document.getElementById('cName').value.trim();
-    const phone=document.getElementById('cPhone').value.trim();
-    const email=document.getElementById('cEmail').value.trim();
-    const address=document.getElementById('cAddress').value.trim();
+    const name=document.getElementById('cName')?.value.trim();
+    const phone=document.getElementById('cPhone')?.value.trim();
+    const email=document.getElementById('cEmail')?.value.trim();
+    const address=document.getElementById('cAddress')?.value.trim();
     if(!name||!phone||!email||!address){alert('請完整填寫姓名、電話、Email 與收件地址！');return;}
     if(cart.length===0){alert('購物車是空的！');return;}
     alert(`感謝 ${name} 緣主！訂單已送出。\n收件地址：${address}`);
@@ -241,4 +237,5 @@ export default function Home(){
             <input type="text" id="cName" placeholder="請輸入您的姓名"/>
             <input type="text" id="cPhone" placeholder="請輸入您的電話"/>
             <input type="email" id="cEmail" placeholder="請輸入您的 Email"/>
-            <input type="text" id="cAddress" placeholder
+            <input type="text" id="cAddress" placeholder="請輸入收件地址 / 數位配置接收地址"/>
+          
