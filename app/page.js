@@ -296,7 +296,12 @@ export default function Home(){
 
         <footer style={{borderTop:'1px dashed var(--border)',paddingTop:'15px',marginTop:'30px',fontSize:'0.75rem',color:'#d0c5b4',textAlign:'center',display:'flex',flexDirection:'column',gap:'6px'}}>
           <p>© 品心美學 ｜ 學術文學創作 彭品心老師</p>
-          <p>官方網站與粉專：<a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>https://www.facebook.com/pengpinxin/</a></p>
+          <p>
+            官方網站與粉專：
+            <a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>
+              https://www.facebook.com/pengpinxin/
+            </a>
+          </p>
         </footer>
       </div>
 
@@ -320,6 +325,4 @@ export default function Home(){
             <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
           </div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
-            <span>總計：</span><span>NT$ {total} {vipText}</span>
-          </div>
-          <input type="text" value={cName} o
+            <span>總計：</span><span>NT$ {total} {vipText}</sp
