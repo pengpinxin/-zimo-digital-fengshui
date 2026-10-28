@@ -170,7 +170,7 @@ export default function Home(){
           <div style={{width:'34px',height:'34px',border:'1px solid var(--gold)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)'}}>品</div>
           <div>
             <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)'}}>品心美學</h1>
-            <p style={{fontSize:'0.65rem',color:'#d0c5b4'}}>學術文學創作 彭品心老師</p>
+            <p style={{fontSize:'0.65rem',color:'#d0c5b4'}}>彭品心老師官方網站</p>
           </div>
         </div>
         <div style={{display:'flex',gap:'6px'}}>
@@ -322,4 +322,4 @@ export default function Home(){
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
             <span>總計：</span><span>NT$ {total} {vipText}</span>
           </div>
-          <input type="text" value={cName
+          <input type="text" value={cName} o
