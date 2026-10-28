@@ -59,7 +59,7 @@ export default function Home(){
     }
   };
 
-  // 透過 API 自動上傳至 GitHub 雲端永久保存
+  // 透過 API 直接上傳至 GitHub 雲端永久保存
   const handleUploadArt = async () => {
     if(!selectedFile){ alert('請選擇圖片檔案'); return; }
     const nameToUse = artName.trim() || '品心禪意原創畫作';
@@ -77,12 +77,12 @@ export default function Home(){
       const data = await res.json();
 
       if(data.success) {
-        const next = [{name: nameToUse, price: 680, wm: artWm || '品心美學 · 彭品心原創', size: '高畫質雲端原創', img: data.url}, ...artworks];
+        const next = [{name: nameToUse, price: 680, wm: artWm || '品心美學 · 彭品心原創', size: 'GitHub 雲端高畫質原創', img: data.url}, ...artworks];
         setArtworks(next);
         localStorage.setItem('z_art', JSON.stringify(next));
         setArtName('');
         setSelectedFile(null);
-        alert('成功上傳並永久保存至 GitHub 雲端！');
+        alert('成功上傳並永久儲存至 GitHub 雲端倉庫！');
       } else {
         alert('上傳失敗：' + (data.error || '未知錯誤'));
       }
@@ -159,14 +159,13 @@ export default function Home(){
         .btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold-l);}
         .wrap{max-width:750px;margin:0 auto;padding:15px;}
         .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;margin-bottom:15px;display:flex;gap:15px;align-items:center;}
-        /* 書籍圖片嚴格 16:9 比例 */
         .card img{width:140px; aspect-ratio:16/9; object-fit:cover; border-radius:6px; border:1px solid var(--border);}
         .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
         .s-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;display:flex;flex-direction:column;justify-content:space-between;}
         .drawer{position:fixed;top:0;right:-100%;width:100%;max-width:320px;height:100%;background:var(--card);border-left:1px solid var(--border);z-index:1000;padding:15px;transition:0.3s;display:flex;flex-direction:column;overflow-y:auto;}
         .drawer.open{right:0;}
         input,textarea{width:100%;padding:10px;margin-bottom:8px;background:#1a1714;border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:0.9rem;}
-        .notice-box{background:rgba(212,175,55,0.05);border:1px solid var(--border);border-radius:8px;padding:15px;margin:20px 0;font-size:0.8rem;color:#d0c5b4;}
+        .notice-box{background:rgba(212,175,55,0.05);border:1px solid var(--border);border-radius:8px;padding:15px;margin:15px 0;font-size:0.8rem;color:#d0c5b4;}
         .notice-box h4{color:var(--gold-l);margin-bottom:8px;font-size:0.9rem;}
         .notice-box ul{padding-left:18px;}
         .notice-box li{margin-bottom:4px;}
@@ -205,14 +204,26 @@ export default function Home(){
           <button className="btn" onClick={()=>addToCart('VIP 880 終身會員方案',880)}>加入 VIP (NT$ 880)</button>
         </div>
 
+        {/* 書籍區：文宣文字在書籍主標題下方，圖片16:9 */}
         <section id="books">
-          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 12px 0'}}>學術文學著作</h3>
+          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>學術文學著作</h3>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師深具靈性與學術深度的經典力作，引領讀者開啟高維度思維與生命轉折。</p>
           <div className="card"><img src="/1792440195898.jpg" alt="b1"/><div><h4>生命的出口</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div><p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>心靈轉折與生命出口經典力作。</p><button className="btn btn-o" style={{marginTop:'6px'}} onClick={()=>addToCart('生命的出口',269)}>加入購物車</button></div></div>
           <div className="card"><img src="/1792450518058.jpg" alt="b2"/><div><h4>進階思維的後裔</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div><p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p><button className="btn btn-o" style={{marginTop:'6px'}} onClick={()=>addToCart('進階思維的後裔',269)}>加入購物車</button></div></div>
         </section>
 
+        {/* 數字風水區：四大服務注意事項在主標題下方 */}
         <section id="services">
-          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 12px 0'}}>紫墨數字風水</h3>
+          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>紫墨數字風水</h3>
+          <div className="notice-box" style={{marginTop:'0', marginBottom:'12px'}}>
+            <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>📌 四大服務購買注意事項</h4>
+            <ul style={{paddingLeft:'16px',fontSize:'0.75rem'}}>
+              <li><strong>專業排盤與配置：</strong>各項數字風水服務（手機、車牌、住址、店鋪選吉）皆由彭品心老師親自依據專業學術與磁場原理規劃。</li>
+              <li><strong>資料提供：</strong>請於訂單備註或聯絡時提供正確之號碼及相關需求，以確保配置精準。</li>
+              <li><strong>服務性質：</strong>數位與命理客製化配置服務確認開始執行後，恕不接受無理由退款。</li>
+              <li><strong>理性參考：</strong>所有風水磁場與號碼配置旨在輔助提升運勢與心境，個人努力與正念亦為成就之本。</li>
+            </ul>
+          </div>
           <div className="grid">
             <div className="s-card"><div><h4>手機號碼配置</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,680</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>選定生旺手機吉號。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('手機號碼配置',1680)}>加入</button></div>
             <div className="s-card"><div><h4>車牌號碼配置</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,880</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>行車平安磁場加持。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('車牌號碼配置',1880)}>加入</button></div>
@@ -221,6 +232,7 @@ export default function Home(){
           </div>
         </section>
 
+        {/* 原創藝術畫作與管理上傳（直連 GitHub 雲端 API） */}
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 12px 0'}}>原創藝術畫作 (NT$ 680)</h3>
           {!admin?(
@@ -231,7 +243,7 @@ export default function Home(){
             </div>
           ):(
             <div style={{background:'rgba(212,175,55,0.05)',border:'1px dashed var(--gold)',borderRadius:'8px',padding:'15px',marginBottom:'15px'}}>
-              <div style={{display:'flex',justifyContent:'space-between',marginBottom:'8px'}}><span style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>🎨 畫作上傳區 (直連 GitHub 雲端)</span><button className="btn btn-o" style={{fontSize:'0.6rem'}} onClick={()=>setAdmin(false)}>登出</button></div>
+              <div style={{display:'flex',justifyContent:'space-between',marginBottom:'8px'}}><span style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>🎨 畫作上傳區 (直連 GitHub 雲端永久保存)</span><button className="btn btn-o" style={{fontSize:'0.6rem'}} onClick={()=>setAdmin(false)}>登出</button></div>
               <input type="text" value={artName} onChange={(e)=>setArtName(e.target.value)} placeholder="請輸入中文畫名"/>
               <input type="text" value={artWm} onChange={(e)=>setArtWm(e.target.value)} placeholder="浮水印文字"/>
               <input type="file" accept="image/*" onChange={handleFileChange} style={{marginBottom:'8px',color:'var(--text)'}}/>
@@ -271,19 +283,10 @@ export default function Home(){
           <p><strong>服務老師：</strong>彭品心（紫墨老師）</p>
           <p><strong>預約電話：</strong>0987-955-906</p>
           <p><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
-          <p><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline'}}>https://www.facebook.com/pengpinxin/</a></p>
+          <p><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline'}}>https://www.facebook.com/pengpinxin/</a>[span_1](start_span)[span_1](end_span)</p>
         </section>
 
-        <section id="notice" className="notice-box">
-          <h4>📌 四大服務購買注意事項</h4>
-          <ul>
-            <li><strong>專業排盤與配置：</strong>各項數字風水服務（手機、車牌、住址、店鋪選吉）皆由彭品心老師親自依據專業學術與磁場原理規劃。</li>
-            <li><strong>資料提供：</strong>請於訂單備註或聯絡時提供正確之號碼及相關需求，以確保配置精準。</li>
-            <li><strong>服務性質：</strong>數位與命理客製化配置服務確認開始執行後，恕不接受無理由退款。</li>
-            <li><strong>理性參考：</strong>所有風水磁場與號碼配置旨在輔助提升運勢與心境，個人努力與正念亦為成就之本。</li>
-          </ul>
-        </section>
-
+        {/* 法律責任與版權聲明 */}
         <section id="legal" className="notice-box">
           <h4>⚖️ 法律責任與版權聲明</h4>
           <ul>
@@ -294,12 +297,12 @@ export default function Home(){
         </section>
 
         <footer style={{borderTop:'1px dashed var(--border)',paddingTop:'15px',marginTop:'30px',fontSize:'0.75rem',color:'#d0c5b4',textAlign:'center',display:'flex',flexDirection:'column',gap:'6px'}}>
-          <p>© 品心美學 ｜ 學術文學創作 彭品心老師[span_1](start_span)[span_1](end_span)</p>
+          <p>© 品心美學 ｜ 學術文學創作 彭品心老師[span_2](start_span)[span_2](end_span)</p>
           <p>
             官方網站與粉專：
             <a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>
               https://www.facebook.com/pengpinxin/
-            </a>
+            </a>[span_3](start_span)[span_3](end_span)
           </p>
         </footer>
       </div>
@@ -328,12 +331,4 @@ export default function Home(){
           </div>
           <input type="text" value={cName} onChange={(e)=>setCName(e.target.value)} placeholder="姓名"/>
           <input type="text" value={cPhone} onChange={(e)=>setCPhone(e.target.value)} onBlur={(e)=>checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的的手機號碼即可"/>
-          <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
-          <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
-          <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
-          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout}>確認送出訂單</button>
-        </div>
-      </div>
-    </>
-  );
-}
+          <input type="email" va
