@@ -6,15 +6,20 @@ export default function Home() {
   const [isVip, setIsVip] = useState(false);
   const [artworksList, setArtworksList] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const savedCart = localStorage.getItem('zimo_cart');
     if (savedCart) setCart(JSON.parse(savedCart));
 
-    fetch('/artworks.json?' + Date.now())
-      .then(res => res.json())
-      .then(data => { if (Array.isArray(data)) setArtworksList(data); })
-      .catch(() => {});
+    const savedArtworks = localStorage.getItem('zimo_artworks');
+    if (savedArtworks) {
+      try {
+        setArtworksList(JSON.parse(savedArtworks));
+      } catch (e) {
+        setArtworksList([]);
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -40,6 +45,17 @@ export default function Home() {
     }
   };
 
+  const verifyAdmin = () => {
+    let pwd = document.getElementById('adminPwd').value.trim();
+    // 老師管理密碼已更新為 08241977
+    if (pwd === '08241977') {
+      setIsAdmin(true);
+      alert('老師身分驗證成功，已解鎖畫作上傳與管理功能！');
+    } else {
+      alert('密碼錯誤，僅限彭品心老師本人登入');
+    }
+  };
+
   const uploadArt = async () => {
     let nameInput = document.getElementById('aName');
     let wmInput = document.getElementById('aWm');
@@ -57,45 +73,24 @@ export default function Home() {
     let reader = new FileReader();
     reader.readAsDataURL(file);
     
-    reader.onload = async function(){
-        let base64Content = reader.result.split(',')[1];
-        let filename = `images/${Date.now()}-${file.name}`;
-        
-        setUploading(true);
-        alert('正在將圖片與畫作資訊同步至 GitHub 雲端，請稍候...');
+    setUploading(true);
+    reader.onload = function(){
+        let base64Img = reader.result;
+        let tempImg = new Image();
+        tempImg.onload = function(){
+            let sizeStr = `${tempImg.width} × ${tempImg.height} px`;
+            let newArtwork = { name, price: 680, wm, size: sizeStr, img: base64Img };
 
-        try {
-            let tempImg = new Image();
-            tempImg.onload = async function(){
-                let sizeStr = `${tempImg.width} × ${tempImg.height} px`;
-                let newArtwork = { name, price: 680, wm, size: sizeStr };
+            const updatedArtworks = [newArtwork, ...artworksList];
+            setArtworksList(updatedArtworks);
+            localStorage.setItem('zimo_artworks', JSON.stringify(updatedArtworks));
 
-                let res = await fetch('/api/upload', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ filename, content: base64Content, artwork: newArtwork })
-                });
-                let data = await res.json();
-                
-                if (data.success) {
-                    const listRes = await fetch('/artworks.json?' + Date.now());
-                    const listData = await listRes.json();
-                    if (Array.isArray(listData)) setArtworksList(listData);
-
-                    if(nameInput) nameInput.value = '';
-                    if(fileInput) fileInput.value = '';
-                    setUploading(false);
-                    alert(`上架成功！畫作已同步至雲端，所有遊客皆可見！`);
-                } else {
-                    setUploading(false);
-                    alert('上傳失敗：' + (data.error || '未知錯誤'));
-                }
-            };
-            tempImg.src = reader.result;
-        } catch (err) {
+            if(nameInput) nameInput.value = '';
+            if(fileInput) fileInput.value = '';
             setUploading(false);
-            alert('上傳發生網路錯誤，請稍後再試');
-        }
+            alert(`上架成功！尺寸 ${sizeStr} 已自動標示，浮水印已套用！`);
+        };
+        tempImg.src = base64Img;
     };
   };
 
@@ -103,9 +98,16 @@ export default function Home() {
     let name = document.getElementById('cName').value.trim();
     let phone = document.getElementById('cPhone').value.trim();
     let email = document.getElementById('cEmail').value.trim();
-    if(!name || !phone || !email){alert('請填寫姓名、電話與 Email！');return;}
+    let address = document.getElementById('cAddress').value.trim();
+    let note = document.getElementById('cNote').value.trim();
+
+    if(!name || !phone || !email || !address){
+        alert('請完整填寫姓名、電話、Email 與收件地址！');
+        return;
+    }
     if(cart.length === 0){alert('購物車是空的！');return;}
-    alert(`感謝 ${name} 緣主！訂單已成功送出，老師將盡快與您聯繫。`);
+    
+    alert(`感謝 ${name} 緣主！訂單已成功送出。\n\n收件地址：${address}\n${note ? '備註：' + note + '\n' : ''}老師將盡快與您聯繫。`);
     setCart([]);
     setIsVip(false);
   };
@@ -288,15 +290,29 @@ export default function Home() {
                 <p><strong>🎯 服務方向與彈性說明：</strong> 為了讓藏家免去繁複昂貴的裝裱開銷，並能完全依據個人空間風格、預算與審美喜好自由發揮，本專區採純原創作品售出（不含裝裱）。藏家可自行挑選喜愛的方式進行裝裱，讓藝術完美融合您的生活空間。</p>
             </div>
 
-            <div className="up-panel">
-                <h4 style={{color:'var(--gold-l)',marginBottom:'10px'}}>🎨 自行上傳新畫作與浮水印設定 (全球遊客同步)</h4>
-                <input type="text" id="aName" placeholder="請輸入畫作名稱 (例: 雲山禪韻)" />
-                <input type="text" id="aWm" defaultValue="品心美學 · 彭品心原創" placeholder="浮水印文字" />
-                <input type="file" id="aFile" accept="image/*" />
-                <button className="btn" style={{width:'100%'}} onClick={uploadArt} disabled={uploading}>
-                  {uploading ? '正在同步至雲端倉庫...' : '確認上傳並自動讀取尺寸上架 (NT$ 680)'}
-                </button>
-            </div>
+            {/* 僅限老師本人上傳的管理解鎖區 */}
+            {!isAdmin ? (
+                <div className="up-panel" style={{textAlign:'center'}}>
+                    <h4 style={{color:'var(--gold-l)', marginBottom:'10px'}}>🔒 老師專用畫作上傳管理</h4>
+                    <p style={{color:'var(--muted)', fontSize:'0.85rem', marginBottom:'12px'}}>（一般訪客無法上傳，請輸入老師專用密碼解鎖）</p>
+                    <input type="password" id="adminPwd" placeholder="請輸入老師管理密碼" style={{maxWidth:'280px', margin:'0 auto 10px auto', display:'block'}} />
+                    <button className="btn btn-o" style={{maxWidth:'200px', margin:'0 auto', display:'block'}} onClick={verifyAdmin}>解鎖上傳功能</button>
+                </div>
+            ) : (
+                <div className="up-panel">
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'10px'}}>
+                        <h4 style={{color:'var(--gold-l)'}}>🎨 老師專用：發布新原創畫作 (自動標示尺寸與浮水印)</h4>
+                        <button className="btn btn-o" style={{fontSize:'0.65rem', padding:'3px 8px'}} onClick={() => setIsAdmin(false)}>鎖定登出</button>
+                    </div>
+                    <input type="text" id="aName" placeholder="請輸入畫作名稱 (例: 雲山禪韻)" />
+                    <input type="text" id="aWm" defaultValue="品心美學 · 彭品心原創" placeholder="浮水印文字" />
+                    <input type="file" id="aFile" accept="image/*" />
+                    <button className="btn" style={{width:'100%'}} onClick={uploadArt} disabled={uploading}>
+                      {uploading ? '正在處理並讀取尺寸...' : '確認上傳並自動標示尺寸上架 (NT$ 680)'}
+                    </button>
+                </div>
+            )}
+
             <div className="grid-2" id="artGallery">
               {artworksList.length === 0 ? (
                 <p style={{color:'var(--muted)',gridColumn:'span 2',textAlign:'center',padding:'20px'}}>目前尚無上傳畫作</p>
@@ -328,44 +344,4 @@ export default function Home() {
         </footer>
       </div>
 
-      <div className="drawer" id="cartDrawer">
-        <div className="d-head">
-            <h3 style={{color:'var(--gold-l)'}}>🛒 您的專屬購物車與結帳單</h3>
-            <button onClick={() => document.getElementById('cartDrawer').classList.remove('open')} style={{background:'none',border:'none',color:'var(--text)',fontSize:'1.2rem',cursor:'pointer'}}>✕</button>
-        </div>
-        <div className="d-items" id="cList">
-          {cart.length === 0 ? (
-            <p style={{color:'var(--muted)', textAlign:'center', padding:'20px 0'}}>購物車是空的</p>
-          ) : (
-            cart.map((i, idx) => (
-              <div className="d-item" key={idx}>
-                <span>{i.name}</span>
-                <span>NT$ {i.price} <button onClick={() => rm(idx)} style={{color:'var(--gold)', background:'none', border:'none', cursor:'pointer', marginLeft:'10px'}}>刪除</button></span>
-              </div>
-            ))
-          )}
-        </div>
-
-        <div style={{borderTop:'1px solid var(--border)', paddingTop:'15px', marginTop:'auto'}}>
-          <div style={{marginBottom:'10px'}}>
-            <input type="text" id="vCode" placeholder="輸入 VIP 優惠碼 (VIP880)" style={{width:'100%', padding:'8px', background:'#1a1714', border:'1px solid var(--border)', color:'var(--text)', borderRadius:'4px', marginBottom:'6px'}} />
-            <button className="btn btn-o" style={{width:'100%', padding:'6px'}} onClick={applyVip}>驗證 VIP 優惠</button>
-          </div>
-
-          <div style={{display:'flex', justifyContent:'space-between', fontSize:'1.05rem', fontWeight:'bold', color:'var(--gold-l)', marginBottom:'15px'}}>
-            <span>總計金額：</span>
-            <span>NT$ {total} {isVip && <span style={{fontSize:'0.8rem', color:'var(--gold)'}}>(已享9折)</span>}</span>
-          </div>
-
-          <div className="cf">
-            <input type="text" id="cName" placeholder="請輸入您的姓名" />
-            <input type="text" id="cPhone" placeholder="請輸入您的電話" />
-            <input type="email" id="cEmail" placeholder="請輸入您的 Email" />
-          </div>
-
-          <button className="btn" style={{width:'100%', padding:'10px'}} onClick={checkout}>確認送出訂單</button>
-        </div>
-      </div>
-    </>
-  );
-}
+      <div className="drawer" id="cartDra
