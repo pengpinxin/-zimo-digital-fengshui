@@ -80,12 +80,14 @@ export default function Home(){
     }
   };
 
-  // 當使用者輸入電話時，自動檢查是否為已註冊的 VIP 手機號碼
+  // 智慧辨識手機號碼是否為 VIP
   const checkPhoneVip = (phone) => {
+    const cleanPhone = phone.trim();
+    if(!cleanPhone) return;
     const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
-    if(vipPhones.includes(phone.trim())){
+    if(vipPhones.includes(cleanPhone)){
       setIsVip(true);
-      alert('系統自動辨識：此電話已綁定 VIP 880 終身會員，已直接享有 9 折優惠！');
+      alert('👑 系統自動辨識：此電話已綁定 VIP 880 終身會員，已直接享有全館 9 折優惠！');
     }
   };
 
@@ -97,7 +99,6 @@ export default function Home(){
     if(!n || !p || !e || !a){ alert('請完整填寫收件資訊'); return; }
     if(cart.length === 0){ alert('購物車是空的'); return; }
 
-    // 如果購物車包含 VIP 方案，自動將該電話號碼寫入 VIP 資料庫
     const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
     if(hasVipItem || isVip){
       const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
@@ -114,7 +115,7 @@ export default function Home(){
 
   let total = cart.reduce((s, i) => s + i.price, 0);
   if(isVip) total = Math.round(total * 0.9);
-  const vipText = isVip ? ' (已享9折)' : '';
+  const vipText = isVip ? ' (已享 VIP 9折)' : '';
 
   return (
     <>
@@ -221,6 +222,14 @@ export default function Home(){
       </div>
       <div className="drawer" id="cart">
         <div style={{display:'flex',justifyContent:'space-between',marginBottom:'12px',borderBottom:'1px solid var(--border)',paddingBottom:'8px'}}><h3 style={{color:'var(--gold-l)',fontSize:'0.95rem'}}>🛒 購物車與結帳</h3><button onClick={()=>document.getElementById('cart').classList.remove('open')} style={{background:'none',border:'none',color:'#fff',fontSize:'1.1rem'}}>✕</button></div>
+        
+        {/* 會員專屬標誌辨識區 */}
+        {isVip && (
+          <div style={{background:'rgba(212,175,55,0.15)',border:'1px solid var(--gold)',borderRadius:'6px',padding:'8px',marginBottom:'10px',textAlign:'center'}}>
+            <span style={{color:'var(--gold-l)',fontSize:'0.8rem',fontWeight:'bold'}}>👑 尊榮 VIP 9折會員已認證</span>
+          </div>
+        )}
+
         <div style={{flexGrow:1,overflowY:'auto',marginBottom:'10px'}}>
           {cart.length===0?(<p style={{color:'#d0c5b4',textAlign:'center',padding:'15px'}}>購物車是空的</p>):(
             cart.map((i,idx)=>(<div key={idx} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid rgba(74,61,49,0.3)',fontSize:'0.8rem'}}><span>{i.name}</span><span>NT$ {i.price} <button onClick={()=>rm(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'6px'}}>刪除</button></span></div>))
@@ -235,7 +244,7 @@ export default function Home(){
             <span>總計：</span><span>NT$ {total} {vipText}</span>
           </div>
           <input type="text" id="cn" placeholder="姓名"/>
-          <input type="text" id="cp" placeholder="電話" onBlur={(e)=>checkPhoneVip(e.target.value)}/>
+          <input type="text" id="cp" placeholder="已是會員請輸入您的的手機號碼即可" onBlur={(e)=>checkPhoneVip(e.target.value)}/>
           <input type="email" id="ce" placeholder="Email"/>
           <input type="text" id="ca" placeholder="收件地址"/>
           <textarea id="co" rows="1" placeholder="備註（選填）"></textarea>
@@ -244,4 +253,4 @@ export default function Home(){
       </div>
     </>
   );
-            }
+                              }
