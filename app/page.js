@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 
 export default function Home(){
   const [cart, setCart] = useState([]);
+  const [isVip, setIsVip] = useState(false);
   const [artworks, setArtworks] = useState([]);
   const [admin, setAdmin] = useState(false);
   const [adminPwd, setAdminPwd] = useState('');
   const [artName, setArtName] = useState('');
   const [artWm, setArtWm] = useState('品心美學 · 彭品心原創');
+  const [vipCode, setVipCode] = useState('');
   const [cName, setCName] = useState('');
   const [cPhone, setCPhone] = useState('');
   const [cEmail, setCEmail] = useState('');
@@ -93,11 +95,41 @@ export default function Home(){
     }
   };
 
+  const handleVerifyVipCode = () => {
+    if(vipCode.trim() === 'VIP880'){
+      setIsVip(true);
+      alert('VIP 優惠碼驗證成功！');
+    } else {
+      alert('優惠代碼錯誤');
+    }
+  };
+
+  const checkPhoneVip = (phone) => {
+    const cleanPhone = phone.trim();
+    if(!cleanPhone) return;
+    const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
+    if(vipPhones.includes(cleanPhone)){
+      setIsVip(true);
+      alert('👑 系統自動辨識：此電話已綁定 VIP 880 終身會員，已直接享有全館 9 折優惠！');
+    }
+  };
+
   const handleCheckout = () => {
     if(!cName || !cPhone || !cEmail || !cAddress){ alert('請完整填寫收件與聯絡資訊'); return; }
     if(cart.length === 0){ alert('購物車是空的'); return; }
+
+    const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
+    if(hasVipItem || isVip){
+      const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
+      if(!vipPhones.includes(cPhone)){
+        vipPhones.push(cPhone);
+        localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
+      }
+    }
+
     alert('感謝 ' + cName + ' 緣主！訂單已送出。');
     setCart([]);
+    setIsVip(false);
     setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
   };
 
@@ -107,6 +139,8 @@ export default function Home(){
   const closeMenu = () => document.getElementById('menu')?.classList.remove('open');
 
   let total = cart.reduce((s, i) => s + i.price, 0);
+  if(isVip) total = Math.round(total * 0.9);
+  const vipText = isVip ? ' (已享 VIP 9折)' : '';
 
   return (
     <>
@@ -134,7 +168,10 @@ export default function Home(){
       <header>
         <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
           <div style={{width:'34px',height:'34px',border:'1px solid var(--gold)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)'}}>品</div>
-          <div><h1 style={{fontSize:'0.9rem',color:'var(--gold-l)'}}>品心美學</h1><p style={{fontSize:'0.65rem',color:'#d0c5b4'}}>彭品心老師</p></div>
+          <div>
+            <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)'}}>品心美學</h1>
+            <p style={{fontSize:'0.65rem',color:'#d0c5b4'}}>彭品心老師官方網站</p>
+          </div>
         </div>
         <div style={{display:'flex',gap:'6px'}}>
           <button className="btn" onClick={openCart}>🛒({cart.length})</button>
@@ -145,6 +182,7 @@ export default function Home(){
       <div className="drawer" id="menu">
         <div style={{display:'flex',justifyContent:'space-between',marginBottom:'15px'}}><h3 style={{color:'var(--gold-l)'}}>導覽</h3><button onClick={closeMenu} style={{background:'none',border:'none',color:'#fff',fontSize:'1.2rem'}}>✕</button></div>
         <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
+          <a href="#vip" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>💎 VIP 880 會員</a>
           <a href="#books" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📚 文學著作</a>
           <a href="#services" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🔮 數字風水</a>
           <a href="#art" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🎨 原創畫作</a>
@@ -156,7 +194,14 @@ export default function Home(){
 
       <div className="wrap">
         <div style={{width:'100%',borderRadius:'8px',overflow:'hidden',border:'1px solid var(--border)',marginBottom:'15px'}}><img src="/1792354723564.png" style={{width:'100%',display:'block'}} alt="b"/></div>
+        
+        <div id="vip" style={{background:'rgba(212,175,55,0.08)',border:'1px solid var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'20px'}}>
+          <h3 style={{color:'var(--gold-l)',marginBottom:'5px'}}>✨ VIP 880 終身會員</h3>
+          <p style={{fontSize:'0.8rem',color:'#d0c5b4',marginBottom:'10px'}}>全館著作、數字配置與畫作<strong>終身9折</strong></p>
+          <button className="btn" onClick={()=>addToCart('VIP 880 終身會員方案',880)}>加入 VIP (NT$ 880)</button>
+        </div>
 
+        {/* 學術文學著作：文宣文字在書籍主標題下方 */}
         <section id="books">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>學術文學著作</h3>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師深具靈性與學術深度的經典力作，引領讀者開啟高維度思維與生命轉折。</p>
@@ -164,6 +209,7 @@ export default function Home(){
           <div className="card"><img src="/1792450518058.jpg" alt="b2"/><div><h4>進階思維的後裔</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div><p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p><button className="btn btn-o" style={{marginTop:'6px'}} onClick={()=>addToCart('進階思維的後裔',269)}>加入購物車</button></div></div>
         </section>
 
+        {/* 紫墨數字風水：四大服務注意事項在主標題下方 */}
         <section id="services">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>紫墨數字風水</h3>
           <div className="notice-box" style={{marginTop:'0', marginBottom:'12px'}}>
@@ -183,6 +229,7 @@ export default function Home(){
           </div>
         </section>
 
+        {/* 原創藝術畫作與管理上傳（直連 GitHub 雲端永久保存） */}
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 12px 0'}}>原創藝術畫作 (NT$ 680)</h3>
           {!admin?(
@@ -258,23 +305,26 @@ export default function Home(){
       <div className="drawer" id="cart">
         <div style={{display:'flex',justifyContent:'space-between',marginBottom:'12px',borderBottom:'1px solid var(--border)',paddingBottom:'8px'}}><h3 style={{color:'var(--gold-l)',fontSize:'0.95rem'}}>🛒 購物車與結帳</h3><button onClick={closeCart} style={{background:'none',border:'none',color:'#fff',fontSize:'1.2rem'}}>✕</button></div>
 
+        {isVip && (
+          <div style={{background:'rgba(212,175,55,0.15)',border:'1px solid var(--gold)',borderRadius:'6px',padding:'8px',marginBottom:'10px',textAlign:'center'}}>
+            <span style={{color:'var(--gold-l)',fontSize:'0.8rem',fontWeight:'bold'}}>👑 尊榮 VIP 9折會員已認證</span>
+          </div>
+        )}
+
         <div style={{flexGrow:1,overflowY:'auto',marginBottom:'10px'}}>
           {cart.length===0?(<p style={{color:'#d0c5b4',textAlign:'center',padding:'15px'}}>購物車是空的</p>):(
             cart.map((i,idx)=>(<div key={idx} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid rgba(74,61,49,0.3)',fontSize:'0.8rem'}}><span>{i.name}</span><span>NT$ {i.price} <button onClick={()=>removeFromCart(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'6px'}}>刪除</button></span></div>))
           )}
         </div>
         <div style={{borderTop:'1px solid var(--border)',paddingTop:'10px'}}>
+          <div style={{display:'flex',gap:'5px',marginBottom:'8px'}}>
+            <input type="text" value={vipCode} onChange={(e)=>setVipCode(e.target.value)} placeholder="VIP碼 (VIP880)" style={{margin:0}}/>
+            <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
+          </div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
-            <span>總計：</span><span>NT$ {total}</span>
+            <span>總計：</span><span>NT$ {total} {vipText}</span>
           </div>
           <input type="text" value={cName} onChange={(e)=>setCName(e.target.value)} placeholder="姓名"/>
-          <input type="text" value={cPhone} onChange={(e)=>setCPhone(e.target.value)} placeholder="手機號碼"/>
+          <input type="text" value={cPhone} onChange={(e)=>setCPhone(e.target.value)} onBlur={(e)=>checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的手機號碼即可"/>
           <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
-          <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
-          <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
-          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout}>確認送出訂單</button>
-        </div>
-      </div>
-    </>
-  );
-  }
+          <input type=
