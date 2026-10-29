@@ -17,13 +17,13 @@ export async function POST(request) {
     const buffer = Buffer.from(bytes);
     const contentBase64 = buffer.toString('base64');
 
-    // 修正倉庫名稱為真實的 -z
+    // 確保這裡的 owner 和 repo 對應您的真實 GitHub 資訊
     const owner = process.env.GITHUB_OWNER || 'pengpinxin';
     const repo = process.env.GITHUB_REPO || '-z';
     const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 
     if (!token) {
-      return NextResponse.json({ success: false, error: '尚未設定 GitHub Token 密鑰，無法寫入倉庫' }, { status: 500 });
+      return NextResponse.json({ success: false, error: '尚未設定 GitHub Token 密鑰' }, { status: 500 });
     }
 
     const filename = file.name || 'upload.jpg';
