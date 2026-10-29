@@ -104,8 +104,19 @@ export default function Home(){
     const nameToUse = artName.trim() || '品心藝術';
     setUploading(true);
     try {
+      // 將 Base64 轉換為 Blob 物件以支援後端 arrayBuffer 讀取
+      const arr = selectedFile.split(',');
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      const blob = new Blob([u8arr], {type:mime});
+
       const formData = new FormData();
-      formData.append('file', selectedFile);
+      formData.append('file', blob, 'artwork.jpg');
       formData.append('filename', 'artwork.jpg');
       formData.append('artName', nameToUse);
       formData.append('artWm', artWm || '品心美學');
