@@ -358,4 +358,63 @@ export default function Home(){
           <div style={{ marginTop: '15px', padding: '12px', background: 'rgba(212, 175, 55, 0.1)', borderLeft: '3px solid #d4af37', borderRadius: '4px', fontSize: '0.95em', lineHeight: '1.6' }}>
             💡 <strong>貼心提醒：</strong>介於手機信號接受不良等因素，請您盡量多多利用<strong>電子信箱</strong>跟<strong>官方 LINE</strong> 聯繫老師，我們將會以最快速度為您服務！
           </div>
-        </sec
+        </section>
+
+        <section id="legal" className="notice-box">
+          <h4>⚖️ 法律責任與版權聲明</h4>
+          <ul>
+            <li><strong>著作權保護：</strong>本站所有學術文學著作（《生命的出口》、《進階思維的後裔》）、原創藝術畫作及影音內容，均受中華民國著作權法與國際公約保護。</li>
+            <li><strong>禁止盜用：</strong>未經書面授權，任何人不得擅自重製、轉載、散布或作商業營利使用，違者必究，將依法追究相關民刑事法律責任。</li>
+            <li><strong>免責聲明：</strong>本站提供的數字風水、命理諮詢與心靈文學內容均屬學術研究與哲學探討範疇，不構成任何具體投資、法律或醫療保證。</li>
+          </ul>
+        </section>
+
+        <footer style={{borderTop:'1px dashed var(--border)',paddingTop:'15px',marginTop:'30px',fontSize:'0.75rem',color:'#d0c5b4',textAlign:'center',display:'flex',flexDirection:'column',gap:'6px'}}>
+          <p>© 品心美學 ｜ 學術文學創作 彭品心老師</p>
+          <p>官方網站與粉專：<a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>https://www.facebook.com/pengpinxin/</a></p>
+        </footer>
+      </div>
+
+      <div className="drawer" id="cart">
+        <div style={{display:'flex',justifyContent:'space-between',marginBottom:'12px',borderBottom:'1px solid var(--border)',paddingBottom:'8px'}}>
+          <h3 style={{color:'var(--gold-l)',fontSize:'0.95rem'}}>🛒 購物車與結帳</h3>
+          <button onClick={closeCart} style={{background:'none',border:'none',color:'#fff',fontSize:'1.2rem'}}>✕</button>
+        </div>
+        
+        {isVip && (
+          <div style={{background:'rgba(212,175,55,0.15)',border:'1px solid var(--gold)',borderRadius:'6px',padding:'8px',marginBottom:'10px',textAlign:'center'}}>
+            <span style={{color:'var(--gold-l)',fontSize:'0.8rem',fontWeight:'bold'}}>👑 尊榮 VIP 9折會員已認證</span>
+          </div>
+        )}
+
+        <div style={{flexGrow:1,overflowY:'auto',marginBottom:'10px'}}>
+          {cart.length===0?(
+            <p style={{color:'#d0c5b4',textAlign:'center',padding:'15px'}}>購物車是空的</p>
+          ):(
+            cart.map((i,idx)=>(
+              <div key={idx} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid rgba(74,61,49,0.3)',fontSize:'0.8rem'}}>
+                <span>{i.name}</span>
+                <span>NT$ {i.price} <button onClick={()=>removeFromCart(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'6px'}}>刪除</button></span>
+              </div>
+            ))
+          )}
+        </div>
+        <div style={{borderTop:'1px solid var(--border)',paddingTop:'10px'}}>
+          <div style={{display:'flex',gap:'5px',marginBottom:'8px'}}>
+            <input type="text" value={vipCode} onChange={(e)=>setVipCode(e.target.value)} placeholder="VIP碼 (VIP880)" style={{margin:0}}/>
+            <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
+          </div>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
+            <span>總計：<span>NT$ {total} {vipText}</span></span>
+          </div>
+          <input type="text" value={cName} onChange={(e)=>setCName(e.target.value)} placeholder="姓名"/>
+          <input type="text" value={cPhone} onChange={(e)=>setCPhone(e.target.value)} onBlur={(e)=>checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的手機號碼即可"/>
+          <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
+          <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
+          <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
+          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout}>確認送出訂單</button>
+        </div>
+      </div>
+    </>
+  );
+}
