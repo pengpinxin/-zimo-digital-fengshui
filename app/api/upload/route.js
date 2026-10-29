@@ -17,9 +17,9 @@ export async function POST(request) {
     const buffer = Buffer.from(bytes);
     const contentBase64 = buffer.toString('base64');
 
-    // 您的 GitHub 倉庫資訊
+    // 修正倉庫名稱為真實的 -z
     const owner = process.env.GITHUB_OWNER || 'pengpinxin';
-    const repo = process.env.GITHUB_REPO || '-zimo-digital-fengshui';
+    const repo = process.env.GITHUB_REPO || '-z';
     const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 
     if (!token) {
@@ -30,7 +30,6 @@ export async function POST(request) {
     const cleanFilename = filename.replace(/[^a-zA-Z0-9_.-]/g, '');
     const filePath = `public/artworks/${Date.now()}_${cleanFilename}`;
 
-    // 透過 GitHub Contents API 直接將圖片提交到 main 分支
     const githubRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`, {
       method: 'PUT',
       headers: {
@@ -39,7 +38,7 @@ export async function POST(request) {
         'User-Agent': 'Pinxin-Art-App'
       },
       body: JSON.stringify({
-        message: `Upload artwork via app: ${cleanFilename}`,
+        message: `Upload artwork: ${cleanFilename}`,
         content: contentBase64,
         branch: 'main'
       })
