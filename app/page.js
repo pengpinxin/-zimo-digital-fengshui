@@ -159,7 +159,7 @@ export default function Home(){
         .notice-box{background:rgba(212,175,55,0.05);border:1px solid var(--border);border-radius:8px;padding:15px;margin:15px 0;font-size:0.8rem;color:#d0c5b4;}
         .notice-box h4{color:var(--gold-l);margin-bottom:8px;font-size:0.9rem;}
         .notice-box ul{padding-left:18px;}
-        .notice-box li{margin-bottom:4px;}
+        .notice-box li{margin-bottom:6px;}
       `}</style>
 
       <header>
@@ -222,13 +222,14 @@ export default function Home(){
 
         <section id="services">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>紫墨數字風水</h3>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'10px',paddingLeft:'4px'}}>專業數字風水配置、手機車牌住址選吉與八字命理諮詢服務。</p>
           <div className="notice-box" style={{marginTop:'0', marginBottom:'12px'}}>
-            <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>📌 四大服務購買注意事項</h4>
-            <ul style={{paddingLeft:'16px',fontSize:'0.75rem'}}>
-              <li><strong>專業排盤與配置：</strong>各項數字風水服務（手機、車牌、住址、店鋪選吉）皆由彭品心老師親自依據專業學術與磁場原理規劃。</li>
-              <li><strong>資料提供：</strong>請於訂單備註或聯絡時提供正確之號碼及相關需求，以確保配置精準。</li>
-              <li><strong>服務性質：</strong>數位與命理客製化配置服務確認開始執行後，恕不接受無理由退款。</li>
-              <li><strong>理性參考：</strong>所有風水磁場與號碼配置旨在輔助提升運勢與心境，個人努力與正念亦為成就之本。</li>
+            <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>📌 購買服務注意事項與流程說明</h4>
+            <ul style={{paddingLeft:'16px',fontSize:'0.75rem',lineHeight:'1.6'}}>
+              <li><strong>1. 預約流程：</strong>手機、車牌、店鋪、住址配置高端生旺風水號碼，須請您先自行向相關單位申請或初步選定您喜歡的 3～5 組號碼，再透過預約表單告訴紫墨老師，老師將為您進行人工深度解析與最終吉凶配置！</li>
+              <li><strong>2. 專業鑑定聲明：</strong>經過老師數字分析之後，如若您的原生號碼本身就是生旺您的吉數，那麼便是最好的數字配置，則不需要更換；然而，老師則同樣會收取您的鑑定費用。因為這是消耗老師大量精力的專業性諮詢服務，還請緣主務必尊重學術文學的強大驅動力，這也證實了：「知因果者、則不畏因果」的推理。</li>
+              <li><strong>3. 服務性質：</strong>數位與命理客製化配置服務確認開始執行後，恕不接受無理由退款。</li>
+              <li><strong>4. 理性參考：</strong>所有風水磁場與號碼配置旨在輔助提升運勢與心境，個人努力與正念亦為成就之本。</li>
             </ul>
           </div>
           <div className="grid">
@@ -240,7 +241,8 @@ export default function Home(){
         </section>
 
         <section id="art">
-          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 12px 0'}}>原創藝術畫作 (NT$ 680)</h3>
+          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創藝術畫作 (NT$ 680)</h3>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水、竹林、梅花等心靈藝術藏品。</p>
           {!admin?(
             <div style={{background:'rgba(212,175,55,0.05)',border:'1px dashed var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'15px'}}>
               <p style={{fontSize:'0.8rem',color:'var(--gold-l)',marginBottom:'8px'}}>🔒 老師專用管理上傳</p>
@@ -289,7 +291,7 @@ export default function Home(){
         <section id="contact" className="notice-box">
           <h4>📞 聯絡方式與預約專線</h4>
           <p><strong>服務老師：</strong>彭品心（紫墨老師）</p>
-          <p><strong>預約電話：</strong>0987-955-906</p>
+          <p><strong>預約電話：</strong>0987-955-906（服務時間：早上 10 點後至晚上 10 點前）</p>
           <p><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
           <p><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline'}}>https://www.facebook.com/pengpinxin/</a></p>
         </section>
@@ -328,7 +330,7 @@ export default function Home(){
             cart.map((i,idx)=>(
               <div key={idx} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid rgba(74,61,49,0.3)',fontSize:'0.8rem'}}>
                 <span>{i.name}</span>
-                <span>NT$ {i.price} <button onClick={()=>removeFromCart(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'6px'}}>刪除</button></span>
+<span>NT$ {i.price} <button onClick={()=>removeFromCart(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'6px'}}>刪除</button></span>
               </div>
             ))
           )}
@@ -337,4 +339,18 @@ export default function Home(){
           <div style={{display:'flex',gap:'5px',marginBottom:'8px'}}>
             <input type="text" value={vipCode} onChange={(e)=>setVipCode(e.target.value)} placeholder="VIP碼 (VIP880)" style={{margin:0}}/>
             <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
-          </div
+          </div>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
+            <span>總計：<span>NT$ {total} {vipText}</span></span>
+          </div>
+          <input type="text" value={cName} onChange={(e)=>setCName(e.target.value)} placeholder="姓名"/>
+          <input type="text" value={cPhone} onChange={(e)=>setCPhone(e.target.value)} onBlur={(e)=>checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的手機號碼即可"/>
+          <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
+          <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
+          <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
+          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout}>確認送出訂單</button>
+        </div>
+      </div>
+    </>
+  );
+}
