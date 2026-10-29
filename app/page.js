@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-// 圖片壓縮與尺寸限制工具（最大寬度限制 1000px）
+// 圖片壓縮與尺寸限制工具（最大寬度限制 1000px，防止原圖被盜並加速載入）
 const compressImageFile = (file, maxWidth = 1000, quality = 0.8) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -83,7 +83,6 @@ export default function Home(){
     const f = e.target.files[0];
     if (f) {
       try {
-        setUploading(true);
         const compressedUrl = await compressImageFile(f, 1000, 0.8);
         setSelectedFile(compressedUrl);
         if (!artName) {
@@ -93,31 +92,59 @@ export default function Home(){
       } catch (err) {
         console.error('圖片壓縮失敗:', err);
         setSelectedFile(f);
-      } finally {
-        setUploading(false);
       }
     }
   };
 
-  const handleUploadArt = () => {
+  const handleUploadArt = async () => {
     if(!selectedFile){ 
       alert('請選擇圖片檔案'); 
       return; 
     }
     const nameToUse = artName.trim() || '品心藝術';
-    const next = [{ 
-      name: nameToUse, 
-      wm: artWm || '品心美學', 
-      url: selectedFile,
-      price: 680,
-      size: '1000px 防盜保護'
-    }, ...artworks];
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      formData.append('filename', 'artwork.jpg');
+      formData.append('artName', nameToUse);
+      formData.append('artWm', artWm || '品心美學');
 
-    setArtworks(next);
-    localStorage.setItem('z_art', JSON.stringify(next));
-    setArtName('');
-    setSelectedFile(null);
-    alert('🎉 成功上傳並發布至藝廊！');
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const contentType = res.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const errText = await res.text();
+        throw new Error(`伺服器回應異常 (${res.status})：${errText.slice(0, 80)}`);
+      }
+
+      const data = await res.json();
+      if (data.success) {
+        const next = [{ 
+          name: data.name || nameToUse, 
+          wm: data.wm || artWm, 
+          url: data.url,
+          price: 680,
+          size: '1000px 防盜保護'
+        }, ...artworks];
+        
+        setArtworks(next);
+        localStorage.setItem('z_art', JSON.stringify(next));
+        setArtName('');
+        setSelectedFile(null);
+        alert('🎉 成功上傳並永久儲存至雲端！');
+      } else {
+        alert('上傳失敗：' + (data.error || '未知錯誤'));
+      }
+    } catch (err) {
+      console.error('上傳錯誤:', err);
+      alert('連線伺服器發生錯誤，請檢查網路或稍後再試。');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleDeleteArt = (index) => {
@@ -286,14 +313,14 @@ export default function Home(){
           ):(
             <div style={{background:'rgba(212,175,55,0.05)',border:'1px dashed var(--gold)',borderRadius:'8px',padding:'15px',marginBottom:'15px'}}>
               <div style={{display:'flex',justifyContent:'space-between',marginBottom:'8px'}}>
-                <span style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>🎨 畫作上傳區 (防盜壓縮與極速發布)</span>
+                <span style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>🎨 畫作上傳區 (直連雲端永久保存)</span>
                 <button className="btn btn-o" style={{fontSize:'0.6rem'}} onClick={()=>setAdmin(false)}>登出</button>
               </div>
               <input type="text" value={artName} onChange={(e)=>setArtName(e.target.value)} placeholder="請輸入中文畫名"/>
               <input type="text" value={artWm} onChange={(e)=>setArtWm(e.target.value)} placeholder="浮水印文字"/>
               <input type="file" accept="image/*" onChange={handleFileChange} style={{marginBottom:'8px',color:'var(--text)'}}/>
               <button className="btn" style={{width:'100%',marginTop:'5px'}} onClick={handleUploadArt} disabled={uploading}>
-                {uploading ? '正在處理防盜壓縮...' : '確認上架至藝廊 (NT$ 680)'}
+                {uploading ? '正在同步至雲端伺服器...' : '確認上架至雲端 (NT$ 680)'}
               </button>
             </div>
           )}
@@ -307,8 +334,8 @@ export default function Home(){
                       <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>{item.wm}</span>
                     </div>
                     <h4 style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>{item.name}</h4>
-                    <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 1000px 防盜保護</p>
-                    <div style={{color:'var(--gold)',fontWeight:'bold',fontSize:'0.85rem'}}>NT$ 680</div>
+                    <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 {item.size || '1000px 防盜保護'}</p>
+                    <div style={{color:'var(--gold)',fontWeight:'bold',fontSize:'0.85rem'}}>NT$ {item.price || 680}</div>
                   </div>
                   <div style={{marginTop:'8px',display:'flex',flexDirection:'column',gap:'4px'}}>
                     <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem'}} onClick={()=>addToCart(item.name,680)}>加入購物車</button>
@@ -331,21 +358,4 @@ export default function Home(){
           <div style={{ marginTop: '15px', padding: '12px', background: 'rgba(212, 175, 55, 0.1)', borderLeft: '3px solid #d4af37', borderRadius: '4px', fontSize: '0.95em', lineHeight: '1.6' }}>
             💡 <strong>貼心提醒：</strong>介於手機信號接受不良等因素，請您盡量多多利用<strong>電子信箱</strong>跟<strong>官方 LINE</strong> 聯繫老師，我們將會以最快速度為您服務！
           </div>
-        </section>
-
-        <section id="legal" className="notice-box">
-          <h4>⚖️ 法律責任與版權聲明</h4>
-          <ul>
-            <li><strong>著作權保護：</strong>本站所有學術文學著作（《生命的出口》、《進階思維的後裔》）、原創藝術畫作及影音內容，均受中華民國著作權法與國際公約保護。</li>
-            <li><strong>禁止盜用：</strong>未經書面授權，任何人不得擅自重製、轉載、散布或作商業營利使用，違者必究，將依法追究相關民刑事法律責任。</li>
-            <li><strong>免責聲明：</strong>本站提供的數字風水、命理諮詢與心靈文學內容均屬學術研究與哲學探討範疇，不構成任何具體投資、法律或醫療保證。</li>
-          </ul>
-        </section>
-
-        <footer style={{borderTop:'1px dashed var(--border)',paddingTop:'15px',marginTop:'30px',fontSize:'0.75rem',color:'#d0c5b4',textAlign:'center',display:'flex',flexDirection:'column',gap:'6px'}}>
-          <p>© 品心美學 ｜ 學術文學創作 彭品心老師</p>
-          <p>官方網站與粉專：<a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>https://www.facebook.com/pengpinxin/</a></p>
-        </footer>
-      </div>
-
-      
+        </sec
