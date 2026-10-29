@@ -324,7 +324,7 @@ export default function Home(){
         )}
 
         <div style={{flexGrow:1,overflowY:'auto',marginBottom:'10px'}}>
-          {cart.length===0?(
+                    {cart.length===0?(
             <p style={{color:'#d0c5b4',textAlign:'center',padding:'15px'}}>購物車是空的</p>
           ):(
             cart.map((i,idx)=>(
@@ -336,4 +336,21 @@ export default function Home(){
           )}
         </div>
         <div style={{borderTop:'1px solid var(--border)',paddingTop:'10px'}}>
-          <div style={{display:'flex',gap:'5px',margi
+          <div style={{display:'flex',gap:'5px',marginBottom:'8px'}}>
+            <input type="text" value={vipCode} onChange={(e)=>setVipCode(e.target.value)} placeholder="VIP碼 (VIP880)" style={{margin:0}}/>
+            <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
+          </div>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
+            <span>總計：<span>NT$ {total} {vipText}</span></span>
+          </div>
+          <input type="text" value={cName} onChange={(e)=>setCName(e.target.value)} placeholder="姓名"/>
+          <input type="text" value={cPhone} onChange={(e)=>setCPhone(e.target.value)} onBlur={(e)=>checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的手機號碼即可"/>
+          <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
+          <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
+          <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
+          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout}>確認送出訂單</button>
+        </div>
+      </div>
+    </>
+  );
+}
