@@ -222,6 +222,7 @@ export default function Home(){
 
         <section id="services">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>紫墨數字風水</h3>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'10px',paddingLeft:'4px'}}>專業數字風水配置、手機車牌住址選吉與八字命理諮詢服務。</p>
           <div className="notice-box" style={{marginTop:'0', marginBottom:'12px'}}>
             <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>📌 四大服務購買注意事項</h4>
             <ul style={{paddingLeft:'16px',fontSize:'0.75rem'}}>
@@ -240,7 +241,8 @@ export default function Home(){
         </section>
 
         <section id="art">
-          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 12px 0'}}>原創藝術畫作 (NT$ 680)</h3>
+          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創藝術畫作 (NT$ 680)</h3>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水、竹林、梅花等心靈藝術藏品。</p>
           {!admin?(
             <div style={{background:'rgba(212,175,55,0.05)',border:'1px dashed var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'15px'}}>
               <p style={{fontSize:'0.8rem',color:'var(--gold-l)',marginBottom:'8px'}}>🔒 老師專用管理上傳</p>
@@ -334,7 +336,4 @@ export default function Home(){
           )}
         </div>
         <div style={{borderTop:'1px solid var(--border)',paddingTop:'10px'}}>
-          <div style={{display:'flex',gap:'5px',marginBottom:'8px'}}>
-            <input type="text" value={vipCode} onChange={(e)=>setVipCode(e.target.value)} placeholder="VIP碼 (VIP880)" style={{margin:0}}/>
-            <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
-          </div
+          <div style={{display:'flex',gap:'5px',margi
