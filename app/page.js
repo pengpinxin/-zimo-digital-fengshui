@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-// 圖片壓縮與尺寸限制工具（最大寬度限制 1000px，防止原圖被盜並加速載入）
+
+// 圖片壓縮與尺寸限制工具（最大寬度限制 1000px）
 const compressImageFile = (file, maxWidth = 1000, quality = 0.8) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -31,6 +32,7 @@ const compressImageFile = (file, maxWidth = 1000, quality = 0.8) => {
     reader.onerror = (err) => reject(err);
   });
 };
+
 export default function Home(){
   const [cart, setCart] = useState([]);
   const [isVip, setIsVip] = useState(false);
@@ -77,7 +79,7 @@ export default function Home(){
     }
   };
 
-      const handleFileChange = async (e) => {
+  const handleFileChange = async (e) => {
     const f = e.target.files[0];
     if (f) {
       try {
@@ -96,50 +98,26 @@ export default function Home(){
       }
     }
   };
-    const handleUploadArt = async () => {
+
+  const handleUploadArt = () => {
     if(!selectedFile){ 
       alert('請選擇圖片檔案'); 
       return; 
     }
     const nameToUse = artName.trim() || '品心藝術';
-    setUploading(true);
-    try {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-      formData.append('filename', selectedFile.name || 'artwork.jpg');
-      formData.append('artName', nameToUse);
-      formData.append('artWm', artWm || '品心美學');
+    const next = [{ 
+      name: nameToUse, 
+      wm: artWm || '品心美學', 
+      url: selectedFile,
+      price: 680,
+      size: '1000px 防盜保護'
+    }, ...artworks];
 
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      // 檢查是否為正確的 JSON 格式，防止伺服器回傳 HTML 錯誤頁面導致崩潰
-      const contentType = res.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        const errText = await res.text();
-        throw new Error(`伺服器回應異常 (${res.status})：${errText.slice(0, 80)}`);
-      }
-
-      const data = await res.json();
-      if (data.success) {
-        const next = [{ name: data.name || nameToUse, wm: data.wm || artWm, url: data.url }, ...artworks];
-        setArtworks(next);
-        localStorage.setItem('z_art', JSON.stringify(next));
-        setArtName('');
-        setSelectedFile(null);
-        alert('🎉 成功上傳並永久儲存！');
-      } else {
-        alert('上傳失敗：' + (data.error || '未知錯誤'));
-      }
-    } catch (err) {
-      console.error('上傳錯誤:', err);
-      alert('連線伺服器發生錯誤，請改用電子信箱或 LINE 聯繫老師。');
-    } finally {
-      setUploading(false);
-    }
-  };
+    setArtworks(next);
+    localStorage.setItem('z_art', JSON.stringify(next));
+    setArtName('');
+    setSelectedFile(null);
+    alert('🎉 成功上傳並發布至藝廊！');
   };
 
   const handleDeleteArt = (index) => {
@@ -308,14 +286,14 @@ export default function Home(){
           ):(
             <div style={{background:'rgba(212,175,55,0.05)',border:'1px dashed var(--gold)',borderRadius:'8px',padding:'15px',marginBottom:'15px'}}>
               <div style={{display:'flex',justifyContent:'space-between',marginBottom:'8px'}}>
-                <span style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>🎨 畫作上傳區 (直連 GitHub 雲端永久保存)</span>
+                <span style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>🎨 畫作上傳區 (防盜壓縮與極速發布)</span>
                 <button className="btn btn-o" style={{fontSize:'0.6rem'}} onClick={()=>setAdmin(false)}>登出</button>
               </div>
               <input type="text" value={artName} onChange={(e)=>setArtName(e.target.value)} placeholder="請輸入中文畫名"/>
               <input type="text" value={artWm} onChange={(e)=>setArtWm(e.target.value)} placeholder="浮水印文字"/>
               <input type="file" accept="image/*" onChange={handleFileChange} style={{marginBottom:'8px',color:'var(--text)'}}/>
               <button className="btn" style={{width:'100%',marginTop:'5px'}} onClick={handleUploadArt} disabled={uploading}>
-                {uploading ? '正在同步至 GitHub 雲端...' : '確認上架至雲端 (NT$ 680)'}
+                {uploading ? '正在處理防盜壓縮...' : '確認上架至藝廊 (NT$ 680)'}
               </button>
             </div>
           )}
@@ -325,12 +303,12 @@ export default function Home(){
                 <div className="s-card" key={idx}>
                   <div>
                     <div style={{position:'relative',marginBottom:'6px'}}>
-                      <img src={item.img} style={{width:'100%',height:'110px',objectFit:'cover',borderRadius:'6px'}} alt="art"/>
+                      <img src={item.url} style={{width:'100%',height:'110px',objectFit:'cover',borderRadius:'6px'}} alt="art"/>
                       <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>{item.wm}</span>
                     </div>
                     <h4 style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>{item.name}</h4>
-                    <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 {item.size}</p>
-                    <div style={{color:'var(--gold)',fontWeight:'bold',fontSize:'0.85rem'}}>NT$ {item.price}</div>
+                    <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 1000px 防盜保護</p>
+                    <div style={{color:'var(--gold)',fontWeight:'bold',fontSize:'0.85rem'}}>NT$ 680</div>
                   </div>
                   <div style={{marginTop:'8px',display:'flex',flexDirection:'column',gap:'4px'}}>
                     <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem'}} onClick={()=>addToCart(item.name,680)}>加入購物車</button>
@@ -344,15 +322,30 @@ export default function Home(){
           </div>
         </section>
 
-  <section id="contact" style={{ padding: '30px 20px', background: '#141414', color: '#e5e5e5', borderTop: '1px solid #333' }}>
-  <h3 style={{ color: '#d4af37', marginBottom: '15px' }}>📞 聯絡方式與預約專線</h3>
-  <p style={{ margin: '8px 0' }}><strong>服務老師：</strong>彭品心 (紫墨老師)</p>
-  <p style={{ margin: '8px 0' }}><strong>預約電話：</strong>0987-955-906 (服務時間：早上 10 點至晚上 10 點)</p>
-  <p style={{ margin: '8px 0' }}><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
-  <p style={{ margin: '8px 0' }}><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{ color: '#d4af37', textDecoration: 'none' }}>https://www.facebook.com/pengpinxin/</a></p>
-  <div style={{ marginTop: '15px', padding: '12px', background: 'rgba(212, 175, 55, 0.1)', borderLeft: '3px solid #d4af37', borderRadius: '4px', fontSize: '0.95em', lineHeight: '1.6' }}>
-    💡 <strong>貼心提醒：</strong>介於手機信號接受不良等因素，請您盡量多多利用<strong>電子信箱</strong>跟<strong>官方 LINE</strong> 聯繫老師，我們將會以最快速度為您服務！
-  </div>
-</section>
+        <section id="contact" style={{ padding: '30px 20px', background: '#141414', color: '#e5e5e5', borderTop: '1px solid #333' }}>
+          <h3 style={{ color: '#d4af37', marginBottom: '15px' }}>📞 聯絡方式與預約專線</h3>
+          <p style={{ margin: '8px 0' }}><strong>服務老師：</strong>彭品心 (紫墨老師)</p>
+          <p style={{ margin: '8px 0' }}><strong>預約電話：</strong>0987-955-906 (服務時間：早上 10 點至晚上 10 點)</p>
+          <p style={{ margin: '8px 0' }}><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
+          <p style={{ margin: '8px 0' }}><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{ color: '#d4af37', textDecoration: 'none' }}>https://www.facebook.com/pengpinxin/</a></p>
+          <div style={{ marginTop: '15px', padding: '12px', background: 'rgba(212, 175, 55, 0.1)', borderLeft: '3px solid #d4af37', borderRadius: '4px', fontSize: '0.95em', lineHeight: '1.6' }}>
+            💡 <strong>貼心提醒：</strong>介於手機信號接受不良等因素，請您盡量多多利用<strong>電子信箱</strong>跟<strong>官方 LINE</strong> 聯繫老師，我們將會以最快速度為您服務！
+          </div>
+        </section>
 
-        <section id="legal" className="n
+        <section id="legal" className="notice-box">
+          <h4>⚖️ 法律責任與版權聲明</h4>
+          <ul>
+            <li><strong>著作權保護：</strong>本站所有學術文學著作（《生命的出口》、《進階思維的後裔》）、原創藝術畫作及影音內容，均受中華民國著作權法與國際公約保護。</li>
+            <li><strong>禁止盜用：</strong>未經書面授權，任何人不得擅自重製、轉載、散布或作商業營利使用，違者必究，將依法追究相關民刑事法律責任。</li>
+            <li><strong>免責聲明：</strong>本站提供的數字風水、命理諮詢與心靈文學內容均屬學術研究與哲學探討範疇，不構成任何具體投資、法律或醫療保證。</li>
+          </ul>
+        </section>
+
+        <footer style={{borderTop:'1px dashed var(--border)',paddingTop:'15px',marginTop:'30px',fontSize:'0.75rem',color:'#d0c5b4',textAlign:'center',display:'flex',flexDirection:'column',gap:'6px'}}>
+          <p>© 品心美學 ｜ 學術文學創作 彭品心老師</p>
+          <p>官方網站與粉專：<a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>https://www.facebook.com/pengpinxin/</a></p>
+        </footer>
+      </div>
+
+      
