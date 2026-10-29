@@ -77,13 +77,21 @@ export default function Home(){
     }
   };
 
-  const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
     const f = e.target.files[0];
-    if(f){
-      setSelectedFile(f);
-      if(!artName){
-        let fn = f.name.substring(0, f.name.lastIndexOf('.')) || f.name;
-        setArtName(fn);
+    if (f) {
+      try {
+        // 1000pinxin 專屬防盜壓縮與尺寸限制 (最大寬度 1000px，畫質 80%)
+        const compressedUrl = await compressImageFile(f, 1000, 0.8);
+        setSelectedFile(compressedUrl);
+        
+        if (!artName) {
+          let fn = f.name.substring(0, f.name.lastIndexOf('.')) || f.name;
+          setArtName(fn);
+        }
+      } catch (err) {
+        console.error('圖片壓縮失敗:', err);
+        setSelectedFile(f);
       }
     }
   };
