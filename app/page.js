@@ -88,32 +88,50 @@ export default function Home(){
     }
   };
 
-  const handleUploadArt = async () => {
-    if(!selectedFile){ alert('請選擇圖片檔案'); return; }
-    const nameToUse = artName.trim() || '品心禪意原創畫作';
+    const handleUploadArt = async () => {
+    if(!selectedFile){ 
+      alert('請選擇圖片檔案'); 
+      return; 
+    }
+    const nameToUse = artName.trim() || '品心藝術';
     setUploading(true);
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-    formData.append('filename', selectedFile.name);
-
     try {
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      formData.append('filename', selectedFile.name || 'artwork.jpg');
+      formData.append('artName', nameToUse);
+      formData.append('artWm', artWm || '品心美學');
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      // 檢查是否為正確的 JSON 格式，防止伺服器回傳 HTML 錯誤頁面導致崩潰
+      const contentType = res.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        const errText = await res.text();
+        throw new Error(`伺服器回應異常 (${res.status})：${errText.slice(0, 80)}`);
+      }
+
       const data = await res.json();
-      if(data.success) {
-        const next = [{name: nameToUse, price: 680, wm: artWm, size: 'GitHub 雲端永久保存', img: data.url}, ...artworks];
+      if (data.success) {
+        const next = [{ name: data.name || nameToUse, wm: data.wm || artWm, url: data.url }, ...artworks];
         setArtworks(next);
         localStorage.setItem('z_art', JSON.stringify(next));
         setArtName('');
         setSelectedFile(null);
-        alert('成功上傳並永久儲存至 GitHub 雲端！');
+        alert('🎉 成功上傳並永久儲存！');
       } else {
         alert('上傳失敗：' + (data.error || '未知錯誤'));
       }
     } catch (err) {
-      alert('連線伺服器發生錯誤');
+      console.error('上傳錯誤:', err);
+      alert('連線伺服器發生錯誤，請改用電子信箱或 LINE 聯繫老師。');
     } finally {
       setUploading(false);
     }
+  };
   };
 
   const handleDeleteArt = (index) => {
