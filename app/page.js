@@ -288,13 +288,16 @@ export default function Home(){
           </div>
         </section>
 
-        <section id="contact" className="notice-box">
-          <h4>📞 聯絡方式與預約專線</h4>
-          <p><strong>服務老師：</strong>彭品心（紫墨老師）</p>
-          <p><strong>預約電話：</strong>0987-955-906（服務時間：早上 10 點後至晚上 10 點前）</p>
-          <p><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
-          <p><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline'}}>https://www.facebook.com/pengpinxin/</a></p>
-        </section>
+  <section id="contact" style={{ padding: '30px 20px', background: '#141414', color: '#e5e5e5', borderTop: '1px solid #333' }}>
+  <h3 style={{ color: '#d4af37', marginBottom: '15px' }}>📞 聯絡方式與預約專線</h3>
+  <p style={{ margin: '8px 0' }}><strong>服務老師：</strong>彭品心 (紫墨老師)</p>
+  <p style={{ margin: '8px 0' }}><strong>預約電話：</strong>0987-955-906 (服務時間：早上 10 點至晚上 10 點)</p>
+  <p style={{ margin: '8px 0' }}><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
+  <p style={{ margin: '8px 0' }}><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{ color: '#d4af37', textDecoration: 'none' }}>https://www.facebook.com/pengpinxin/</a></p>
+  <div style={{ marginTop: '15px', padding: '12px', background: 'rgba(212, 175, 55, 0.1)', borderLeft: '3px solid #d4af37', borderRadius: '4px', fontSize: '0.95em', lineHeight: '1.6' }}>
+    💡 <strong>貼心提醒：</strong>介於手機信號接受不良等因素，請您盡量多多利用<strong>電子信箱</strong>跟<strong>官方 LINE</strong> 聯繫老師，我們將會以最快速度為您服務！
+  </div>
+</section>
 
         <section id="legal" className="notice-box">
           <h4>⚖️ 法律責任與版權聲明</h4>
