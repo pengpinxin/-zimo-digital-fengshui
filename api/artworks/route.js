@@ -1,14 +1,31 @@
 import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 
 export async function GET() {
   try {
-    // 直接在雲端產生 72 張精美原創藝術藏品，確保官網秒速呈現，完美通過綠界審核！
-    const artworks = Array.from({ length: 72 }, (_, index) => {
-      const id = 72 - index;
+    const artworksDir = path.join(process.cwd(), 'public', 'artworks');
+    
+    // 如果資料夾不存在，回傳空陣列
+    if (!fs.existsSync(artworksDir)) {
+      return NextResponse.json({ success: true, artworks: [] });
+    }
+
+    // 自動讀取 public/artworks 裡的所有圖片檔案
+    const files = fs.readdirSync(artworksDir);
+    const imageFiles = files.filter(file => /\.(jpg|jpeg|png|webp|gif)$/i.test(file));
+    
+    // 依檔名排序（讓最新的藏品排在最前面）
+    imageFiles.sort((a, b) => b.localeCompare(a));
+
+    const artworks = imageFiles.map((filename, index) => {
+      // 自動將檔名轉為美觀的畫作名稱（去掉副檔名，把底線橫線轉空格）
+      const cleanName = filename.substring(0, filename.lastIndexOf('.')) || `原創藝術藏品 #${index + 1}`;
+      
       return {
-        name: `品心原創藝術藏品 #${id}`,
+        name: cleanName.replace(/[-_]/g, ' '),
         wm: '品心美學 · 彭品心原創',
-        url: `https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop&q=80`,
+        url: `/artworks/${filename}`,
         price: 680,
         size: '1000px 高畫質防盜保護'
       };
