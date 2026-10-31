@@ -84,16 +84,7 @@ export default function Home(){
     setCart(prev => prev.filter((_, idx) => idx !== index));
   };
 
-  const handleVerifyAdmin = () => {
-    if(adminPwd.trim() === '08241977'){
-      setAdmin(true);
-      alert('管理員解鎖成功！');
-    } else {
-      alert('密碼錯誤');
-    }
-  };
 
-  const handleFileChange = async (e) => {
     const f = e.target.files[0];
     if (f) {
       try {
