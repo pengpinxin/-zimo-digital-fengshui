@@ -50,11 +50,25 @@ export default function Home(){
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
 
+  // 🚀 自動從雲端 API 載入所有 72 張畫作
   useEffect(() => {
     const c = localStorage.getItem('z_cart');
     if(c){ try{ setCart(JSON.parse(c)); }catch(e){ setCart([]); } }
-    const a = localStorage.getItem('z_art');
-    if(a){ try{ setArtworks(JSON.parse(a)); }catch(e){ setArtworks([]); } }
+
+    fetch('/api/artworks')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.artworks && data.artworks.length > 0) {
+          setArtworks(data.artworks);
+        } else {
+          const a = localStorage.getItem('z_art');
+          if(a){ try{ setArtworks(JSON.parse(a)); }catch(e){ setArtworks([]); } }
+        }
+      })
+      .catch(() => {
+        const a = localStorage.getItem('z_art');
+        if(a){ try{ setArtworks(JSON.parse(a)); }catch(e){ setArtworks([]); } }
+      });
   }, []);
 
   useEffect(() => {
@@ -104,7 +118,6 @@ export default function Home(){
     const nameToUse = artName.trim() || '品心藝術';
     setUploading(true);
     try {
-      // 將 Base64 轉換為 Blob 物件以支援後端 arrayBuffer 讀取
       const arr = selectedFile.split(',');
       const mime = arr[0].match(/:(.*?);/)[1];
       const bstr = atob(arr[1]);
@@ -134,16 +147,14 @@ export default function Home(){
 
       const data = await res.json();
       if (data.success) {
-        const next = [{ 
+        const newArt = { 
           name: data.name || nameToUse, 
           wm: data.wm || artWm, 
           url: data.url,
           price: 680,
           size: '1000px 防盜保護'
-        }, ...artworks];
-        
-        setArtworks(next);
-        localStorage.setItem('z_art', JSON.stringify(next));
+        };
+        setArtworks(prev => [newArt, ...prev]);
         setArtName('');
         setSelectedFile(null);
         alert('🎉 成功上傳並永久儲存至雲端！');
@@ -160,9 +171,7 @@ export default function Home(){
 
   const handleDeleteArt = (index) => {
     if(confirm('確定要刪除這幅畫作嗎？')){
-      const next = artworks.filter((_, idx) => idx !== index);
-      setArtworks(next);
-      localStorage.setItem('z_art', JSON.stringify(next));
+      setArtworks(prev => prev.filter((_, idx) => idx !== index));
     }
   };
 
@@ -314,7 +323,7 @@ export default function Home(){
 
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創藝術畫作 (NT$ 680)</h3>
-          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水、竹林、梅花等心靈藝術藏品。</p>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水、竹林、梅花等心靈藝術藏品（已自動從雲端同步全部畫作）。</p>
           {!admin?(
             <div style={{background:'rgba(212,175,55,0.05)',border:'1px dashed var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'15px'}}>
               <p style={{fontSize:'0.8rem',color:'var(--gold-l)',marginBottom:'8px'}}>🔒 老師專用管理上傳</p>
