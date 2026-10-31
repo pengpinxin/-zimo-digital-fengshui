@@ -84,23 +84,6 @@ export default function Home(){
     setCart(prev => prev.filter((_, idx) => idx !== index));
   };
 
-
-    const f = e.target.files[0];
-    if (f) {
-      try {
-        const compressedUrl = await compressImageFile(f, 1000, 0.8);
-        setSelectedFile(compressedUrl);
-        if (!artName) {
-          let fn = f.name.substring(0, f.name.lastIndexOf('.')) || f.name;
-          setArtName(fn);
-        }
-      } catch (err) {
-        console.error('圖片壓縮失敗:', err);
-        setSelectedFile(f);
-      }
-    }
-  };
-
   const handleUploadArt = async () => {
     if(!selectedFile){ 
       alert('請選擇圖片檔案'); 
