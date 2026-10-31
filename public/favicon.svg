@@ -1,5 +1,8 @@
-​​<svg xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)" viewBox="0 0 100 100">
-<rect width="100" height="100" rx="22" fill="#1A110B"/>
-<rect x="8" y="8" width="84" height="84" rx="16" fill="none" stroke="#C59B27" stroke-width="3" opacity="0.95"/>
-<text x="50" y="70" font-family="'Songti SC', 'SimSun', 'Microsoft JhengHei', 'STSong', serif" font-weight="bold" font-size="54" fill="#C59B27" text-anchor="middle">品</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="110" fill="#1A110B"/>
+  <rect x="36" y="36" width="440" height="440" rx="80" fill="none" stroke="#C59B27" stroke-width="12"/>
+  <rect x="58" y="58" width="396" height="396" rx="60" fill="none" stroke="#C59B27" stroke-width="4" opacity="0.8"/>
+  <path d="M 180 135 H 332 V 220 H 180 Z M 208 160 V 195 H 304 V 160 Z" fill="#C59B27"/>
+  <path d="M 120 255 H 236 V 375 H 120 Z M 148 280 V 350 H 208 V 280 Z" fill="#C59B27"/>
+  <path d="M 276 255 H 392 V 375 H 276 Z M 304 280 V 350 H 364 V 280 Z" fill="#C59B27"/>
 </svg>
