@@ -74,7 +74,8 @@ export default function Home() {
       return;
     }
 
-    const itemName = cart.map(i => `${i.name} (NT$ ${i.price})`).join(', ');
+    // 完全去掉括號與特殊符號，確保綠界金流順暢
+    const itemName = cart.map(i => i.name).join(' ');
 
     try {
       const res = await fetch('/api/ecpay', {
