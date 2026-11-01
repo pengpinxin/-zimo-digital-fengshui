@@ -76,26 +76,40 @@ export default function Home() {
 
     const itemName = cart.map(i => `${i.name} (NT$ ${i.price})`).join(', ');
 
-    // 透過 Web3Forms 免費將訂單直接發送到您的信箱 Aaa0987955906aaa@gmail.com
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/ecpay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          access_key: 'YOUR_ACCESS_KEY_HERE', // 可至 web3forms.com 免費申請一組並填入，或直接使用下方備用方案
-          subject: `【品心美學新訂單】來自 ${cName} 緣主`,
-          from_name: '品心美學官網',
-          to: 'Aaa0987955906aaa@gmail.com',
-          message: `收到新訂單：\n\n購買品項：\n${itemName}\n\n總金額：NT$ ${total} ${vipText}\n\n客戶姓名：${cName}\n連絡電話：${cPhone}\n電子信箱：${cEmail}\n收件地址：${cAddress}\n備註需求：${cRemark}`
+        body: JSON.stringify({ 
+          totalAmount: total,
+          itemName: itemName,
+          customerName: cName,
+          customerPhone: cPhone,
+          customerEmail: cEmail,
+          customerAddress: cAddress,
+          customerRemark: cRemark
         })
       });
+      const data = await res.json();
+      if (!data.success) {
+        alert('失敗：' + data.error);
+        return;
+      }
 
-      alert(`感謝 ${cName} 緣主！訂單已成功送出，並已同步發送通知至您的信箱。`);
-      setCart([]);
-      localStorage.removeItem('z_cart');
-      closeCart();
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = data.ECPayURL;
+      for (const key in data.params) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = data.params[key];
+        form.appendChild(input);
+      }
+      document.body.appendChild(form);
+      form.submit();
     } catch (err) {
-      alert('訂單送出成功！');
+      alert('錯誤：' + err.message);
     }
   };
 
@@ -276,9 +290,9 @@ export default function Home() {
           <input type="email" placeholder="信箱" value={cEmail} onChange={e => setCEmail(e.target.value)} />
           <input type="text" placeholder="地址" value={cAddress} onChange={e => setCAddress(e.target.value)} />
           <textarea placeholder="備註" value={cRemark} onChange={e => setCRemark(e.target.value)} style={{ height: '60px' }} />
-          <button className="btn" onClick={handleCheckout} style={{ width: '100%', padding: '12px', background: '#c5a880', color: '#1a1714', fontWeight: 'bold', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>確認送出訂單</button>
+          <button className="btn" onClick={handleCheckout} style={{ width: '100%', padding: '12px', background: '#c5a880', color: '#1a1714', fontWeight: 'bold', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>確認結帳</button>
         </div>
       </div>
     </>
   );
-}
+  }
