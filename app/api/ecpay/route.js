@@ -12,18 +12,18 @@ export async function POST(request) {
     const ECPayURL = 'https://payment-stage.ecpay.com.tw/Cashier/AIO/Checkout';
 
     const MerchantTradeNo = 'T' + Date.now();
-    const MerchantTradeDate = new Date().toLocaleString('zh-TW', {
-      timeZone: 'Asia/Taipei',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    }).replace(/\//g, '').replace(',', '').replace(/\s/, ' ');
 
-    // 嚴格過濾商品名稱中的特殊字元與括號，確保綠界正確接收
+    // 嚴格修正：綠界規定時間格式必須為 YYYY/MM/DD HH:mm:ss（必須帶有斜線）
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const MerchantTradeDate = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+
+    // 過濾商品名稱中的特殊字元與括號
     const cleanItemName = (itemName || '品心美學商品').replace(/[()#,]/g, '');
 
     const baseParams = {
