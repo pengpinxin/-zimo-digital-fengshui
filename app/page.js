@@ -11,6 +11,7 @@ export default function Home(){
   const [cEmail, setCEmail] = useState('');
   const [cAddress, setCAddress] = useState('');
   const [cRemark, setCRemark] = useState('');
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
@@ -65,21 +66,67 @@ export default function Home(){
     }
   };
 
-  const handleCheckout = () => {
-    if(!cName || !cPhone || !cEmail || !cAddress){ alert('請完整填寫收件與聯絡資訊'); return; }
-    if(cart.length === 0){ alert('購物車是空的'); return; }
-    const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
-    if(hasVipItem || isVip){
-      const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
-      if(!vipPhones.includes(cPhone)){
-        vipPhones.push(cPhone);
-        localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
-      }
+  // 🔗 串接後端 API，觸發郵箱打包通知與 LINE 訊息發送
+  const handleCheckout = async () => {
+    if(!cName || !cPhone || !cEmail || !cAddress){ 
+      alert('請完整填寫收件與聯絡資訊'); 
+      return; 
     }
-    alert('感謝 ' + cName + ' 緣主！訂單已送出。');
-    setCart([]);
-    setIsVip(false);
-    setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
+    if(cart.length === 0){ 
+      alert('購物車是空的'); 
+      return; 
+    }
+
+    setIsCheckingOut(true);
+    try {
+      const orderData = {
+        name: cName,
+        phone: cPhone,
+        email: cEmail,
+        address: cAddress,
+        remark: cRemark,
+        items: cart,
+        total: total,
+        isVip: isVip
+      };
+
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
+        if(hasVipItem || isVip){
+          const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
+          if(!vipPhones.includes(cPhone)){
+            vipPhones.push(cPhone);
+            localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
+          }
+        }
+
+        // 若後端回傳綠界支付跳轉連結，則直接導向金流頁面
+        if (result.paymentUrl) {
+          window.location.href = result.paymentUrl;
+          return;
+        }
+
+        alert('感謝 ' + cName + ' 緣主！訂單已成功送出，打包通知信與 LINE 訊息已發送。');
+        setCart([]);
+        setIsVip(false);
+        setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
+        closeCart();
+      } else {
+        alert('結帳送出發生異常：' + (result.message || '請確認後端設定'));
+      }
+    } catch (error) {
+      console.error('結帳連線錯誤:', error);
+      alert('連線伺服器發生錯誤，請稍後再試');
+    } finally {
+      setIsCheckingOut(false);
+    }
   };
 
   const openCart = () => document.getElementById('cart')?.classList.add('open');
@@ -178,7 +225,7 @@ export default function Home(){
           <div className="notice-box" style={{marginTop:'0', marginBottom:'12px'}}>
             <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>📌 購買服務注意事項與流程說明</h4>
             <ul style={{paddingLeft:'16px',fontSize:'0.75rem',lineHeight:'1.6'}}>
-              <li><strong>1. 預約流程：</strong>手機、車牌、店鋪、住址配置高端生旺風水號碼，須請您先自行向相關單位申請或初步選定您喜歡的 3～5 組號碼，再透過預約表單告訴老師，老師將為您進行人工深度解析與最終吉凶配置！</li>
+              <li><strong>1. 預約流程：</strong>手機、車牌、店鋪、住址配置高端生旺風水號碼，須請您先自行向相關單位申請或初步選定您喜歡的 3～5 組號碼，再透過預約表單告訴紫墨老師，老師將為您進行人工深度解析與最終吉凶配置！</li>
               <li><strong>2. 專業鑑定聲明：</strong>經過老師數字分析之後，如若您的原生號碼本身就是生旺您的吉數，那麼便是最好的數字配置，則不需要更換；然而，老師則同樣會收取您的鑑定費用。因為這是消耗老師大量精力的專業性諮詢服務，還請緣主務必尊重學術文學的強大驅動力，這也證實了：「知因果者、則不畏因果」的推理。</li>
               <li><strong>3. 服務性質：</strong>數位與命理客製化配置服務確認開始執行後，恕不接受無理由退款。</li>
               <li><strong>4. 理性參考：</strong>所有風水磁場與號碼配置旨在輔助提升運勢與心境，個人努力與正念亦為成就之本。</li>
@@ -281,9 +328,11 @@ export default function Home(){
           <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
           <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
           <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
-          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout}>確認送出訂單</button>
+          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
+            {isCheckingOut ? '正在處理訂單...' : '確認送出訂單'}
+          </button>
         </div>
       </div>
     </div>
   );
-              }
+}
