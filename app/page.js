@@ -65,13 +65,87 @@ export default function Home(){
     }
   };
 
-  const handleCheckout = () => {
-    if(!cName || !cPhone || !cEmail || !cAddress){ alert('請完整填寫收件與聯絡資訊'); return; }
-    if(cart.length === 0){ alert('購物車是空的'); return; }
-    const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
-    if(hasVipItem || isVip){
-      const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
-      if(!vipPhones.includes(cPhone)){
+  const handleCheckout = async () => {
+  if (!cName || !cPhone || !cEmail) {
+    alert('請填寫完整聯絡資訊');
+    return;
+  }
+  if (cart.length === 0) {
+    alert('購物車是空的');
+    return;
+  }
+  
+  const itemName = cart
+    .map(i => i.name)
+    .join('#');
+    
+  try {
+    const url = '/api' + '/ecpay';
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 
+          'application/json'
+      },
+      body: JSON.stringify({
+        totalAmount: total,
+        itemName: itemName
+      })
+    });
+    
+    const data = await res.json();
+    
+    if (!data.success) {
+      alert('失敗：' + data.error);
+      return;
+    }
+    
+    const f = document.createElement('form');
+    f.method = 'POST';
+    f.action = data.ECPayURL;
+    
+    for (const k in data.params) {
+      const i = document.createElement('input');
+      i.type = 'hidden';
+      i.name = k;
+      i.value = data.params[k];
+      f.appendChild(i);
+    }
+    
+    document.body.appendChild(f);
+    f.submit();
+    
+  } catch (err) {
+    alert('錯誤：' + err.message);
+  }
+};
+    
+    const data = await res.json();
+    
+    if (!data.success) {
+      alert('建立訂單失敗：' + data.error);
+      return;
+    }
+    
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = data.ECPayURL;
+    
+    for (const key in data.params) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = data.params[key];
+      form.appendChild(input);
+    }
+    
+    document.body.appendChild(form);
+    form.submit();
+    
+  } catch (err) {
+    alert('連線發生錯誤：' + err.message);
+  }
+};(cPhone)){
         vipPhones.push(cPhone);
         localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
       }
