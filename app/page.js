@@ -14,7 +14,7 @@ export default function Home() {
 
   let total = cart.reduce((s, i) => s + i.price, 0);
   if (isVip) total = Math.round(total * 0.9);
-  const vipText = isVip ? ' (已享 VIP 9折)' : '';
+  const vipText = isVip ? ' 已享 VIP 9折' : '';
 
   const openCart = () => document.getElementById('cart')?.classList.add('open');
   const closeCart = () => document.getElementById('cart')?.classList.remove('open');
@@ -47,7 +47,7 @@ export default function Home() {
 
   const addToCart = (name, price) => {
     setCart(prev => [...prev, { name, price }]);
-    alert('已將「' + name + '」加入購物車！');
+    alert('已將 ' + name + ' 加入購物車！');
     openCart();
   };
 
@@ -96,7 +96,7 @@ export default function Home() {
         return;
       }
 
-      // 以 POST 方式將表單送至綠界，防止 404
+      // 動態建立隱藏表單，將訂單資訊以 POST 方式送給綠界
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = data.ECPayURL;
@@ -140,7 +140,7 @@ export default function Home() {
           </div>
         </div>
         <div style={{ display: 'flex', gap: '6px' }}>
-          <button className="btn" onClick={openCart}>購物車 ({cart.length})</button>
+          <button className="btn" onClick={openCart}>購物車 {cart.length}</button>
           <button className="btn btn-o" onClick={openMenu}>選單</button>
         </div>
       </header>
@@ -231,7 +231,7 @@ export default function Home() {
                 <div key={idx} style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '6px' }}>
                   <img src={item.url} alt={item.name} style={{ width: '100%', height: '160px', objectFit: 'cover', borderRadius: '4px', marginBottom: '8px' }} />
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <span style={{ fontSize: '0.85rem', color: '#fff' }}>{item.name} (NT$ {item.price || 1500})</span>
+                    <span style={{ fontSize: '0.85rem', color: '#fff' }}>{item.name} NT$ {item.price || 1500}</span>
                     <button className="btn" onClick={() => addToCart(item.name, item.price || 1500)} style={{ width: '100%' }}>加入購物車</button>
                   </div>
                 </div>
@@ -296,4 +296,4 @@ export default function Home() {
       </div>
     </>
   );
-}
+  }
