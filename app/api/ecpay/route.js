@@ -19,7 +19,7 @@ export async function POST(request) {
       `地址：${customerAddress}\n` +
       `備註需求：${customerRemark}`;
 
-    // 1. 發送 Email 通知（動態導入 nodemailer，確保 Vercel 建置成功）
+    // 1. 發送 Email 通知
     try {
       const nodemailer = (await import('nodemailer')).default;
       const transporter = nodemailer.createTransport({
