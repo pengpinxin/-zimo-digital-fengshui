@@ -6,11 +6,11 @@ export default function Home() {
   const [isVip, setIsVip] = useState(false);
   const [artworks, setArtworks] = useState([]);
   const [vipCode, setVipCode] = useState('');
-  const [cName, setCName] = useState('');
-  const [cPhone, setCPhone] = useState('');
-  const [cEmail, setCEmail] = useState('');
-  const [cAddress, setCAddress] = useState('');
-  const [cRemark, setCRemark] = useState('');
+  const [cName, setCName] = useState('彭品心');
+  const [cPhone, setCPhone] = useState('0987955906');
+  const [cEmail, setCEmail] = useState('Aaa0987955906aaa@gmail.com');
+  const [cAddress, setCAddress] = useState('台北市士林區士東路266巷5弄25號B1');
+  const [cRemark, setCRemark] = useState('流年近年運勢');
 
   let total = cart.reduce((s, i) => s + i.price, 0);
   if (isVip) total = Math.round(total * 0.9);
@@ -293,4 +293,4 @@ export default function Home() {
       </div>
     </>
   );
-}
+ }
