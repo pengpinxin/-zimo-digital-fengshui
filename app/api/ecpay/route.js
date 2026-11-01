@@ -1,68 +1,23 @@
 import { NextResponse } from 'next/server';
-import crypto from 'crypto';
 
 export async function POST(request) {
   try {
     const body = await request.json();
     const { totalAmount, itemName, customerName, customerPhone, customerEmail, customerAddress, customerRemark } = body;
 
-    const MerchantID = '2000132';
-    const HashKey = '5294y06JbISpM5x9';
-    const HashIV = 'v77hoKGq4kWxNNIS';
-    const ECPayURL = 'https://payment-stage.ecpay.com.tw/Cashier/AIO/Checkout';
-
     const MerchantTradeNo = 'T' + Date.now();
+    const MerchantTradeDate = new Date().toLocaleString('zh-TW', {
+      timeZone: 'Asia/Taipei',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    }).replace(/\//g, '').replace(',', '').replace(/\s/, ' ');
 
-    // 嚴格修正：綠界規定時間格式必須為 YYYY/MM/DD HH:mm:ss（必須帶有斜線）
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    const MerchantTradeDate = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
-
-    // 過濾商品名稱中的特殊字元與括號
-    const cleanItemName = (itemName || '品心美學商品').replace(/[()#,]/g, '');
-
-    const baseParams = {
-      MerchantID,
-      MerchantTradeNo,
-      MerchantTradeDate,
-      PaymentType: 'aio',
-      TotalAmount: String(totalAmount),
-      TradeDesc: '品心美學線上訂單',
-      ItemName: cleanItemName,
-      ReturnURL: 'https://developers.ecpay.com.tw',
-      ClientBackURL: 'https://developers.ecpay.com.tw',
-      ChoosePayment: 'ALL',
-      EncryptType: '1',
-    };
-
-    const keys = Object.keys(baseParams).sort();
-    let checkString = `HashKey=${HashKey}`;
-    keys.forEach((key) => {
-      if (baseParams[key] !== undefined && baseParams[key] !== '') {
-        checkString += `&${key}=${baseParams[key]}`;
-      }
-    });
-    checkString += `&HashIV=${HashIV}`;
-
-    const dotnetUrlEncode = (str) => {
-      return encodeURIComponent(str)
-        .replace(/%21/g, '!')
-        .replace(/%2A/g, '*')
-        .replace(/%27/g, "'")
-        .replace(/%28/g, '(')
-        .replace(/%29/g, ')')
-        .replace(/%20/g, '+');
-    };
-
-    const encoded = dotnetUrlEncode(checkString).toLowerCase();
-    const CheckMacValue = crypto.createHash('sha256').update(encoded).digest('hex').toUpperCase();
-
-    // 1. 發送詳細訂單通知給商家 (您的信箱)
+    // 1. 發送詳細訂單通知給商家 (您的信箱 Aaa0987955906aaa@gmail.com)
     try {
       await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -79,7 +34,7 @@ export async function POST(request) {
       console.error('Merchant Email send error:', mailErr);
     }
 
-    // 2. 發送溫馨確認信給客人
+    // 2. 發送溫馨確認信給客人 (使用您指定的專屬回覆文字)
     if (customerEmail) {
       try {
         await fetch('https://api.web3forms.com/submit', {
@@ -98,11 +53,7 @@ export async function POST(request) {
       }
     }
 
-    return NextResponse.json({
-      success: true,
-      ECPayURL,
-      params: { ...baseParams, CheckMacValue }
-    });
+    return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
