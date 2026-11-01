@@ -342,8 +342,7 @@ export default function Home(){
           <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
           <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
           <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout}>確認送出訂單</button>
-        </div>
-      </div>
-    </>
+
+   </div>
   );
-                       }
+}
