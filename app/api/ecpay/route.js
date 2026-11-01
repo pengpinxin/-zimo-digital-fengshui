@@ -17,10 +17,9 @@ export async function POST(request) {
       hour12: false
     }).replace(/\//g, '').replace(',', '').replace(/\s/, ' ');
 
-    // 組織完整的訂單內容
     const messageContent = `【品心美學官網新訂單通知】\n\n訂單編號：${MerchantTradeNo}\n訂單時間：${MerchantTradeDate}\n\n【購買品項】\n${itemName}\n\n【總金額】\nNT$ ${totalAmount}\n\n【客戶聯絡與備註】\n姓名：${customerName}\n電話：${customerPhone}\n信箱：${customerEmail}\n地址：${customerAddress}\n備註需求：${customerRemark}`;
 
-    // 使用 Web3Forms 標準欄位（name, email, subject, message）確保信件穩定寄回您的綁定信箱
+    // 1. 僅發送訂單通知給商家 (透過 Web3Forms 寄回您的綁定信箱，絕不發信給客戶)
     const response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -36,6 +35,28 @@ export async function POST(request) {
     const result = await response.json();
     if (!result.success) {
       throw new Error(result.message || '郵件發送失敗');
+    }
+
+    // 2. 同時發送通知到您的 LINE (若有在 Vercel 設定 LINE_CHANNEL_ACCESS_TOKEN 與 LINE_USER_ID)
+    const lineToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
+    const lineUserId = process.env.LINE_USER_ID;
+
+    if (lineToken && lineUserId) {
+      try {
+        await fetch('https://api.line.me/v2/bot/message/push', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${lineToken}`
+          },
+          body: JSON.stringify({
+            to: lineUserId,
+            messages: [{ type: 'text', text: messageContent }]
+          })
+        });
+      } catch (lineErr) {
+        console.error('LINE Push error:', lineErr);
+      }
     }
 
     return NextResponse.json({ success: true });
