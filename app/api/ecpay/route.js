@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
 
 export async function POST(request) {
   try {
@@ -20,8 +19,9 @@ export async function POST(request) {
       `地址：${customerAddress}\n` +
       `備註需求：${customerRemark}`;
 
-    // 1. 發送 Email 通知至老師信箱（獨立捕捉錯誤，不影響前端與後端主流程）
+    // 1. 發送 Email 通知（動態導入 nodemailer，確保 Vercel 建置成功）
     try {
+      const nodemailer = (await import('nodemailer')).default;
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -40,7 +40,7 @@ export async function POST(request) {
       console.error('郵件發送失敗:', emailError);
     }
 
-    // 2. 發送 LINE 推播通知（獨立捕捉錯誤，確保穩定）
+    // 2. 發送 LINE 推播通知
     const lineToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
     const lineUserId = process.env.LINE_USER_ID;
 
@@ -62,7 +62,6 @@ export async function POST(request) {
       }
     }
 
-    // 3. 確保前端順利接收成功回應
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('訂單 API 執行錯誤:', error);
