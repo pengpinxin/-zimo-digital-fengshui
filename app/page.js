@@ -336,13 +336,13 @@ export default function Home(){
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
             <span>總計：<span>NT$ {total} {vipText}</span></span>
           </div>
-          <input type="text" value={cName} onChange={(e)=>setCName(e.target.value)} placeholder="姓名"/>
-          <input type="text" value={cPhone} onChange={(e)=>setCPhone(e.target.value)} onBlur={(e)=>checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的手機號碼即可"/>
-          <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
-          <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
-          <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
-          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout}>確認送出訂單</button>
 
-   </div>
-  );
+          <input type="text" placeholder="姓名" value={cName} onChange={e => setCName(e.target.value)} style={{width:'100%', padding:'10px', marginBottom:'10px', background:'#24201c', color:'#fff', border:'1px solid #444', borderRadius:'5px'}} />
+    <input type="text" placeholder="電話" value={cPhone} onChange={e => setCPhone(e.target.value)} style={{width:'100%', padding:'10px', marginBottom:'10px', background:'#24201c', color:'#fff', border:'1px solid #444', borderRadius:'5px'}} />
+    <input type="email" placeholder="信箱" value={cEmail} onChange={e => setCEmail(e.target.value)} style={{width:'100%', padding:'10px', marginBottom:'10px', background:'#24201c', color:'#fff', border:'1px solid #444', borderRadius:'5px'}} />
+    <input type="text" placeholder="地址" value={cAddress} onChange={e => setCAddress(e.target.value)} style={{width:'100%', padding:'10px', marginBottom:'10px', background:'#24201c', color:'#fff', border:'1px solid #444', borderRadius:'5px'}} />
+    <textarea placeholder="備註" value={cRemark} onChange={e => setCRemark(e.target.value)} style={{width:'100%', padding:'10px', marginBottom:'15px', background:'#24201c', color:'#fff', border:'1px solid #444', borderRadius:'5px'}} />
+    <button className="btn" onClick={handleCheckout} style={{width:'100%', padding:'12px', background:'#c5a880', color:'#1a1714', fontWeight:'bold', border:'none', borderRadius:'5px', cursor:'pointer'}}>確認結帳</button>
+  </div>
+);
 }
