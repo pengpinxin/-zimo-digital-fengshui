@@ -74,7 +74,7 @@ export default function Home() {
       return;
     }
 
-    const itemName = cart.map(i => i.name).join(' ');
+    const itemName = cart.map(i => i.name).join('、');
 
     try {
       const res = await fetch('/api/ecpay', {
@@ -92,23 +92,14 @@ export default function Home() {
       });
       const data = await res.json();
       if (!data.success) {
-        alert('失敗：' + data.error);
+        alert('結帳失敗：' + (data.error || '未知錯誤'));
         return;
       }
 
-      // 動態建立隱藏表單，將訂單資訊以 POST 方式送給綠界
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = data.ECPayURL;
-      for (const key in data.params) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = data.params[key];
-        form.appendChild(input);
-      }
-      document.body.appendChild(form);
-      form.submit();
+      alert(`感謝 ${cName} 緣主！訂單已成功送出，商家與您的信箱皆已收到雙向通知信！`);
+      setCart([]);
+      localStorage.removeItem('z_cart');
+      closeCart();
     } catch (err) {
       alert('錯誤：' + err.message);
     }
