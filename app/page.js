@@ -1,60 +1,36 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-// 圖片壓縮與尺寸限制工具（最大寬度限制 1000px，防止原圖被盜並加速載入）
-const compressImageFile = (file, maxWidth = 1000, quality = 0.8) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event) => {
-      const img = new Image();
-      img.src = event.target.result;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let width = img.width;
-        let height = img.height;
-
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-
-        const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
-        resolve(compressedDataUrl);
-      };
-      img.onerror = (err) => reject(err);
-    };
-    reader.onerror = (err) => reject(err);
-  });
-};
-
 export default function Home(){
   const [cart, setCart] = useState([]);
   const [isVip, setIsVip] = useState(false);
   const [artworks, setArtworks] = useState([]);
-  const [admin, setAdmin] = useState(false);
-  const [adminPwd, setAdminPwd] = useState('');
-  const [artName, setArtName] = useState('');
-  const [artWm, setArtWm] = useState('品心美學 · 彭品心原創');
   const [vipCode, setVipCode] = useState('');
   const [cName, setCName] = useState('');
   const [cPhone, setCPhone] = useState('');
   const [cEmail, setCEmail] = useState('');
   const [cAddress, setCAddress] = useState('');
   const [cRemark, setCRemark] = useState('');
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
 
+  // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
     const c = localStorage.getItem('z_cart');
     if(c){ try{ setCart(JSON.parse(c)); }catch(e){ setCart([]); } }
-    const a = localStorage.getItem('z_art');
-    if(a){ try{ setArtworks(JSON.parse(a)); }catch(e){ setArtworks([]); } }
+
+    fetch('/api/artworks')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.artworks && data.artworks.length > 0) {
+          setArtworks(data.artworks);
+        } else {
+          const a = localStorage.getItem('z_art');
+          if(a){ try{ setArtworks(JSON.parse(a)); }catch(e){ setArtworks([]); } }
+        }
+      })
+      .catch(() => {
+        const a = localStorage.getItem('z_art');
+        if(a){ try{ setArtworks(JSON.parse(a)); }catch(e){ setArtworks([]); } }
+      });
   }, []);
 
   useEffect(() => {
@@ -68,102 +44,6 @@ export default function Home(){
 
   const removeFromCart = (index) => {
     setCart(prev => prev.filter((_, idx) => idx !== index));
-  };
-
-  const handleVerifyAdmin = () => {
-    if(adminPwd.trim() === '08241977'){
-      setAdmin(true);
-      alert('管理員解鎖成功！');
-    } else {
-      alert('密碼錯誤');
-    }
-  };
-
-  const handleFileChange = async (e) => {
-    const f = e.target.files[0];
-    if (f) {
-      try {
-        const compressedUrl = await compressImageFile(f, 1000, 0.8);
-        setSelectedFile(compressedUrl);
-        if (!artName) {
-          let fn = f.name.substring(0, f.name.lastIndexOf('.')) || f.name;
-          setArtName(fn);
-        }
-      } catch (err) {
-        console.error('圖片壓縮失敗:', err);
-        setSelectedFile(f);
-      }
-    }
-  };
-
-  const handleUploadArt = async () => {
-    if(!selectedFile){ 
-      alert('請選擇圖片檔案'); 
-      return; 
-    }
-    const nameToUse = artName.trim() || '品心藝術';
-    setUploading(true);
-    try {
-      // 將 Base64 轉換為 Blob 物件以支援後端 arrayBuffer 讀取
-      const arr = selectedFile.split(',');
-      const mime = arr[0].match(/:(.*?);/)[1];
-      const bstr = atob(arr[1]);
-      let n = bstr.length;
-      const u8arr = new Uint8Array(n);
-      while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      const blob = new Blob([u8arr], {type:mime});
-
-      const formData = new FormData();
-      formData.append('file', blob, 'artwork.jpg');
-      formData.append('filename', 'artwork.jpg');
-      formData.append('artName', nameToUse);
-      formData.append('artWm', artWm || '品心美學');
-
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const contentType = res.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        const errText = await res.text();
-        throw new Error(`伺服器回應異常 (${res.status})：${errText.slice(0, 80)}`);
-      }
-
-      const data = await res.json();
-      if (data.success) {
-        const next = [{ 
-          name: data.name || nameToUse, 
-          wm: data.wm || artWm, 
-          url: data.url,
-          price: 680,
-          size: '1000px 防盜保護'
-        }, ...artworks];
-        
-        setArtworks(next);
-        localStorage.setItem('z_art', JSON.stringify(next));
-        setArtName('');
-        setSelectedFile(null);
-        alert('🎉 成功上傳並永久儲存至雲端！');
-      } else {
-        alert('上傳失敗：' + (data.error || '未知錯誤'));
-      }
-    } catch (err) {
-      console.error('上傳錯誤:', err);
-      alert('連線伺服器發生錯誤，請檢查網路或稍後再試。');
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleDeleteArt = (index) => {
-    if(confirm('確定要刪除這幅畫作嗎？')){
-      const next = artworks.filter((_, idx) => idx !== index);
-      setArtworks(next);
-      localStorage.setItem('z_art', JSON.stringify(next));
-    }
   };
 
   const handleVerifyVipCode = () => {
@@ -314,27 +194,8 @@ export default function Home(){
 
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創藝術畫作 (NT$ 680)</h3>
-          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水、竹林、梅花等心靈藝術藏品。</p>
-          {!admin?(
-            <div style={{background:'rgba(212,175,55,0.05)',border:'1px dashed var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'15px'}}>
-              <p style={{fontSize:'0.8rem',color:'var(--gold-l)',marginBottom:'8px'}}>🔒 老師專用管理上傳</p>
-              <input type="password" value={adminPwd} onChange={(e)=>setAdminPwd(e.target.value)} placeholder="請輸入管理密碼" style={{maxWidth:'240px',margin:'0 auto 8px auto',display:'block'}}/>
-              <button className="btn btn-o" onClick={handleVerifyAdmin}>解鎖上傳</button>
-            </div>
-          ):(
-            <div style={{background:'rgba(212,175,55,0.05)',border:'1px dashed var(--gold)',borderRadius:'8px',padding:'15px',marginBottom:'15px'}}>
-              <div style={{display:'flex',justifyContent:'space-between',marginBottom:'8px'}}>
-                <span style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>🎨 畫作上傳區 (直連雲端永久保存)</span>
-                <button className="btn btn-o" style={{fontSize:'0.6rem'}} onClick={()=>setAdmin(false)}>登出</button>
-              </div>
-              <input type="text" value={artName} onChange={(e)=>setArtName(e.target.value)} placeholder="請輸入中文畫名"/>
-              <input type="text" value={artWm} onChange={(e)=>setArtWm(e.target.value)} placeholder="浮水印文字"/>
-              <input type="file" accept="image/*" onChange={handleFileChange} style={{marginBottom:'8px',color:'var(--text)'}}/>
-              <button className="btn" style={{width:'100%',marginTop:'5px'}} onClick={handleUploadArt} disabled={uploading}>
-                {uploading ? '正在同步至雲端伺服器...' : '確認上架至雲端 (NT$ 680)'}
-              </button>
-            </div>
-          )}
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水、竹林、梅花等心靈藝術藏品（已自動從雲端同步全部畫作）。</p>
+          
           <div className="grid">
             {artworks.length===0?(<p style={{color:'#d0c5b4',gridColumn:'span 2',textAlign:'center',padding:'15px'}}>目前尚無畫作</p>):(
               artworks.map((item,idx)=>(
@@ -348,11 +209,8 @@ export default function Home(){
                     <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 {item.size || '1000px 防盜保護'}</p>
                     <div style={{color:'var(--gold)',fontWeight:'bold',fontSize:'0.85rem'}}>NT$ {item.price || 680}</div>
                   </div>
-                  <div style={{marginTop:'8px',display:'flex',flexDirection:'column',gap:'4px'}}>
+                  <div style={{marginTop:'8px'}}>
                     <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem'}} onClick={()=>addToCart(item.name,680)}>加入購物車</button>
-                    {admin && (
-                      <button className="btn" style={{width:'100%',fontSize:'0.7rem',background:'#8b0000',color:'#fff'}} onClick={()=>handleDeleteArt(idx)}>刪除此畫作</button>
-                    )}
                   </div>
                 </div>
               ))
@@ -428,4 +286,4 @@ export default function Home(){
       </div>
     </>
   );
-}
+                       }
