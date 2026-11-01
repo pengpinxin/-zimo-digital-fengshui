@@ -64,7 +64,7 @@ export default function Home() {
     }
   };
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     if (!cName || !cPhone || !cEmail) {
       alert('請填寫完整聯絡資訊');
       return;
@@ -74,44 +74,43 @@ export default function Home() {
       return;
     }
 
+    const MerchantTradeNo = 'T' + Date.now();
+    const MerchantTradeDate = new Date().toLocaleString('zh-TW', {
+      timeZone: 'Asia/Taipei',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    }).replace(/\//g, '').replace(',', '').replace(/\s/, ' ');
+
     const itemName = cart.map(i => i.name).join('、');
 
-    try {
-      const res = await fetch('/api/ecpay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          totalAmount: total,
-          itemName: itemName,
-          customerName: cName,
-          customerPhone: cPhone,
-          customerEmail: cEmail,
-          customerAddress: cAddress,
-          customerRemark: cRemark
-        })
-      });
+    // 🚀 將整筆訂單詳細內容完整打包，直接寄到您的信箱 Aaa0987955906aaa@gmail.com
+    const subject = encodeURIComponent(`【品心美學新訂單】來自 ${cName} (${MerchantTradeNo})`);
+    const body = encodeURIComponent(
+      `【品心美學官網新訂單通知】\n\n` +
+      `訂單編號：${MerchantTradeNo}\n` +
+      `訂單時間：${MerchantTradeDate}\n\n` +
+      `【購買品項】\n${itemName}\n\n` +
+      `【總金額】\nNT$ ${total}${vipText}\n\n` +
+      `【客戶聯絡與備註】\n` +
+      `姓名：${cName}\n` +
+      `電話：${cPhone}\n` +
+      `信箱：${cEmail}\n` +
+      `地址：${cAddress}\n` +
+      `備註需求：${cRemark}`
+    );
 
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        alert('結帳失敗：伺服器回應格式錯誤');
-        return;
-      }
+    // 自動開啟郵件程式，收件人已鎖死為您的信箱，內容完美打包！
+    window.location.href = `mailto:Aaa0987955906aaa@gmail.com?subject=${subject}&body=${body}`;
 
-      if (!data.success) {
-        alert('結帳失敗：' + (data.error || '未知錯誤'));
-        return;
-      }
-
-      alert(`感謝 ${cName} 緣主！訂單已成功送出，商家信箱已收到訂單通知！`);
-      setCart([]);
-      localStorage.removeItem('z_cart');
-      closeCart();
-    } catch (err) {
-      alert('錯誤：' + err.message);
-    }
+    alert(`感謝 ${cName} 緣主！訂單已成功打包，已為您自動開啟郵件傳送至您的信箱！`);
+    setCart([]);
+    localStorage.removeItem('z_cart');
+    closeCart();
   };
 
   return (
@@ -296,4 +295,4 @@ export default function Home() {
       </div>
     </>
   );
-                  }
+  }
