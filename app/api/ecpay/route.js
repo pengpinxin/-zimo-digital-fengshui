@@ -5,8 +5,7 @@ export async function POST(request) {
     const body = await request.json();
     const { totalAmount, itemName, customerName, customerPhone, customerEmail, customerAddress, customerRemark, tradeNo, tradeDate } = body;
 
-    const emailSubject = `【品心美學新訂單】來自 ${customerName} (${tradeNo})`;
-    const emailBody = 
+    const messageContent = 
       `【品心美學官網新訂單通知】\n\n` +
       `訂單編號：${tradeNo}\n` +
       `訂單時間：${tradeDate}\n\n` +
@@ -19,28 +18,7 @@ export async function POST(request) {
       `地址：${customerAddress}\n` +
       `備註需求：${customerRemark}`;
 
-    // 1. 發送 Email 通知
-    try {
-      const nodemailer = (await import('nodemailer')).default;
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.EMAIL_USER || 'Aaa0987955906aaa@gmail.com',
-          pass: process.env.EMAIL_PASS
-        }
-      });
-
-      await transporter.sendMail({
-        from: '"品心美學官網" <Aaa0987955906aaa@gmail.com>',
-        to: 'Aaa0987955906aaa@gmail.com',
-        subject: emailSubject,
-        text: emailBody
-      });
-    } catch (emailError) {
-      console.error('郵件發送失敗:', emailError);
-    }
-
-    // 2. 發送 LINE 推播通知
+    // 發送 LINE 推播通知
     const lineToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
     const lineUserId = process.env.LINE_USER_ID;
 
@@ -54,7 +32,7 @@ export async function POST(request) {
           },
           body: JSON.stringify({
             to: lineUserId,
-            messages: [{ type: 'text', text: emailBody }]
+            messages: [{ type: 'text', text: messageContent }]
           })
         });
       } catch (lineError) {
