@@ -11,7 +11,6 @@ export default function Home(){
   const [cEmail, setCEmail] = useState('');
   const [cAddress, setCAddress] = useState('');
   const [cRemark, setCRemark] = useState('');
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
@@ -66,67 +65,21 @@ export default function Home(){
     }
   };
 
-  // 🔗 整合後端 API：串接 Email 打包通知、綠界 ECPay 與 LINE 官方通知
-  const handleCheckout = async () => {
-    if(!cName || !cPhone || !cEmail || !cAddress){ 
-      alert('請完整填寫收件與聯絡資訊'); 
-      return; 
-    }
-    if(cart.length === 0){ 
-      alert('購物車是空的'); 
-      return; 
-    }
-
-    setIsCheckingOut(true);
-    try {
-      const orderData = {
-        name: cName,
-        phone: cPhone,
-        email: cEmail,
-        address: cAddress,
-        remark: cRemark,
-        items: cart,
-        total: total,
-        isVip: isVip
-      };
-
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData),
-      });
-
-      const result = await res.json();
-      if (result.success) {
-        const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
-        if(hasVipItem || isVip){
-          const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
-          if(!vipPhones.includes(cPhone)){
-            vipPhones.push(cPhone);
-            localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
-          }
-        }
-
-        // 若後端回傳綠界支付跳轉連結，則直接導向金流頁面
-        if (result.paymentUrl) {
-          window.location.href = result.paymentUrl;
-          return;
-        }
-
-        alert('感謝 ' + cName + ' 緣主！訂單已成功送出，通知信與 LINE 訊息已順利發送。');
-        setCart([]);
-        setIsVip(false);
-        setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
-        closeCart();
-      } else {
-        alert('結帳送出發生異常：' + (result.message || '請確認後端設定'));
+  const handleCheckout = () => {
+    if(!cName || !cPhone || !cEmail || !cAddress){ alert('請完整填寫收件與聯絡資訊'); return; }
+    if(cart.length === 0){ alert('購物車是空的'); return; }
+    const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
+    if(hasVipItem || isVip){
+      const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
+      if(!vipPhones.includes(cPhone)){
+        vipPhones.push(cPhone);
+        localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
       }
-    } catch (error) {
-      console.error('結帳連線錯誤:', error);
-      alert('連線伺服器發生錯誤，請稍後再試');
-    } finally {
-      setIsCheckingOut(false);
     }
+    alert('感謝 ' + cName + ' 緣主！訂單已送出。');
+    setCart([]);
+    setIsVip(false);
+    setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
   };
 
   const openCart = () => document.getElementById('cart')?.classList.add('open');
@@ -139,7 +92,7 @@ export default function Home(){
   const vipText = isVip ? ' (已享 VIP 9折)' : '';
 
   return (
-    <div className="min-h-screen bg-[#1a1714] text-[#f3efe6]">
+    <div style={{minHeight:'100vh', background:'#1a1714', color:'#f3efe6'}}>
       <style jsx global>{`
         :root{--bg:#1a1714;--card:#24201c;--border:#4a3d31;--text:#f3efe6;--gold:#d4af37;--gold-l:#f3e5ab;}
         *{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;}
@@ -205,7 +158,7 @@ export default function Home(){
         <section id="intro" className="notice-box" style={{padding:'20px'}}>
           <h2 style={{color:'var(--gold-l)',fontSize:'1.2rem',marginBottom:'12px',textAlign:'center'}}>靈魂的棲息之處</h2>
           <p style={{fontSize:'0.85rem',color:'#f3efe6',marginBottom:'12px',lineHeight:'1.8',textAlign:'center'}}>
-            喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療愈、藝術與和諧於一體的心靈家園，品心老師歡迎您的到來！
+            喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療愈、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！
           </p>
           <p style={{fontSize:'0.8rem',color:'#d0c5b4',lineHeight:'1.8'}}>
             老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學、及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，她清雅脫俗地出落在紅塵萬里天地之間，悉心等待著為值得的人送去福音，將她畢生的學術研究成果，盡心耕織於人類與環境實際需求，廣結善緣、讓福音傳遍千里之外，讓靈慧助人於無形之中。
@@ -328,11 +281,9 @@ export default function Home(){
           <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
           <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
           <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
-          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
-            {isCheckingOut ? '正在處理訂單與綠界連線...' : '確認送出訂單'}
-          </button>
+          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout}>確認送出訂單</button>
         </div>
       </div>
     </div>
   );
-  }
+              }
