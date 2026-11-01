@@ -1,100 +1,70 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 
-function genSign(p, key, iv) {
-  const keys = Object.keys(p).sort();
-  let s = `HashKey=${key}`;
-  keys.forEach(k => {
-    s += `&${k}=${p[k]}`;
-  });
-  s += `&HashIV=${iv}`;
-  
-  const enc = encodeURIComponent(s)
-    .toLowerCase()
-    .replace(/%2d/g, '-')
-    .replace(/%5f/g, '_')
-    .replace(/%2e/g, '.')
-    .replace(/%21/g, '!')
-    .replace(/%2a/g, '*')
-    .replace(/%28/g, '(')
-    .replace(/%29/g, ')')
-    .replace(/%20/g, '+');
-    
-  const h = crypto.createHash('sha256');
-  h.update(enc);
-  return h.digest('hex').toUpperCase();
-}
-
-export async function POST(req) {
+export async function POST(request) {
   try {
-    const body = await req.json();
+    const body = await request.json();
     const { totalAmount, itemName } = body;
 
     const MerchantID = '2000132';
     const HashKey = '5294y06JbISpM5x9';
-    const HashIV = 'v77hoKGq4kWxypIS';
-    
-    const ECPayURL = 
-      'https://payment-stage.ecpay.com.tw' +
-      '/Cashier/AioCheckOut/V5';
+    const HashIV = 'v77hoKGq4kWxNNIS';
+    const ECPayURL = 'https://payment-stage.ecpay.com.tw/Cashier/AIO/Checkout';
 
-    const t = new Date().getTime();
-    const MerchantTradeNo = `ZIMO${t}`;
-    
-    const MerchantTradeDate = new Date()
-      .toLocaleString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-      })
-      .replace(/\//g, '/');
-
-    const domain = 
-      'https://pengpinxin-web.vercel.app';
+    const MerchantTradeNo = 'T' + Date.now();
+    const MerchantTradeDate = new Date().toLocaleString('zh-TW', {
+      timeZone: 'Asia/Taipei',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    }).replace(/\//g, '').replace(',', '').replace(/\s/, ' ');
 
     const baseParams = {
-      MerchantID: MerchantID,
-      MerchantTradeNo: MerchantTradeNo,
-      MerchantTradeDate: MerchantTradeDate,
+      MerchantID,
+      MerchantTradeNo,
+      MerchantTradeDate,
       PaymentType: 'aio',
-      TotalAmount: totalAmount.toString(),
-      TradeDesc: '品心美學結緣',
-      ItemName: itemName,
-      ReturnURL: domain + 
-      '/api/ecpay/callback',
-      ClientBackURL: domain + '/',
+      TotalAmount: String(totalAmount),
+      TradeDesc: '品心美學線上訂單',
+      ItemName: itemName || '品心美學商品',
+      ReturnURL: 'https://developers.ecpay.com.tw',
+      ClientBackURL: 'https://developers.ecpay.com.tw',
       ChoosePayment: 'ALL',
       EncryptType: '1',
     };
 
-    const CheckMacValue = genSign(
-      baseParams, 
-      HashKey, 
-      HashIV
-    );
-    
-    const params = {
-      ...baseParams,
-      CheckMacValue
+    const keys = Object.keys(baseParams).sort();
+    let checkString = `HashKey=${HashKey}`;
+    keys.forEach((key) => {
+      if (baseParams[key] !== undefined && baseParams[key] !== '') {
+        checkString += `&${key}=${baseParams[key]}`;
+      }
+    });
+    checkString += `&HashIV=${HashIV}`;
+
+    const dotnetUrlEncode = (str) => {
+      return encodeURIComponent(str)
+        .replace(/%21/g, '!')
+        .replace(/%2A/g, '*')
+        .replace(/%27/g, "'")
+        .replace(/%28/g, '(')
+        .replace(/%29/g, ')')
+        .replace(/%20/g, '+');
     };
+
+    const encoded = dotnetUrlEncode(checkString).toLowerCase();
+    const CheckMacValue = crypto.createHash('sha256').update(encoded).digest('hex').toUpperCase();
 
     return NextResponse.json({
       success: true,
-      MerchantTradeNo,
       ECPayURL,
-      params
+      params: { ...baseParams, CheckMacValue }
     });
-    
-  } catch (err) {
-    return NextResponse.json({
-      success: false,
-      error: err.message
-    }, {
-      status: 500
-    });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
