@@ -229,9 +229,9 @@ export default function Home() {
               artworks.map((item, idx) => (
                 <div key={idx} style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '6px' }}>
                   <img src={item.url} alt={item.name} style={{ width: '100%', height: '160px', objectFit: 'cover', borderRadius: '4px', marginBottom: '8px' }} />
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '0.85rem', color: '#fff' }}>{item.name}</span>
-                    <button className="btn" onClick={() => addToCart(item.name, item.price || 1500)}>加入購物車 NT$ {item.price || 1500}</button>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <span style={{ fontSize: '0.85rem', color: '#fff' }}>{item.name} (NT$ {item.price || 1500})</span>
+                    <button className="btn" onClick={() => addToCart(item.name, item.price || 1500)} style={{ width: '100%' }}>加入購物車</button>
                   </div>
                 </div>
               ))
