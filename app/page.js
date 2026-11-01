@@ -114,23 +114,22 @@ export default function Home(){
     
     document.body.appendChild(f);
     f.submit();
-    
-  } catch (err) {
-    alert('錯誤：' + err.message);
-  }
-};
-    
+
+    const handleCheckout = async () => {
+      try {
+    const res = await fetch('/api/ecpay', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ totalAmount: total, itemName: itemName })
+    });
     const data = await res.json();
-    
     if (!data.success) {
-      alert('建立訂單失敗：' + data.error);
+      alert('失敗：' + data.error);
       return;
     }
-    
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = data.ECPayURL;
-    
     for (const key in data.params) {
       const input = document.createElement('input');
       input.type = 'hidden';
@@ -138,14 +137,11 @@ export default function Home(){
       input.value = data.params[key];
       form.appendChild(input);
     }
-    
     document.body.appendChild(form);
     form.submit();
-    
-    } catch (err) {
-    alert('連線發生錯誤：' + err.message);
+  } catch (err) {
+    alert('錯誤：' + err.message);
   }
-};
   const openCart = () => document.getElementById('cart')?.classList.add('open');
   const closeCart = () => document.getElementById('cart')?.classList.remove('open');
   const openMenu = () => document.getElementById('menu')?.classList.add('open');
