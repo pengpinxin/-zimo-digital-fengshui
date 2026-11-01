@@ -74,7 +74,6 @@ export default function Home() {
       return;
     }
 
-    // 完全去掉括號與特殊符號，確保綠界金流順暢
     const itemName = cart.map(i => i.name).join(' ');
 
     try {
@@ -97,6 +96,7 @@ export default function Home() {
         return;
       }
 
+      // 以 POST 方式將表單送至綠界，防止 404
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = data.ECPayURL;
@@ -296,4 +296,4 @@ export default function Home() {
       </div>
     </>
   );
-  }
+}
