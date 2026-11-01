@@ -90,13 +90,22 @@ export default function Home() {
           customerRemark: cRemark
         })
       });
-      const data = await res.json();
+
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        alert('結帳失敗：伺服器回應格式錯誤');
+        return;
+      }
+
       if (!data.success) {
         alert('結帳失敗：' + (data.error || '未知錯誤'));
         return;
       }
 
-      alert(`感謝 ${cName} 緣主！訂單已成功送出，商家與您的信箱皆已收到雙向通知信！`);
+      alert(`感謝 ${cName} 緣主！訂單已成功送出，商家信箱已收到訂單通知！`);
       setCart([]);
       localStorage.removeItem('z_cart');
       closeCart();
@@ -287,4 +296,4 @@ export default function Home() {
       </div>
     </>
   );
-  }
+              }
