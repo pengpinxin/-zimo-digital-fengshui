@@ -17,7 +17,9 @@ export async function POST(request) {
       hour12: false
     }).replace(/\//g, '').replace(',', '').replace(/\s/, ' ');
 
-    // 1. 發送詳細訂單通知給商家 (您的信箱 Aaa0987955906aaa@gmail.com)
+    const orderDetailsText = `【品心美學官網新訂單】\n\n訂單編號：${MerchantTradeNo}\n訂單時間：${MerchantTradeDate}\n\n【購買品項】\n${itemName}\n\n【總金額】\nNT$ ${totalAmount}\n\n【客戶聯絡與備註】\n姓名：${customerName}\n電話：${customerPhone}\n信箱：${customerEmail}\n地址：${customerAddress}\n備註需求：${customerRemark}`;
+
+    // 1. 發送詳細訂單通知給商家信箱 (Aaa0987955906aaa@gmail.com)
     try {
       await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -27,14 +29,42 @@ export async function POST(request) {
           subject: `【品心美學新訂單】來自 ${customerName || '緣主'} 的訂單 (${MerchantTradeNo})`,
           from_name: '品心美學官網訂單系統',
           to: 'Aaa0987955906aaa@gmail.com',
-          message: `【品心美學官網新訂單通知】\n\n訂單編號：${MerchantTradeNo}\n訂單時間：${MerchantTradeDate}\n\n【購買品項】\n${itemName}\n\n【總金額】\nNT$ ${totalAmount}\n\n【客戶聯絡與備註】\n姓名：${customerName}\n電話：${customerPhone}\n信箱：${customerEmail}\n地址：${customerAddress}\n備註需求：${customerRemark}`
+          message: orderDetailsText
         })
       });
     } catch (mailErr) {
       console.error('Merchant Email send error:', mailErr);
     }
 
-    // 2. 發送溫馨確認信給客人 (使用您指定的專屬回覆文字)
+    // 2. 同時發送通知到您的 LINE (透過 LINE Messaging API Push Message)
+    // 須在 Vercel 專案設定中加入 LINE_CHANNEL_ACCESS_TOKEN 與 LINE_USER_ID
+    const lineToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
+    const lineUserId = process.env.LINE_USER_ID;
+
+    if (lineToken && lineUserId) {
+      try {
+        await fetch('https://api.line.me/v2/bot/message/push', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${lineToken}`
+          },
+          body: JSON.stringify({
+            to: lineUserId,
+            messages: [
+              {
+                type: 'text',
+                text: orderDetailsText
+              }
+            ]
+          })
+        });
+      } catch (lineErr) {
+        console.error('LINE Push error:', lineErr);
+      }
+    }
+
+    // 3. 發送溫馨確認信給客人
     if (customerEmail) {
       try {
         await fetch('https://api.web3forms.com/submit', {
