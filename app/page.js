@@ -188,14 +188,14 @@ export default function Home() {
                 <h4 style={{ fontSize: '0.9rem', color: '#fff' }}>《生命的出口》</h4>
                 <p style={{ fontSize: '0.75rem', color: 'var(--gold)' }}>NT$ 269</p>
               </div>
-              <button className="btn" onClick={() => addToCart('生命的出口', 269)}>購買</button>
+              <button className="btn" onClick={() => addToCart('生命的出口', 269)}>加入購物車</button>
             </div>
             <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <h4 style={{ fontSize: '0.9rem', color: '#fff' }}>《進階思維的後裔》</h4>
                 <p style={{ fontSize: '0.75rem', color: 'var(--gold)' }}>NT$ 269</p>
               </div>
-              <button className="btn" onClick={() => addToCart('進階思維的後裔', 269)}>購買</button>
+              <button className="btn" onClick={() => addToCart('進階思維的後裔', 269)}>加入購物車</button>
             </div>
           </div>
         </section>
@@ -208,14 +208,14 @@ export default function Home() {
                 <h4 style={{ fontSize: '0.9rem', color: '#fff' }}>八字批算服務</h4>
                 <p style={{ fontSize: '0.75rem', color: 'var(--gold)' }}>NT$ 1200</p>
               </div>
-              <button className="btn" onClick={() => addToCart('八字批算服務', 1200)}>預約</button>
+              <button className="btn" onClick={() => addToCart('八字批算服務', 1200)}>加入購物車</button>
             </div>
             <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <h4 style={{ fontSize: '0.9rem', color: '#fff' }}>數字風水與吉數選擇</h4>
                 <p style={{ fontSize: '0.75rem', color: 'var(--gold)' }}>NT$ 880</p>
               </div>
-              <button className="btn" onClick={() => addToCart('數字風水與吉數選擇', 880)}>預約</button>
+              <button className="btn" onClick={() => addToCart('數字風水與吉數選擇', 880)}>加入購物車</button>
             </div>
           </div>
         </section>
@@ -231,7 +231,7 @@ export default function Home() {
                   <img src={item.url} alt={item.name} style={{ width: '100%', height: '160px', objectFit: 'cover', borderRadius: '4px', marginBottom: '8px' }} />
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '0.85rem', color: '#fff' }}>{item.name}</span>
-                    <button className="btn" onClick={() => addToCart(item.name, item.price || 1500)}>收藏 NT$ {item.price || 1500}</button>
+                    <button className="btn" onClick={() => addToCart(item.name, item.price || 1500)}>加入購物車 NT$ {item.price || 1500}</button>
                   </div>
                 </div>
               ))
