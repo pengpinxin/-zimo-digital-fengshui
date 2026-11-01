@@ -142,20 +142,10 @@ export default function Home(){
     document.body.appendChild(form);
     form.submit();
     
-  } catch (err) {
+    } catch (err) {
     alert('連線發生錯誤：' + err.message);
   }
-};(cPhone)){
-        vipPhones.push(cPhone);
-        localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
-      }
-    }
-    alert('感謝 ' + cName + ' 緣主！訂單已送出。');
-    setCart([]);
-    setIsVip(false);
-    setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
-  };
-
+};
   const openCart = () => document.getElementById('cart')?.classList.add('open');
   const closeCart = () => document.getElementById('cart')?.classList.remove('open');
   const openMenu = () => document.getElementById('menu')?.classList.add('open');
