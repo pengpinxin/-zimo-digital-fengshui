@@ -66,7 +66,7 @@ export default function Home(){
     }
   };
 
-  // 🔗 串接後端 API，觸發郵箱打包通知與 LINE 訊息發送
+  // 🔗 完美對接您原本成功的 /api/ecpay 後端路由，處理郵件打包與綠界金流
   const handleCheckout = async () => {
     if(!cName || !cPhone || !cEmail || !cAddress){ 
       alert('請完整填寫收件與聯絡資訊'); 
@@ -90,7 +90,7 @@ export default function Home(){
         isVip: isVip
       };
 
-      const res = await fetch('/api/checkout', {
+      const res = await fetch('/api/ecpay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData),
@@ -113,7 +113,7 @@ export default function Home(){
           return;
         }
 
-        alert('感謝 ' + cName + ' 緣主！訂單已成功送出，打包通知信與 LINE 訊息已發送。');
+        alert('感謝 ' + cName + ' 緣主！訂單已成功送出，打包通知信已順利發送至您的信箱。');
         setCart([]);
         setIsVip(false);
         setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
@@ -329,7 +329,7 @@ export default function Home(){
           <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
           <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
           <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
-            {isCheckingOut ? '正在處理訂單...' : '確認送出訂單'}
+            {isCheckingOut ? '正在處理訂單與郵件打包...' : '確認送出訂單'}
           </button>
         </div>
       </div>
