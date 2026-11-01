@@ -64,7 +64,7 @@ export default function Home() {
     }
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (!cName || !cPhone || !cEmail) {
       alert('請填寫完整聯絡資訊');
       return;
@@ -74,26 +74,45 @@ export default function Home() {
       return;
     }
 
-    const MerchantTradeNo = 'T' + Date.now();
-    const MerchantTradeDate = new Date().toLocaleString('zh-TW', {
-      timeZone: 'Asia/Taipei',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false
-    }).replace(/\//g, '').replace(',', '').replace(/\s/, ' ');
+    const tradeNo = 'T' + Date.now();
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const tradeDate = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 
     const itemName = cart.map(i => i.name).join('、');
 
-    // 🚀 將整筆訂單詳細內容完整打包，直接寄到您的信箱 Aaa0987955906aaa@gmail.com
-    const subject = encodeURIComponent(`【品心美學新訂單】來自 ${cName} (${MerchantTradeNo})`);
+    // 1. 非同步呼叫後端 API，將訂單推送到您的 LINE
+    try {
+      await fetch('/api/ecpay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          totalAmount: total,
+          itemName,
+          customerName: cName,
+          customerPhone: cPhone,
+          customerEmail: cEmail,
+          customerAddress: cAddress,
+          customerRemark: cRemark,
+          tradeNo,
+          tradeDate
+        })
+      });
+    } catch (err) {
+      console.error('LINE push error:', err);
+    }
+
+    // 2. 同時啟動郵件打包機制，完美發送至您的信箱 Aaa0987955906aaa@gmail.com
+    const subject = encodeURIComponent(`【品心美學新訂單】來自 ${cName} (${tradeNo})`);
     const body = encodeURIComponent(
       `【品心美學官網新訂單通知】\n\n` +
-      `訂單編號：${MerchantTradeNo}\n` +
-      `訂單時間：${MerchantTradeDate}\n\n` +
+      `訂單編號：${tradeNo}\n` +
+      `訂單時間：${tradeDate}\n\n` +
       `【購買品項】\n${itemName}\n\n` +
       `【總金額】\nNT$ ${total}${vipText}\n\n` +
       `【客戶聯絡與備註】\n` +
@@ -104,10 +123,9 @@ export default function Home() {
       `備註需求：${cRemark}`
     );
 
-    // 自動開啟郵件程式，收件人已鎖死為您的信箱，內容完美打包！
     window.location.href = `mailto:Aaa0987955906aaa@gmail.com?subject=${subject}&body=${body}`;
 
-    alert(`感謝 ${cName} 緣主！訂單已成功打包，已為您自動開啟郵件傳送至您的信箱！`);
+    alert(`感謝 ${cName} 緣主！訂單已成功送出，信箱打包與 LINE 推送已同步觸發！`);
     setCart([]);
     localStorage.removeItem('z_cart');
     closeCart();
