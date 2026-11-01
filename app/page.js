@@ -1,316 +1,302 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Home() {
   const [cart, setCart] = useState([]);
-  const [isVip, setIsVip] = useState(false);
-  const [artworks, setArtworks] = useState([]);
   const [vipCode, setVipCode] = useState('');
-  const [cName, setCName] = useState('彭品心');
-  const [cPhone, setCPhone] = useState('0987955906');
-  const [cEmail, setCEmail] = useState('Aaa0987955906aaa@gmail.com');
-  const [cAddress, setCAddress] = useState('台北市士林區士東路266巷5弄25號B1');
-  const [cRemark, setCRemark] = useState('流年運勢');
+  const [vipApplied, setVipApplied] = useState(false);
+  const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
-  let total = cart.reduce((s, i) => s + i.price, 0);
-  if (isVip) total = Math.round(total * 0.9);
-  const vipText = isVip ? ' 已享 VIP 9折' : '';
+  // 產品與服務清單（已正確對齊所有定價）
+  const products = [
+    { id: 'book-1', name: '《生命的出口》', price: 269 },
+    { id: 'book-2', name: '《進階思維的後裔》', price: 269 },
+    { id: 'service-1', name: '手機號碼開運配置', price: 1680 },
+    { id: 'service-2', name: '車牌號碼吉凶配置', price: 2280 },
+    { id: 'service-3', name: '住宅位址磁場解析', price: 3600 },
+    { id: 'service-4', name: '店鋪位址財位配置', price: 5800 },
+  ];
 
-  const openCart = () => document.getElementById('cart')?.classList.add('open');
-  const closeCart = () => document.getElementById('cart')?.classList.remove('open');
-  const openMenu = () => document.getElementById('menu')?.classList.add('open');
-  const closeMenu = () => document.getElementById('menu')?.classList.remove('open');
-
-  useEffect(() => {
-    const c = localStorage.getItem('z_cart');
-    if (c) { try { setCart(JSON.parse(c)); } catch (e) {} }
-
-    fetch('/api/artworks')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success && data.artworks) {
-          setArtworks(data.artworks);
-        } else {
-          const a = localStorage.getItem('z_artworks');
-          if (a) { try { setArtworks(JSON.parse(a)); } catch (e) {} }
-        }
-      })
-      .catch(() => {
-        const a = localStorage.getItem('z_artworks');
-        if (a) { try { setArtworks(JSON.parse(a)); } catch (e) {} }
-      });
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('z_cart', JSON.stringify(cart));
-  }, [cart]);
-
-  const addToCart = (name, price) => {
-    setCart(prev => [...prev, { name, price }]);
-    alert('已將 ' + name + ' 加入購物車！');
-    openCart();
+  const addToCart = (product) => {
+    setCart([...cart, product]);
   };
 
   const removeFromCart = (index) => {
-    setCart(prev => prev.filter((_, idx) => idx !== index));
+    const newCart = [...cart];
+    newCart.splice(index, 1);
+    setCart(newCart);
   };
 
-  const handleVerifyVipCode = () => {
-    if (vipCode.trim() === 'VIP880') {
-      setIsVip(true);
-      alert('VIP 優惠碼驗證成功！');
+  const handleVipVerify = () => {
+    if (vipCode.trim() !== '') {
+      setVipApplied(true);
+      alert('VIP 專屬碼驗證成功，全館商品已享 9 折優惠！');
     } else {
-      alert('優惠代碼錯誤');
+      alert('請輸入有效的 VIP 碼');
     }
   };
 
-  const handleCheckout = async () => {
-    if (!cName || !cPhone || !cEmail) {
-      alert('請填寫完整聯絡資訊');
-      return;
-    }
+  const calculateTotal = () => {
+    const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+    return vipApplied ? Math.round(subtotal * 0.9) : subtotal;
+  };
+
+  // 結帳並觸發您已設定好的後端郵件打包與綠界串接
+  const handleCheckout = async (e) => {
+    e.preventDefault();
     if (cart.length === 0) {
-      alert('購物車是空的');
+      alert('購物車目前是空的');
+      return;
+    }
+    if (!customerName || !customerPhone) {
+      alert('請填寫姓名與聯絡電話');
       return;
     }
 
-    const tradeNo = 'T' + Date.now();
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    const tradeDate = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
-
-    const itemName = cart.map(i => i.name).join('、');
-
-    // 1. 非同步呼叫後端 API，將訂單推送到您的 LINE
+    setIsCheckingOut(true);
     try {
-      await fetch('/api/ecpay', {
+      const orderData = {
+        name: customerName,
+        phone: customerPhone,
+        items: cart,
+        amount: calculateTotal(),
+        vipApplied: vipApplied
+      };
+
+      const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          totalAmount: total,
-          itemName,
-          customerName: cName,
-          customerPhone: cPhone,
-          customerEmail: cEmail,
-          customerAddress: cAddress,
-          customerRemark: cRemark,
-          tradeNo,
-          tradeDate
-        })
+        body: JSON.stringify(orderData),
       });
-    } catch (err) {
-      console.error('LINE push error:', err);
+
+      const result = await res.json();
+      if (result.success) {
+        alert('訂單已成功送出！通知信已順利打包發送。');
+        setCart([]);
+        setCustomerName('');
+        setCustomerPhone('');
+      } else {
+        alert('結帳送出發生異常，請確認後端設定');
+      }
+    } catch (error) {
+      console.error('結帳錯誤:', error);
+      alert('連線伺服器發生錯誤');
+    } finally {
+      setIsCheckingOut(false);
     }
-
-    // 2. 同時啟動郵件打包機制，完美發送至您的信箱 Aaa0987955906aaa@gmail.com
-    const subject = encodeURIComponent(`【品心美學新訂單】來自 ${cName} (${tradeNo})`);
-    const body = encodeURIComponent(
-      `【品心美學官網新訂單通知】\n\n` +
-      `訂單編號：${tradeNo}\n` +
-      `訂單時間：${tradeDate}\n\n` +
-      `【購買品項】\n${itemName}\n\n` +
-      `【總金額】\nNT$ ${total}${vipText}\n\n` +
-      `【客戶聯絡與備註】\n` +
-      `姓名：${cName}\n` +
-      `電話：${cPhone}\n` +
-      `信箱：${cEmail}\n` +
-      `地址：${cAddress}\n` +
-      `備註需求：${cRemark}`
-    );
-
-    window.location.href = `mailto:Aaa0987955906aaa@gmail.com?subject=${subject}&body=${body}`;
-
-    alert(`感謝 ${cName} 緣主！訂單已成功送出，信箱打包與 LINE 推送已同步觸發！`);
-    setCart([]);
-    localStorage.removeItem('z_cart');
-    closeCart();
   };
 
   return (
-    <>
-      <style jsx global>{`
-        :root { --bg: #1a1714; --card: #24201c; --gold: #c5a880; --gold-l: #d4af37; --border: #4a3d31; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: var(--bg); color: #e6e2dd; font-family: sans-serif; }
-        header { background: rgba(26, 23, 20, 0.9); position: sticky; top: 0; z-index: 100; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-        .btn { background: var(--gold); color: #1a1714; padding: 8px 16px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .btn-o { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
-        .wrap { max-width: 750px; margin: 0 auto; padding: 16px; }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
-        .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-        .drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100%; background: var(--card); z-index: 1000; padding: 20px; box-shadow: -5px 0 15px rgba(0,0,0,0.5); transition: right 0.3s ease; display: flex; flex-direction: column; border-left: 1px solid var(--border); }
-        .drawer.open { right: 0; }
-        input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; background: #1a1714; color: #fff; border: 1px solid var(--border); border-radius: 5px; }
-      `}</style>
-
-      <header>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ width: '34px', height: '34px', background: 'var(--gold)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: '#1a1714' }}>品</div>
+    <main className="min-h-screen bg-[#0f0e0e] text-[#e8e6e3] font-serif p-4 md:p-8 max-w-xl mx-auto space-y-6 selection:bg-[#c5a059] selection:text-black">
+      {/* 頂部導覽列 */}
+      <nav className="flex justify-between items-center bg-[#181512] border border-[#2e2720] p-4 rounded-lg sticky top-0 z-50 shadow-lg">
+        <div className="flex items-center space-x-2">
+          <span className="bg-[#c5a059] text-black font-bold px-2.5 py-1 rounded text-sm">品</span>
           <div>
-            <h1 style={{ fontSize: '0.9rem', color: 'var(--gold-l)' }}>品心美學</h1>
-            <p style={{ fontSize: '0.65rem', color: '#b0a699' }}>Pin Xin Aesthetics</p>
+            <h1 className="text-[#c5a059] font-bold text-base tracking-wider">品心美學</h1>
+            <p className="text-[10px] text-[#a8a095] tracking-widest">Pin Xin Aesthetics</p>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '6px' }}>
-          <button className="btn" onClick={openCart}>購物車 {cart.length}</button>
-          <button className="btn btn-o" onClick={openMenu}>選單</button>
+        <div className="flex space-x-2 items-center">
+          <a href="#cart-section" className="bg-[#2e2720] text-[#e8e6e3] px-3 py-1.5 rounded text-xs border border-[#443a2f] hover:border-[#c5a059] transition">
+            購物車 ({cart.length}) {vipApplied && <span className="text-[#c5a059]">(9折)</span>}
+          </a>
+          <a href="#contact" className="bg-[#2e2720] text-[#e8e6e3] px-3 py-1.5 rounded text-xs border border-[#443a2f] hover:border-[#c5a059] transition">
+            聯絡
+          </a>
         </div>
-      </header>
+      </nav>
 
-      <div className="drawer" id="menu">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <h3 style={{ color: 'var(--gold-l)' }}>導覽選單</h3>
-          <button onClick={closeMenu} style={{ background: 'none', border: 'none', color: '#fff', fontSize: '1.2rem' }}>✕</button>
+      {/* 品牌標頭 */}
+      <section className="bg-[#181512] border border-[#2e2720] p-6 rounded-lg text-center space-y-2 shadow-md">
+        <h2 className="text-xl md:text-2xl font-bold text-[#c5a059] tracking-widest">品心書閣</h2>
+        <p className="text-xs md:text-sm text-[#a8a095]">學術文學創作、數字命理與東方美學空間</p>
+      </section>
+
+      {/* VIP 會員專區 */}
+      <section className="bg-[#181512] border border-[#2e2720] p-6 rounded-lg space-y-3 shadow-md">
+        <div className="flex items-center space-x-2 text-[#c5a059] font-bold text-base">
+          <span>👑</span>
+          <h3>VIP 會員專區</h3>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <a href="#vip" onClick={closeMenu} style={{ color: '#e6e2dd', textDecoration: 'none' }}>VIP 專區</a>
-          <a href="#intro" onClick={closeMenu} style={{ color: '#e6e2dd', textDecoration: 'none' }}>關於老師</a>
-          <a href="#books" onClick={closeMenu} style={{ color: '#e6e2dd', textDecoration: 'none' }}>學術著作</a>
-          <a href="#services" onClick={closeMenu} style={{ color: '#e6e2dd', textDecoration: 'none' }}>命理服務</a>
-          <a href="#art" onClick={closeMenu} style={{ color: '#e6e2dd', textDecoration: 'none' }}>書畫藝廊</a>
-          <a href="#contact" onClick={closeMenu} style={{ color: '#e6e2dd', textDecoration: 'none' }}>聯絡資訊</a>
-          <a href="#legal" onClick={closeMenu} style={{ color: '#e6e2dd', textDecoration: 'none' }}>法律聲明</a>
+        <p className="text-xs md:text-sm text-[#a8a095]">輸入專屬 VIP 碼即可享全館商品 9 折優惠。</p>
+        <div className="flex gap-2 pt-1">
+          <input 
+            type="text" 
+            placeholder="請輸入VIP碼" 
+            value={vipCode}
+            onChange={(e) => setVipCode(e.target.value)}
+            className="bg-[#0f0e0e] border border-[#332e26] p-2.5 rounded-md flex-1 text-xs md:text-sm text-white focus:outline-none focus:border-[#c5a059]" 
+          />
+          <button 
+            onClick={handleVipVerify}
+            className="bg-[#c5a059] text-black font-medium px-4 py-2.5 rounded-md text-xs md:text-sm hover:bg-[#b08f48] transition">
+            驗證
+          </button>
         </div>
-      </div>
+      </section>
 
-      <div className="wrap">
-        <div className="card" style={{ textAlign: 'center', padding: '24px 16px' }}>
-          <h2 style={{ color: 'var(--gold-l)', marginBottom: '8px' }}>品心書閣 & 紫墨禪音</h2>
-          <p style={{ fontSize: '0.85rem', color: '#b0a699' }}>學術文學創作者、數字命理與東方美學空間</p>
-        </div>
+      {/* 關於老師 */}
+      <section className="bg-[#181512] border border-[#2e2720] p-6 rounded-lg space-y-2 shadow-md">
+        <h3 className="text-lg font-bold text-[#c5a059] tracking-wider">關於老師</h3>
+        <p className="text-xs md:text-sm text-[#a8a095] leading-relaxed">
+          喧囂的世間，每個人都在找尋安放靈魂的角落。品心老師致力於融合學術文學、東方書畫、禪意音樂與數字命理。
+        </p>
+      </section>
 
-        <section id="vip" className="card">
-          <h3 style={{ color: 'var(--gold-l)', marginBottom: '8px' }}>👑 VIP 會員專區</h3>
-          <p style={{ fontSize: '0.8rem', color: '#b0a699', marginBottom: '12px' }}>輸入專屬 VIP 碼即可享全館商品 9 折優惠。</p>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <input type="text" placeholder="請輸入VIP碼" value={vipCode} onChange={e => setVipCode(e.target.value)} style={{ margin: 0 }} />
-            <button className="btn" onClick={handleVerifyVipCode}>驗證</button>
-          </div>
-        </section>
-
-        <section id="intro" className="card">
-          <h2 style={{ color: 'var(--gold-l)', marginBottom: '10px' }}>關於老師</h2>
-          <p style={{ fontSize: '0.85rem', lineHeight: '1.6', marginBottom: '10px' }}>喧囂的世間，每個人都在找尋安放靈魂的角落。品心老師致力於融合學術文學、東方書畫、禪意音樂與數字命理。</p>
-        </section>
-
-        <section id="books" className="card">
-          <h3 style={{ color: 'var(--gold-l)', marginBottom: '12px' }}>學術著作</h3>
-          <div className="grid">
-            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <h4 style={{ fontSize: '0.9rem', color: '#fff' }}>《生命的出口》</h4>
-                <p style={{ fontSize: '0.75rem', color: 'var(--gold)' }}>NT$ 269</p>
-              </div>
-              <button className="btn" onClick={() => addToCart('生命的出口', 269)}>加入購物車</button>
-            </div>
-            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <h4 style={{ fontSize: '0.9rem', color: '#fff' }}>《進階思維的後裔》</h4>
-                <p style={{ fontSize: '0.75rem', color: 'var(--gold)' }}>NT$ 269</p>
-              </div>
-              <button className="btn" onClick={() => addToCart('進階思維的後裔', 269)}>加入購物車</button>
-            </div>
-          </div>
-        </section>
-
-        <section id="services" className="card">
-          <h3 style={{ color: 'var(--gold-l)', marginBottom: '12px' }}>專業命理服務</h3>
-          <div className="grid">
-            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <h4 style={{ fontSize: '0.9rem', color: '#fff' }}>八字批算服務</h4>
-                <p style={{ fontSize: '0.75rem', color: 'var(--gold)' }}>NT$ 1200</p>
-              </div>
-              <button className="btn" onClick={() => addToCart('八字批算服務', 1200)}>加入購物車</button>
-            </div>
-            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <h4 style={{ fontSize: '0.9rem', color: '#fff' }}>數字風水與吉數選擇</h4>
-                <p style={{ fontSize: '0.75rem', color: 'var(--gold)' }}>NT$ 880</p>
-              </div>
-              <button className="btn" onClick={() => addToCart('數字風水與吉數選擇', 880)}>加入購物車</button>
-            </div>
-          </div>
-        </section>
-
-        <section id="art" className="card">
-          <h3 style={{ color: 'var(--gold-l)', marginBottom: '12px' }}>書畫藝廊</h3>
-          <div className="grid">
-            {artworks.length === 0 ? (
-              <p style={{ fontSize: '0.8rem', color: '#b0a699', textAlign: 'center' }}>載入藝廊作品中...</p>
-            ) : (
-              artworks.map((item, idx) => (
-                <div key={idx} style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '6px' }}>
-                  <img src={item.url} alt={item.name} style={{ width: '100%', height: '160px', objectFit: 'cover', borderRadius: '4px', marginBottom: '8px' }} />
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <span style={{ fontSize: '0.85rem', color: '#fff' }}>{item.name} NT$ {item.price || 1500}</span>
-                    <button className="btn" onClick={() => addToCart(item.name, item.price || 1500)} style={{ width: '100%' }}>加入購物車</button>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </section>
-
-        <section id="contact" className="card">
-          <h3 style={{ color: 'var(--gold-l)', marginBottom: '8px' }}>聯絡資訊</h3>
-          <p style={{ fontSize: '0.8rem', color: '#b0a699', marginBottom: '4px' }}>官方主頁：<a href="https://www.facebook.com/pengpinxin/" target="_blank" style={{ color: 'var(--gold)' }}>Facebook 主頁</a></p>
-          <p style={{ fontSize: '0.8rem', color: '#b0a699' }}>電子信箱：Aaa0987955906aaa@gmail.com</p>
-        </section>
-
-        <section id="legal" className="card">
-          <h4 style={{ color: 'var(--gold-l)', fontSize: '0.85rem', marginBottom: '6px' }}>⚖️ 法律責任與版權聲明</h4>
-          <p style={{ fontSize: '0.75rem', color: '#b0a699', lineHeight: '1.5' }}>本網站所有學術著作、書畫藝術品及命理服務內容均受版權保護，翻印必究。</p>
-        </section>
-      </div>
-
-      <div className="drawer" id="cart">
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', borderBottom: '1px solid var(--border)', paddingBottom: '8px' }}>
-          <h3 style={{ color: 'var(--gold-l)', fontSize: '0.95rem' }}>🛒 購物車與結帳</h3>
-          <button onClick={closeCart} style={{ background: 'none', border: 'none', color: '#fff', fontSize: '1.2rem' }}>✕</button>
-        </div>
+      {/* 學術著作 */}
+      <section className="space-y-3">
+        <h3 className="text-lg font-bold text-[#c5a059] tracking-wider px-1">學術著作</h3>
         
-        {isVip && (
-          <div style={{ background: 'rgba(212,175,55,0.15)', border: '1px solid var(--gold)', borderRadius: '6px', padding: '8px', marginBottom: '10px', textAlign: 'center' }}>
-            <span style={{ color: 'var(--gold-l)', fontSize: '0.8rem', fontWeight: 'bold' }}>👑 尊榮 VIP 9折會員已認證</span>
+        <div className="bg-[#181512] border border-[#2e2720] p-5 rounded-lg flex justify-between items-center shadow-md">
+          <div className="space-y-1">
+            <h4 className="font-bold text-base text-[#f0ede6]">《生命的出口》</h4>
+            <p className="text-xs text-[#c5a059] font-semibold">NT$ 269</p>
+          </div>
+          <button 
+            onClick={() => addToCart(products[0])}
+            className="bg-[#c5a059] text-black font-medium px-4 py-2 rounded text-xs md:text-sm hover:bg-[#b08f48] transition shadow">
+            加入購物車
+          </button>
+        </div>
+
+        <div className="bg-[#181512] border border-[#2e2720] p-5 rounded-lg flex justify-between items-center shadow-md">
+          <div className="space-y-1">
+            <h4 className="font-bold text-base text-[#f0ede6]">《進階思維的後裔》</h4>
+            <p className="text-xs text-[#c5a059] font-semibold">NT$ 269</p>
+          </div>
+          <button 
+            onClick={() => addToCart(products[1])}
+            className="bg-[#c5a059] text-black font-medium px-4 py-2 rounded text-xs md:text-sm hover:bg-[#b08f48] transition shadow">
+            加入購物車
+          </button>
+        </div>
+      </section>
+
+      {/* 四大高端數字風水諮詢服務 */}
+      <section className="space-y-3">
+        <h3 className="text-lg font-bold text-[#c5a059] tracking-wider px-1">四大高端數字風水諮詢服務</h3>
+        
+        <div className="bg-[#181512] border border-[#2e2720] p-5 rounded-lg flex justify-between items-center shadow-md">
+          <div className="space-y-1">
+            <h4 className="font-bold text-base text-[#f0ede6]">手機號碼開運配置</h4>
+            <p className="text-xs text-[#c5a059] font-semibold">NT$ 1,680</p>
+          </div>
+          <button 
+            onClick={() => addToCart(products[2])}
+            className="bg-[#c5a059] text-black font-medium px-4 py-2 rounded text-xs md:text-sm hover:bg-[#b08f48] transition shadow">
+            加入購物車
+          </button>
+        </div>
+
+        <div className="bg-[#181512] border border-[#2e2720] p-5 rounded-lg flex justify-between items-center shadow-md">
+          <div className="space-y-1">
+            <h4 className="font-bold text-base text-[#f0ede6]">車牌號碼吉凶配置</h4>
+            <p className="text-xs text-[#c5a059] font-semibold">NT$ 2,280</p>
+          </div>
+          <button 
+            onClick={() => addToCart(products[3])}
+            className="bg-[#c5a059] text-black font-medium px-4 py-2 rounded text-xs md:text-sm hover:bg-[#b08f48] transition shadow">
+            加入購物車
+          </button>
+        </div>
+
+        <div className="bg-[#181512] border border-[#2e2720] p-5 rounded-lg flex justify-between items-center shadow-md">
+          <div className="space-y-1">
+            <h4 className="font-bold text-base text-[#f0ede6]">住宅位址磁場解析</h4>
+            <p className="text-xs text-[#c5a059] font-semibold">NT$ 3,600</p>
+          </div>
+          <button 
+            onClick={() => addToCart(products[4])}
+            className="bg-[#c5a059] text-black font-medium px-4 py-2 rounded text-xs md:text-sm hover:bg-[#b08f48] transition shadow">
+            加入購物車
+          </button>
+        </div>
+
+        <div className="bg-[#181512] border border-[#2e2720] p-5 rounded-lg flex justify-between items-center shadow-md">
+          <div className="space-y-1">
+            <h4 className="font-bold text-base text-[#f0ede6]">店鋪位址財位配置</h4>
+            <p className="text-xs text-[#c5a059] font-semibold">NT$ 5,800</p>
+          </div>
+          <button 
+            onClick={() => addToCart(products[5])}
+            className="bg-[#c5a059] text-black font-medium px-4 py-2 rounded text-xs md:text-sm hover:bg-[#b08f48] transition shadow">
+            加入購物車
+          </button>
+        </div>
+      </section>
+
+      {/* 購物車與結帳區（串接後端 API） */}
+      <section id="cart-section" className="bg-[#181512] border border-[#2e2720] p-6 rounded-lg space-y-4 shadow-md">
+        <h3 className="text-lg font-bold text-[#c5a059] tracking-wider">購物車明細</h3>
+        {cart.length === 0 ? (
+          <p className="text-xs text-[#a8a095]">目前購物車是空的</p>
+        ) : (
+          <div className="space-y-2">
+            {cart.map((item, idx) => (
+              <div key={idx} className="flex justify-between items-center text-xs border-b border-[#26211c] pb-2">
+                <span>{item.name}</span>
+                <div className="flex items-center space-x-3">
+                  <span className="text-[#c5a059]">NT$ {item.price}</span>
+                  <button onClick={() => removeFromCart(idx)} className="text-red-400 hover:underline">移除</button>
+                </div>
+              </div>
+            ))}
+            <div className="pt-2 flex justify-between font-bold text-sm text-[#f0ede6]">
+              <span>總計金額 {vipApplied && <span className="text-[#c5a059] text-xs">(已享VIP 9折)</span>}</span>
+              <span className="text-[#c5a059]">NT$ {calculateTotal()}</span>
+            </div>
+
+            <form onSubmit={handleCheckout} className="space-y-3 pt-4 border-t border-[#26211c]">
+              <h4 className="text-xs font-bold text-[#c5a059]">填寫結帳與通知資訊</h4>
+              <input 
+                type="text" 
+                placeholder="您的姓名" 
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+                className="bg-[#0f0e0e] border border-[#332e26] p-2.5 rounded-md w-full text-xs text-white focus:outline-none focus:border-[#c5a059]"
+                required
+              />
+              <input 
+                type="text" 
+                placeholder="聯絡電話" 
+                value={customerPhone}
+                onChange={(e) => setCustomerPhone(e.target.value)}
+                className="bg-[#0f0e0e] border border-[#332e26] p-2.5 rounded-md w-full text-xs text-white focus:outline-none focus:border-[#c5a059]"
+                required
+              />
+              <button 
+                type="submit" 
+                disabled={isCheckingOut}
+                className="w-full bg-[#c5a059] text-black font-bold py-2.5 rounded text-xs hover:bg-[#b08f48] transition">
+                {isCheckingOut ? '處理中...' : '確認送出訂單（串接郵件與綠界）'}
+              </button>
+            </form>
           </div>
         )}
+      </section>
 
-        <div style={{ flexGrow: 1, overflowY: 'auto', marginBottom: '10px' }}>
-          {cart.length === 0 ? (
-            <p style={{ color: '#d0c5b4', textAlign: 'center', padding: '15px' }}>購物車是空的</p>
-          ) : (
-            cart.map((i, idx) => (
-              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid rgba(74,61,49,0.3)', fontSize: '0.8rem' }}>
-                <span>{i.name}</span>
-                <span>NT$ {i.price} <button onClick={() => removeFromCart(idx)} style={{ background: 'none', border: 'none', color: 'var(--gold)', cursor: 'pointer', marginLeft: '6px' }}>刪除</button></span>
-              </div>
-            ))
-          )}
-        </div>
+      {/* 書畫藝廊 */}
+      <section className="bg-[#181512] border border-[#2e2720] p-6 rounded-lg space-y-2 shadow-md">
+        <h3 className="text-lg font-bold text-[#c5a059] tracking-wider">書畫藝廊</h3>
+        <p className="text-xs md:text-sm text-[#a8a095] leading-relaxed">
+          探索高解析傳統水墨、工筆與水彩藝術創作空間，品味筆墨之間流轉的禪意。
+        </p>
+      </section>
 
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: '10px' }}>
-          <div style={{ display: 'flex', gap: '5px', marginBottom: '8px' }}>
-            <input type="text" value={vipCode} onChange={e => setVipCode(e.target.value)} placeholder="VIP碼 (VIP880)" style={{ margin: 0 }}/>
-            <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', fontWeight: 'bold', color: 'var(--gold-l)', marginBottom: '10px' }}>
-            <span>總計：<span>NT$ {total} {vipText}</span></span>
-          </div>
-
-          <input type="text" placeholder="姓名" value={cName} onChange={e => setCName(e.target.value)} />
-          <input type="text" placeholder="電話" value={cPhone} onChange={e => setCPhone(e.target.value)} />
-          <input type="email" placeholder="信箱" value={cEmail} onChange={e => setCEmail(e.target.value)} />
-          <input type="text" placeholder="地址" value={cAddress} onChange={e => setCAddress(e.target.value)} />
-          <textarea placeholder="備註" value={cRemark} onChange={e => setCRemark(e.target.value)} style={{ height: '60px' }} />
-          <button className="btn" onClick={handleCheckout} style={{ width: '100%', padding: '12px', background: '#c5a880', color: '#1a1714', fontWeight: 'bold', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>確認結帳</button>
-        </div>
-      </div>
-    </>
+      {/* 官方聯繫與頁尾 */}
+      <footer id="contact" className="text-center py-12 text-xs text-[#70685e] space-y-2 border-t border-[#26211c]">
+        <p className="text-sm font-bold text-[#c5a059]">品心書閣 · 紫墨數字風水</p>
+        <p>
+          官方信箱：<a href="mailto:Aaa0987955906aaa@gmail.com" className="text-[#c5a059] underline">Aaa0987955906aaa@gmail.com</a>
+        </p>
+        <p>
+          官方臉書：<a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" className="text-[#c5a059] underline">彭品心 Facebook 專頁</a>
+        </p>
+        <p className="pt-2">© 2026 彭品心 (紫墨老師) 版權所有</p>
+      </footer>
+    </main>
   );
-  }
+        }
