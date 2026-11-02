@@ -33,7 +33,7 @@ export async function POST(request) {
     const body = await request.json();
     const { itemName, totalAmount, customerName, customerPhone, customerEmail, shippingAddress } = body;
 
-    // 您的官方綠界正式帳號參數
+    // 您正確的官方綠界正式帳號參數
     const MerchantID = '3518432';
     const HashKey = 'mvDQgLp0Jb1yR940';
     const HashIV = 'bUZWJsz26zUGE1UP';
@@ -78,11 +78,32 @@ export async function POST(request) {
       CheckMacValue,
     };
 
-    // 正確回傳 JSON 讓前端順利接收並導向綠界
-    return NextResponse.json({
-      success: true,
-      gatewayUrl: 'https://payment.ecpay.com.tw/Cashier/AioCheckOut/V5',
-      params: ecpayParams,
+    // 直接組合成標準的自動提交 HTML 表單回傳給瀏覽器，強制跳轉綠界
+    const formInputs = Object.keys(ecpayParams)
+      .map(key => `<input type="hidden" name="${key}" value="${ecpayParams[key]}">`)
+      .join('');
+
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>正在導向綠界安全結帳...</title>
+        </head>
+        <body onload="document.getElementById('ecpayForm').submit();">
+          <form id="ecpayForm" action="https://payment.ecpay.com.tw/Cashier/AioCheckOut/V5" method="POST">
+            ${formInputs}
+          </form>
+          <div style="text-align: center; margin-top: 20vh; font-family: sans-serif; color: #333;">
+            <h2>正在安全連接綠界科技，請稍候...</h2>
+            <p>系統正在為您跳轉至刷卡頁面</p>
+          </div>
+        </body>
+      </html>
+    `;
+
+    return new NextResponse(html, {
+      headers: { 'Content-Type': 'text/html; charset=utf-8' },
     });
 
   } catch (error) {
