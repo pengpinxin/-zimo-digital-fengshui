@@ -66,7 +66,7 @@ export default function Home(){
     }
   };
 
-  // 🔗 完美對接後端綠界表單，自動導向金流頁面
+  // 🔗 完美對接後端綠界表單，自動導向金流頁面（已加入第三步動態表單跳轉與欄位對應）
   const handleCheckout = async () => {
     if(!cName || !cPhone || !cEmail || !cAddress){ 
       alert('請完整填寫收件與聯絡資訊'); 
@@ -80,10 +80,12 @@ export default function Home(){
     setIsCheckingOut(true);
     try {
       const orderData = {
-        name: cName,
-        phone: cPhone,
-        email: cEmail,
-        address: cAddress,
+        itemName: cart.map(i => i.name).join(', '),
+        totalAmount: total,
+        customerName: cName,
+        customerPhone: cPhone,
+        customerEmail: cEmail,
+        shippingAddress: cAddress,
         remark: cRemark,
         items: cart,
         total: total,
@@ -107,7 +109,26 @@ export default function Home(){
           }
         }
 
-        // 若後端回傳綠界 HTML 表單，則直接寫入並自動導向綠界刷卡頁面
+        // 🛠️ 第三步：自動建立隱藏表單並無縫跳轉至綠界正式刷卡頁面
+        if (result.gatewayUrl && result.params) {
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = result.gatewayUrl;
+
+          for (const key in result.params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = result.params[key];
+            form.appendChild(input);
+          }
+
+          document.body.appendChild(form);
+          form.submit();
+          return;
+        }
+
+        // 相容原本寫法若有 htmlForm
         if (result.htmlForm) {
           document.open();
           document.write(result.htmlForm);
@@ -121,7 +142,7 @@ export default function Home(){
         setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
         closeCart();
       } else {
-        alert('結帳送出發生異常：' + (result.message || '請確認後端設定'));
+        alert('結帳送出發生異常：' + (result.error || result.message || '請確認後端設定'));
       }
     } catch (error) {
       console.error('結帳連線錯誤:', error);
@@ -331,10 +352,10 @@ export default function Home(){
           <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
           <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
           <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
-            {isCheckingOut ? '正在處理訂單與郵件打包...' : '確認送出訂單'}
+            {isCheckingOut ? '正在處理訂單與綠界跳轉...' : '確認送出訂單'}
           </button>
         </div>
       </div>
     </div>
   );
-              }
+}
