@@ -66,7 +66,7 @@ export default function Home(){
     }
   };
 
-  // 🔗 完美對接您原本成功的 /api/ecpay 後端路由，處理郵件打包與綠界金流
+  // 🔗 完美對接後端綠界表單，自動導向金流頁面
   const handleCheckout = async () => {
     if(!cName || !cPhone || !cEmail || !cAddress){ 
       alert('請完整填寫收件與聯絡資訊'); 
@@ -107,13 +107,15 @@ export default function Home(){
           }
         }
 
-        // 若後端回傳綠界支付跳轉連結，則直接導向金流頁面
-        if (result.paymentUrl) {
-          window.location.href = result.paymentUrl;
+        // 若後端回傳綠界 HTML 表單，則直接寫入並自動導向綠界刷卡頁面
+        if (result.htmlForm) {
+          document.open();
+          document.write(result.htmlForm);
+          document.close();
           return;
         }
 
-        alert('感謝 ' + cName + ' 緣主！訂單已成功送出，打包通知信已順利發送至您的信箱。');
+        alert('感謝 ' + cName + ' 緣主！訂單已成功送出。');
         setCart([]);
         setIsVip(false);
         setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
@@ -232,10 +234,10 @@ export default function Home(){
             </ul>
           </div>
           <div className="grid">
-            <div className="s-card"><div><h4>手機號碼配置</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,680</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>選定生旺手機吉號。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('手機號碼配置',1680)}>加入</button></div>
-            <div className="s-card"><div><h4>車牌號碼配置</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,880</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>行車平安磁場加持。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('車牌號碼配置',1880)}>加入</button></div>
-            <div className="s-card"><div><h4>住址門牌選吉</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 3,680</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>住宅環境風水選吉。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('住址門牌選吉',3680)}>加入</button></div>
-            <div className="s-card"><div><h4>店鋪門牌選吉</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 5,680</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>商舖聚財客源廣進。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('店鋪門牌選吉',5680)}>加入</button></div>
+            <div className="s-card"><div><h4>手機號碼配置</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,680</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>選定生旺手機吉號。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('手機號碼配置',1680)}>加入購物車</button></div>
+            <div className="s-card"><div><h4>車牌號碼配置</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,880</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>行車平安磁場加持。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('車牌號碼配置',1880)}>加入購物車</button></div>
+            <div className="s-card"><div><h4>住址門牌選吉</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 3,680</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>住宅環境風水選吉。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('住址門牌選吉',3680)}>加入購物車</button></div>
+            <div className="s-card"><div><h4>店鋪門牌選吉</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 5,680</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>商舖聚財客源廣進。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('店鋪門牌選吉',5680)}>加入購物車</button></div>
           </div>
         </section>
 
@@ -335,4 +337,4 @@ export default function Home(){
       </div>
     </div>
   );
-}
+              }
