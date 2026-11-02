@@ -33,13 +33,13 @@ export async function POST(request) {
     const body = await request.json();
     const { itemName, totalAmount, customerName, customerPhone, customerEmail, shippingAddress } = body;
 
-    // 您正確的官方綠界正式帳號參數
+    // 1. 您的官方綠界正式帳號與密鑰（固定且正確）
     const MerchantID = '3518432';
     const HashKey = 'mvDQgLp0Jb1yR940';
     const HashIV = 'bUZWJsz26zUGE1UP';
     const baseUrl = 'https://pengpinxin.com';
 
-    // 產生標準綠界時間格式
+    // 2. 產生標準綠界時間格式
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -52,6 +52,7 @@ export async function POST(request) {
     const formattedDate = `${year}${month}${day}${hours}${minutes}${seconds}`;
     const MerchantTradeNo = 'PX' + formattedDate + Math.floor(100 + Math.random() * 900);
 
+    // 3. 設定綠界參數與地址夾帶（CustomField）
     const baseParams = {
       MerchantID: MerchantID,
       MerchantTradeNo: MerchantTradeNo,
@@ -64,7 +65,7 @@ export async function POST(request) {
       ClientBackURL: `${baseUrl}/order-success?orderno=${MerchantTradeNo}`,
       ChoosePayment: 'Credit',
       EncryptType: '1',
-      // 夾帶收件資訊，讓您與客人都能透過信件核對地址
+      // 透過自定義欄位夾帶收件資訊，免資料庫也能完整收地址
       CustomField1: customerName || '',
       CustomField2: customerPhone || '',
       CustomField3: shippingAddress || '',
@@ -78,6 +79,7 @@ export async function POST(request) {
       CheckMacValue,
     };
 
+    // 4. 回傳給前端進行綠界跳轉
     return NextResponse.json({
       success: true,
       gatewayUrl: 'https://payment.ecpay.com.tw/Cashier/AioCheckOut/V5',
