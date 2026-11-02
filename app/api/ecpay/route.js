@@ -54,9 +54,8 @@ export async function POST(request) {
 
     const itemNameStr = items.map((i, idx) => `ServiceItem${idx+1}`).join('#');
 
-    const host = request.headers.get('host') || 'pinxinmeixue.com';
-    const protocol = request.headers.get('x-forwarded-proto') || 'https';
-    const baseUrl = `${protocol}://${host}`;
+    // 強制對齊綠界後台已登記的官方網址
+    const baseUrl = 'https://pengpinxin.com';
 
     const baseParams = {
       MerchantID: merchantId,
