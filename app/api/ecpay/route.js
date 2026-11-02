@@ -1,25 +1,29 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 
+// 產生綠界檢查碼 (CheckMacValue)
 function generateCheckMacValue(params, hashKey, hashIV) {
-  const sortedKeys = Object.keys(params).sort();
-  let queryStr = `HashKey=${hashKey}`;
-  for (const key of sortedKeys) {
-    queryStr += `&${key}=${params[key]}`;
-  }
-  queryStr += `&HashIV=${hashIV}`;
+  const sortedParams = Object.keys(params)
+    .sort()
+    .reduce((acc, key) => {
+      acc[key] = params[key];
+      return acc;
+    }, {});
 
-  let encoded = encodeURIComponent(queryStr)
+  let queryStr = Object.keys(sortedParams)
+    .map((key) => `${key}=${sortedParams[key]}`)
+    .join('&');
+
+  queryStr = `HashKey=${hashKey}&${queryStr}&HashIV=${hashIV}`;
+  
+  const encoded = encodeURIComponent(queryStr)
     .toLowerCase()
     .replace(/%20/g, '+')
     .replace(/%21/g, '!')
     .replace(/%2a/g, '*')
     .replace(/%27/g, "'")
     .replace(/%28/g, '(')
-    .replace(/%29/g, ')')
-    .replace(/%2d/g, '-')
-    .replace(/%2e/g, '.')
-    .replace(/%5f/g, '_');
+    .replace(/%29/g, ')');
 
   return crypto.createHash('sha256').update(encoded).digest('hex').toUpperCase();
 }
@@ -27,81 +31,55 @@ function generateCheckMacValue(params, hashKey, hashIV) {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { items, total } = body;
+    const { itemName, totalAmount, customerName, customerPhone, customerEmail, shippingAddress, remark } = body;
 
-    if (!items || items.length === 0 || !total) {
-      return NextResponse.json({ success: false, message: '購物車是空的或金額有誤' }, { status: 400 });
-    }
-
-    const merchantId = process.env.ECPAY_MERCHANT_ID || '3518432';
-    const hashKey = process.env.ECPAY_HASH_KEY || '';
-    const hashIV = process.env.ECPAY_HASH_IV || '';
-
-    const merchantTradeNo = 'Z' + Date.now().toString().slice(-14);
-    
-    // 強制取得台灣時間 (UTC+8)
-    const now = new Date();
-    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const taiwanTime = new Date(utcTime + (3600000 * 8));
-    
-    const year = taiwanTime.getFullYear();
-    const month = String(taiwanTime.getMonth() + 1).padStart(2, '0');
-    const day = String(taiwanTime.getDate()).padStart(2, '0');
-    const hour = String(taiwanTime.getHours()).padStart(2, '0');
-    const minute = String(taiwanTime.getMinutes()).padStart(2, '0');
-    const second = String(taiwanTime.getSeconds()).padStart(2, '0');
-    const merchantTradeDate = `${year}/${month}/${day} ${hour}:${minute}:${second}`;
-
-    const itemNameStr = items.map((i, idx) => `ServiceItem${idx+1}`).join('#');
-
-    // 強制對齊綠界後台已登記的官方網址
+    // 綠界特店參數（請確保與您的綠界後台一致）
+    const MerchantID = '3002607'; 
+    const HashKey = '您的HashKey';
+    const HashIV = '您的HashIV';
     const baseUrl = 'https://pengpinxin.com';
 
+    // 產生唯一訂單編號 (以時間戳記為主)
+    const MerchantTradeDate = new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false }).replace(/\//g, '/');
+    const formattedDate = MerchantTradeDate.replace(/[- :]/g, '').slice(0, 14);
+    const MerchantTradeNo = 'PX' + formattedDate + Math.floor(1000 + Math.random() * 9000);
+
     const baseParams = {
-      MerchantID: merchantId,
-      MerchantTradeNo: merchantTradeNo,
-      MerchantTradeDate: merchantTradeDate,
+      MerchantID: MerchantID,
+      MerchantTradeNo: MerchantTradeNo,
+      MerchantTradeDate: formattedDate,
       PaymentType: 'aio',
-      TotalAmount: Math.round(total).toString(),
+      TotalAmount: String(totalAmount),
       TradeDesc: 'PinXinMeixueOrder',
-      ItemName: itemNameStr,
-      ReturnURL: `${baseUrl}/api/ecpay/callback`,
-      ClientBackURL: `${baseUrl}/`,
+      ItemName: itemName || '品心美學服務與書籍',
+      ReturnURL: `${baseUrl}/api/ecpay/callback`, // 幕後付款成功通知網址
+      ClientBackURL: `${baseUrl}/order-success?orderno=${MerchantTradeNo}`, // 付款後客人返回的網址
       ChoosePayment: 'Credit',
       EncryptType: '1',
+      // 將客人的收件資訊藏在綠界的自定義欄位中（解決無資料庫問題）
+      CustomField1: customerName || '',
+      CustomField2: customerPhone || '',
+      CustomField3: shippingAddress || '',
+      CustomField4: customerEmail || '',
     };
 
-    const checkMacValue = generateCheckMacValue(baseParams, hashKey, hashIV);
+    const CheckMacValue = generateCheckMacValue(baseParams, HashKey, HashIV);
 
-    const allParams = {
+    const ecpayParams = {
       ...baseParams,
-      CheckMacValue: checkMacValue,
+      CheckMacValue,
     };
 
+    // 導向綠界刷卡頁面的 URL (正式環境)
     const ecpayGatewayUrl = 'https://payment.ecpay.com.tw/Cashier/AioCheckOut/V5';
-
-    let formHtml = `<!DOCTYPE html>
-    <html>
-    <head><meta charset="utf-8"><title>正在導向綠界金流...</title></head>
-    <body>
-    <form id="ecpayForm" method="POST" action="${ecpayGatewayUrl}">`;
-    
-    for (const key in allParams) {
-      formHtml += `<input type="hidden" name="${key}" value="${allParams[key]}" />`;
-    }
-
-    formHtml += `</form>
-    <script>document.getElementById('ecpayForm').submit();</script>
-    </body>
-    </html>`;
 
     return NextResponse.json({
       success: true,
-      htmlForm: formHtml
+      gatewayUrl: ecpayGatewayUrl,
+      params: ecpayParams,
     });
-
   } catch (error) {
-    console.error('ECPay API Error:', error);
-    return NextResponse.json({ success: false, message: error.message }, { status: 500 });
+    console.error('ECPay Error:', error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
