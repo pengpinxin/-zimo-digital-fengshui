@@ -26,7 +26,7 @@ NT$ ${totalAmount || 0}
 · 備註說明：${remark || '無'}
     `.trim();
 
-    // 使用 Resend API 發送 Email 到您的指定信箱
+    // 使用 Resend API 發送 Email 到您的指定信箱（嚴格全小寫）
     const resendResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -35,7 +35,7 @@ NT$ ${totalAmount || 0}
       },
       body: JSON.stringify({
         from: 'Acme <onboarding@resend.dev>',
-        to: ['Aaa0987955906aaa@gmail.com'],
+        to: ['aaa0987955906aaa@gmail.com'],
         subject: `【新訂單通知】${tradeNo || '品心美學官網'}`,
         text: emailContent
       })
