@@ -11,6 +11,7 @@ export default function Home(){
   const [cEmail, setCEmail] = useState('');
   const [cAddress, setCAddress] = useState('');
   const [cRemark, setCRemark] = useState('');
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
@@ -65,21 +66,67 @@ export default function Home(){
     }
   };
 
-  const handleCheckout = () => {
-    if(!cName || !cPhone || !cEmail || !cAddress){ alert('請完整填寫收件與聯絡資訊'); return; }
-    if(cart.length === 0){ alert('購物車是空的'); return; }
-    const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
-    if(hasVipItem || isVip){
-      const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
-      if(!vipPhones.includes(cPhone)){
-        vipPhones.push(cPhone);
-        localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
-      }
+  // 🔗 完美對接您原本成功的 /api/ecpay 後端路由，處理郵件打包與綠界金流
+  const handleCheckout = async () => {
+    if(!cName || !cPhone || !cEmail || !cAddress){ 
+      alert('請完整填寫收件與聯絡資訊'); 
+      return; 
     }
-    alert('感謝 ' + cName + ' 緣主！訂單已送出。');
-    setCart([]);
-    setIsVip(false);
-    setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
+    if(cart.length === 0){ 
+      alert('購物車是空的'); 
+      return; 
+    }
+
+    setIsCheckingOut(true);
+    try {
+      const orderData = {
+        name: cName,
+        phone: cPhone,
+        email: cEmail,
+        address: cAddress,
+        remark: cRemark,
+        items: cart,
+        total: total,
+        isVip: isVip
+      };
+
+      const res = await fetch('/api/ecpay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        const hasVipItem = cart.some(item => item.name.includes('VIP 880'));
+        if(hasVipItem || isVip){
+          const vipPhones = JSON.parse(localStorage.getItem('z_vip_phones') || '[]');
+          if(!vipPhones.includes(cPhone)){
+            vipPhones.push(cPhone);
+            localStorage.setItem('z_vip_phones', JSON.stringify(vipPhones));
+          }
+        }
+
+        // 若後端回傳綠界支付跳轉連結，則直接導向金流頁面
+        if (result.paymentUrl) {
+          window.location.href = result.paymentUrl;
+          return;
+        }
+
+        alert('感謝 ' + cName + ' 緣主！訂單已成功送出，打包通知信已順利發送至您的信箱。');
+        setCart([]);
+        setIsVip(false);
+        setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
+        closeCart();
+      } else {
+        alert('結帳送出發生異常：' + (result.message || '請確認後端設定'));
+      }
+    } catch (error) {
+      console.error('結帳連線錯誤:', error);
+      alert('連線伺服器發生錯誤，請稍後再試');
+    } finally {
+      setIsCheckingOut(false);
+    }
   };
 
   const openCart = () => document.getElementById('cart')?.classList.add('open');
@@ -92,7 +139,7 @@ export default function Home(){
   const vipText = isVip ? ' (已享 VIP 9折)' : '';
 
   return (
-    <>
+    <div style={{minHeight:'100vh', background:'#1a1714', color:'#f3efe6'}}>
       <style jsx global>{`
         :root{--bg:#1a1714;--card:#24201c;--border:#4a3d31;--text:#f3efe6;--gold:#d4af37;--gold-l:#f3e5ab;}
         *{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;}
@@ -281,9 +328,11 @@ export default function Home(){
           <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
           <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
           <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
-          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout}>確認送出訂單</button>
+          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
+            {isCheckingOut ? '正在處理訂單與郵件打包...' : '確認送出訂單'}
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
