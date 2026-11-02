@@ -33,7 +33,7 @@ export async function POST(request) {
     const body = await request.json();
     const { itemName, totalAmount, customerName, customerPhone, customerEmail, shippingAddress } = body;
 
-    // 您的官方綠界正式帳號參數（精準對接）
+    // 您正確的官方綠界正式帳號參數
     const MerchantID = '3518432';
     const HashKey = 'mvDQgLp0Jb1yR940';
     const HashIV = 'bUZWJsz26zUGE1UP';
@@ -64,7 +64,7 @@ export async function POST(request) {
       ClientBackURL: `${baseUrl}/order-success?orderno=${MerchantTradeNo}`,
       ChoosePayment: 'Credit',
       EncryptType: '1',
-      // 完美夾帶收件資訊，免資料庫自動收地址
+      // 夾帶收件資訊，讓您與客人都能透過信件核對地址
       CustomField1: customerName || '',
       CustomField2: customerPhone || '',
       CustomField3: shippingAddress || '',
@@ -78,7 +78,6 @@ export async function POST(request) {
       CheckMacValue,
     };
 
-    // 正確回傳 JSON 讓前端接收並執行跳轉
     return NextResponse.json({
       success: true,
       gatewayUrl: 'https://payment.ecpay.com.tw/Cashier/AioCheckOut/V5',
