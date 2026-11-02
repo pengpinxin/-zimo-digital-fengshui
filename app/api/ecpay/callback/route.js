@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer';
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'Aaa0987955906aaa@gmail.com',
+    user: 'aaa0987955906aaa@gmail.com',
     pass: '您的Gmail應用程式密碼', 
   },
 });
@@ -27,8 +27,8 @@ export async function POST(request) {
 
       // 1. 寄信通知老闆（您）準備出貨，清楚標註收件地址
       const bossMailOptions = {
-        from: '"品心書閣系統" <Aaa0987955906aaa@gmail.com>',
-        to: 'Aaa0987955906aaa@gmail.com',
+        from: '"品心書閣系統" <aaa0987955906aaa@gmail.com>',
+        to: 'aaa0987955906aaa@gmail.com',
         subject: `【新訂單成立】請安排出貨 - 訂單編號：${merchantTradeNo}`,
         html: `
           <h2>🎉 恭喜老師！網站進新訂單囉！</h2>
@@ -48,7 +48,7 @@ export async function POST(request) {
 
       // 2. 寄信通知客人「訂購與付款成功」
       const customerMailOptions = {
-        from: '"品心美學 · 品心書閣" <Aaa0987955906aaa@gmail.com>',
+        from: '"品心美學 · 品心書閣" <aaa0987955906aaa@gmail.com>',
         to: customerEmail,
         subject: `【品心美學】您的訂單已付款成功（訂單編號：${merchantTradeNo}）`,
         html: `
