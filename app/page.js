@@ -66,7 +66,7 @@ export default function Home(){
     }
   };
 
-  // 🔗 完美對接 /api/ecpay 後端路由，自動導向綠界金流頁面
+  // 🔗 完美對接後端綠界表單，自動導向金流頁面
   const handleCheckout = async () => {
     if(!cName || !cPhone || !cEmail || !cAddress){ 
       alert('請完整填寫收件與聯絡資訊'); 
@@ -107,13 +107,15 @@ export default function Home(){
           }
         }
 
-        // 若後端回傳綠界支付跳轉連結，則直接導向金流頁面
-        if (result.paymentUrl) {
-          window.location.href = result.paymentUrl;
+        // 若後端回傳綠界 HTML 表單，則直接寫入並自動導向綠界刷卡頁面
+        if (result.htmlForm) {
+          document.open();
+          document.write(result.htmlForm);
+          document.close();
           return;
         }
 
-        alert('感謝 ' + cName + ' 緣主！訂單已成功送出，打包通知信已順利發送至您的信箱。');
+        alert('感謝 ' + cName + ' 緣主！訂單已成功送出。');
         setCart([]);
         setIsVip(false);
         setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
@@ -335,4 +337,4 @@ export default function Home(){
       </div>
     </div>
   );
-}
+              }
