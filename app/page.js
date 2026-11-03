@@ -271,7 +271,7 @@ export default function Home(){
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>服務老師：</strong>彭品心 (紫墨老師)</p>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>預約電話：</strong>0987-955-906</p>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>官方 LINE ID：</strong>0987955906</p>
-            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
+            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>電子信箱：</strong>aaa0987955906aaa@gmail.com</p>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline'}}>https://www.facebook.com/pengpinxin/</a></p>
             <p style={{fontSize:'0.8rem',margin:'8px 0 0 0',borderTop:'1px dashed var(--border)',paddingTop:'8px'}}><strong>工作時間：</strong>早上 10 點至晚上 10 點</p>
           </div>
