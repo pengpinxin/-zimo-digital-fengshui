@@ -262,20 +262,24 @@ export default function Home(){
           </div>
         </section>
 
-        {/* 📞 聯絡方式區塊（已移至畫作區上方） */}
-        <section id="contact" style={{ padding: '30px 20px', background: '#141414', color: '#e5e5e5', borderTop: '1px solid #333' }}>
-          <p style={{ margin: '8px 0', color: '#d4af37' }}><strong>主題：</strong>生命值得更好地待遇</p>
-          <p style={{ margin: '8px 0', color: '#d4af37' }}><strong>官方 LINE ID：</strong>0987955906</p>
-          <h3 style={{ color: '#d4af37', marginBottom: '15px' }}>📞 聯絡方式與預約專線</h3>
-          <p style={{ margin: '8px 0' }}><strong>服務老師：</strong>彭品心 (紫墨老師)</p>
-          <p style={{ margin: '8px 0' }}><strong>預約電話：</strong>0987-955-906 (服務時間：早上 10 點至晚上 10 點)</p>
-          <p style={{ margin: '8px 0' }}><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
-          <p style={{ margin: '8px 0' }}><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{ color: '#d4af37', textDecoration: 'none' }}>https://www.facebook.com/pengpinxin/</a></p>
+        {/* 📞 聯絡方式區塊（主次分明，與紫墨數字風水排版一致） */}
+        <section id="contact">
+          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>生命值得更好地待遇</h3>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'10px',paddingLeft:'4px'}}>官方私域引流與專屬預約管道</p>
+          <div className="notice-box" style={{marginTop:'0', marginBottom:'12px'}}>
+            <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>📞 聯絡方式與預約專線</h4>
+            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>服務老師：</strong>彭品心 (紫墨老師)</p>
+            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>預約電話：</strong>0987-955-906</p>
+            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>官方 LINE ID：</strong>0987955906</p>
+            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
+            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline'}}>https://www.facebook.com/pengpinxin/</a></p>
+            <p style={{fontSize:'0.8rem',margin:'8px 0 0 0',borderTop:'1px dashed var(--border)',paddingTop:'8px'}}><strong>工作時間：</strong>早上 10 點至晚上 10 點</p>
+          </div>
         </section>
 
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創藝術畫作 (NT$ 680)</h3>
-          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水、竹林、梅花等心靈藝術藏品（已自動從雲端同步全部畫作）。</p>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水,竹林,梅花等心靈藝術藏品（已自動從雲端同步全部畫作）。</p>
           
           <div className="grid">
             {artworks.length===0?(<p style={{color:'#d0c5b4',gridColumn:'span 2',textAlign:'center',padding:'15px'}}>目前尚無畫作</p>):(
