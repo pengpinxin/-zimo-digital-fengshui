@@ -12,6 +12,7 @@ export default function Home(){
   const [cAddress, setCAddress] = useState('');
   const [cRemark, setCRemark] = useState('');
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [activeImage, setActiveImage] = useState(null); // 🔍 點擊放大預覽的圖片狀態
 
   // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
@@ -66,7 +67,7 @@ export default function Home(){
     }
   };
 
-  // 🔗 完美對接後端綠界表單，自動導向金流頁面（已加入第三步動態表單跳轉與欄位對應）
+  // 🔗 完美對接後端綠界表單，自動導向金流頁面
   const handleCheckout = async () => {
     if(!cName || !cPhone || !cEmail || !cAddress){ 
       alert('請完整填寫收件與聯絡資訊'); 
@@ -109,7 +110,6 @@ export default function Home(){
           }
         }
 
-        // 🛠️ 第三步：自動建立隱藏表單並無縫跳轉至綠界正式刷卡頁面
         if (result.gatewayUrl && result.params) {
           const form = document.createElement('form');
           form.method = 'POST';
@@ -128,7 +128,6 @@ export default function Home(){
           return;
         }
 
-        // 相容原本寫法若有 htmlForm
         if (result.htmlForm) {
           document.open();
           document.write(result.htmlForm);
@@ -162,11 +161,12 @@ export default function Home(){
   const vipText = isVip ? ' (已享 VIP 9折)' : '';
 
   return (
-    <div style={{minHeight:'100vh', background:'#1a1714', color:'#f3efe6'}}>
+    <div style={{minHeight:'100vh', background:'#1a1714', color:'#f3efe6'}} onContextMenu={(e) => e.preventDefault()}>
       <style jsx global>{`
         :root{--bg:#1a1714;--card:#24201c;--border:#4a3d31;--text:#f3efe6;--gold:#d4af37;--gold-l:#f3e5ab;}
         *{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;}
-        body{background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:60px;}
+        body{background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:60px; -webkit-touch-callout: none;}
+        img { -webkit-user-drag: none; user-select: none; pointer-events: auto; }
         header{background:rgba(26,23,20,0.95);border-bottom:1px solid var(--border);padding:10px 15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;}
         .btn{background:linear-gradient(135deg,#d4af37,#aa8c2c);color:#1a1714;border:none;padding:6px 12px;border-radius:14px;font-size:0.75rem;font-weight:bold;cursor:pointer;}
         .btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold-l);}
@@ -182,6 +182,11 @@ export default function Home(){
         .notice-box h4{color:var(--gold-l);margin-bottom:8px;font-size:0.9rem;}
         .notice-box ul{padding-left:18px;}
         .notice-box li{margin-bottom:6px;}
+        /* 🔍 燈箱預覽樣式 */
+        .lightbox-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+        .lightbox-content { position: relative; max-width: 90%; max-height: 90%; text-align: center; }
+        .lightbox-content img { width: 100%; height: auto; max-height: 80vh; object-fit: contain; border-radius: 8px; border: 1px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .lightbox-close { position: absolute; top: -45px; right: 0; background: var(--card); border: 1px solid var(--gold); color: var(--gold-l); padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; }
       `}</style>
 
       <header>
@@ -216,7 +221,7 @@ export default function Home(){
 
       <div className="wrap">
         <div style={{width:'100%',borderRadius:'8px',overflow:'hidden',border:'1px solid var(--border)',marginBottom:'15px'}}>
-          <img src="/1792354723564.png" style={{width:'100%',display:'block'}} alt="b"/>
+          <img src="/1792354723564.png" style={{width:'100%',display:'block'}} alt="b" onContextMenu={(e)=>e.preventDefault()} onDragStart={(e)=>e.preventDefault()} />
         </div>
         
         <div id="vip" style={{background:'rgba(212,175,55,0.08)',border:'1px solid var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'20px'}}>
@@ -238,8 +243,14 @@ export default function Home(){
         <section id="books">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>學術文學著作</h3>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師深具靈性與學術深度的經典力作，引領讀者開啟高維度思維與生命轉折。</p>
-          <div className="card"><img src="/1792440195898.jpg" alt="b1"/><div><h4>生命的出口</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div><p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>心靈轉折與生命出口經典力作。</p><button className="btn btn-o" style={{marginTop:'6px'}} onClick={()=>addToCart('生命的出口',269)}>加入購物車</button></div></div>
-          <div className="card"><img src="/1792450518058.jpg" alt="b2"/><div><h4>進階思維的後裔</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div><p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p><button className="btn btn-o" style={{marginTop:'6px'}} onClick={()=>addToCart('進階思維的後裔',269)}>加入購物車</button></div></div>
+          <div className="card">
+            <img src="/1792440195898.jpg" alt="b1" onClick={()=>setActiveImage('/1792440195898.jpg')} style={{cursor:'pointer'}} onContextMenu={(e)=>e.preventDefault()} onDragStart={(e)=>e.preventDefault()} />
+            <div><h4>生命的出口</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div><p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>心靈轉折與生命出口經典力作。</p><button className="btn btn-o" style={{marginTop:'6px'}} onClick={()=>addToCart('生命的出口',269)}>加入購物車</button></div>
+          </div>
+          <div className="card">
+            <img src="/1792450518058.jpg" alt="b2" onClick={()=>setActiveImage('/1792450518058.jpg')} style={{cursor:'pointer'}} onContextMenu={(e)=>e.preventDefault()} onDragStart={(e)=>e.preventDefault()} />
+            <div><h4>進階思維的後裔</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div><p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p><button className="btn btn-o" style={{marginTop:'6px'}} onClick={()=>addToCart('進階思維的後裔',269)}>加入購物車</button></div>
+          </div>
         </section>
 
         <section id="services">
@@ -262,7 +273,7 @@ export default function Home(){
           </div>
         </section>
 
-        {/* 📞 聯絡方式區塊（主次分明，與紫墨數字風水排版一致） */}
+        {/* 📞 聯絡方式區塊 */}
         <section id="contact">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>生命值得更好地待遇</h3>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'10px',paddingLeft:'4px'}}>官方私域引流與專屬預約管道</p>
@@ -279,7 +290,7 @@ export default function Home(){
 
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創藝術畫作 (NT$ 680)</h3>
-          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水,竹林,梅花等心靈藝術藏品（已自動從雲端同步全部畫作）。</p>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水、竹林、梅花等心靈藝術藏品（已自動從雲端同步全部畫作）。</p>
           
           <div className="grid">
             {artworks.length===0?(<p style={{color:'#d0c5b4',gridColumn:'span 2',textAlign:'center',padding:'15px'}}>目前尚無畫作</p>):(
@@ -287,7 +298,15 @@ export default function Home(){
                 <div className="s-card" key={idx}>
                   <div>
                     <div style={{position:'relative',marginBottom:'6px'}}>
-                      <img src={item.url} style={{width:'100%',height:'110px',objectFit:'cover',borderRadius:'6px'}} alt="art"/>
+                      {/* 🔍 點擊圖片觸發放大預覽，並加上防右鍵與防拖曳 */}
+                      <img 
+                        src={item.url} 
+                        style={{width:'100%',height:'110px',objectFit:'cover',borderRadius:'6px',cursor:'pointer'}} 
+                        alt="art" 
+                        onClick={()=>setActiveImage(item.url)}
+                        onContextMenu={(e)=>e.preventDefault()} 
+                        onDragStart={(e)=>e.preventDefault()} 
+                      />
                       <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>{item.wm}</span>
                     </div>
                     <h4 style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>{item.name}</h4>
@@ -317,6 +336,21 @@ export default function Home(){
           <p>官方網站與粉專：<a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline',marginLeft:'4px'}}>https://www.facebook.com/pengpinxin/</a></p>
         </footer>
       </div>
+
+      {/* 🔍 燈箱放大預覽彈跳視窗 */}
+      {activeImage && (
+        <div className="lightbox-overlay" onClick={()=>setActiveImage(null)}>
+          <div className="lightbox-content" onClick={(e)=>e.stopPropagation()}>
+            <button className="lightbox-close" onClick={()=>setActiveImage(null)}>✕ 關閉</button>
+            <img 
+              src={activeImage} 
+              alt="放大預覽" 
+              onContextMenu={(e)=>e.preventDefault()} 
+              onDragStart={(e)=>e.preventDefault()} 
+            />
+          </div>
+        </div>
+      )}
 
       <div className="drawer" id="cart">
         <div style={{display:'flex',justifyContent:'space-between',marginBottom:'12px',borderBottom:'1px solid var(--border)',paddingBottom:'8px'}}>
