@@ -128,7 +128,7 @@ export default function Home(){
           return;
         }
 
-        // 相容原本寫法若有無 htmlForm
+        // 相容原本寫法若有 htmlForm
         if (result.htmlForm) {
           document.open();
           document.write(result.htmlForm);
@@ -262,17 +262,15 @@ export default function Home(){
           </div>
         </section>
 
-        {/* 📞 聯絡方式已移至畫作區上方 */}
-        <section id="contact" style={{ padding: '25px 20px', background: '#24201c', color: '#f3efe6', border: '1px solid #4a3d31', borderRadius: '8px', margin: '20px 0' }}>
-          <h3 style={{ color: '#f3e5ab', marginBottom: '15px' }}>📞 聯絡方式與預約專線</h3>
+        {/* 📞 聯絡方式區塊（已移至畫作區上方） */}
+        <section id="contact" style={{ padding: '30px 20px', background: '#141414', color: '#e5e5e5', borderTop: '1px solid #333' }}>
+          <p style={{ margin: '8px 0', color: '#d4af37' }}><strong>主題：</strong>生命值得更好地待遇</p>
+          <p style={{ margin: '8px 0', color: '#d4af37' }}><strong>官方 LINE ID：</strong>0987955906</p>
+          <h3 style={{ color: '#d4af37', marginBottom: '15px' }}>📞 聯絡方式與預約專線</h3>
           <p style={{ margin: '8px 0' }}><strong>服務老師：</strong>彭品心 (紫墨老師)</p>
           <p style={{ margin: '8px 0' }}><strong>預約電話：</strong>0987-955-906 (服務時間：早上 10 點至晚上 10 點)</p>
-          <p style={{ margin: '8px 0' }}><strong>官方 LINE ID：</strong>0987955906</p>
           <p style={{ margin: '8px 0' }}><strong>電子信箱：</strong>Aaa0987955906aaa@gmail.com</p>
-          <p style={{ margin: '8px 0' }}><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{ color: '#f3e5ab', textDecoration: 'none' }}>https://www.facebook.com/pengpinxin/</a></p>
-          <div style={{ marginTop: '15px', padding: '12px', background: 'rgba(212, 175, 55, 0.1)', borderLeft: '3px solid #d4af37', borderRadius: '4px', fontSize: '0.9em', lineHeight: '1.6' }}>
-            ✨ <strong>溫馨提示（生命值得更好地待遇）：</strong>每一個相遇都是善緣的開啟。若您在數字風水、八字或生活格局上有任何疑慮與渴望改變的契機，誠摯邀請您加 LINE 或來電諮詢，讓專業與靈慧陪伴您走向更豐盛圓滿的人生。
-          </div>
+          <p style={{ margin: '8px 0' }}><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{ color: '#d4af37', textDecoration: 'none' }}>https://www.facebook.com/pengpinxin/</a></p>
         </section>
 
         <section id="art">
