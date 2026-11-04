@@ -1,61 +1,72 @@
-import React from 'react';
 import Link from 'next/link';
 
-export default function PhonePage() {
+export default function ServicePage() {
   return (
-    <main className="min-h-screen bg-[#1A110B] text-[#F3EFEA] px-6 py-12 md:py-20">
-      <div className="max-w-3xl mx-auto space-y-8">
-        
-        {/* 返回首頁導覽 */}
-        <div className="text-sm">
-          <Link href="/" className="text-[#C59B27] hover:underline flex items-center gap-2">
-            ← 返回紫墨數字風水首頁
+    <main className="min-h-screen bg-[#1A110B] text-[#E6D5C3] px-6 py-12 flex flex-col items-center">
+      {/* 頂部導覽列 / 返回預約按鈕 */}
+      <div className="w-full max-w-3xl flex justify-between items-center mb-10 border-b border-[#C59B27]/30 pb-4">
+        <Link 
+          href="/" 
+          className="text-sm tracking-widest text-[#C59B27] hover:text-[#f3d06b] transition-colors flex items-center gap-2"
+        >
+          ← 返回首頁
+        </Link>
+        <Link 
+          href="/#booking" 
+          className="px-4 py-2 bg-[#C59B27] text-[#1A110B] font-medium text-sm rounded tracking-wider hover:bg-[#e2b13c] transition-all shadow-md"
+        >
+          立即預約諮詢
+        </Link>
+      </div>
+
+      {/* 核心內容區塊 */}
+      <div className="w-full max-w-3xl bg-[#241810] border border-[#C59B27]/40 rounded-lg p-8 md:p-12 shadow-2xl relative overflow-hidden">
+        {/* 裝飾性金邊光暈 */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-[#C59B27]/5 rounded-full blur-2xl pointer-events-none"></div>
+
+        {/* 頁面標題 */}
+        <div className="text-center mb-8">
+          <span className="text-xs uppercase tracking-widest text-[#C59B27] block mb-2">Zi Mo Feng Shui · Professional Service</span>
+          <h1 className="text-3xl md:text-4xl font-serif text-[#F5E6CC] tracking-wide mb-4">
+            【請填入該頁面專屬主標題】
+          </h1>
+          <div className="w-16 h-[2px] bg-[#C59B27] mx-auto"></div>
+        </div>
+
+        {/* 內文排版 */}
+        <div className="space-y-6 text-base md:text-lg leading-relaxed text-[#D4C3B3] font-light mb-10">
+          <p>
+            這段放置專業、嚴謹的服務介紹或著作核心理念。拒絕流水線式的泛用解答，由紫墨老師親自為您解析深層磁場與人生格局。
+          </p>
+          <div className="bg-[#1A110B] border-l-2 border-[#C59B27] p-4 text-sm text-[#C59B27]">
+            💡 <strong>核心優勢：</strong> 承襲家祖爺爺測字絕學，精準過濾凶煞，為您配置專屬生旺磁場。
+          </div>
+          <p>
+            透過科學與傳統命理的交融，為您的生活與事業尋找安頓身心的完美歸宿。
+          </p>
+        </div>
+
+        {/* 底部強效轉換按鈕群 */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6 border-t border-[#C59B27]/20">
+          <Link 
+            href="/#booking"
+            className="w-full sm:w-auto text-center px-8 py-3 bg-[#C59B27] text-[#1A110B] font-medium tracking-wider rounded hover:bg-[#e2b13c] transition-all shadow-lg"
+          >
+            預約專屬數字解析
+          </Link>
+          <Link 
+            href="/"
+            className="w-full sm:w-auto text-center px-8 py-3 border border-[#C59B27]/50 text-[#C59B27] tracking-wider rounded hover:bg-[#C59B27]/10 transition-all"
+          >
+            返回官方首頁
           </Link>
         </div>
-
-        {/* 標題區 */}
-        <header className="border-b border-[#C59B27]/40 pb-6 space-y-3">
-          <span className="text-xs uppercase tracking-widest text-[#C59B27] font-semibold">
-            Zi Mo Digital Feng Shui · 核心服務
-          </span>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
-            手機號碼配置與磁場解析
-          </h1>
-          <p className="text-gray-300 leading-relaxed text-sm md:text-base">
-            號碼隨身攜帶，其所產生的數字磁場無形中影響著您的事業判斷與財運流向。透過家傳精準數字風水，為您過濾凶煞、配置專屬吉號。
-          </p>
-        </header>
-
-        {/* 核心內容區 */}
-        <section className="space-y-6 text-gray-300 leading-relaxed text-sm md:text-base">
-          <h2 className="text-xl font-semibold text-[#C59B27]">為什麼需要專業的手機號碼配置？</h2>
-          <p>
-            市面上常見的吉凶盲點往往只看末幾碼或諧音，忽略了整體號碼組合在八字大運中的磁場互動。紫墨老師結合十年深厚家傳學術底蘊，為您精準拆解號碼結構：
-          </p>
-          <ul className="list-disc pl-5 space-y-2 text-gray-300">
-            <li><strong>避開破財與孤立磁場</strong>：找出隱藏在號碼中的無形漏財點。</li>
-            <li><strong>強化貴人與事業磁場</strong>：對應您的本命八字，選出最具助力的高頻號碼。</li>
-            <li><strong>量身訂製</strong>：根據您的現況與未來兩年大運需求進行全方位配置。</li>
-          </ul>
-        </section>
-
-        {/* 預約與行動呼籲區 */}
-        <div className="border border-[#C59B27]/60 bg-[#1A110B]/80 p-8 rounded-lg text-center space-y-4">
-          <h3 className="text-xl font-semibold text-[#F3EFEA]">準備好為您的號碼迎來好磁場了嗎？</h3>
-          <p className="text-sm text-gray-400">
-            名額有限，採預約制精準親批，拒絕流水線式的泛用解答。
-          </p>
-          <div>
-            <Link 
-              href="/contact" 
-              className="inline-block bg-[#C59B27] text-[#1A110B] font-bold px-8 py-3 rounded tracking-wider hover:bg-[#d4a72c] transition-colors"
-            >
-              立即預約專屬配置
-            </Link>
-          </div>
-        </div>
-
       </div>
+
+      {/* 頁尾版權 */}
+      <footer className="mt-16 text-xs text-[#8C7A6B] tracking-widest text-center">
+        © 2026 紫墨數字風水 · 彭品心 All Rights Reserved.
+      </footer>
     </main>
   );
 }
