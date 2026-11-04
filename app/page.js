@@ -392,6 +392,35 @@ export default function Home(){
           <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
             {isCheckingOut ? '正在處理訂單與綠界跳轉...' : '確認送出訂單'}
           </button>
+
+          {/* 📤 新增：獨立的分享與複製連結按鈕（位於結帳按鈕下方） */}
+          <div style={{display:'flex',gap:'8px',marginTop:'10px'}}>
+            <button 
+              className="btn btn-o" 
+              style={{flex:1,fontSize:'0.75rem',padding:'8px',cursor:'pointer'}} 
+              onClick={() => {
+                if (navigator.share) {
+                  navigator.share({ title: document.title, url: window.location.href }).catch(() => {});
+                } else {
+                  navigator.clipboard.writeText(window.location.href);
+                  alert('網址已複製到剪貼簿！');
+                }
+              }}
+            >
+              📤 分享本頁
+            </button>
+            <button 
+              className="btn btn-o" 
+              style={{flex:1,fontSize:'0.75rem',padding:'8px',cursor:'pointer'}} 
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                alert('網址已成功複製！');
+              }}
+            >
+              🔗 複製連結
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
