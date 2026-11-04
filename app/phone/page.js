@@ -28,11 +28,8 @@ export default function CarFengShuiPage() {
       {/* 核心質感燙金卡片 */}
       <div style={{ width: '100%', maxWidth: '700px', backgroundColor: '#241810', border: '1px solid #C59B27', borderRadius: '12px', padding: '32px 24px', boxShadow: '0 10px 25px rgba(0,0,0,0.5)', boxSizing: 'border-box' }}>
         
-        {/* 標題區 */}
+        {/* 標題區（已移除多餘英文字） */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '3px', color: '#C59B27', display: 'block', marginBottom: '8px' }}>
-            Zi Mo Feng Shui · 車牌號碼專屬解析
-          </span>
           <h1 style={{ fontSize: '26px', color: '#F5E6CC', letterSpacing: '1px', margin: '0 0 16px 0', lineHeight: '1.4' }}>
             車牌號碼吉凶與行車平安開運配置
           </h1>
@@ -91,4 +88,4 @@ export default function CarFengShuiPage() {
       </footer>
     </div>
   );
-          }
+}
