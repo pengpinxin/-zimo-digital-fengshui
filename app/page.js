@@ -243,13 +243,39 @@ export default function Home(){
         <section id="books">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>學術文學著作</h3>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師深具靈性與學術深度的經典力作，引領讀者開啟高維度思維與生命轉折。</p>
+          
           <div className="card">
             <img src="/1792440195898.jpg" alt="b1" onClick={()=>setActiveImage('/1792440195898.jpg')} style={{cursor:'pointer'}} onContextMenu={(e)=>e.preventDefault()} onDragStart={(e)=>e.preventDefault()} />
-            <div><h4>生命的出口</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div><p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>心靈轉折與生命出口經典力作。</p><button className="btn btn-o" style={{marginTop:'6px'}} onClick={()=>addToCart('生命的出口',269)}>加入購物車</button></div>
+            <div style={{flex:1}}>
+              <h4>生命的出口</h4>
+              <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div>
+              <p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>心靈轉折與生命出口經典力作。</p>
+              <div style={{display:'flex',gap:'6px',marginTop:'8px',flexWrap:'wrap'}}>
+                <button className="btn btn-o" onClick={()=>addToCart('生命的出口',269)}>加入購物車</button>
+                <button className="btn btn-o" style={{fontSize:'0.7rem',padding:'6px 8px'}} onClick={()=>{
+                  const url = window.location.origin + '/exit';
+                  navigator.clipboard.writeText(url);
+                  alert('已複製《生命的出口》專屬分頁連結！');
+                }}>🔗 複製專屬連結</button>
+              </div>
+            </div>
           </div>
+
           <div className="card">
             <img src="/1792450518058.jpg" alt="b2" onClick={()=>setActiveImage('/1792450518058.jpg')} style={{cursor:'pointer'}} onContextMenu={(e)=>e.preventDefault()} onDragStart={(e)=>e.preventDefault()} />
-            <div><h4>進階思維的後裔</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div><p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p><button className="btn btn-o" style={{marginTop:'6px'}} onClick={()=>addToCart('進階思維的後裔',269)}>加入購物車</button></div>
+            <div style={{flex:1}}>
+              <h4>進階思維的後裔</h4>
+              <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div>
+              <p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p>
+              <div style={{display:'flex',gap:'6px',marginTop:'8px',flexWrap:'wrap'}}>
+                <button className="btn btn-o" onClick={()=>addToCart('進階思維的後裔',269)}>加入購物車</button>
+                <button className="btn btn-o" style={{fontSize:'0.7rem',padding:'6px 8px'}} onClick={()=>{
+                  const url = window.location.origin + '/descendant';
+                  navigator.clipboard.writeText(url);
+                  alert('已複製《進階思維的後裔》專屬分頁連結！');
+                }}>🔗 複製專屬連結</button>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -265,11 +291,71 @@ export default function Home(){
               <li><strong>4. 理性參考：</strong>所有風水磁場與號碼配置旨在輔助提升運勢與心境，個人努力與正念亦為成就之本。</li>
             </ul>
           </div>
+          
           <div className="grid">
-            <div className="s-card"><div><h4>手機號碼配置</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,680</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>選定生旺手機吉號。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('手機號碼配置',1680)}>加入購物車</button></div>
-            <div className="s-card"><div><h4>車牌號碼配置</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,880</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>行車平安磁場加持。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('車牌號碼配置',1880)}>加入購物車</button></div>
-            <div className="s-card"><div><h4>住址門牌選吉</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 3,680</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>住宅環境風水選吉。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('住址門牌選吉',3680)}>加入購物車</button></div>
-            <div className="s-card"><div><h4>店鋪門牌選吉</h4><div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 5,680</div><p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>商舖聚財客源廣進。</p></div><button className="btn btn-o" style={{marginTop:'10px'}} onClick={()=>addToCart('店鋪門牌選吉',5680)}>加入購物車</button></div>
+            <div className="s-card">
+              <div>
+                <h4>手機號碼配置</h4>
+                <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,680</div>
+                <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>選定生旺手機吉號。</p>
+              </div>
+              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
+                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('手機號碼配置',1680)}>加入購物車</button>
+                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+                  const url = window.location.origin + '/phone';
+                  navigator.clipboard.writeText(url);
+                  alert('已複製「手機號碼配置」專屬分頁連結！');
+                }}>🔗 複製專屬連結</button>
+              </div>
+            </div>
+
+            <div className="s-card">
+              <div>
+                <h4>車牌號碼配置</h4>
+                <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,880</div>
+                <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>行車平安磁場加持。</p>
+              </div>
+              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
+                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('車牌號碼配置',1880)}>加入購物車</button>
+                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+                  const url = window.location.origin + '/car';
+                  navigator.clipboard.writeText(url);
+                  alert('已複製「車牌號碼配置」專屬分頁連結！');
+                }}>🔗 複製專屬連結</button>
+              </div>
+            </div>
+
+            <div className="s-card">
+              <div>
+                <h4>住址門牌選吉</h4>
+                <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 3,680</div>
+                <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>住宅環境風水選吉。</p>
+              </div>
+              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
+                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('住址門牌選吉',3680)}>加入購物車</button>
+                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+                  const url = window.location.origin + '/address';
+                  navigator.clipboard.writeText(url);
+                  alert('已複製「住址門牌選吉」專屬分頁連結！');
+                }}>🔗 複製專屬連結</button>
+              </div>
+            </div>
+
+            <div className="s-card">
+              <div>
+                <h4>店鋪門牌選吉</h4>
+                <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 5,680</div>
+                <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>商舖聚財客源廣進。</p>
+              </div>
+              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
+                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('店鋪門牌選吉',5680)}>加入購物車</button>
+                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+                  const url = window.location.origin + '/store';
+                  navigator.clipboard.writeText(url);
+                  alert('已複製「店鋪門牌選吉」專屬分頁連結！');
+                }}>🔗 複製專屬連結</button>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -313,8 +399,13 @@ export default function Home(){
                     <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 {item.size || '1000px 防盜保護'}</p>
                     <div style={{color:'var(--gold)',fontWeight:'bold',fontSize:'0.85rem'}}>NT$ {item.price || 680}</div>
                   </div>
-                  <div style={{marginTop:'8px'}}>
+                  <div style={{marginTop:'8px',display:'flex',flexDirection:'column',gap:'6px'}}>
                     <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem'}} onClick={()=>addToCart(item.name,680)}>加入購物車</button>
+                    <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+                      const url = window.location.href;
+                      navigator.clipboard.writeText(url);
+                      alert('已複製「' + item.name + '」藝術藏品頁面連結！');
+                    }}>🔗 複製本頁連結</button>
                   </div>
                 </div>
               ))
@@ -392,35 +483,6 @@ export default function Home(){
           <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
             {isCheckingOut ? '正在處理訂單與綠界跳轉...' : '確認送出訂單'}
           </button>
-
-          {/* 📤 新增：獨立的分享與複製連結按鈕（位於結帳按鈕下方） */}
-          <div style={{display:'flex',gap:'8px',marginTop:'10px'}}>
-            <button 
-              className="btn btn-o" 
-              style={{flex:1,fontSize:'0.75rem',padding:'8px',cursor:'pointer'}} 
-              onClick={() => {
-                if (navigator.share) {
-                  navigator.share({ title: document.title, url: window.location.href }).catch(() => {});
-                } else {
-                  navigator.clipboard.writeText(window.location.href);
-                  alert('網址已複製到剪貼簿！');
-                }
-              }}
-            >
-              📤 分享本頁
-            </button>
-            <button 
-              className="btn btn-o" 
-              style={{flex:1,fontSize:'0.75rem',padding:'8px',cursor:'pointer'}} 
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-                alert('網址已成功複製！');
-              }}
-            >
-              🔗 複製連結
-            </button>
-          </div>
-
         </div>
       </div>
     </div>
