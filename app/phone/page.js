@@ -1,17 +1,17 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: '紫墨數字風水｜車牌號碼吉凶與行車平安配置 - 彭品心官網',
-  description: '專業數字風水解析，為您的愛車挑選開運吉號，過濾凶煞打造行車平安與招財好磁場。立即聯繫紫墨老師預約諮詢。',
+  title: '紫墨數字風水｜手機號碼吉凶與開運配置 - 彭品心官網',
+  description: '專業數字風水解析，為您挑選帶財開運的手機吉號，過濾凶煞打造事業興旺與貴人磁場。立即聯繫紫墨老師預約諮詢。',
   openGraph: {
-    title: '紫墨數字風水｜車牌號碼吉凶與行車平安配置 - 彭品心官網',
-    description: '專業數字風水解析，為您的愛車挑選開運吉號，過濾凶煞打造行車平安與招財好磁場。',
-    url: 'https://pengpinxin.com/car',
+    title: '紫墨數字風水｜手機號碼吉凶與開運配置 - 彭品心官網',
+    description: '專業數字風水解析，為您挑選帶財開運的手機吉號，過濾凶煞打造事業興旺與貴人磁場。',
+    url: 'https://pengpinxin.com/phone',
     type: 'website',
   },
 };
 
-export default function CarFengShuiPage() {
+export default function PhoneFengShuiPage() {
   return (
     <div style={{ backgroundColor: '#1A110B', color: '#E6D5C3', minHeight: '100vh', padding: '24px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: 'serif' }}>
       
@@ -28,33 +28,33 @@ export default function CarFengShuiPage() {
       {/* 核心質感燙金卡片 */}
       <div style={{ width: '100%', maxWidth: '700px', backgroundColor: '#241810', border: '1px solid #C59B27', borderRadius: '12px', padding: '32px 24px', boxShadow: '0 10px 25px rgba(0,0,0,0.5)', boxSizing: 'border-box' }}>
         
-        {/* 標題區（已移除多餘英文字） */}
+        {/* 標題區 */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h1 style={{ fontSize: '26px', color: '#F5E6CC', letterSpacing: '1px', margin: '0 0 16px 0', lineHeight: '1.4' }}>
-            車牌號碼吉凶與行車平安開運配置
+            手機號碼吉凶與開運配置
           </h1>
           <div style={{ width: '60px', height: '2px', backgroundColor: '#C59B27', margin: '0 auto' }}></div>
         </div>
 
-        {/* 內文說明 */}
+        {/* 內文說明（手機號碼專屬） */}
         <div style={{ fontSize: '16px', lineHeight: '1.8', color: '#D4C3B3', fontWeight: '300', marginBottom: '32px' }}>
           <p style={{ marginBottom: '20px' }}>
-            車行天下，平安為本。車牌號碼作為每日伴隨您出門在外的動態磁場，其數字組合直接牽動著行車安全、出行磁場與貴人運勢。
+            手機號碼是現代人隨身攜帶、頻繁互動的高頻能量磁場。每一個數字的排列組合，都在無形中牽動著您的財運、事業發展、人際互動與貴人運勢。
           </p>
           
           <div style={{ backgroundColor: '#1A110B', borderLeft: '4px solid #C59B27', padding: '16px', fontSize: '15px', color: '#E6D5C3', borderRadius: '0 6px 6px 0', marginBottom: '20px' }}>
             💡 <strong style={{ color: '#C59B27' }}>紫墨老師專業解析：</strong> 
-            拒絕坊間流水線式的泛用吉凶公式。老師承襲家祖爺爺測字與命理絕學，結合您的本命八字，為您精準過濾凶煞數字，挑選最適合您的開運車牌號碼。
+            拒絕坊間流水線式的泛用吉凶公式。老師承襲家祖爺爺測字與命理絕學，結合您的本命八字，為您精準過濾凶煞數字，配置專屬招財旺運的手機吉號。
           </div>
 
           <p>
-            為愛車配置一組能化煞生旺的吉祥數字，讓每一次出行都平平安安、事業順遂、財源廣進。
+            擁有一組與您磁場契合、能生旺化煞的手機號碼，讓您在商戰與日常溝通中左右逢源、好運連連。
           </p>
         </div>
 
         {/* ⚡「馬上聯繫老師」專屬互動區塊 */}
         <div style={{ backgroundColor: '#1A110B', border: '1px solid rgba(197, 155, 39, 0.5)', borderRadius: '8px', padding: '24px', textAlign: 'center', marginBottom: '24px' }}>
-          <h3 style={{ fontSize: '18px', color: '#F5E6CC', margin: '0 0 8px 0' }}>想要為您的車牌或號碼進行專業合吉嗎？</h3>
+          <h3 style={{ fontSize: '18px', color: '#F5E6CC', margin: '0 0 8px 0' }}>想要為您的手機號碼進行專業合吉嗎？</h3>
           <p style={{ fontSize: '13px', color: '#C59B27', margin: '0 0 20px 0' }}>紫墨老師親自為您一對一解讀，提供最精準的數字風水配置。</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', justifyContent: 'center' }}>
             <a 
