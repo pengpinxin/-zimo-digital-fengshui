@@ -12,9 +12,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="zh-Hant">
       <head>
-        {/* 🚀 Google tag (gtag.js) 轉換追蹤代碼 */}
+        {/* 頁面標題與 meta 保持在這裡 */}
+      </head>
+      <body>
+        {/* 🚀 Google tag (gtag.js) 轉換追蹤代碼（已更新為新 ID 並移至 body 內） */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-702897496"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-698879369"
           strategy="afterInteractive"
         />
         <Script id="google-gtag-init" strategy="afterInteractive">
@@ -22,11 +25,10 @@ export default function RootLayout({ children }) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'AW-702897496');
+            gtag('config', 'AW-698879369');
           `}
         </Script>
-      </head>
-      <body>
+
         {children}
       </body>
     </html>
