@@ -1,53 +1,91 @@
-import React from 'react';
 import Link from 'next/link';
 
-export default function CarPage() {
+export const metadata = {
+  title: '紫墨數字風水｜車牌號碼吉凶與行車平安配置 - 彭品心官網',
+  description: '專業數字風水解析，為您的愛車挑選開運吉號，過濾凶煞打造行車平安與招財好磁場。立即聯繫紫墨老師預約諮詢。',
+  openGraph: {
+    title: '紫墨數字風水｜車牌號碼吉凶與行車平安配置 - 彭品心官網',
+    description: '專業數字風水解析，為您的愛車挑選開運吉號，過濾凶煞打造行車平安與招財好磁場。',
+    url: 'https://pengpinxin.com/car',
+    type: 'website',
+  },
+};
+
+export default function CarFengShuiPage() {
   return (
-    <main className="min-h-screen bg-[#1A110B] text-[#F3EFEA] px-6 py-12 md:py-20">
-      <div className="max-w-3xl mx-auto space-y-8">
+    <div style={{ backgroundColor: '#1A110B', color: '#E6D5C3', minHeight: '100vh', padding: '24px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: 'serif' }}>
+      
+      {/* 頂部導覽列 */}
+      <div style={{ width: '100%', maxWidth: '700px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', borderBottom: '1px solid rgba(197, 155, 39, 0.3)', paddingBottom: '16px' }}>
+        <Link href="/" style={{ color: '#C59B27', fontSize: '14px', textDecoration: 'none', letterSpacing: '1px' }}>
+          ← 返回官方首頁
+        </Link>
+        <Link href="/#booking" style={{ backgroundColor: '#C59B27', color: '#1A110B', padding: '8px 16px', borderRadius: '4px', fontSize: '14px', fontWeight: 'bold', textDecoration: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' }}>
+          立即預約諮詢
+        </Link>
+      </div>
+
+      {/* 核心質感燙金卡片 */}
+      <div style={{ width: '100%', maxWidth: '700px', backgroundColor: '#241810', border: '1px solid #C59B27', borderRadius: '12px', padding: '32px 24px', boxShadow: '0 10px 25px rgba(0,0,0,0.5)', boxSizing: 'border-box' }}>
         
-        <div className="text-sm">
-          <Link href="/" className="text-[#C59B27] hover:underline flex items-center gap-2">
-            ← 返回紫墨數字風水首頁
-          </Link>
+        {/* 標題區（已移除多餘英文字） */}
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <h1 style={{ fontSize: '26px', color: '#F5E6CC', letterSpacing: '1px', margin: '0 0 16px 0', lineHeight: '1.4' }}>
+            車牌號碼吉凶與行車平安開運配置
+          </h1>
+          <div style={{ width: '60px', height: '2px', backgroundColor: '#C59B27', margin: '0 auto' }}></div>
         </div>
 
-        <header className="border-b border-[#C59B27]/40 pb-6 space-y-3">
-          <span className="text-xs uppercase tracking-widest text-[#C59B27] font-semibold">
-            Zi Mo Digital Feng Shui · 核心服務
-          </span>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
-            車牌號碼吉凶與磁場解析
-          </h1>
-          <p className="text-gray-300 leading-relaxed text-sm md:text-base">
-            行車安全與出行磁場息息相關。為您的愛車配置專屬吉號，避開潛在煞氣，一路平安順遂。
+        {/* 內文說明 */}
+        <div style={{ fontSize: '16px', lineHeight: '1.8', color: '#D4C3B3', fontWeight: '300', marginBottom: '32px' }}>
+          <p style={{ marginBottom: '20px' }}>
+            車行天下，平安為本。車牌號碼作為每日伴隨您出門在外的動態磁場，其數字組合直接牽動著行車安全、出行磁場與貴人運勢。
           </p>
-        </header>
+          
+          <div style={{ backgroundColor: '#1A110B', borderLeft: '4px solid #C59B27', padding: '16px', fontSize: '15px', color: '#E6D5C3', borderRadius: '0 6px 6px 0', marginBottom: '20px' }}>
+            💡 <strong style={{ color: '#C59B27' }}>紫墨老師專業解析：</strong> 
+            拒絕坊間流水線式的泛用吉凶公式。老師承襲家祖爺爺測字與命理絕學，結合您的本命八字，為您精準過濾凶煞數字，挑選最適合您的開運車牌號碼。
+          </div>
 
-        <section className="space-y-6 text-gray-300 leading-relaxed text-sm md:text-base">
-          <h2 className="text-xl font-semibold text-[#C59B27]">為什麼需要專業車牌數字配置？</h2>
           <p>
-            車牌不僅是身分識別，更是移動中的能量場。紫墨老師結合家傳精準學術，為您過濾不吉組合：
+            為愛車配置一組能化煞生旺的吉祥數字，讓每一次出行都平平安安、事業順遂、財源廣進。
           </p>
-          <ul className="list-disc pl-5 space-y-2 text-gray-300">
-            <li><strong>行車平安</strong>：避開容易引發意外與碰撞的負面磁場。</li>
-            <li><strong>出行順遂</strong>：增強貴人與穩定磁場，事業通勤一路暢通。</li>
-          </ul>
-        </section>
+        </div>
 
-        <div className="border border-[#C59B27]/60 bg-[#1A110B]/80 p-8 rounded-lg text-center space-y-4">
-          <h3 className="text-xl font-semibold text-[#F3EFEA]">為您的愛車配置最佳磁場</h3>
-          <div>
-            <Link 
-              href="/contact" 
-              className="inline-block bg-[#C59B27] text-[#1A110B] font-bold px-8 py-3 rounded tracking-wider hover:bg-[#d4a72c] transition-colors"
+        {/* ⚡「馬上聯繫老師」專屬互動區塊 */}
+        <div style={{ backgroundColor: '#1A110B', border: '1px solid rgba(197, 155, 39, 0.5)', borderRadius: '8px', padding: '24px', textAlign: 'center', marginBottom: '24px' }}>
+          <h3 style={{ fontSize: '18px', color: '#F5E6CC', margin: '0 0 8px 0' }}>想要為您的車牌或號碼進行專業合吉嗎？</h3>
+          <p style={{ fontSize: '13px', color: '#C59B27', margin: '0 0 20px 0' }}>紫墨老師親自為您一對一解讀，提供最精準的數字風水配置。</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', justifyContent: 'center' }}>
+            <a 
+              href="mailto:Aaa0987955906aaa@gmail.com"
+              style={{ backgroundColor: '#C59B27', color: '#1A110B', padding: '12px 20px', borderRadius: '6px', fontWeight: 'bold', textDecoration: 'none', fontSize: '15px', display: 'block' }}
             >
-              立即預約車牌配置
-            </Link>
+              ✉️ 馬上聯繫老師 (Email)
+            </a>
+            <a 
+              href="https://www.facebook.com/pengpinxin/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ backgroundColor: 'transparent', border: '1px solid #C59B27', color: '#C59B27', padding: '12px 20px', borderRadius: '6px', fontWeight: 'bold', textDecoration: 'none', fontSize: '15px', display: 'block' }}
+            >
+              💬 前往 Facebook 粉絲專頁聯繫
+            </a>
           </div>
         </div>
 
+        {/* 底部按鈕 */}
+        <div style={{ textAlign: 'center', paddingTop: '16px', borderTop: '1px solid rgba(197, 155, 39, 0.2)' }}>
+          <Link href="/" style={{ color: '#C59B27', fontSize: '13px', textDecoration: 'none', letterSpacing: '1px' }}>
+            ← 返回官方首頁了解更多服務
+          </Link>
+        </div>
       </div>
-    </main>
+
+      {/* 頁尾版權 */}
+      <footer style={{ marginTop: '32px', fontSize: '11px', color: '#8C7A6B', letterSpacing: '2px', textAlign: 'center' }}>
+        © 2026 彭品心 · 品心美學 · 紫墨數字風水 All Rights Reserved.
+      </footer>
+    </div>
   );
 }
