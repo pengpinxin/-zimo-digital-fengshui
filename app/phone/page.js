@@ -13,45 +13,40 @@ export const metadata = {
 
 export default function CarFengShuiPage() {
   return (
-    <main className="min-h-screen bg-[#1A110B] text-[#E6D5C3] px-4 py-8 md:py-16 flex flex-col items-center">
+    <div style={{ backgroundColor: '#1A110B', color: '#E6D5C3', minHeight: '100vh', padding: '24px 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: 'serif' }}>
+      
       {/* 頂部導覽列 */}
-      <div className="w-full max-w-3xl flex justify-between items-center mb-8 border-b border-[#C59B27]/30 pb-4">
-        <Link 
-          href="/" 
-          className="text-sm tracking-wider text-[#C59B27] hover:text-[#f3d06b] transition-colors flex items-center gap-2"
-        >
+      <div style={{ width: '100%', maxWidth: '700px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', borderBottom: '1px solid rgba(197, 155, 39, 0.3)', paddingBottom: '16px' }}>
+        <Link href="/" style={{ color: '#C59B27', fontSize: '14px', textDecoration: 'none', letterSpacing: '1px' }}>
           ← 返回官方首頁
         </Link>
-        <Link 
-          href="/#booking" 
-          className="px-4 py-2 bg-[#C59B27] text-[#1A110B] font-medium text-sm rounded tracking-wider hover:bg-[#e2b13c] transition-all shadow-md"
-        >
+        <Link href="/#booking" style={{ backgroundColor: '#C59B27', color: '#1A110B', padding: '8px 16px', borderRadius: '4px', fontSize: '14px', fontWeight: 'bold', textDecoration: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' }}>
           立即預約諮詢
         </Link>
       </div>
 
-      {/* 核心內容卡片 */}
-      <div className="w-full max-w-3xl bg-[#241810] border border-[#C59B27]/40 rounded-xl p-6 md:p-12 shadow-2xl relative">
+      {/* 核心質感燙金卡片 */}
+      <div style={{ width: '100%', maxWidth: '700px', backgroundColor: '#241810', border: '1px solid #C59B27', borderRadius: '12px', padding: '32px 24px', boxShadow: '0 10px 25px rgba(0,0,0,0.5)', boxSizing: 'border-box' }}>
         
-        {/* 標題與分類 */}
-        <div className="text-center mb-8">
-          <span className="text-xs uppercase tracking-widest text-[#C59B27] block mb-2">
-            Zi Mo Feng Shui · 數字風水車牌號碼專屬解析
+        {/* 標題區 */}
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '3px', color: '#C59B27', display: 'block', marginBottom: '8px' }}>
+            Zi Mo Feng Shui · 車牌號碼專屬解析
           </span>
-          <h1 className="text-2xl md:text-4xl font-serif text-[#F5E6CC] tracking-wide mb-4">
+          <h1 style={{ fontSize: '26px', color: '#F5E6CC', letterSpacing: '1px', margin: '0 0 16px 0', lineHeight: '1.4' }}>
             車牌號碼吉凶與行車平安開運配置
           </h1>
-          <div className="w-20 h-[2px] bg-[#C59B27] mx-auto"></div>
+          <div style={{ width: '60px', height: '2px', backgroundColor: '#C59B27', margin: '0 auto' }}></div>
         </div>
 
         {/* 內文說明 */}
-        <div className="space-y-6 text-base md:text-lg leading-relaxed text-[#D4C3B3] font-light mb-10">
-          <p>
+        <div style={{ fontSize: '16px', lineHeight: '1.8', color: '#D4C3B3', fontWeight: '300', marginBottom: '32px' }}>
+          <p style={{ marginBottom: '20px' }}>
             車行天下，平安為本。車牌號碼作為每日伴隨您出門在外的動態磁場，其數字組合直接牽動著行車安全、出行磁場與貴人運勢。
           </p>
           
-          <div className="bg-[#1A110B] border-l-4 border-[#C59B27] p-4 text-sm md:text-base text-[#E6D5C3] rounded-r">
-            💡 <strong className="text-[#C59B27]">紫墨老師專業解析：</strong> 
+          <div style={{ backgroundColor: '#1A110B', borderLeft: '4px solid #C59B27', padding: '16px', fontSize: '15px', color: '#E6D5C3', borderRadius: '0 6px 6px 0', marginBottom: '20px' }}>
+            💡 <strong style={{ color: '#C59B27' }}>紫墨老師專業解析：</strong> 
             拒絕坊間流水線式的泛用吉凶公式。老師承襲家祖爺爺測字與命理絕學，結合您的本命八字，為您精準過濾凶煞數字，挑選最適合您的開運車牌號碼。
           </div>
 
@@ -61,13 +56,13 @@ export default function CarFengShuiPage() {
         </div>
 
         {/* ⚡「馬上聯繫老師」專屬互動區塊 */}
-        <div className="bg-[#1A110B]/80 border border-[#C59B27]/50 rounded-lg p-6 text-center mb-8">
-          <h3 className="text-lg font-serif text-[#F5E6CC] mb-2">想要為您的車牌或號碼進行專業合吉嗎？</h3>
-          <p className="text-sm text-[#C59B27] mb-6">紫墨老師親自為您一對一解讀，提供最精準的數字風水配置。</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <div style={{ backgroundColor: '#1A110B', border: '1px solid rgba(197, 155, 39, 0.5)', borderRadius: '8px', padding: '24px', textAlign: 'center', marginBottom: '24px' }}>
+          <h3 style={{ fontSize: '18px', color: '#F5E6CC', margin: '0 0 8px 0' }}>想要為您的車牌或號碼進行專業合吉嗎？</h3>
+          <p style={{ fontSize: '13px', color: '#C59B27', margin: '0 0 20px 0' }}>紫墨老師親自為您一對一解讀，提供最精準的數字風水配置。</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', justifyContent: 'center' }}>
             <a 
               href="mailto:Aaa0987955906aaa@gmail.com"
-              className="w-full sm:w-auto px-8 py-3 bg-[#C59B27] text-[#1A110B] font-medium tracking-wider rounded hover:bg-[#e2b13c] transition-all shadow-lg flex items-center justify-center gap-2"
+              style={{ backgroundColor: '#C59B27', color: '#1A110B', padding: '12px 20px', borderRadius: '6px', fontWeight: 'bold', textDecoration: 'none', fontSize: '15px', display: 'block' }}
             >
               ✉️ 馬上聯繫老師 (Email)
             </a>
@@ -75,7 +70,7 @@ export default function CarFengShuiPage() {
               href="https://www.facebook.com/pengpinxin/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-8 py-3 border border-[#C59B27] text-[#C59B27] font-medium tracking-wider rounded hover:bg-[#C59B27]/10 transition-all flex items-center justify-center gap-2"
+              style={{ backgroundColor: 'transparent', border: '1px solid #C59B27', color: '#C59B27', padding: '12px 20px', borderRadius: '6px', fontWeight: 'bold', textDecoration: 'none', fontSize: '15px', display: 'block' }}
             >
               💬 前往 Facebook 粉絲專頁聯繫
             </a>
@@ -83,20 +78,17 @@ export default function CarFengShuiPage() {
         </div>
 
         {/* 底部按鈕 */}
-        <div className="flex justify-center pt-4 border-t border-[#C59B27]/20">
-          <Link 
-            href="/"
-            className="text-sm text-[#C59B27] hover:underline tracking-wider"
-          >
+        <div style={{ textAlign: 'center', paddingTop: '16px', borderTop: '1px solid rgba(197, 155, 39, 0.2)' }}>
+          <Link href="/" style={{ color: '#C59B27', fontSize: '13px', textDecoration: 'none', letterSpacing: '1px' }}>
             ← 返回官方首頁了解更多服務
           </Link>
         </div>
       </div>
 
       {/* 頁尾版權 */}
-      <footer className="mt-12 text-xs text-[#8C7A6B] tracking-widest text-center">
+      <footer style={{ marginTop: '32px', fontSize: '11px', color: '#8C7A6B', letterSpacing: '2px', textAlign: 'center' }}>
         © 2026 彭品心 · 品心美學 · 紫墨數字風水 All Rights Reserved.
       </footer>
-    </main>
+    </div>
   );
-}
+          }
