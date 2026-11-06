@@ -4,10 +4,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="zh-Hant">
       <head>
-        {/* 全站共用 Google 標籤 (負責收集流量與基礎數據) */}
+        {/* Google tag (gtag.js) */}
         <Script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-4017889527"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-698879369"
           strategy="afterInteractive"
         />
         <Script id="google-tag" strategy="afterInteractive">
@@ -15,7 +15,8 @@ export default function RootLayout({ children }) {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'AW-4017889527');
+
+            gtag('config', 'AW-698879369');
           `}
         </Script>
       </head>
