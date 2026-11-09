@@ -233,7 +233,7 @@ export default function Home(){
         <section id="intro" className="notice-box" style={{padding:'20px'}}>
           <h2 style={{color:'var(--gold-l)',fontSize:'1.2rem',marginBottom:'12px',textAlign:'center'}}>靈魂的棲息之處</h2>
           <p style={{fontSize:'0.85rem',color:'#f3efe6',marginBottom:'12px',lineHeight:'1.8',textAlign:'center'}}>
-            喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運, 療愈、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！
+            喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療愈、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！
           </p>
           <p style={{fontSize:'0.8rem',color:'#d0c5b4',lineHeight:'1.8'}}>
             老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學、及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，她清雅脫俗地出落在紅塵萬里天地之間，悉心等待著為值得的人送去福音，將她畢生的學術研究成果，盡心耕織於人類與環境實際需求，廣結善緣、讓福音傳遍千里之外，讓靈慧助人於無形之中。
@@ -374,7 +374,7 @@ export default function Home(){
           </div>
         </section>
 
-        {/* 🎨 原創開運數位藝術畫專區（已加入購買原始檔使用、非版權買斷說明，按鈕改為 4K680 與 8K980） */}
+        {/* 🎨 原創開運數位藝術畫專區（8K價格已更新為 1080） */}
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創開運數位藝術畫</h3>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>品心美學工作室精選高解析度東方水墨與五行開運藝術掛畫（已自動從雲端同步全部畫作）。</p>
@@ -382,7 +382,7 @@ export default function Home(){
           <div className="notice-box" style={{marginTop:'0', marginBottom:'15px'}}>
             <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>🎨 數位藝術畫空間配置與版權說明</h4>
             <p style={{fontSize:'0.8rem',lineHeight:'1.6',color:'#f3efe6'}}>
-              品心美學工作室開運數位五行畫作可用於<strong>客廳、玄關、房間、餐廳、書房</strong>各個空間。<strong>4K橫式、4K直式</strong>可印刷高清 80 公分左右（NT$680）；如需大作 <strong>8K高清畫質</strong>（NT$980）。本站提供購買原始檔使用，非版權買斷。如需進一步諮詢，請加官方 LINE 好友（ID: 0987955906）。
+              品心美學工作室開運數位五行畫作可用於<strong>客廳、玄關、房間、餐廳、書房</strong>各個空間。<strong>4K橫式、4K直式</strong>可印刷高清 80 公分左右（NT$680）；如需大作 <strong>8K高清畫質</strong>（NT$1080）。本站提供購買原始檔使用，非版權買斷。如需進一步諮詢，請加官方 LINE 好友（ID: 0987955906）。
             </p>
           </div>
           
@@ -412,7 +412,7 @@ export default function Home(){
                     <div style={{color:'var(--gold)',fontWeight:'bold',fontSize:'0.8rem',marginBottom:'6px'}}>原始檔使用權（非買斷）</div>
                     <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
                       <button className="btn btn-o" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (4K檔)', 680)}>4K680</button>
-                      <button className="btn" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (8K檔)', 980)}>8K980</button>
+                      <button className="btn" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (8K檔)', 1080)}>8K1080</button>
                       <button className="btn btn-o" style={{width:'100%', fontSize:'0.7rem', padding:'5px'}} onClick={() => {
                         const url = window.location.href;
                         navigator.clipboard.writeText(url);
