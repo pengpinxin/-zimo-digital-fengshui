@@ -289,6 +289,7 @@ export default function Home(){
               <li><strong>2. 專業鑑定聲明：</strong>經過老師數字分析之後，如若您的原生號碼本身就是生旺您的吉數，那麼便是最好的數字配置，則不需要更換；然而，老師則同樣會收取您的鑑定費用。因為這是消耗老師大量精力的專業性諮詢服務，還請緣主務必尊重學術文學的強大驅動力，這也證實了：「知因果者、則不畏因果」的推理。</li>
               <li><strong>3. 服務性質：</strong>數位與命理客製化配置服務確認開始執行後，恕不接受無理由退款。</li>
               <li><strong>4. 理性參考：</strong>所有風水磁場與號碼配置旨在輔助提升運勢與心境，個人努力與正念亦為成就之本。</li>
+              <li><strong>5. 備註填寫：</strong>購買服務請在備註欄位填寫您的出生年月日時，及現有號碼跟您欲要更換的號碼，謝謝您！</li>
             </ul>
           </div>
           
@@ -374,7 +375,7 @@ export default function Home(){
           </div>
         </section>
 
-        {/* 🎨 原創開運數位藝術畫專區（8K價格已更新為 1080） */}
+        {/* 🎨 原創開運數位藝術畫專區 */}
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創開運數位藝術畫</h3>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>品心美學工作室精選高解析度東方水墨與五行開運藝術掛畫（已自動從雲端同步全部畫作）。</p>
