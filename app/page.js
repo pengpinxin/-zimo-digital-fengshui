@@ -375,7 +375,7 @@ export default function Home(){
           </div>
         </section>
 
-        {/* 🎨 原創開運數位藝術畫專區 */}
+        {/* 🎨 原創開運數位藝術畫專區（已去除頂部說明中的價格與下方每張畫作的多餘說明） */}
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創開運數位藝術畫</h3>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>品心美學精選高解析度東方水墨與五行開運藝術掛畫（已自動從雲端同步全部畫作）。</p>
@@ -383,7 +383,7 @@ export default function Home(){
           <div className="notice-box" style={{marginTop:'0', marginBottom:'15px'}}>
             <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>🎨 數位藝術畫空間配置與版權說明</h4>
             <p style={{fontSize:'0.8rem',lineHeight:'1.6',color:'#f3efe6'}}>
-              品心美學開運數位五行畫作可用於<strong>客廳、玄關、房間、餐廳、書房</strong>各個空間。<strong>4K橫式、4K直式</strong>可印刷高清 80 公分左右（NT$680）；如需大作 <strong>8K高清畫質</strong>（NT$1080）。本站提供購買原始檔使用，非版權買斷。如需進一步諮詢，請加官方 LINE 好友（ID: 0987955906）。
+              品心美學開運數位五行畫作可用於<strong>客廳、玄關、房間、餐廳、書房</strong>各個空間。<strong>4K橫式、4K直式</strong>可印刷高清 80 公分左右；如需大作 <strong>8K高清畫質</strong>。本站提供購買原始檔使用，非版權買斷。如需進一步諮詢，請加官方 LINE 好友（ID: 0987955906）。
             </p>
           </div>
           
@@ -410,7 +410,6 @@ export default function Home(){
                     <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 {item.size || '4K/8K 數位高清'}</p>
                   </div>
                   <div style={{marginTop:'8px'}}>
-                    <div style={{color:'var(--gold)',fontWeight:'bold',fontSize:'0.8rem',marginBottom:'6px'}}>原始檔使用權（非買斷）</div>
                     <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
                       <button className="btn btn-o" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (4K檔)', 680)}>4K680</button>
                       <button className="btn" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (8K檔)', 1080)}>8K1080</button>
