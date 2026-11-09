@@ -235,7 +235,7 @@ export default function Home(){
           <p style={{fontSize:'0.85rem',color:'#f3efe6',marginBottom:'12px',lineHeight:'1.8',textAlign:'center'}}>
             喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療愈、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！
           </p>
-          <p style={{fontSize:'0.80rem',color:'#d0c5b4',lineHeight:'1.8'}}>
+          <p style={{fontSize:'0.8rem',color:'#d0c5b4',lineHeight:'1.8'}}>
             老師十歲繼承家祖爺爺精準測字絕學，傾於一生對數字、文學、玄學、及各學術類的興趣，藏拙於一身靈性與道行，歷經幾十載世俗的考驗，她清雅脫俗地出落在紅塵萬里天地之間，悉心等待著為值得的人送去福音，將她畢生的學術研究成果，盡心耕織於人類與環境實際需求，廣結善緣、讓福音傳遍千里之外，讓靈慧助人於無形之中。
           </p>
         </section>
@@ -383,7 +383,7 @@ export default function Home(){
           <div className="notice-box" style={{marginTop:'0', marginBottom:'15px'}}>
             <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>🎨 數位藝術畫空間配置與版權說明</h4>
             <p style={{fontSize:'0.8rem',lineHeight:'1.6',color:'#f3efe6'}}>
-              品心美學開運數位五行畫作可用於<strong>客廳、玄關、房間、餐廳、書房</strong>各個空間。<strong>4K橫式、4K直式</strong>可印刷高清 80 公分左右；如需大作 <strong>8K高清畫質</strong>。本站所有原始檔提供並非授權，如有其它需求請加官方LINE諮詢。
+              品心美學開運數位五行畫作可用於<strong>客廳、玄關、房間、餐廳、書房</strong>各個空間。<strong>4K橫式、4K直式</strong>可印刷高清 80 公分左右。本站所有原始檔提供並非授權，如有其它需求請加官方LINE諮詢。
             </p>
           </div>
           
