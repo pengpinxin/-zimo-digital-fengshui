@@ -193,7 +193,7 @@ export default function Home(){
         <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
           <div style={{width:'34px',height:'34px',border:'1px solid var(--gold)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)'}}>品</div>
           <div>
-            <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)'}}>品心美學</h1>
+            <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)'}}>品心美學工作室</h1>
             <p style={{fontSize:'0.65rem',color:'#d0c5b4'}}>彭品心老師官方網站</p>
           </div>
         </div>
@@ -213,8 +213,8 @@ export default function Home(){
           <a href="#intro" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📖 靈魂的棲息之處</a>
           <a href="#books" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📚 學術文學著作</a>
           <a href="#services" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🔮 紫墨數字風水</a>
+          <a href="#art" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🎨 原創開運藝術畫</a>
           <a href="#contact" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📞 聯絡方式</a>
-          <a href="#art" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🎨 原創藝術畫作</a>
           <a href="#legal" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>⚖️ 法律責任與聲明</a>
         </div>
       </div>
@@ -374,13 +374,23 @@ export default function Home(){
           </div>
         </section>
 
+        {/* 🎨 原創開運數位藝術畫專區（8K價格已更新為 1080） */}
         <section id="art">
-          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創藝術畫作 (NT$ 680)</h3>
-          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>彭品心老師親創之高畫質山水、竹林、梅花等心靈藝術藏品（已自動從雲端同步全部畫作）。</p>
+          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創開運數位藝術畫</h3>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>品心美學工作室精選高解析度東方水墨與五行開運藝術掛畫（已自動從雲端同步全部畫作）。</p>
+          
+          <div className="notice-box" style={{marginTop:'0', marginBottom:'15px'}}>
+            <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>🎨 數位藝術畫空間配置與版權說明</h4>
+            <p style={{fontSize:'0.8rem',lineHeight:'1.6',color:'#f3efe6'}}>
+              品心美學工作室開運數位五行畫作可用於<strong>客廳、玄關、房間、餐廳、書房</strong>各個空間。<strong>4K橫式、4K直式</strong>可印刷高清 80 公分左右（NT$680）；如需大作 <strong>8K高清畫質</strong>（NT$1080）。本站提供購買原始檔使用，非版權買斷。如需進一步諮詢，請加官方 LINE 好友（ID: 0987955906）。
+            </p>
+          </div>
           
           <div className="grid">
-            {artworks.length===0?(<p style={{color:'#d0c5b4',gridColumn:'span 2',textAlign:'center',padding:'15px'}}>目前尚無畫作</p>):(
-              artworks.map((item,idx)=>(
+            {artworks.length === 0 ? (
+              <p style={{color:'#d0c5b4',gridColumn:'span 2',textAlign:'center',padding:'15px'}}>正在從雲端載入畫作或目前尚無畫作...</p>
+            ) : (
+              artworks.map((item, idx) => (
                 <div className="s-card" key={idx}>
                   <div>
                     <div style={{position:'relative',marginBottom:'6px'}}>
@@ -389,23 +399,26 @@ export default function Home(){
                         src={item.url} 
                         style={{width:'100%',height:'110px',objectFit:'cover',borderRadius:'6px',cursor:'pointer'}} 
                         alt="art" 
-                        onClick={()=>setActiveImage(item.url)}
-                        onContextMenu={(e)=>e.preventDefault()} 
-                        onDragStart={(e)=>e.preventDefault()} 
+                        onClick={() => setActiveImage(item.url)}
+                        onContextMenu={(e) => e.preventDefault()} 
+                        onDragStart={(e) => e.preventDefault()} 
                       />
-                      <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>{item.wm}</span>
+                      <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>{item.wm || '品心美學'}</span>
                     </div>
                     <h4 style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>{item.name}</h4>
-                    <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 {item.size || '1000px 防盜保護'}</p>
-                    <div style={{color:'var(--gold)',fontWeight:'bold',fontSize:'0.85rem'}}>NT$ {item.price || 680}</div>
+                    <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 {item.size || '4K/8K 數位高清'}</p>
                   </div>
-                  <div style={{marginTop:'8px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                    <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem'}} onClick={()=>addToCart(item.name,680)}>加入購物車</button>
-                    <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
-                      const url = window.location.href;
-                      navigator.clipboard.writeText(url);
-                      alert('已複製「' + item.name + '」藝術藏品頁面連結！');
-                    }}>🔗 複製本頁連結</button>
+                  <div style={{marginTop:'8px'}}>
+                    <div style={{color:'var(--gold)',fontWeight:'bold',fontSize:'0.8rem',marginBottom:'6px'}}>原始檔使用權（非買斷）</div>
+                    <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
+                      <button className="btn btn-o" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (4K檔)', 680)}>4K680</button>
+                      <button className="btn" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (8K檔)', 1080)}>8K1080</button>
+                      <button className="btn btn-o" style={{width:'100%', fontSize:'0.7rem', padding:'5px'}} onClick={() => {
+                        const url = window.location.href;
+                        navigator.clipboard.writeText(url);
+                        alert('已複製「' + item.name + '」連結！');
+                      }}>🔗 複製連結</button>
+                    </div>
                   </div>
                 </div>
               ))
@@ -430,14 +443,14 @@ export default function Home(){
 
       {/* 🔍 燈箱放大預覽彈跳視窗 */}
       {activeImage && (
-        <div className="lightbox-overlay" onClick={()=>setActiveImage(null)}>
-          <div className="lightbox-content" onClick={(e)=>e.stopPropagation()}>
-            <button className="lightbox-close" onClick={()=>setActiveImage(null)}>✕ 關閉</button>
+        <div className="lightbox-overlay" onClick={() => setActiveImage(null)}>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button className="lightbox-close" onClick={() => setActiveImage(null)}>✕ 關閉</button>
             <img 
               src={activeImage} 
               alt="放大預覽" 
-              onContextMenu={(e)=>e.preventDefault()} 
-              onDragStart={(e)=>e.preventDefault()} 
+              onContextMenu={(e) => e.preventDefault()} 
+              onDragStart={(e) => e.preventDefault()} 
             />
           </div>
         </div>
@@ -456,30 +469,30 @@ export default function Home(){
         )}
 
         <div style={{flexGrow:1,overflowY:'auto',marginBottom:'10px'}}>
-          {cart.length===0?(
+          {cart.length === 0 ? (
             <p style={{color:'#d0c5b4',textAlign:'center',padding:'15px'}}>購物車是空的</p>
-          ):(
-            cart.map((i,idx)=>(
+          ) : (
+            cart.map((i, idx) => (
               <div key={idx} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid rgba(74,61,49,0.3)',fontSize:'0.8rem'}}>
                 <span>{i.name}</span>
-                <span>NT$ {i.price} <button onClick={()=>removeFromCart(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'6px'}}>刪除</button></span>
+                <span>NT$ {i.price} <button onClick={() => removeFromCart(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'6px'}}>刪除</button></span>
               </div>
             ))
           )}
         </div>
         <div style={{borderTop:'1px solid var(--border)',paddingTop:'10px'}}>
           <div style={{display:'flex',gap:'5px',marginBottom:'8px'}}>
-            <input type="text" value={vipCode} onChange={(e)=>setVipCode(e.target.value)} placeholder="VIP碼 (VIP880)" style={{margin:0}}/>
+            <input type="text" value={vipCode} onChange={(e) => setVipCode(e.target.value)} placeholder="VIP碼 (VIP880)" style={{margin:0}}/>
             <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
           </div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
             <span>總計：<span>NT$ {total} {vipText}</span></span>
           </div>
-          <input type="text" value={cName} onChange={(e)=>setCName(e.target.value)} placeholder="姓名"/>
-          <input type="text" value={cPhone} onChange={(e)=>setCPhone(e.target.value)} onBlur={(e)=>checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的手機號碼即可"/>
-          <input type="email" value={cEmail} onChange={(e)=>setCEmail(e.target.value)} placeholder="Email"/>
-          <input type="text" value={cAddress} onChange={(e)=>setCAddress(e.target.value)} placeholder="收件地址"/>
-          <textarea value={cRemark} onChange={(e)=>setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
+          <input type="text" value={cName} onChange={(e) => setCName(e.target.value)} placeholder="姓名"/>
+          <input type="text" value={cPhone} onChange={(e) => setCPhone(e.target.value)} onBlur={(e) => checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的手機號碼即可"/>
+          <input type="email" value={cEmail} onChange={(e) => setCEmail(e.target.value)} placeholder="Email"/>
+          <input type="text" value={cAddress} onChange={(e) => setCAddress(e.target.value)} placeholder="收件地址"/>
+          <textarea value={cRemark} onChange={(e) => setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
           <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
             {isCheckingOut ? '正在處理訂單與綠界跳轉...' : '確認送出訂單'}
           </button>
