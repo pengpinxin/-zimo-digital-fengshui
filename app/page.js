@@ -193,7 +193,7 @@ export default function Home(){
         <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
           <div style={{width:'34px',height:'34px',border:'1px solid var(--gold)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)'}}>品</div>
           <div>
-            <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)'}}>品心美學工作室</h1>
+            <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)'}}>品心美學</h1>
             <p style={{fontSize:'0.65rem',color:'#d0c5b4'}}>彭品心老師官方網站</p>
           </div>
         </div>
@@ -378,12 +378,12 @@ export default function Home(){
         {/* 🎨 原創開運數位藝術畫專區 */}
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創開運數位藝術畫</h3>
-          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>品心美學工作室精選高解析度東方水墨與五行開運藝術掛畫（已自動從雲端同步全部畫作）。</p>
+          <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>品心美學精選高解析度東方水墨與五行開運藝術掛畫（已自動從雲端同步全部畫作）。</p>
           
           <div className="notice-box" style={{marginTop:'0', marginBottom:'15px'}}>
             <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>🎨 數位藝術畫空間配置與版權說明</h4>
             <p style={{fontSize:'0.8rem',lineHeight:'1.6',color:'#f3efe6'}}>
-              品心美學工作室開運數位五行畫作可用於<strong>客廳、玄關、房間、餐廳、書房</strong>各個空間。<strong>4K橫式、4K直式</strong>可印刷高清 80 公分左右（NT$680）；如需大作 <strong>8K高清畫質</strong>（NT$1080）。本站提供購買原始檔使用，非版權買斷。如需進一步諮詢，請加官方 LINE 好友（ID: 0987955906）。
+              品心美學開運數位五行畫作可用於<strong>客廳、玄關、房間、餐廳、書房</strong>各個空間。<strong>4K橫式、4K直式</strong>可印刷高清 80 公分左右（NT$680）；如需大作 <strong>8K高清畫質</strong>（NT$1080）。本站提供購買原始檔使用，非版權買斷。如需進一步諮詢，請加官方 LINE 好友（ID: 0987955906）。
             </p>
           </div>
           
@@ -404,7 +404,7 @@ export default function Home(){
                         onContextMenu={(e) => e.preventDefault()} 
                         onDragStart={(e) => e.preventDefault()} 
                       />
-                      <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>{item.wm || '品心美學'}</span>
+                      <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>品心美學</span>
                     </div>
                     <h4 style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>{item.name}</h4>
                     <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 {item.size || '4K/8K 數位高清'}</p>
