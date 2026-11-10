@@ -407,7 +407,6 @@ export default function Home(){
                       <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>品心美學</span>
                     </div>
                     <h4 style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>{item.name}</h4>
-                    <p style={{fontSize:'0.7rem',color:'var(--gold-l)',margin:'4px 0'}}>📏 {item.size || '4K/8K 數位高清'}</p>
                   </div>
                   <div style={{marginTop:'8px'}}>
                     <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
