@@ -392,14 +392,14 @@ export default function Home(){
 
         {/* 🎨 原創開運數位藝術畫專區 */}
         <section id="art">
-          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 6px 0'}}>原創開運數位藝術畫</h3>
+          <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>原創開運數位藝術畫</h3>
+          <div className="notice-box" style={{marginTop:'0', marginBottom:'10px', padding:'10px 14px', textAlign:'center', borderColor:'rgba(212,175,55,0.45)'}}>
+            <p style={{fontSize:'0.88rem', color:'var(--gold-l)', fontWeight:'bold', letterSpacing:'1px', margin:0}}>好畫跟好人，好畫旺福主！</p>
+          </div>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>品心美學精選高解析度東方水墨與五行開運藝術掛畫（已自動從雲端同步全部畫作）。</p>
           
           <div className="notice-box" style={{marginTop:'0', marginBottom:'15px'}}>
             <h4 style={{color:'var(--gold-l)',marginBottom:'8px'}}>🎨 數位藝術畫空間配置與版權說明</h4>
-            <p style={{fontSize:'0.85rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'8px'}}>
-              好畫跟好人，好畫旺福主！
-            </p>
             <p style={{fontSize:'0.8rem',lineHeight:'1.7',color:'#f3efe6',marginBottom:'10px'}}>
               品心美學開運數位五行畫作，不僅適用於<strong>客廳、玄關、房間、餐廳、書房</strong>等居家空間，更是<strong>送人首選、豪宅首選</strong>，亦是傳遞心意與情感交流的雅緻之禮。高解析原圖檔購買後可永久保存，享有自由選框搭配的空間優勢，並可透過線上網路輕鬆印製畫作，依空間自由挑選做框規格與大小比例。
             </p>
