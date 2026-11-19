@@ -1,6 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 
+const META_PIXEL_ID = '2001571467480785';
+
 export default function Home(){
   const [cart, setCart] = useState([]);
   const [isVip, setIsVip] = useState(false);
@@ -14,6 +16,41 @@ export default function Home(){
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [activeImage, setActiveImage] = useState(null); // 🔍 點擊放大預覽的圖片狀態
   const [highlightedArt, setHighlightedArt] = useState(null); // ✨ 專屬連結定位高亮狀態
+
+  // 📊 初始化 Meta 像素（編號：2001571467480785），若尚未載入則自動補載並避免重複初始化
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!window.fbq) {
+      const fbq = function () {
+        if (fbq.callMethod) {
+          fbq.callMethod.apply(fbq, arguments);
+        } else {
+          fbq.queue.push(arguments);
+        }
+      };
+      if (!window._fbq) window._fbq = fbq;
+      fbq.push = fbq;
+      fbq.loaded = true;
+      fbq.version = '2.0';
+      fbq.queue = [];
+      window.fbq = fbq;
+
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(script);
+
+      window.fbq('init', META_PIXEL_ID);
+      window.fbq('track', 'PageView');
+    }
+  }, []);
+
+  // 📊 安全發送 Meta 像素事件工具函式
+  const trackMetaEvent = (eventName, params = {}) => {
+    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+      window.fbq('track', eventName, params);
+    }
+  };
 
   // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
@@ -56,9 +93,21 @@ export default function Home(){
     localStorage.setItem('z_cart', JSON.stringify(cart));
   }, [cart]);
 
-  // 🛒 加入購物車並自動滑出結帳抽屜
-  const addToCart = (name, price) => {
+  // 🛒 加入購物車、觸發 Meta AddToCart 事件，並自動滑出結帳抽屜
+  const addToCart = (name, price, contentId = '') => {
     setCart(prev => [...prev, { name, price }]);
+
+    const eventPayload = {
+      content_name: name,
+      content_type: 'product',
+      value: price,
+      currency: 'TWD',
+    };
+    if (contentId) {
+      eventPayload.content_ids = [contentId];
+    }
+    trackMetaEvent('AddToCart', eventPayload);
+
     document.getElementById('cart')?.classList.add('open');
   };
 
@@ -85,7 +134,7 @@ export default function Home(){
     }
   };
 
-  // 🔗 完美對接後端綠界表單，自動導向金流頁面
+  // 🔗 完美對接後端綠界表單，送出前先觸發 Meta InitiateCheckout 事件
   const handleCheckout = async () => {
     if(!cName || !cPhone || !cEmail || !cAddress){ 
       alert('請完整填寫收件與聯絡資訊'); 
@@ -95,6 +144,15 @@ export default function Home(){
       alert('購物車是空的'); 
       return; 
     }
+
+    // 📊 確認欄位皆齊全後觸發 InitiateCheckout（開始結帳），確保跳轉綠界前完成回傳
+    trackMetaEvent('InitiateCheckout', {
+      content_name: cart.map(i => i.name).join(', '),
+      content_type: 'product',
+      num_items: cart.length,
+      value: total,
+      currency: 'TWD',
+    });
 
     setIsCheckingOut(true);
     try {
@@ -245,7 +303,7 @@ export default function Home(){
         <div id="vip" style={{background:'rgba(212,175,55,0.08)',border:'1px solid var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'20px'}}>
           <h3 style={{color:'var(--gold-l)',marginBottom:'5px'}}>✨ VIP 880 會員專屬福利</h3>
           <p style={{fontSize:'0.8rem',color:'#d0c5b4',marginBottom:'10px'}}>享有全館著作、數字配置與原創畫作<strong>終身九折</strong>禮遇！</p>
-          <button className="btn" onClick={()=>addToCart('VIP 880 終身會員方案',880)}>加入 VIP 880 方案 (NT$ 880)</button>
+          <button className="btn" onClick={()=>addToCart('VIP 880 終身會員方案', 880, 'VIP880')}>加入 VIP 880 方案 (NT$ 880)</button>
         </div>
 
         <section id="intro" className="notice-box" style={{padding:'20px'}}>
@@ -269,7 +327,7 @@ export default function Home(){
               <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div>
               <p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>心靈轉折與生命出口經典力作。</p>
               <div style={{display:'flex',gap:'6px',marginTop:'8px',flexWrap:'wrap'}}>
-                <button className="btn btn-o" onClick={()=>addToCart('生命的出口',269)}>加入購物車</button>
+                <button className="btn btn-o" onClick={()=>addToCart('生命的出口', 269, 'book-exit')}>加入購物車</button>
                 <button className="btn btn-o" style={{fontSize:'0.7rem',padding:'6px 8px'}} onClick={()=>{
                   const url = window.location.origin + '/exit';
                   navigator.clipboard.writeText(url);
@@ -286,7 +344,7 @@ export default function Home(){
               <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div>
               <p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p>
               <div style={{display:'flex',gap:'6px',marginTop:'8px',flexWrap:'wrap'}}>
-                <button className="btn btn-o" onClick={()=>addToCart('進階思維的後裔',269)}>加入購物車</button>
+                <button className="btn btn-o" onClick={()=>addToCart('進階思維的後裔', 269, 'book-descendant')}>加入購物車</button>
                 <button className="btn btn-o" style={{fontSize:'0.7rem',padding:'6px 8px'}} onClick={()=>{
                   const url = window.location.origin + '/descendant';
                   navigator.clipboard.writeText(url);
@@ -325,7 +383,7 @@ export default function Home(){
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>選定生旺手機吉號。</p>
               </div>
               <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('手機號碼配置',1680)}>加入購物車</button>
+                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('手機號碼配置', 1680, 'service-phone')}>加入購物車</button>
                 <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
                   const url = window.location.origin + '/phone';
                   navigator.clipboard.writeText(url);
@@ -344,7 +402,7 @@ export default function Home(){
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>行車平安磁場加持。</p>
               </div>
               <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('車牌號碼配置',1880)}>加入購物車</button>
+                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('車牌號碼配置', 1880, 'service-car')}>加入購物車</button>
                 <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
                   const url = window.location.origin + '/car';
                   navigator.clipboard.writeText(url);
@@ -363,7 +421,7 @@ export default function Home(){
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>住宅環境風水選吉。</p>
               </div>
               <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('住址門牌選吉',3680)}>加入購物車</button>
+                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('住址門牌選吉', 3680, 'service-address')}>加入購物車</button>
                 <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
                   const url = window.location.origin + '/address';
                   navigator.clipboard.writeText(url);
@@ -382,7 +440,7 @@ export default function Home(){
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>商舖聚財客源廣進。</p>
               </div>
               <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('店鋪門牌選吉',5680)}>加入購物車</button>
+                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('店鋪門牌選吉', 5680, 'service-store')}>加入購物車</button>
                 <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
                   const url = window.location.origin + '/store';
                   navigator.clipboard.writeText(url);
@@ -497,7 +555,7 @@ export default function Home(){
                       <button
                         className="btn btn-o"
                         style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
-                        onClick={() => addToCart(item.name + ' (4K・5000px+檔)', 1380)}
+                        onClick={() => addToCart(item.name + ' (4K・5000px+檔)', 1380, item.name + '-4K')}
                       >
                         🛒 選購 4K｜$1,380<br/>
                         <span style={{fontSize:'0.6rem', opacity:0.9}}>5,000px+ 無損 127cm</span>
@@ -505,7 +563,7 @@ export default function Home(){
                       <button
                         className="btn"
                         style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
-                        onClick={() => addToCart(item.name + ' (8K・10000px+檔)', 2480)}
+                        onClick={() => addToCart(item.name + ' (8K・10000px+檔)', 2480, item.name + '-8K')}
                       >
                         🛒 選購 8K｜$2,480<br/>
                         <span style={{fontSize:'0.6rem', opacity:0.9}}>10,000px+ 無損 254cm</span>
