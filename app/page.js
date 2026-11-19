@@ -13,6 +13,17 @@ export default function Home(){
   const [cRemark, setCRemark] = useState('');
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [activeImage, setActiveImage] = useState(null); // 🔍 點擊放大預覽的圖片狀態
+  const [highlightedArt, setHighlightedArt] = useState(null); // ✨ 專屬連結定位高亮狀態
+
+  // 🔮 自動辨識畫作名稱並帶出對應的五行重點說明
+  const getElementDesc = (name = '') => {
+    if (name.includes('水生木')) return '【水生木系】滋養生機、春風得意，助事業成長與心境開闊。';
+    if (name.includes('木生火')) return '【木生火系】涅槃重生、名利雙收，注入熱情與行動能量。';
+    if (name.includes('火生土')) return '【火生土系】厚德載物、穩健聚氣，守護家宅與事業根基。';
+    if (name.includes('土生金')) return '【土生金系】厚積薄發、招財納福，象徵富裕安寧與貴人相助。';
+    if (name.includes('金生水')) return '【金生水系】財源滾滾、靈動生發，開拓智慧與順遂格局。';
+    return '【五行開運典藏】高解析東方水墨，為空間注入溫潤磁場。';
+  };
 
   // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
@@ -34,6 +45,22 @@ export default function Home(){
         if(a){ try{ setArtworks(JSON.parse(a)); }catch(e){ setArtworks([]); } }
       });
   }, []);
+
+  // 🎯 偵測網址 ?art=畫作名稱，自動滑動定位並高亮該幅畫
+  useEffect(() => {
+    if (artworks.length === 0) return;
+    const params = new URLSearchParams(window.location.search);
+    const targetArt = params.get('art');
+    if (targetArt) {
+      const targetIdx = artworks.findIndex(item => item.name === targetArt);
+      if (targetIdx !== -1) {
+        setHighlightedArt(targetArt);
+        setTimeout(() => {
+          document.getElementById('art-card-' + targetIdx)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    }
+  }, [artworks]);
 
   useEffect(() => {
     localStorage.setItem('z_cart', JSON.stringify(cart));
@@ -446,7 +473,12 @@ export default function Home(){
               <p style={{color:'#d0c5b4',gridColumn:'span 2',textAlign:'center',padding:'15px'}}>正在從雲端載入畫作或目前尚無畫作...</p>
             ) : (
               artworks.map((item, idx) => (
-                <div className="s-card" key={idx}>
+                <div 
+                  className="s-card" 
+                  key={idx} 
+                  id={'art-card-' + idx}
+                  style={highlightedArt === item.name ? {border:'1.5px solid var(--gold)', boxShadow:'0 0 14px rgba(212,175,55,0.4)'} : {}}
+                >
                   <div>
                     <div style={{position:'relative',marginBottom:'6px'}}>
                       {/* 🔍 點擊圖片觸發放大預覽，並加上防右鍵與防拖曳 */}
@@ -461,29 +493,23 @@ export default function Home(){
                       <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>品心美學</span>
                     </div>
                     <h4 style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>{item.name}</h4>
+                    <p style={{fontSize:'0.7rem',color:'#d0c5b4',lineHeight:'1.45',marginTop:'4px'}}>{getElementDesc(item.name)}</p>
                   </div>
                   <div style={{marginTop:'8px'}}>
                     <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
                       <button className="btn btn-o" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (4K檔)', 680)}>4K680</button>
                       <button className="btn" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (8K檔)', 1080)}>8K1080</button>
                       <button className="btn btn-o" style={{width:'100%', fontSize:'0.7rem', padding:'5px'}} onClick={() => {
-                        const url = window.location.href;
+                        const url = window.location.origin + '/?art=' + encodeURIComponent(item.name);
                         navigator.clipboard.writeText(url);
-                        alert('已複製「' + item.name + '」連結！');
-                      }}>🔗 複製連結</button>
+                        alert('已複製「' + item.name + '」專屬直達連結！');
+                      }}>🔗 複製專屬連結</button>
                     </div>
                   </div>
                 </div>
               ))
             )}
           </div>
-        </section>
-
-        <section id="invoice" className="notice-box" style={{textAlign:'center', borderColor:'rgba(212,175,55,0.45)'}}>
-          <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>🧾 雲端發票開立說明</h4>
-          <p style={{fontSize:'0.82rem',color:'#f3efe6',lineHeight:'1.7',margin:0}}>
-            購買本站所有商品均會統一開立雲端發票，恭喜各位福主中獎！
-          </p>
         </section>
 
         <section id="legal" className="notice-box">
@@ -553,9 +579,6 @@ export default function Home(){
           <input type="email" value={cEmail} onChange={(e) => setCEmail(e.target.value)} placeholder="Email"/>
           <input type="text" value={cAddress} onChange={(e) => setCAddress(e.target.value)} placeholder="收件地址"/>
           <textarea value={cRemark} onChange={(e) => setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
-          <div style={{background:'rgba(212,175,55,0.08)',border:'1px solid rgba(212,175,55,0.35)',borderRadius:'6px',padding:'8px 10px',margin:'4px 0 8px 0',fontSize:'0.75rem',color:'var(--gold-l)',textAlign:'center',lineHeight:'1.5'}}>
-            🧾 購買本站所有商品均會統一開立雲端發票，恭喜各位福主中獎！
-          </div>
           <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
             {isCheckingOut ? '正在處理訂單與綠界跳轉...' : '確認送出訂單'}
           </button>
