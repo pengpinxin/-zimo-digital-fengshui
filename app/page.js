@@ -281,6 +281,9 @@ export default function Home(){
 
         <section id="services">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>紫墨數字風水</h3>
+          <div className="notice-box" style={{marginTop:'0', marginBottom:'10px', padding:'10px 14px', textAlign:'center', borderColor:'rgba(212,175,55,0.45)'}}>
+            <p style={{fontSize:'0.88rem', color:'var(--gold-l)', fontWeight:'bold', letterSpacing:'1px', margin:0}}>改變自己，先要改變磁場。</p>
+          </div>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'10px',paddingLeft:'4px'}}>專業數字風水配置、手機車牌住址選吉與八字命理諮詢服務。</p>
           <div className="notice-box" style={{marginTop:'0', marginBottom:'12px'}}>
             <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>📌 購買服務注意事項與流程說明</h4>
@@ -296,7 +299,10 @@ export default function Home(){
           <div className="grid">
             <div className="s-card">
               <div>
-                <h4>手機號碼配置</h4>
+                <h4 style={{display:'flex',alignItems:'center',gap:'6px'}}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                  <span>手機號碼配置</span>
+                </h4>
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,680</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>選定生旺手機吉號。</p>
               </div>
@@ -312,7 +318,10 @@ export default function Home(){
 
             <div className="s-card">
               <div>
-                <h4>車牌號碼配置</h4>
+                <h4 style={{display:'flex',alignItems:'center',gap:'6px'}}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                  <span>車牌號碼配置</span>
+                </h4>
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,880</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>行車平安磁場加持。</p>
               </div>
@@ -328,7 +337,10 @@ export default function Home(){
 
             <div className="s-card">
               <div>
-                <h4>住址門牌選吉</h4>
+                <h4 style={{display:'flex',alignItems:'center',gap:'6px'}}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  <span>住址門牌選吉</span>
+                </h4>
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 3,680</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>住宅環境風水選吉。</p>
               </div>
@@ -344,7 +356,10 @@ export default function Home(){
 
             <div className="s-card">
               <div>
-                <h4>店鋪門牌選吉</h4>
+                <h4 style={{display:'flex',alignItems:'center',gap:'6px'}}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}><path d="M3 9l1-5h16l1 5"/><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/><path d="M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8"/></svg>
+                  <span>店鋪門牌選吉</span>
+                </h4>
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 5,680</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>商舖聚財客源廣進。</p>
               </div>
@@ -381,10 +396,49 @@ export default function Home(){
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>品心美學精選高解析度東方水墨與五行開運藝術掛畫（已自動從雲端同步全部畫作）。</p>
           
           <div className="notice-box" style={{marginTop:'0', marginBottom:'15px'}}>
-            <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>🎨 數位藝術畫空間配置與版權說明</h4>
-            <p style={{fontSize:'0.8rem',lineHeight:'1.6',color:'#f3efe6'}}>
-              品心美學開運數位五行畫作可用於<strong>客廳、玄關、房間、餐廳、書房</strong>各個空間。<strong>4K橫式、4K直式</strong>可印刷高清 80 公分左右。本站所有原始檔提供並非授權，如有其它需求請加官方LINE諮詢。
+            <h4 style={{color:'var(--gold-l)',marginBottom:'8px'}}>🎨 數位藝術畫空間配置與版權說明</h4>
+            <p style={{fontSize:'0.85rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'8px'}}>
+              好畫跟好人，好畫旺福主！
             </p>
+            <p style={{fontSize:'0.8rem',lineHeight:'1.7',color:'#f3efe6',marginBottom:'10px'}}>
+              品心美學開運數位五行畫作，不僅適用於<strong>客廳、玄關、房間、餐廳、書房</strong>等居家空間，更是<strong>送人首選、豪宅首選</strong>，亦是傳遞心意與情感交流的雅緻之禮。高解析原圖檔購買後可永久保存，享有自由選框搭配的空間優勢，並可透過線上網路輕鬆印製畫作，依空間自由挑選做框規格與大小比例。
+            </p>
+            <p style={{fontSize:'0.8rem',lineHeight:'1.7',color:'#f3efe6',marginBottom:'12px'}}>
+              全系列提供 <strong>4K直式、4K橫式、8K直式、8K橫式</strong> 等高清規格，除了居家珍藏與禮贈，所有五行畫作亦具有更廣泛的商用價值，可用於<strong>總裁與領導辦公室、茶舍、餐廳，以及各行各業開業典禮增彩</strong>等廣泛用途，為空間注入溫潤氣場與生生不息的格局。
+            </p>
+
+            <div style={{borderTop:'1px dashed var(--border)',paddingTop:'10px',marginBottom:'10px'}}>
+              <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'4px'}}>📩 數位藝術典藏與寄送</p>
+              <p style={{fontSize:'0.78rem',lineHeight:'1.6',color:'#d0c5b4'}}>
+                付款確認後，專人將透過電子郵件直接寄送超高畫質原圖大檔，請確保填寫正確的 Email 地址以利接收。
+              </p>
+            </div>
+
+            <div style={{borderTop:'1px dashed var(--border)',paddingTop:'10px',marginBottom:'10px'}}>
+              <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'6px'}}>🖥️ 輸出規格指南</p>
+              <ul style={{paddingLeft:'16px',fontSize:'0.78rem',lineHeight:'1.6',color:'#d0c5b4'}}>
+                <li><strong>4K 珍藏版（直式／橫式）：</strong>像素規格已超越 5K，建議輸出尺寸為 80cm 至 100cm 或更大（適用場景：客廳、書房、玄關主牆）。</li>
+                <li><strong>8K 極致大師版（直式／橫式）：</strong>像素規格已超越 9K，建議輸出尺寸為 105cm 至 210cm 或更大（適用場景：大器客廳、豪宅、商業空間、玄關主位）。</li>
+                <li>建議選擇<strong>藝術微噴（Giclée）</strong>輸出以呈現最佳畫質。</li>
+              </ul>
+            </div>
+
+            <div style={{borderTop:'1px dashed var(--border)',paddingTop:'10px',marginBottom:'10px'}}>
+              <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'6px'}}>🖼️ 客製化裝裱與印製建議</p>
+              <ul style={{paddingLeft:'16px',fontSize:'0.78rem',lineHeight:'1.6',color:'#d0c5b4'}}>
+                <li>1. 推薦選擇側邊包邊（Canvas Wrap）的無框畫，展現藝術品完整氣韻。</li>
+                <li>2. 建議選用化纖油畫布（Polyester Canvas）或純棉藝術油畫布（Cotton Canvas）。</li>
+                <li>3. 建議至蝦皮購物平台搜尋「客製化無框畫」服務，並直接將檔案傳給店家詢價與訂製。</li>
+                <li>4. 避免陽光直射與潮濕環境，以保護作品長久保存。</li>
+              </ul>
+            </div>
+
+            <div style={{borderTop:'1px dashed var(--border)',paddingTop:'10px'}}>
+              <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'4px'}}>📜 版權與授權說明</p>
+              <p style={{fontSize:'0.78rem',lineHeight:'1.6',color:'#d0c5b4'}}>
+                購買本站所有五行畫作均只授權使用，而非完整授權；如需提供大量商業需求，或需要其它用途客製化商用特殊圖案，皆歡迎加入官方聯繫方式進一步了解。
+              </p>
+            </div>
           </div>
           
           <div className="grid">
