@@ -479,6 +479,13 @@ export default function Home(){
           </div>
         </section>
 
+        <section id="invoice" className="notice-box" style={{textAlign:'center', borderColor:'rgba(212,175,55,0.45)'}}>
+          <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>🧾 雲端發票開立說明</h4>
+          <p style={{fontSize:'0.82rem',color:'#f3efe6',lineHeight:'1.7',margin:0}}>
+            購買本站所有商品均會統一開立雲端發票，恭喜各位福主中獎！
+          </p>
+        </section>
+
         <section id="legal" className="notice-box">
           <h4>⚖️ 法律責任與版權聲明</h4>
           <ul>
@@ -546,6 +553,9 @@ export default function Home(){
           <input type="email" value={cEmail} onChange={(e) => setCEmail(e.target.value)} placeholder="Email"/>
           <input type="text" value={cAddress} onChange={(e) => setCAddress(e.target.value)} placeholder="收件地址"/>
           <textarea value={cRemark} onChange={(e) => setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
+          <div style={{background:'rgba(212,175,55,0.08)',border:'1px solid rgba(212,175,55,0.35)',borderRadius:'6px',padding:'8px 10px',margin:'4px 0 8px 0',fontSize:'0.75rem',color:'var(--gold-l)',textAlign:'center',lineHeight:'1.5'}}>
+            🧾 購買本站所有商品均會統一開立雲端發票，恭喜各位福主中獎！
+          </div>
           <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
             {isCheckingOut ? '正在處理訂單與綠界跳轉...' : '確認送出訂單'}
           </button>
