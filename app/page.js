@@ -56,9 +56,10 @@ export default function Home(){
     localStorage.setItem('z_cart', JSON.stringify(cart));
   }, [cart]);
 
+  // 🛒 加入購物車並自動滑出結帳抽屜
   const addToCart = (name, price) => {
     setCart(prev => [...prev, { name, price }]);
-    alert('已將「' + name + '」加入購物車！');
+    document.getElementById('cart')?.classList.add('open');
   };
 
   const removeFromCart = (index) => {
@@ -421,22 +422,28 @@ export default function Home(){
               品心美學開運數位五行畫作，不僅適用於<strong>客廳、玄關、房間、餐廳、書房</strong>等居家空間，更是<strong>送人首選、豪宅首選</strong>，亦是傳遞心意與情感交流的雅緻之禮。高解析原圖檔購買後可永久保存，享有自由選框搭配的空間優勢，並可透過線上網路輕鬆印製畫作，依空間自由挑選做框規格與大小比例。
             </p>
             <p style={{fontSize:'0.8rem',lineHeight:'1.7',color:'#f3efe6',marginBottom:'12px'}}>
-              全系列提供 <strong>4K直式、4K橫式、8K直式、8K橫式</strong> 等高清規格，除了居家珍藏與禮贈，所有五行畫作亦具有更廣泛的商用價值，可用於<strong>總裁與領導辦公室、茶舍、餐廳，以及各行各業開業典禮增彩</strong>等廣泛用途，為空間注入溫潤氣場與生生不息的格局。
+              全系列提供 <strong>4K（5,000 像素以上）</strong> 與 <strong>8K（10,000 像素以上）</strong> 稀缺高解析原檔（直式／橫式），遠超一般網路縮圖；除了居家珍藏與禮贈，亦具有廣泛商用價值，適用於<strong>總裁與領導辦公室、茶舍、餐廳，以及各行各業開業典禮增彩</strong>，為空間注入溫潤氣場與生生不息的格局。
             </p>
 
             <div style={{borderTop:'1px dashed var(--border)',paddingTop:'10px',marginBottom:'10px'}}>
               <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'4px'}}>📩 數位藝術典藏與寄送</p>
               <p style={{fontSize:'0.78rem',lineHeight:'1.6',color:'#d0c5b4'}}>
-                付款確認後，專人將透過電子郵件直接寄送超高畫質原圖大檔，請確保填寫正確的 Email 地址以利接收。
+                付款確認後，專人將透過電子郵件直接寄送未壓縮超高畫質原圖大檔，請確保填寫正確的 Email 地址以利接收。
               </p>
             </div>
 
             <div style={{borderTop:'1px dashed var(--border)',paddingTop:'10px',marginBottom:'10px'}}>
-              <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'6px'}}>🖥️ 輸出規格指南</p>
-              <ul style={{paddingLeft:'16px',fontSize:'0.78rem',lineHeight:'1.6',color:'#d0c5b4'}}>
-                <li><strong>4K 珍藏版（直式／橫式）：</strong>像素規格已超越 5K，建議輸出尺寸為 80cm 至 100cm 或更大（適用場景：客廳、書房、玄關主牆）。</li>
-                <li><strong>8K 極致大師版（直式／橫式）：</strong>像素規格已超越 9K，建議輸出尺寸為 105cm 至 210cm 或更大（適用場景：大器客廳、豪宅、商業空間、玄關主位）。</li>
-                <li>建議選擇<strong>藝術微噴（Giclée）</strong>輸出以呈現最佳畫質。</li>
+              <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'6px'}}>🖥️ 稀缺超高像素・科學無損輸出規格指南</p>
+              <ul style={{paddingLeft:'16px',fontSize:'0.78rem',lineHeight:'1.65',color:'#d0c5b4'}}>
+                <li>
+                  <strong style={{color:'var(--gold-l)'}}>4K 高清珍藏版（5,000 像素以上）｜NT$ 1,380：</strong>
+                  依藝術微噴科學標準實算，300 DPI 微距細節達 <strong>42 cm</strong>、畫廊級 150 DPI 無損直出約 <strong>85 cm</strong>，客廳沙發牆觀賞標準（100–120 DPI）最高可無損印製 <strong>105～127 cm</strong>（適用：居家客廳沙發牆、書房、主臥、玄關）。
+                </li>
+                <li>
+                  <strong style={{color:'var(--gold-l)'}}>8K 巨幅大師版（10,000 像素以上）｜NT$ 2,480：</strong>
+                  市場罕見萬級像素原檔！300 DPI 微距細節達 <strong>85 cm</strong>、畫廊級 150 DPI 無損直出高達 <strong>169 cm</strong>，大廳遠距觀賞標準（100–120 DPI）可無損印製 <strong>210～254 cm 巨幅主牆</strong>，放大依然筆觸清晰絕不馬賽克（適用：挑高客廳、豪宅、企業辦公室主位、商業空間）。
+                </li>
+                <li>建議選擇<strong>藝術微噴（Giclée）</strong>輸出以呈現最佳墨韻與層次。</li>
               </ul>
             </div>
 
@@ -487,8 +494,22 @@ export default function Home(){
                   </div>
                   <div style={{marginTop:'8px'}}>
                     <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
-                      <button className="btn btn-o" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (4K檔)', 680)}>4K680</button>
-                      <button className="btn" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (8K檔)', 1080)}>8K1080</button>
+                      <button
+                        className="btn btn-o"
+                        style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
+                        onClick={() => addToCart(item.name + ' (4K・5000px+檔)', 1380)}
+                      >
+                        🛒 選購 4K｜$1,380<br/>
+                        <span style={{fontSize:'0.6rem', opacity:0.9}}>5,000px+ 無損 127cm</span>
+                      </button>
+                      <button
+                        className="btn"
+                        style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
+                        onClick={() => addToCart(item.name + ' (8K・10000px+檔)', 2480)}
+                      >
+                        🛒 選購 8K｜$2,480<br/>
+                        <span style={{fontSize:'0.6rem', opacity:0.9}}>10,000px+ 無損 254cm</span>
+                      </button>
                       <button className="btn btn-o" style={{width:'100%', fontSize:'0.7rem', padding:'5px'}} onClick={() => {
                         const url = window.location.origin + '/?art=' + encodeURIComponent(item.name);
                         navigator.clipboard.writeText(url);
