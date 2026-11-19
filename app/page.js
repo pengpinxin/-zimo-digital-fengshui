@@ -13,6 +13,17 @@ export default function Home(){
   const [cRemark, setCRemark] = useState('');
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [activeImage, setActiveImage] = useState(null); // 🔍 點擊放大預覽的圖片狀態
+  const [highlightedArt, setHighlightedArt] = useState(null); // ✨ 專屬連結定位高亮狀態
+
+  // 🔮 統一精簡單行吉祥語（日後檔名含五行關鍵字即自動切換）
+  const getElementTag = (name = '') => {
+    if (name.includes('水生木')) return '水生木開運納福';
+    if (name.includes('木生火')) return '木生火開運納福';
+    if (name.includes('火生土')) return '火生土開運納福';
+    if (name.includes('土生金')) return '土生金開運納福';
+    if (name.includes('金生水')) return '金生水開運納福';
+    return '五行開運納福';
+  };
 
   // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
@@ -34,6 +45,22 @@ export default function Home(){
         if(a){ try{ setArtworks(JSON.parse(a)); }catch(e){ setArtworks([]); } }
       });
   }, []);
+
+  // 🎯 偵測網址 ?art=畫作名稱，自動滑動定位並高亮該幅畫
+  useEffect(() => {
+    if (artworks.length === 0) return;
+    const params = new URLSearchParams(window.location.search);
+    const targetArt = params.get('art');
+    if (targetArt) {
+      const targetIdx = artworks.findIndex(item => item.name === targetArt);
+      if (targetIdx !== -1) {
+        setHighlightedArt(targetArt);
+        setTimeout(() => {
+          document.getElementById('art-card-' + targetIdx)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    }
+  }, [artworks]);
 
   useEffect(() => {
     localStorage.setItem('z_cart', JSON.stringify(cart));
@@ -446,7 +473,12 @@ export default function Home(){
               <p style={{color:'#d0c5b4',gridColumn:'span 2',textAlign:'center',padding:'15px'}}>正在從雲端載入畫作或目前尚無畫作...</p>
             ) : (
               artworks.map((item, idx) => (
-                <div className="s-card" key={idx}>
+                <div 
+                  className="s-card" 
+                  key={idx} 
+                  id={'art-card-' + idx}
+                  style={highlightedArt === item.name ? {border:'1.5px solid var(--gold)', boxShadow:'0 0 14px rgba(212,175,55,0.4)'} : {}}
+                >
                   <div>
                     <div style={{position:'relative',marginBottom:'6px'}}>
                       {/* 🔍 點擊圖片觸發放大預覽，並加上防右鍵與防拖曳 */}
@@ -460,17 +492,18 @@ export default function Home(){
                       />
                       <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>品心美學</span>
                     </div>
-                    <h4 style={{color:'var(--gold-l)',fontSize:'0.85rem'}}>{item.name}</h4>
+                    <div style={{color:'#9e9382',fontSize:'0.68rem',letterSpacing:'0.5px',marginBottom:'2px',wordBreak:'break-all'}}>{item.name}</div>
+                    <h4 style={{color:'var(--gold-l)',fontSize:'0.82rem',letterSpacing:'0.5px'}}>{getElementTag(item.name)}</h4>
                   </div>
                   <div style={{marginTop:'8px'}}>
                     <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
                       <button className="btn btn-o" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (4K檔)', 680)}>4K680</button>
                       <button className="btn" style={{width:'100%', fontSize:'0.75rem', padding:'6px'}} onClick={() => addToCart(item.name + ' (8K檔)', 1080)}>8K1080</button>
                       <button className="btn btn-o" style={{width:'100%', fontSize:'0.7rem', padding:'5px'}} onClick={() => {
-                        const url = window.location.href;
+                        const url = window.location.origin + '/?art=' + encodeURIComponent(item.name);
                         navigator.clipboard.writeText(url);
-                        alert('已複製「' + item.name + '」連結！');
-                      }}>🔗 複製連結</button>
+                        alert('已複製「' + item.name + '」專屬直達連結！');
+                      }}>🔗 複製專屬連結</button>
                     </div>
                   </div>
                 </div>
