@@ -15,16 +15,6 @@ export default function Home(){
   const [activeImage, setActiveImage] = useState(null); // 🔍 點擊放大預覽的圖片狀態
   const [highlightedArt, setHighlightedArt] = useState(null); // ✨ 專屬連結定位高亮狀態
 
-  // 🔮 統一精簡單行吉祥語（日後檔名含五行關鍵字即自動切換）
-  const getElementTag = (name = '') => {
-    if (name.includes('水生木')) return '水生木開運納福';
-    if (name.includes('木生火')) return '木生火開運納福';
-    if (name.includes('火生土')) return '火生土開運納福';
-    if (name.includes('土生金')) return '土生金開運納福';
-    if (name.includes('金生水')) return '金生水開運納福';
-    return '五行開運納福';
-  };
-
   // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
     const c = localStorage.getItem('z_cart');
@@ -316,7 +306,7 @@ export default function Home(){
             <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>📌 購買服務注意事項與流程說明</h4>
             <ul style={{paddingLeft:'16px',fontSize:'0.75rem',lineHeight:'1.6'}}>
               <li><strong>1. 預約流程：</strong>手機、車牌、店鋪、住址配置高端生旺風水號碼，須請您先自行向相關單位申請或初步選定您喜歡的 3～5 組號碼，再透過預約表單告訴紫墨老師，老師將為您進行人工深度解析與最終吉凶配置！</li>
-              <li><strong>2. 專業鑑定聲明：</strong>經過老師數字分析之後，如若您的原生號碼本身就是生旺您的吉數，那麼便是最好的數字配置，則不需要更換；然而，老師則同樣會收取您的鑑定費用。因為這是消耗老師大量精力的專業性諮詢服務，還請緣主務必尊重學術文學的強大驅動力，這也證實了：「知因果者、則不畏因果」的推理。</li>
+              <li><strong>2. 專業鑑定聲明：</strong>經過老師數字分析之後，如若您的原生號碼本身就是生旺您的吉數，那麼便是最好的數字配置，則不需要更換；然而，老師則同樣會收取您的鑑定費用。因為這是消耗老師大量精力的專業性諮詢服務，還請緣主務必尊重學術文學的強大驅動力。</li>
               <li><strong>3. 服務性質：</strong>數位與命理客製化配置服務確認開始執行後，恕不接受無理由退款。</li>
               <li><strong>4. 理性參考：</strong>所有風水磁場與號碼配置旨在輔助提升運勢與心境，個人努力與正念亦為成就之本。</li>
               <li><strong>5. 備註填寫：</strong>購買服務請在備註欄位填寫您的出生年月日時，及現有號碼跟您欲要更換的號碼，謝謝您！</li>
@@ -492,8 +482,8 @@ export default function Home(){
                       />
                       <span style={{position:'absolute',bottom:'4px',right:'4px',fontSize:'0.55rem',background:'rgba(0,0,0,0.7)',color:'#fff',padding:'2px 4px',borderRadius:'3px'}}>品心美學</span>
                     </div>
-                    <div style={{color:'#9e9382',fontSize:'0.68rem',letterSpacing:'0.5px',marginBottom:'2px',wordBreak:'break-all'}}>{item.name}</div>
-                    <h4 style={{color:'var(--gold-l)',fontSize:'0.82rem',letterSpacing:'0.5px'}}>{getElementTag(item.name)}</h4>
+                    <div style={{color:'#8f8474',fontSize:'0.62rem',letterSpacing:'0.5px',marginBottom:'2px',wordBreak:'break-all'}}>{item.name}</div>
+                    <h4 style={{color:'var(--gold-l)',fontSize:'0.82rem',letterSpacing:'1px'}}>五行開運納福</h4>
                   </div>
                   <div style={{marginTop:'8px'}}>
                     <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
