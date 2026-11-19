@@ -56,9 +56,10 @@ export default function Home(){
     localStorage.setItem('z_cart', JSON.stringify(cart));
   }, [cart]);
 
+  // 🛒 加入購物車並自動滑出結帳抽屜
   const addToCart = (name, price) => {
     setCart(prev => [...prev, { name, price }]);
-    alert('已將「' + name + '」加入購物車！');
+    document.getElementById('cart')?.classList.add('open');
   };
 
   const removeFromCart = (index) => {
@@ -495,19 +496,19 @@ export default function Home(){
                     <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
                       <button
                         className="btn btn-o"
-                        style={{width:'100%', fontSize:'0.72rem', padding:'6px 4px', lineHeight:'1.3'}}
+                        style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
                         onClick={() => addToCart(item.name + ' (4K・5000px+檔)', 1380)}
                       >
-                        4K 珍藏｜NT$ 1,380<br/>
-                        <span style={{fontSize:'0.62rem', opacity:0.9}}>5,000px+ 無損 127cm</span>
+                        🛒 選購 4K｜$1,380<br/>
+                        <span style={{fontSize:'0.6rem', opacity:0.9}}>5,000px+ 無損 127cm</span>
                       </button>
                       <button
                         className="btn"
-                        style={{width:'100%', fontSize:'0.72rem', padding:'6px 4px', lineHeight:'1.3'}}
+                        style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
                         onClick={() => addToCart(item.name + ' (8K・10000px+檔)', 2480)}
                       >
-                        8K 大師｜NT$ 2,480<br/>
-                        <span style={{fontSize:'0.62rem', opacity:0.9}}>10,000px+ 無損 254cm</span>
+                        🛒 選購 8K｜$2,480<br/>
+                        <span style={{fontSize:'0.6rem', opacity:0.9}}>10,000px+ 無損 254cm</span>
                       </button>
                       <button className="btn btn-o" style={{width:'100%', fontSize:'0.7rem', padding:'5px'}} onClick={() => {
                         const url = window.location.origin + '/?art=' + encodeURIComponent(item.name);
