@@ -494,7 +494,7 @@ export default function Home(){
               <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'6px'}}>🖥️ 稀缺超高像素・科學無損輸出規格指南</p>
               <ul style={{paddingLeft:'16px',fontSize:'0.78rem',lineHeight:'1.65',color:'#d0c5b4'}}>
                 <li>
-                  <strong style={{color:'var(--gold-l)'}}>4K 高清珍藏版（5,000 像素以上）｜NT$ 1,380：</strong>
+                  <strong style={{color:'var(--gold-l)'}}>4K 高清珍藏版（5,000 像素以上）｜NT$ 1,280：</strong>
                   依藝術微噴科學標準實算，300 DPI 微距細節達 <strong>42 cm</strong>、畫廊級 150 DPI 無損直出約 <strong>85 cm</strong>，客廳沙發牆觀賞標準（100–120 DPI）最高可無損印製 <strong>105～127 cm</strong>（適用：居家客廳沙發牆、書房、主臥、玄關）。
                 </li>
                 <li>
@@ -555,9 +555,9 @@ export default function Home(){
                       <button
                         className="btn btn-o"
                         style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
-                        onClick={() => addToCart(item.name + ' (4K檔)', 1380, item.name + '-4K')}
+                        onClick={() => addToCart(item.name + ' (4K檔)', 1280, item.name + '-4K')}
                       >
-                        🛒 選購 4K｜$1,380<br/>
+                        🛒 選購 4K｜$1,280<br/>
                         <span style={{fontSize:'0.6rem', opacity:0.9}}>5,000px+ 無損 127cm</span>
                       </button>
                       <button
