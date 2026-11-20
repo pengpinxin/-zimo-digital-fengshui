@@ -555,7 +555,7 @@ export default function Home(){
                       <button
                         className="btn btn-o"
                         style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
-                        onClick={() => addToCart(item.name + ' (4K・5000px+檔)', 1380, item.name + '-4K')}
+                        onClick={() => addToCart(item.name + ' (4K檔)', 1380, item.name + '-4K')}
                       >
                         🛒 選購 4K｜$1,380<br/>
                         <span style={{fontSize:'0.6rem', opacity:0.9}}>5,000px+ 無損 127cm</span>
@@ -563,7 +563,7 @@ export default function Home(){
                       <button
                         className="btn"
                         style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
-                        onClick={() => addToCart(item.name + ' (8K・10000px+檔)', 2480, item.name + '-8K')}
+                        onClick={() => addToCart(item.name + ' (8K檔)', 2480, item.name + '-8K')}
                       >
                         🛒 選購 8K｜$2,480<br/>
                         <span style={{fontSize:'0.6rem', opacity:0.9}}>10,000px+ 無損 254cm</span>
@@ -628,9 +628,9 @@ export default function Home(){
             <p style={{color:'#d0c5b4',textAlign:'center',padding:'15px'}}>購物車是空的</p>
           ) : (
             cart.map((i, idx) => (
-              <div key={idx} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid rgba(74,61,49,0.3)',fontSize:'0.8rem'}}>
-                <span>{i.name}</span>
-                <span>NT$ {i.price} <button onClick={() => removeFromCart(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'6px'}}>刪除</button></span>
+              <div key={idx} style={{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'8px',padding:'6px 0',borderBottom:'1px solid rgba(74,61,49,0.3)',fontSize:'0.75rem'}}>
+                <span style={{flex:1,minWidth:0,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{i.name}</span>
+                <span style={{flexShrink:0,whiteSpace:'nowrap'}}>NT$ {i.price} <button onClick={() => removeFromCart(idx)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginLeft:'4px',fontSize:'0.75rem'}}>刪除</button></span>
               </div>
             ))
           )}
