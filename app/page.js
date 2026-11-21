@@ -510,8 +510,9 @@ export default function Home(){
               <ul style={{paddingLeft:'16px',fontSize:'0.78rem',lineHeight:'1.6',color:'#d0c5b4'}}>
                 <li>1. 推薦選擇側邊包邊（Canvas Wrap）的無框畫，展現藝術品完整氣韻。</li>
                 <li>2. 建議選用化纖油畫布（Polyester Canvas）或純棉藝術油畫布（Cotton Canvas）。</li>
-                <li>3. 建議至蝦皮購物平台搜尋「客製化無框畫」服務，並直接將檔案傳給店家詢價與訂製。</li>
-                <li>4. 避免陽光直射與潮濕環境，以保護作品長久保存。</li>
+                <li>3. 4K 建議至蝦皮購物平台搜尋「客製化無框畫」服務，並直接將檔案傳給店家詢價與訂製。</li>
+                <li>4. 8K 以上建議 Google 搜尋本地大型印刷廠客製化印製與裝裱服務，並直接將檔案傳給店家詢價與訂製。</li>
+                <li>5. 避免陽光直射與潮濕環境，以保護作品長久保存。</li>
               </ul>
             </div>
 
