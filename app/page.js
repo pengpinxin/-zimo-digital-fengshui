@@ -14,10 +14,9 @@ export default function Home(){
   const [cAddress, setCAddress] = useState('');
   const [cRemark, setCRemark] = useState('');
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [activeImage, setActiveImage] = useState(null); // 🔍 點擊放大預覽的圖片狀態
-  const [highlightedArt, setHighlightedArt] = useState(null); // ✨ 專屬連結定位高亮狀態
+  const [activeImage, setActiveImage] = useState(null);
+  const [highlightedArt, setHighlightedArt] = useState(null);
 
-  // 📊 初始化 Meta 像素（編號：2001571467480785），若尚未載入則自動補載並避免重複初始化
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (!window.fbq) {
@@ -45,14 +44,12 @@ export default function Home(){
     }
   }, []);
 
-  // 📊 安全發送 Meta 像素事件工具函式
   const trackMetaEvent = (eventName, params = {}) => {
     if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
       window.fbq('track', eventName, params);
     }
   };
 
-  // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
     const c = localStorage.getItem('z_cart');
     if(c){ try{ setCart(JSON.parse(c)); }catch(e){ setCart([]); } }
@@ -73,7 +70,6 @@ export default function Home(){
       });
   }, []);
 
-  // 🎯 偵測網址 ?art=畫作名稱，自動滑動定位並高亮該幅畫
   useEffect(() => {
     if (artworks.length === 0) return;
     const params = new URLSearchParams(window.location.search);
@@ -93,7 +89,6 @@ export default function Home(){
     localStorage.setItem('z_cart', JSON.stringify(cart));
   }, [cart]);
 
-  // 🛒 加入購物車、觸發 Meta AddToCart 事件，並自動滑出結帳抽屜
   const addToCart = (name, price, contentId = '') => {
     setCart(prev => [...prev, { name, price }]);
 
@@ -134,7 +129,6 @@ export default function Home(){
     }
   };
 
-  // 🔗 完美對接後端綠界表單，送出前先觸發 Meta InitiateCheckout 事件
   const handleCheckout = async () => {
     if(!cName || !cPhone || !cEmail || !cAddress){ 
       alert('請完整填寫收件與聯絡資訊'); 
@@ -145,7 +139,6 @@ export default function Home(){
       return; 
     }
 
-    // 📊 確認欄位皆齊全後觸發 InitiateCheckout（開始結帳），確保跳轉綠界前完成回傳
     trackMetaEvent('InitiateCheckout', {
       content_name: cart.map(i => i.name).join(', '),
       content_type: 'product',
@@ -248,11 +241,11 @@ export default function Home(){
         header{background:#1a1714 !important;border-bottom:1px solid var(--border);padding:10px 14px;position:sticky;top:0;z-index:500;display:flex;justify-content:space-between;align-items:center;gap:8px;-webkit-transform:translateZ(0);transform:translateZ(0);}
         .btn{background:linear-gradient(135deg,#d4af37,#b59226) !important;color:#1a1714 !important;border:1px solid #e2c15a;padding:7px 12px;border-radius:14px;font-size:0.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1.2;}
         .btn-o{background:#24201c !important;border:1px solid var(--gold) !important;color:#f3e5ab !important;}
-        /* 🎨 畫作網購統一精美按鈕樣式（4K / 8K 完全一致、不跑位） */
+        /* 🎨 畫作購買按鈕：黑底金框、4K 與 8K 顏色完全統一 */
         .art-btn-group{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
-        .btn-art-buy{width:100%;height:34px;padding:0 8px;border-radius:8px;background:linear-gradient(135deg,#d4af37,#b59226) !important;color:#1a1714 !important;border:1px solid #e4c564 !important;font-size:0.76rem;font-weight:700;letter-spacing:0.4px;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;cursor:pointer;}
-        .btn-art-buy:active{opacity:0.88;}
-        .btn-art-link{width:100%;height:30px;padding:0 8px;border-radius:8px;background:transparent !important;color:#f3e5ab !important;border:1px solid rgba(212,175,55,0.5) !important;font-size:0.7rem;font-weight:600;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;cursor:pointer;}
+        .btn-art-buy{width:100%;height:34px;padding:0 8px;border-radius:14px;background:#1a1714 !important;color:#f3e5ab !important;border:1px solid #d4af37 !important;font-size:0.75rem;font-weight:700;letter-spacing:0.4px;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;cursor:pointer;}
+        .btn-art-buy:active{background:#2f281f !important;}
+        .btn-art-link{width:100%;height:30px;padding:0 8px;border-radius:14px;background:transparent !important;color:#d0c5b4 !important;border:1px solid rgba(212,175,55,0.4) !important;font-size:0.7rem;font-weight:500;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;cursor:pointer;}
         .wrap{max-width:750px;margin:0 auto;padding:15px;}
         .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;margin-bottom:15px;display:flex;gap:15px;align-items:center;}
         .card img{width:140px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
@@ -265,7 +258,6 @@ export default function Home(){
         .notice-box h4{color:var(--gold-l);margin-bottom:8px;font-size:0.9rem;}
         .notice-box ul{padding-left:18px;}
         .notice-box li{margin-bottom:6px;}
-        /* 🔍 燈箱預覽樣式 */
         .lightbox-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
         .lightbox-content { position: relative; max-width: 90%; max-height: 90%; text-align: center; }
         .lightbox-content img { width: 100%; height: auto; max-height: 80vh; object-fit: contain; border-radius: 8px; border: 1px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -281,7 +273,7 @@ export default function Home(){
           </div>
         </div>
         <div style={{display:'flex',gap:'6px',flexShrink:0}}>
-          <button className="btn" onClick={openCart}>🛒 購物車({cart.length})</button>
+          <button className="btn btn-o" onClick={openCart}>🛒 購物車({cart.length})</button>
           <button className="btn btn-o" onClick={openMenu}>☰ 選單</button>
         </div>
       </header>
@@ -544,7 +536,6 @@ export default function Home(){
                 >
                   <div>
                     <div style={{position:'relative',marginBottom:'6px'}}>
-                      {/* 🔍 點擊圖片觸發放大預覽，並加上防右鍵與防拖曳 */}
                       <img 
                         src={item.url} 
                         style={{width:'100%',height:'110px',objectFit:'cover',borderRadius:'6px',cursor:'pointer',display:'block'}} 
@@ -559,7 +550,6 @@ export default function Home(){
                     <h4 style={{color:'var(--gold-l)',fontSize:'0.82rem',letterSpacing:'1px'}}>五行開運納福</h4>
                   </div>
 
-                  {/* 🎨 精簡統一的 4K / 8K 購買按鈕（同色系、無多餘字樣、固定位置不跳動） */}
                   <div className="art-btn-group">
                     <button
                       type="button"
@@ -608,7 +598,6 @@ export default function Home(){
         </footer>
       </div>
 
-      {/* 🔍 燈箱放大預覽彈跳視窗 */}
       {activeImage && (
         <div className="lightbox-overlay" onClick={() => setActiveImage(null)}>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
