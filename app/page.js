@@ -241,7 +241,7 @@ export default function Home(){
         header{background:#1a1714 !important;border-bottom:1px solid var(--border);padding:10px 14px;position:sticky;top:0;z-index:500;display:flex;justify-content:space-between;align-items:center;gap:8px;-webkit-transform:translateZ(0);transform:translateZ(0);}
         .btn{background:linear-gradient(135deg,#d4af37,#b59226) !important;color:#1a1714 !important;border:1px solid #e2c15a;padding:7px 12px;border-radius:14px;font-size:0.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1.2;}
         .btn-o{background:#24201c !important;border:1px solid var(--gold) !important;color:#f3e5ab !important;}
-        /* 🎨 畫作購買按鈕：黑底金框、4K 與 8K 顏色完全統一 */
+        /* 🎨 全站商品購買與連結按鈕（書籍、四大服務、畫作顏色完全統一） */
         .art-btn-group{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
         .btn-art-buy{width:100%;height:34px;padding:0 8px;border-radius:14px;background:#1a1714 !important;color:#f3e5ab !important;border:1px solid #d4af37 !important;font-size:0.75rem;font-weight:700;letter-spacing:0.4px;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;cursor:pointer;}
         .btn-art-buy:active{background:#2f281f !important;}
@@ -326,8 +326,8 @@ export default function Home(){
               <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div>
               <p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>心靈轉折與生命出口經典力作。</p>
               <div style={{display:'flex',gap:'6px',marginTop:'8px',flexWrap:'wrap'}}>
-                <button className="btn btn-o" onClick={()=>addToCart('生命的出口', 269, 'book-exit')}>加入購物車</button>
-                <button className="btn btn-o" style={{fontSize:'0.7rem',padding:'6px 8px'}} onClick={()=>{
+                <button type="button" className="btn-art-buy" style={{width:'auto',padding:'0 14px'}} onClick={()=>addToCart('生命的出口', 269, 'book-exit')}>加入購物車</button>
+                <button type="button" className="btn-art-link" style={{width:'auto',padding:'0 12px'}} onClick={()=>{
                   const url = window.location.origin + '/exit';
                   navigator.clipboard.writeText(url);
                   alert('已複製《生命的出口》專屬分頁連結！');
@@ -343,8 +343,8 @@ export default function Home(){
               <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div>
               <p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p>
               <div style={{display:'flex',gap:'6px',marginTop:'8px',flexWrap:'wrap'}}>
-                <button className="btn btn-o" onClick={()=>addToCart('進階思維的後裔', 269, 'book-descendant')}>加入購物車</button>
-                <button className="btn btn-o" style={{fontSize:'0.7rem',padding:'6px 8px'}} onClick={()=>{
+                <button type="button" className="btn-art-buy" style={{width:'auto',padding:'0 14px'}} onClick={()=>addToCart('進階思維的後裔', 269, 'book-descendant')}>加入購物車</button>
+                <button type="button" className="btn-art-link" style={{width:'auto',padding:'0 12px'}} onClick={()=>{
                   const url = window.location.origin + '/descendant';
                   navigator.clipboard.writeText(url);
                   alert('已複製《進階思維的後裔》專屬分頁連結！');
@@ -381,9 +381,9 @@ export default function Home(){
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,680</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>選定生旺手機吉號。</p>
               </div>
-              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('手機號碼配置', 1680, 'service-phone')}>加入購物車</button>
-                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+              <div className="art-btn-group">
+                <button type="button" className="btn-art-buy" onClick={()=>addToCart('手機號碼配置', 1680, 'service-phone')}>加入購物車</button>
+                <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/phone';
                   navigator.clipboard.writeText(url);
                   alert('已複製「手機號碼配置」專屬分頁連結！');
@@ -400,9 +400,9 @@ export default function Home(){
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,880</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>行車平安磁場加持。</p>
               </div>
-              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('車牌號碼配置', 1880, 'service-car')}>加入購物車</button>
-                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+              <div className="art-btn-group">
+                <button type="button" className="btn-art-buy" onClick={()=>addToCart('車牌號碼配置', 1880, 'service-car')}>加入購物車</button>
+                <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/car';
                   navigator.clipboard.writeText(url);
                   alert('已複製「車牌號碼配置」專屬分頁連結！');
@@ -419,9 +419,9 @@ export default function Home(){
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 3,680</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>住宅環境風水選吉。</p>
               </div>
-              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('住址門牌選吉', 3680, 'service-address')}>加入購物車</button>
-                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+              <div className="art-btn-group">
+                <button type="button" className="btn-art-buy" onClick={()=>addToCart('住址門牌選吉', 3680, 'service-address')}>加入購物車</button>
+                <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/address';
                   navigator.clipboard.writeText(url);
                   alert('已複製「住址門牌選吉」專屬分頁連結！');
@@ -438,9 +438,9 @@ export default function Home(){
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 5,680</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>商舖聚財客源廣進。</p>
               </div>
-              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('店鋪門牌選吉', 5680, 'service-store')}>加入購物車</button>
-                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+              <div className="art-btn-group">
+                <button type="button" className="btn-art-buy" onClick={()=>addToCart('店鋪門牌選吉', 5680, 'service-store')}>加入購物車</button>
+                <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/store';
                   navigator.clipboard.writeText(url);
                   alert('已複製「店鋪門牌選吉」專屬分頁連結！');
@@ -450,7 +450,7 @@ export default function Home(){
           </div>
         </section>
 
-        {/* 📞 聯絡方式區塊（完整保留原有聯絡方式並新增電話：02-28323010） */}
+        {/* 📞 聯絡方式區塊 */}
         <section id="contact">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>生命值得更好地待遇</h3>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'10px',paddingLeft:'4px'}}>官方私域引流與專屬預約管道</p>
@@ -470,7 +470,7 @@ export default function Home(){
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>原創開運數位藝術畫</h3>
           <div className="notice-box" style={{marginTop:'0', marginBottom:'10px', padding:'10px 14px', textAlign:'center', borderColor:'rgba(212,175,55,0.45)'}}>
-            <p style={{fontSize:'0.88rem', color:'var(--gold-l)', fontWeight:'bold', letterSpacing:'1px', margin:0}}>好畫跟好人，好畫旺福主！</p>
+            <p style={{fontSize:'0.88rem', color:'var(--gold-l)', fontWeight:'bold', letterSpacing:'1px', margin:0}}>品心美學 原創數位藝術授權</p>
           </div>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>品心美學精選高解析度東方水墨與五行開運藝術掛畫（已自動從雲端同步全部畫作）。</p>
           
