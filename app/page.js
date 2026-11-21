@@ -14,10 +14,9 @@ export default function Home(){
   const [cAddress, setCAddress] = useState('');
   const [cRemark, setCRemark] = useState('');
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [activeImage, setActiveImage] = useState(null); // 🔍 點擊放大預覽的圖片狀態
-  const [highlightedArt, setHighlightedArt] = useState(null); // ✨ 專屬連結定位高亮狀態
+  const [activeImage, setActiveImage] = useState(null);
+  const [highlightedArt, setHighlightedArt] = useState(null);
 
-  // 📊 初始化 Meta 像素（編號：2001571467480785），若尚未載入則自動補載並避免重複初始化
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (!window.fbq) {
@@ -45,14 +44,12 @@ export default function Home(){
     }
   }, []);
 
-  // 📊 安全發送 Meta 像素事件工具函式
   const trackMetaEvent = (eventName, params = {}) => {
     if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
       window.fbq('track', eventName, params);
     }
   };
 
-  // 🚀 自動從雲端 API 載入所有畫作
   useEffect(() => {
     const c = localStorage.getItem('z_cart');
     if(c){ try{ setCart(JSON.parse(c)); }catch(e){ setCart([]); } }
@@ -73,7 +70,6 @@ export default function Home(){
       });
   }, []);
 
-  // 🎯 偵測網址 ?art=畫作名稱，自動滑動定位並高亮該幅畫
   useEffect(() => {
     if (artworks.length === 0) return;
     const params = new URLSearchParams(window.location.search);
@@ -93,7 +89,6 @@ export default function Home(){
     localStorage.setItem('z_cart', JSON.stringify(cart));
   }, [cart]);
 
-  // 🛒 加入購物車、觸發 Meta AddToCart 事件，並自動滑出結帳抽屜
   const addToCart = (name, price, contentId = '') => {
     setCart(prev => [...prev, { name, price }]);
 
@@ -134,7 +129,6 @@ export default function Home(){
     }
   };
 
-  // 🔗 完美對接後端綠界表單，送出前先觸發 Meta InitiateCheckout 事件
   const handleCheckout = async () => {
     if(!cName || !cPhone || !cEmail || !cAddress){ 
       alert('請完整填寫收件與聯絡資訊'); 
@@ -145,7 +139,6 @@ export default function Home(){
       return; 
     }
 
-    // 📊 確認欄位皆齊全後觸發 InitiateCheckout（開始結帳），確保跳轉綠界前完成回傳
     trackMetaEvent('InitiateCheckout', {
       content_name: cart.map(i => i.name).join(', '),
       content_type: 'product',
@@ -239,26 +232,32 @@ export default function Home(){
   return (
     <div style={{minHeight:'100vh', background:'#1a1714', color:'#f3efe6'}} onContextMenu={(e) => e.preventDefault()}>
       <style jsx global>{`
-        :root{--bg:#1a1714;--card:#24201c;--border:#4a3d31;--text:#f3efe6;--gold:#d4af37;--gold-l:#f3e5ab;}
-        *{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;}
-        body{background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:60px; -webkit-touch-callout: none;}
-        img { -webkit-user-drag: none; user-select: none; pointer-events: auto; }
-        header{background:rgba(26,23,20,0.95);border-bottom:1px solid var(--border);padding:10px 15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;}
-        .btn{background:linear-gradient(135deg,#d4af37,#aa8c2c);color:#1a1714;border:none;padding:6px 12px;border-radius:14px;font-size:0.75rem;font-weight:bold;cursor:pointer;}
-        .btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold-l);}
+        :root{--bg:#1a1714;--card:#24201c;--border:#4a3d31;--text:#f3efe6;--gold:#d4af37;--gold-l:#f3e5ab;color-scheme:dark;}
+        html,body{background:#1a1714 !important;color:#f3efe6 !important;-webkit-text-size-adjust:100%;text-size-adjust:100%;forced-color-adjust:none;}
+        *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC",sans-serif;}
+        body{line-height:1.6;padding-bottom:60px;-webkit-touch-callout:none;overflow-x:hidden;}
+        img{-webkit-user-drag:none;user-select:none;pointer-events:auto;}
+        button{-webkit-appearance:none;appearance:none;font-family:inherit;forced-color-adjust:none;}
+        header{background:#1a1714 !important;border-bottom:1px solid var(--border);padding:10px 14px;position:sticky;top:0;z-index:500;display:flex;justify-content:space-between;align-items:center;gap:8px;-webkit-transform:translateZ(0);transform:translateZ(0);}
+        .btn{background:linear-gradient(135deg,#d4af37,#b59226) !important;color:#1a1714 !important;border:1px solid #e2c15a;padding:7px 12px;border-radius:14px;font-size:0.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1.2;}
+        .btn-o{background:#24201c !important;border:1px solid var(--gold) !important;color:#f3e5ab !important;}
+        /* 🎨 全站商品購買與連結按鈕（書籍、四大服務、畫作顏色完全統一） */
+        .art-btn-group{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+        .btn-art-buy{width:100%;height:34px;padding:0 8px;border-radius:14px;background:#1a1714 !important;color:#f3e5ab !important;border:1px solid #d4af37 !important;font-size:0.75rem;font-weight:700;letter-spacing:0.4px;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;cursor:pointer;}
+        .btn-art-buy:active{background:#2f281f !important;}
+        .btn-art-link{width:100%;height:30px;padding:0 8px;border-radius:14px;background:transparent !important;color:#d0c5b4 !important;border:1px solid rgba(212,175,55,0.4) !important;font-size:0.7rem;font-weight:500;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;cursor:pointer;}
         .wrap{max-width:750px;margin:0 auto;padding:15px;}
         .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;margin-bottom:15px;display:flex;gap:15px;align-items:center;}
-        .card img{width:140px; aspect-ratio:16/9; object-fit:cover; border-radius:6px; border:1px solid var(--border);}
-        .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
-        .s-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;display:flex;flex-direction:column;justify-content:space-between;}
+        .card img{width:140px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
+        .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:20px;}
+        .s-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;overflow:hidden;}
         .drawer{position:fixed;top:0;right:-100%;width:100%;max-width:320px;height:100%;background:var(--card);border-left:1px solid var(--border);z-index:1000;padding:15px;transition:0.3s;display:flex;flex-direction:column;overflow-y:auto;}
         .drawer.open{right:0;}
-        input,textarea{width:100%;padding:10px;margin-bottom:8px;background:#1a1714;border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:0.9rem;}
+        input,textarea{width:100%;padding:10px;margin-bottom:8px;background:#1a1714 !important;border:1px solid var(--border);color:#f3efe6 !important;border-radius:6px;font-size:0.9rem;-webkit-appearance:none;appearance:none;}
         .notice-box{background:rgba(212,175,55,0.05);border:1px solid var(--border);border-radius:8px;padding:15px;margin:15px 0;font-size:0.8rem;color:#d0c5b4;}
         .notice-box h4{color:var(--gold-l);margin-bottom:8px;font-size:0.9rem;}
         .notice-box ul{padding-left:18px;}
         .notice-box li{margin-bottom:6px;}
-        /* 🔍 燈箱預覽樣式 */
         .lightbox-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
         .lightbox-content { position: relative; max-width: 90%; max-height: 90%; text-align: center; }
         .lightbox-content img { width: 100%; height: auto; max-height: 80vh; object-fit: contain; border-radius: 8px; border: 1px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -266,16 +265,16 @@ export default function Home(){
       `}</style>
 
       <header>
-        <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
-          <div style={{width:'34px',height:'34px',border:'1px solid var(--gold)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)'}}>品</div>
-          <div>
-            <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)'}}>品心美學</h1>
-            <p style={{fontSize:'0.65rem',color:'#d0c5b4'}}>彭品心老師官方網站</p>
+        <div style={{display:'flex',alignItems:'center',gap:'8px',minWidth:0}}>
+          <div style={{width:'34px',height:'34px',flexShrink:0,border:'1px solid var(--gold)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)',fontWeight:'bold'}}>品</div>
+          <div style={{minWidth:0}}>
+            <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)',whiteSpace:'nowrap'}}>品心美學</h1>
+            <p style={{fontSize:'0.65rem',color:'#d0c5b4',whiteSpace:'nowrap'}}>彭品心老師官方網站</p>
           </div>
         </div>
-        <div style={{display:'flex',gap:'6px'}}>
-          <button className="btn" onClick={openCart}>🛒購物車({cart.length})</button>
-          <button className="btn btn-o" onClick={openMenu}>☰選單</button>
+        <div style={{display:'flex',gap:'6px',flexShrink:0}}>
+          <button className="btn btn-o" onClick={openCart}>🛒 購物車({cart.length})</button>
+          <button className="btn btn-o" onClick={openMenu}>☰ 選單</button>
         </div>
       </header>
 
@@ -327,8 +326,8 @@ export default function Home(){
               <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div>
               <p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>心靈轉折與生命出口經典力作。</p>
               <div style={{display:'flex',gap:'6px',marginTop:'8px',flexWrap:'wrap'}}>
-                <button className="btn btn-o" onClick={()=>addToCart('生命的出口', 269, 'book-exit')}>加入購物車</button>
-                <button className="btn btn-o" style={{fontSize:'0.7rem',padding:'6px 8px'}} onClick={()=>{
+                <button type="button" className="btn-art-buy" style={{width:'auto',padding:'0 14px'}} onClick={()=>addToCart('生命的出口', 269, 'book-exit')}>加入購物車</button>
+                <button type="button" className="btn-art-link" style={{width:'auto',padding:'0 12px'}} onClick={()=>{
                   const url = window.location.origin + '/exit';
                   navigator.clipboard.writeText(url);
                   alert('已複製《生命的出口》專屬分頁連結！');
@@ -344,8 +343,8 @@ export default function Home(){
               <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div>
               <p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p>
               <div style={{display:'flex',gap:'6px',marginTop:'8px',flexWrap:'wrap'}}>
-                <button className="btn btn-o" onClick={()=>addToCart('進階思維的後裔', 269, 'book-descendant')}>加入購物車</button>
-                <button className="btn btn-o" style={{fontSize:'0.7rem',padding:'6px 8px'}} onClick={()=>{
+                <button type="button" className="btn-art-buy" style={{width:'auto',padding:'0 14px'}} onClick={()=>addToCart('進階思維的後裔', 269, 'book-descendant')}>加入購物車</button>
+                <button type="button" className="btn-art-link" style={{width:'auto',padding:'0 12px'}} onClick={()=>{
                   const url = window.location.origin + '/descendant';
                   navigator.clipboard.writeText(url);
                   alert('已複製《進階思維的後裔》專屬分頁連結！');
@@ -382,9 +381,9 @@ export default function Home(){
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,680</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>選定生旺手機吉號。</p>
               </div>
-              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('手機號碼配置', 1680, 'service-phone')}>加入購物車</button>
-                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+              <div className="art-btn-group">
+                <button type="button" className="btn-art-buy" onClick={()=>addToCart('手機號碼配置', 1680, 'service-phone')}>加入購物車</button>
+                <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/phone';
                   navigator.clipboard.writeText(url);
                   alert('已複製「手機號碼配置」專屬分頁連結！');
@@ -401,9 +400,9 @@ export default function Home(){
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 1,880</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>行車平安磁場加持。</p>
               </div>
-              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('車牌號碼配置', 1880, 'service-car')}>加入購物車</button>
-                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+              <div className="art-btn-group">
+                <button type="button" className="btn-art-buy" onClick={()=>addToCart('車牌號碼配置', 1880, 'service-car')}>加入購物車</button>
+                <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/car';
                   navigator.clipboard.writeText(url);
                   alert('已複製「車牌號碼配置」專屬分頁連結！');
@@ -420,9 +419,9 @@ export default function Home(){
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 3,680</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>住宅環境風水選吉。</p>
               </div>
-              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('住址門牌選吉', 3680, 'service-address')}>加入購物車</button>
-                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+              <div className="art-btn-group">
+                <button type="button" className="btn-art-buy" onClick={()=>addToCart('住址門牌選吉', 3680, 'service-address')}>加入購物車</button>
+                <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/address';
                   navigator.clipboard.writeText(url);
                   alert('已複製「住址門牌選吉」專屬分頁連結！');
@@ -439,9 +438,9 @@ export default function Home(){
                 <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 5,680</div>
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>商舖聚財客源廣進。</p>
               </div>
-              <div style={{marginTop:'10px',display:'flex',flexDirection:'column',gap:'6px'}}>
-                <button className="btn btn-o" style={{width:'100%'}} onClick={()=>addToCart('店鋪門牌選吉', 5680, 'service-store')}>加入購物車</button>
-                <button className="btn btn-o" style={{width:'100%',fontSize:'0.7rem',padding:'6px'}} onClick={()=>{
+              <div className="art-btn-group">
+                <button type="button" className="btn-art-buy" onClick={()=>addToCart('店鋪門牌選吉', 5680, 'service-store')}>加入購物車</button>
+                <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/store';
                   navigator.clipboard.writeText(url);
                   alert('已複製「店鋪門牌選吉」專屬分頁連結！');
@@ -458,7 +457,8 @@ export default function Home(){
           <div className="notice-box" style={{marginTop:'0', marginBottom:'12px'}}>
             <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>📞 聯絡方式與預約專線</h4>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>服務老師：</strong>彭品心 (紫墨老師)</p>
-            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>預約電話：</strong>0987-955-906</p>
+            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>電話：</strong><a href="tel:0228323010" style={{color:'var(--gold-l)',textDecoration:'none'}}>02-28323010</a></p>
+            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>預約電話：</strong><a href="tel:0987955906" style={{color:'var(--gold-l)',textDecoration:'none'}}>0987-955-906</a></p>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>官方 LINE ID：</strong>0987955906</p>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>電子信箱：</strong>aaa0987955906aaa@gmail.com</p>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline'}}>https://www.facebook.com/pengpinxin/</a></p>
@@ -470,7 +470,7 @@ export default function Home(){
         <section id="art">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>原創開運數位藝術畫</h3>
           <div className="notice-box" style={{marginTop:'0', marginBottom:'10px', padding:'10px 14px', textAlign:'center', borderColor:'rgba(212,175,55,0.45)'}}>
-            <p style={{fontSize:'0.88rem', color:'var(--gold-l)', fontWeight:'bold', letterSpacing:'1px', margin:0}}>好畫跟好人，好畫旺福主！</p>
+            <p style={{fontSize:'0.88rem', color:'var(--gold-l)', fontWeight:'bold', letterSpacing:'1px', margin:0}}>品心美學 原創數位藝術授權</p>
           </div>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'12px',paddingLeft:'4px'}}>品心美學精選高解析度東方水墨與五行開運藝術掛畫（已自動從雲端同步全部畫作）。</p>
           
@@ -510,8 +510,9 @@ export default function Home(){
               <ul style={{paddingLeft:'16px',fontSize:'0.78rem',lineHeight:'1.6',color:'#d0c5b4'}}>
                 <li>1. 推薦選擇側邊包邊（Canvas Wrap）的無框畫，展現藝術品完整氣韻。</li>
                 <li>2. 建議選用化纖油畫布（Polyester Canvas）或純棉藝術油畫布（Cotton Canvas）。</li>
-                <li>3. 建議至蝦皮購物平台搜尋「客製化無框畫」服務，並直接將檔案傳給店家詢價與訂製。</li>
-                <li>4. 避免陽光直射與潮濕環境，以保護作品長久保存。</li>
+                <li>3. 4K 建議至蝦皮購物平台搜尋「客製化無框畫」服務，並直接將檔案傳給店家詢價與訂製。</li>
+                <li>4. 8K 以上建議 Google 搜尋本地大型印刷廠客製化印製與裝裱服務，並直接將檔案傳給店家詢價與訂製。</li>
+                <li>5. 避免陽光直射與潮濕環境，以保護作品長久保存。</li>
               </ul>
             </div>
 
@@ -536,10 +537,9 @@ export default function Home(){
                 >
                   <div>
                     <div style={{position:'relative',marginBottom:'6px'}}>
-                      {/* 🔍 點擊圖片觸發放大預覽，並加上防右鍵與防拖曳 */}
                       <img 
                         src={item.url} 
-                        style={{width:'100%',height:'110px',objectFit:'cover',borderRadius:'6px',cursor:'pointer'}} 
+                        style={{width:'100%',height:'110px',objectFit:'cover',borderRadius:'6px',cursor:'pointer',display:'block'}} 
                         alt="art" 
                         onClick={() => setActiveImage(item.url)}
                         onContextMenu={(e) => e.preventDefault()} 
@@ -550,30 +550,33 @@ export default function Home(){
                     <div style={{color:'#8f8474',fontSize:'0.62rem',letterSpacing:'0.5px',marginBottom:'2px',wordBreak:'break-all'}}>{item.name}</div>
                     <h4 style={{color:'var(--gold-l)',fontSize:'0.82rem',letterSpacing:'1px'}}>五行開運納福</h4>
                   </div>
-                  <div style={{marginTop:'8px'}}>
-                    <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
-                      <button
-                        className="btn btn-o"
-                        style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
-                        onClick={() => addToCart(item.name + ' (4K檔)', 1280, item.name + '-4K')}
-                      >
-                        🛒 選購 4K｜$1,280<br/>
-                        <span style={{fontSize:'0.6rem', opacity:0.9}}>5,000px+ 無損 127cm</span>
-                      </button>
-                      <button
-                        className="btn"
-                        style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
-                        onClick={() => addToCart(item.name + ' (8K檔)', 2480, item.name + '-8K')}
-                      >
-                        🛒 選購 8K｜$2,480<br/>
-                        <span style={{fontSize:'0.6rem', opacity:0.9}}>10,000px+ 無損 254cm</span>
-                      </button>
-                      <button className="btn btn-o" style={{width:'100%', fontSize:'0.7rem', padding:'5px'}} onClick={() => {
+
+                  <div className="art-btn-group">
+                    <button
+                      type="button"
+                      className="btn-art-buy"
+                      onClick={() => addToCart(item.name + ' (4K檔)', 1280, item.name + '-4K')}
+                    >
+                      選購 4K｜$1,280
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-art-buy"
+                      onClick={() => addToCart(item.name + ' (8K檔)', 2480, item.name + '-8K')}
+                    >
+                      選購 8K｜$2,480
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-art-link"
+                      onClick={() => {
                         const url = window.location.origin + '/?art=' + encodeURIComponent(item.name);
                         navigator.clipboard.writeText(url);
                         alert('已複製「' + item.name + '」專屬直達連結！');
-                      }}>🔗 複製專屬連結</button>
-                    </div>
+                      }}
+                    >
+                      🔗 複製專屬連結
+                    </button>
                   </div>
                 </div>
               ))
@@ -596,7 +599,6 @@ export default function Home(){
         </footer>
       </div>
 
-      {/* 🔍 燈箱放大預覽彈跳視窗 */}
       {activeImage && (
         <div className="lightbox-overlay" onClick={() => setActiveImage(null)}>
           <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
