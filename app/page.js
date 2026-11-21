@@ -239,21 +239,28 @@ export default function Home(){
   return (
     <div style={{minHeight:'100vh', background:'#1a1714', color:'#f3efe6'}} onContextMenu={(e) => e.preventDefault()}>
       <style jsx global>{`
-        :root{--bg:#1a1714;--card:#24201c;--border:#4a3d31;--text:#f3efe6;--gold:#d4af37;--gold-l:#f3e5ab;}
-        *{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;}
-        body{background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:60px; -webkit-touch-callout: none;}
-        img { -webkit-user-drag: none; user-select: none; pointer-events: auto; }
-        header{background:rgba(26,23,20,0.95);border-bottom:1px solid var(--border);padding:10px 15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;}
-        .btn{background:linear-gradient(135deg,#d4af37,#aa8c2c);color:#1a1714;border:none;padding:6px 12px;border-radius:14px;font-size:0.75rem;font-weight:bold;cursor:pointer;}
-        .btn-o{background:transparent;border:1px solid var(--gold);color:var(--gold-l);}
+        :root{--bg:#1a1714;--card:#24201c;--border:#4a3d31;--text:#f3efe6;--gold:#d4af37;--gold-l:#f3e5ab;color-scheme:dark;}
+        html,body{background:#1a1714 !important;color:#f3efe6 !important;-webkit-text-size-adjust:100%;text-size-adjust:100%;forced-color-adjust:none;}
+        *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC",sans-serif;}
+        body{line-height:1.6;padding-bottom:60px;-webkit-touch-callout:none;overflow-x:hidden;}
+        img{-webkit-user-drag:none;user-select:none;pointer-events:auto;}
+        button{-webkit-appearance:none;appearance:none;font-family:inherit;forced-color-adjust:none;}
+        header{background:#1a1714 !important;border-bottom:1px solid var(--border);padding:10px 14px;position:sticky;top:0;z-index:500;display:flex;justify-content:space-between;align-items:center;gap:8px;-webkit-transform:translateZ(0);transform:translateZ(0);}
+        .btn{background:linear-gradient(135deg,#d4af37,#b59226) !important;color:#1a1714 !important;border:1px solid #e2c15a;padding:7px 12px;border-radius:14px;font-size:0.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1.2;}
+        .btn-o{background:#24201c !important;border:1px solid var(--gold) !important;color:#f3e5ab !important;}
+        /* 🎨 畫作網購統一精美按鈕樣式（4K / 8K 完全一致、不跑位） */
+        .art-btn-group{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+        .btn-art-buy{width:100%;height:34px;padding:0 8px;border-radius:8px;background:linear-gradient(135deg,#d4af37,#b59226) !important;color:#1a1714 !important;border:1px solid #e4c564 !important;font-size:0.76rem;font-weight:700;letter-spacing:0.4px;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;cursor:pointer;}
+        .btn-art-buy:active{opacity:0.88;}
+        .btn-art-link{width:100%;height:30px;padding:0 8px;border-radius:8px;background:transparent !important;color:#f3e5ab !important;border:1px solid rgba(212,175,55,0.5) !important;font-size:0.7rem;font-weight:600;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;cursor:pointer;}
         .wrap{max-width:750px;margin:0 auto;padding:15px;}
         .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;margin-bottom:15px;display:flex;gap:15px;align-items:center;}
-        .card img{width:140px; aspect-ratio:16/9; object-fit:cover; border-radius:6px; border:1px solid var(--border);}
-        .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px;}
-        .s-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:15px;display:flex;flex-direction:column;justify-content:space-between;}
+        .card img{width:140px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
+        .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:20px;}
+        .s-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;min-width:0;overflow:hidden;}
         .drawer{position:fixed;top:0;right:-100%;width:100%;max-width:320px;height:100%;background:var(--card);border-left:1px solid var(--border);z-index:1000;padding:15px;transition:0.3s;display:flex;flex-direction:column;overflow-y:auto;}
         .drawer.open{right:0;}
-        input,textarea{width:100%;padding:10px;margin-bottom:8px;background:#1a1714;border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:0.9rem;}
+        input,textarea{width:100%;padding:10px;margin-bottom:8px;background:#1a1714 !important;border:1px solid var(--border);color:#f3efe6 !important;border-radius:6px;font-size:0.9rem;-webkit-appearance:none;appearance:none;}
         .notice-box{background:rgba(212,175,55,0.05);border:1px solid var(--border);border-radius:8px;padding:15px;margin:15px 0;font-size:0.8rem;color:#d0c5b4;}
         .notice-box h4{color:var(--gold-l);margin-bottom:8px;font-size:0.9rem;}
         .notice-box ul{padding-left:18px;}
@@ -266,16 +273,16 @@ export default function Home(){
       `}</style>
 
       <header>
-        <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
-          <div style={{width:'34px',height:'34px',border:'1px solid var(--gold)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)'}}>品</div>
-          <div>
-            <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)'}}>品心美學</h1>
-            <p style={{fontSize:'0.65rem',color:'#d0c5b4'}}>彭品心老師官方網站</p>
+        <div style={{display:'flex',alignItems:'center',gap:'8px',minWidth:0}}>
+          <div style={{width:'34px',height:'34px',flexShrink:0,border:'1px solid var(--gold)',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--gold)',fontWeight:'bold'}}>品</div>
+          <div style={{minWidth:0}}>
+            <h1 style={{fontSize:'0.9rem',color:'var(--gold-l)',whiteSpace:'nowrap'}}>品心美學</h1>
+            <p style={{fontSize:'0.65rem',color:'#d0c5b4',whiteSpace:'nowrap'}}>彭品心老師官方網站</p>
           </div>
         </div>
-        <div style={{display:'flex',gap:'6px'}}>
-          <button className="btn" onClick={openCart}>🛒購物車({cart.length})</button>
-          <button className="btn btn-o" onClick={openMenu}>☰選單</button>
+        <div style={{display:'flex',gap:'6px',flexShrink:0}}>
+          <button className="btn" onClick={openCart}>🛒 購物車({cart.length})</button>
+          <button className="btn btn-o" onClick={openMenu}>☰ 選單</button>
         </div>
       </header>
 
@@ -451,14 +458,15 @@ export default function Home(){
           </div>
         </section>
 
-        {/* 📞 聯絡方式區塊 */}
+        {/* 📞 聯絡方式區塊（完整保留原有聯絡方式並新增電話：02-28323010） */}
         <section id="contact">
           <h3 style={{color:'var(--gold-l)',borderLeft:'3px solid var(--gold)',paddingLeft:'8px',margin:'20px 0 8px 0'}}>生命值得更好地待遇</h3>
           <p style={{fontSize:'0.75rem',color:'#d0c5b4',marginBottom:'10px',paddingLeft:'4px'}}>官方私域引流與專屬預約管道</p>
           <div className="notice-box" style={{marginTop:'0', marginBottom:'12px'}}>
             <h4 style={{color:'var(--gold-l)',marginBottom:'6px'}}>📞 聯絡方式與預約專線</h4>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>服務老師：</strong>彭品心 (紫墨老師)</p>
-            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>預約電話：</strong>0987-955-906</p>
+            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>電話：</strong><a href="tel:0228323010" style={{color:'var(--gold-l)',textDecoration:'none'}}>02-28323010</a></p>
+            <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>預約電話：</strong><a href="tel:0987955906" style={{color:'var(--gold-l)',textDecoration:'none'}}>0987-955-906</a></p>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>官方 LINE ID：</strong>0987955906</p>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>電子信箱：</strong>aaa0987955906aaa@gmail.com</p>
             <p style={{fontSize:'0.8rem',margin:'6px 0'}}><strong>官方臉書粉專：</strong><a href="https://www.facebook.com/pengpinxin/" target="_blank" rel="noopener noreferrer" style={{color:'var(--gold-l)',textDecoration:'underline'}}>https://www.facebook.com/pengpinxin/</a></p>
@@ -539,7 +547,7 @@ export default function Home(){
                       {/* 🔍 點擊圖片觸發放大預覽，並加上防右鍵與防拖曳 */}
                       <img 
                         src={item.url} 
-                        style={{width:'100%',height:'110px',objectFit:'cover',borderRadius:'6px',cursor:'pointer'}} 
+                        style={{width:'100%',height:'110px',objectFit:'cover',borderRadius:'6px',cursor:'pointer',display:'block'}} 
                         alt="art" 
                         onClick={() => setActiveImage(item.url)}
                         onContextMenu={(e) => e.preventDefault()} 
@@ -550,30 +558,34 @@ export default function Home(){
                     <div style={{color:'#8f8474',fontSize:'0.62rem',letterSpacing:'0.5px',marginBottom:'2px',wordBreak:'break-all'}}>{item.name}</div>
                     <h4 style={{color:'var(--gold-l)',fontSize:'0.82rem',letterSpacing:'1px'}}>五行開運納福</h4>
                   </div>
-                  <div style={{marginTop:'8px'}}>
-                    <div style={{display:'flex', flexDirection:'column', gap:'6px'}}>
-                      <button
-                        className="btn btn-o"
-                        style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
-                        onClick={() => addToCart(item.name + ' (4K檔)', 1280, item.name + '-4K')}
-                      >
-                        🛒 選購 4K｜$1,280<br/>
-                        <span style={{fontSize:'0.6rem', opacity:0.9}}>5,000px+ 無損 127cm</span>
-                      </button>
-                      <button
-                        className="btn"
-                        style={{width:'100%', fontSize:'0.72rem', padding:'7px 4px', lineHeight:'1.35'}}
-                        onClick={() => addToCart(item.name + ' (8K檔)', 2480, item.name + '-8K')}
-                      >
-                        🛒 選購 8K｜$2,480<br/>
-                        <span style={{fontSize:'0.6rem', opacity:0.9}}>10,000px+ 無損 254cm</span>
-                      </button>
-                      <button className="btn btn-o" style={{width:'100%', fontSize:'0.7rem', padding:'5px'}} onClick={() => {
+
+                  {/* 🎨 精簡統一的 4K / 8K 購買按鈕（同色系、無多餘字樣、固定位置不跳動） */}
+                  <div className="art-btn-group">
+                    <button
+                      type="button"
+                      className="btn-art-buy"
+                      onClick={() => addToCart(item.name + ' (4K檔)', 1280, item.name + '-4K')}
+                    >
+                      選購 4K｜$1,280
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-art-buy"
+                      onClick={() => addToCart(item.name + ' (8K檔)', 2480, item.name + '-8K')}
+                    >
+                      選購 8K｜$2,480
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-art-link"
+                      onClick={() => {
                         const url = window.location.origin + '/?art=' + encodeURIComponent(item.name);
                         navigator.clipboard.writeText(url);
                         alert('已複製「' + item.name + '」專屬直達連結！');
-                      }}>🔗 複製專屬連結</button>
-                    </div>
+                      }}
+                    >
+                      🔗 複製專屬連結
+                    </button>
                   </div>
                 </div>
               ))
