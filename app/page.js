@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-const META_PIXEL_ID = '2001571467480785';
+const META_PIXEL_ID = '898181929987961';
 
 export default function Home(){
   const [cart, setCart] = useState([]);
