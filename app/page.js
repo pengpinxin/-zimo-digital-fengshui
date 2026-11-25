@@ -354,7 +354,7 @@ export default function Home(){
         </div>
         <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
           <a href="#vip" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>💎 VIP 880 會員專屬福利</a>
-          <a href="#intro" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📖 靈魂的棲息之處</a>
+          <a href="#intro" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📖 創立初衷</a>
           <a href="#books" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📚 學術文學著作</a>
           <a href="#services" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🔮 紫墨數字風水</a>
           <a href="#art" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🎨 原創開運藝術畫</a>
@@ -375,17 +375,18 @@ export default function Home(){
         </div>
 
         {/* 極簡公告：置於 VIP 880 區塊正下方 */}
-        <div style={{background:'rgba(212,175,55,0.06)',border:'1px solid rgba(212,175,55,0.55)',borderRadius:'8px',padding:'12px 15px',textAlign:'center',marginBottom:'20px',lineHeight:'1.7'}}>
-          <p style={{fontSize:'0.85rem',color:'var(--gold-l)',fontWeight:'bold',marginBottom:'4px',letterSpacing:'0.5px'}}>
-            <strong>品心美學 | 雙重禮遇：</strong>
-          </p>
-          <p style={{fontSize:'0.8rem',color:'#f3efe6',fontWeight:'bold',margin:0}}>
+        <div style={{background:'rgba(212,175,55,0.06)',border:'1px solid rgba(212,175,55,0.55)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'20px',lineHeight:'1.75'}}>
+          <h3 style={{fontSize:'1.15rem',color:'var(--gold-l)',fontWeight:'bold',marginBottom:'8px',letterSpacing:'1px'}}>
+            <strong>品心美學 ｜ 雙重禮遇：</strong>
+          </h3>
+          <p style={{fontSize:'0.86rem',color:'#f3efe6',fontWeight:'bold',margin:0}}>
             <strong>畫區滿 $2,480 送 $1,680 數字風水服務；服務滿 $1,680 送官網 4K 原創畫作任選乙幅，下單備註即可領取。</strong>
           </p>
         </div>
 
         <section id="intro" className="notice-box" style={{padding:'20px'}}>
-          <h2 style={{color:'var(--gold-l)',fontSize:'1.2rem',marginBottom:'12px',textAlign:'center'}}>靈魂的棲息之處</h2>
+          <h2 style={{color:'var(--gold-l)',fontSize:'1.2rem',marginBottom:'6px',textAlign:'center',fontWeight:'bold',letterSpacing:'1px'}}>創立初衷</h2>
+          <p style={{color:'var(--gold-l)',fontSize:'0.95rem',fontWeight:'bold',marginBottom:'14px',textAlign:'center',letterSpacing:'2px'}}>延續學術 傳遞美好</p>
           <p style={{fontSize:'0.85rem',color:'#f3efe6',marginBottom:'12px',lineHeight:'1.8',textAlign:'center'}}>
             喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療愈、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！
           </p>
