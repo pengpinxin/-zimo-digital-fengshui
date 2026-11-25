@@ -89,7 +89,70 @@ export default function Home(){
     localStorage.setItem('z_cart', JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (name, price, contentId = '') => {
+  const triggerFlyToCart = (e) => {
+    try {
+      if (typeof window === 'undefined') return;
+      const cartBtn = document.getElementById('header-cart-btn');
+      const sourceEl = e?.currentTarget;
+      if (!cartBtn) return;
+
+      const targetRect = cartBtn.getBoundingClientRect();
+      const endX = targetRect.left + targetRect.width / 2;
+      const endY = targetRect.top + targetRect.height / 2;
+
+      let startX = window.innerWidth / 2;
+      let startY = window.innerHeight / 2;
+      if (sourceEl && typeof sourceEl.getBoundingClientRect === 'function') {
+        const srcRect = sourceEl.getBoundingClientRect();
+        startX = srcRect.left + srcRect.width / 2;
+        startY = srcRect.top + srcRect.height / 2;
+      }
+
+      const flyer = document.createElement('div');
+      flyer.textContent = '🛒';
+      flyer.style.cssText = `
+        position: fixed;
+        left: ${startX - 13}px;
+        top: ${startY - 13}px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #f3e5ab 0%, #d4af37 70%, #b59226 100%);
+        color: #1a1714;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 12px rgba(212, 175, 55, 0.9);
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+        transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s ease;
+      `;
+      document.body.appendChild(flyer);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const dx = endX - startX;
+          const dy = endY - startY;
+          flyer.style.transform = `translate3d(${dx}px, ${dy}px, 0) scale(0.45)`;
+          flyer.style.opacity = '0.2';
+        });
+      });
+
+      setTimeout(() => {
+        flyer.remove();
+        cartBtn.classList.remove('cart-bump');
+        void cartBtn.offsetWidth;
+        cartBtn.classList.add('cart-bump');
+      }, 650);
+    } catch (err) {
+      // 動畫效果不影響加入購物車與事件追蹤
+    }
+  };
+
+  const addToCart = (name, price, contentId = '', e = null) => {
     setCart(prev => [...prev, { name, price }]);
 
     const eventPayload = {
@@ -103,7 +166,7 @@ export default function Home(){
     }
     trackMetaEvent('AddToCart', eventPayload);
 
-    document.getElementById('cart')?.classList.add('open');
+    triggerFlyToCart(e);
   };
 
   const removeFromCart = (index) => {
@@ -241,6 +304,12 @@ export default function Home(){
         header{background:#1a1714 !important;border-bottom:1px solid var(--border);padding:10px 14px;position:sticky;top:0;z-index:500;display:flex;justify-content:space-between;align-items:center;gap:8px;-webkit-transform:translateZ(0);transform:translateZ(0);}
         .btn{background:linear-gradient(135deg,#d4af37,#b59226) !important;color:#1a1714 !important;border:1px solid #e2c15a;padding:7px 12px;border-radius:14px;font-size:0.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1.2;}
         .btn-o{background:#24201c !important;border:1px solid var(--gold) !important;color:#f3e5ab !important;}
+        @keyframes cartBump {
+          0% { transform: scale(1); }
+          40% { transform: scale(1.18); box-shadow: 0 0 12px rgba(212,175,55,0.75); }
+          100% { transform: scale(1); }
+        }
+        .cart-bump { animation: cartBump 0.35s ease; }
         /* 🎨 全站商品購買與連結按鈕（書籍、四大服務、畫作顏色完全統一） */
         .art-btn-group{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
         .btn-art-buy{width:100%;height:34px;padding:0 8px;border-radius:14px;background:#1a1714 !important;color:#f3e5ab !important;border:1px solid #d4af37 !important;font-size:0.75rem;font-weight:700;letter-spacing:0.4px;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1;cursor:pointer;}
@@ -273,7 +342,7 @@ export default function Home(){
           </div>
         </div>
         <div style={{display:'flex',gap:'6px',flexShrink:0}}>
-          <button className="btn btn-o" onClick={openCart}>🛒 購物車({cart.length})</button>
+          <button id="header-cart-btn" className="btn btn-o" onClick={openCart}>🛒 購物車({cart.length})</button>
           <button className="btn btn-o" onClick={openMenu}>☰ 選單</button>
         </div>
       </header>
@@ -285,7 +354,7 @@ export default function Home(){
         </div>
         <div style={{display:'flex',flexDirection:'column',gap:'12px'}}>
           <a href="#vip" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>💎 VIP 880 會員專屬福利</a>
-          <a href="#intro" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📖 靈魂的棲息之處</a>
+          <a href="#intro" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📖 創立初衷</a>
           <a href="#books" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>📚 學術文學著作</a>
           <a href="#services" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🔮 紫墨數字風水</a>
           <a href="#art" onClick={closeMenu} style={{color:'var(--gold-l)',textDecoration:'none'}}>🎨 原創開運藝術畫</a>
@@ -299,14 +368,25 @@ export default function Home(){
           <img src="/1792354723564.png" style={{width:'100%',display:'block'}} alt="b" onContextMenu={(e)=>e.preventDefault()} onDragStart={(e)=>e.preventDefault()} />
         </div>
         
-        <div id="vip" style={{background:'rgba(212,175,55,0.08)',border:'1px solid var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'20px'}}>
+        <div id="vip" style={{background:'rgba(212,175,55,0.08)',border:'1px solid var(--gold)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'12px'}}>
           <h3 style={{color:'var(--gold-l)',marginBottom:'5px'}}>✨ VIP 880 會員專屬福利</h3>
           <p style={{fontSize:'0.8rem',color:'#d0c5b4',marginBottom:'10px'}}>享有全館著作、數字配置與原創畫作<strong>終身九折</strong>禮遇！</p>
-          <button className="btn" onClick={()=>addToCart('VIP 880 終身會員方案', 880, 'VIP880')}>加入 VIP 880 方案 (NT$ 880)</button>
+          <button className="btn" onClick={(e)=>addToCart('VIP 880 終身會員方案', 880, 'VIP880', e)}>加入 VIP 880 方案 (NT$ 880)</button>
+        </div>
+
+        {/* 極簡公告：置於 VIP 880 區塊正下方 */}
+        <div style={{background:'rgba(212,175,55,0.06)',border:'1px solid rgba(212,175,55,0.55)',borderRadius:'8px',padding:'15px',textAlign:'center',marginBottom:'20px',lineHeight:'1.75'}}>
+          <h3 style={{fontSize:'1.15rem',color:'var(--gold-l)',fontWeight:'bold',marginBottom:'8px',letterSpacing:'1px'}}>
+            <strong>品心美學 ｜ 雙重禮遇：</strong>
+          </h3>
+          <p style={{fontSize:'0.86rem',color:'#f3efe6',fontWeight:'bold',margin:0}}>
+            <strong>畫區滿 $2,480 送 $1,680 數字風水服務；服務滿 $1,680 送官網 4K 原創畫作任選乙幅，下單備註即可領取。</strong>
+          </p>
         </div>
 
         <section id="intro" className="notice-box" style={{padding:'20px'}}>
-          <h2 style={{color:'var(--gold-l)',fontSize:'1.2rem',marginBottom:'12px',textAlign:'center'}}>靈魂的棲息之處</h2>
+          <h2 style={{color:'var(--gold-l)',fontSize:'1.2rem',marginBottom:'6px',textAlign:'center',fontWeight:'bold',letterSpacing:'1px'}}>創立初衷</h2>
+          <p style={{color:'var(--gold-l)',fontSize:'0.95rem',fontWeight:'bold',marginBottom:'14px',textAlign:'center',letterSpacing:'2px'}}>延續學術 傳遞美好</p>
           <p style={{fontSize:'0.85rem',color:'#f3efe6',marginBottom:'12px',lineHeight:'1.8',textAlign:'center'}}>
             喧囂的世間，每個人都在找尋安放靈魂的角落，這裡是開運、療愈、藝術與和諧於一體的心靈家園，品心&紫墨老師歡迎您的到來！
           </p>
@@ -326,7 +406,7 @@ export default function Home(){
               <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div>
               <p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>心靈轉折與生命出口經典力作。</p>
               <div style={{display:'flex',gap:'6px',marginTop:'8px',flexWrap:'wrap'}}>
-                <button type="button" className="btn-art-buy" style={{width:'auto',padding:'0 14px'}} onClick={()=>addToCart('生命的出口', 269, 'book-exit')}>加入購物車</button>
+                <button type="button" className="btn-art-buy" style={{width:'auto',padding:'0 14px'}} onClick={(e)=>addToCart('生命的出口', 269, 'book-exit', e)}>加入購物車</button>
                 <button type="button" className="btn-art-link" style={{width:'auto',padding:'0 12px'}} onClick={()=>{
                   const url = window.location.origin + '/exit';
                   navigator.clipboard.writeText(url);
@@ -343,7 +423,7 @@ export default function Home(){
               <div style={{color:'var(--gold)',fontWeight:'bold'}}>NT$ 269</div>
               <p style={{fontSize:'0.8rem',color:'#d0c5b4'}}>開啟高維度思維模式與人生格局。</p>
               <div style={{display:'flex',gap:'6px',marginTop:'8px',flexWrap:'wrap'}}>
-                <button type="button" className="btn-art-buy" style={{width:'auto',padding:'0 14px'}} onClick={()=>addToCart('進階思維的後裔', 269, 'book-descendant')}>加入購物車</button>
+                <button type="button" className="btn-art-buy" style={{width:'auto',padding:'0 14px'}} onClick={(e)=>addToCart('進階思維的後裔', 269, 'book-descendant', e)}>加入購物車</button>
                 <button type="button" className="btn-art-link" style={{width:'auto',padding:'0 12px'}} onClick={()=>{
                   const url = window.location.origin + '/descendant';
                   navigator.clipboard.writeText(url);
@@ -382,7 +462,7 @@ export default function Home(){
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>選定生旺手機吉號。</p>
               </div>
               <div className="art-btn-group">
-                <button type="button" className="btn-art-buy" onClick={()=>addToCart('手機號碼配置', 1680, 'service-phone')}>加入購物車</button>
+                <button type="button" className="btn-art-buy" onClick={(e)=>addToCart('手機號碼配置', 1680, 'service-phone', e)}>加入購物車</button>
                 <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/phone';
                   navigator.clipboard.writeText(url);
@@ -401,7 +481,7 @@ export default function Home(){
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>行車平安磁場加持。</p>
               </div>
               <div className="art-btn-group">
-                <button type="button" className="btn-art-buy" onClick={()=>addToCart('車牌號碼配置', 1880, 'service-car')}>加入購物車</button>
+                <button type="button" className="btn-art-buy" onClick={(e)=>addToCart('車牌號碼配置', 1880, 'service-car', e)}>加入購物車</button>
                 <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/car';
                   navigator.clipboard.writeText(url);
@@ -420,7 +500,7 @@ export default function Home(){
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>住宅環境風水選吉。</p>
               </div>
               <div className="art-btn-group">
-                <button type="button" className="btn-art-buy" onClick={()=>addToCart('住址門牌選吉', 3680, 'service-address')}>加入購物車</button>
+                <button type="button" className="btn-art-buy" onClick={(e)=>addToCart('住址門牌選吉', 3680, 'service-address', e)}>加入購物車</button>
                 <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/address';
                   navigator.clipboard.writeText(url);
@@ -439,7 +519,7 @@ export default function Home(){
                 <p style={{fontSize:'0.75rem',color:'#d0c5b4'}}>商舖聚財客源廣進。</p>
               </div>
               <div className="art-btn-group">
-                <button type="button" className="btn-art-buy" onClick={()=>addToCart('店鋪門牌選吉', 5680, 'service-store')}>加入購物車</button>
+                <button type="button" className="btn-art-buy" onClick={(e)=>addToCart('店鋪門牌選吉', 5680, 'service-store', e)}>加入購物車</button>
                 <button type="button" className="btn-art-link" onClick={()=>{
                   const url = window.location.origin + '/store';
                   navigator.clipboard.writeText(url);
@@ -555,14 +635,14 @@ export default function Home(){
                     <button
                       type="button"
                       className="btn-art-buy"
-                      onClick={() => addToCart(item.name + ' (4K檔)', 1280, item.name + '-4K')}
+                      onClick={(e) => addToCart(item.name + ' (4K檔)', 1280, item.name + '-4K', e)}
                     >
                       選購 4K｜$1,280
                     </button>
                     <button
                       type="button"
                       className="btn-art-buy"
-                      onClick={() => addToCart(item.name + ' (8K檔)', 2480, item.name + '-8K')}
+                      onClick={(e) => addToCart(item.name + ' (8K檔)', 2480, item.name + '-8K', e)}
                     >
                       選購 8K｜$2,480
                     </button>
