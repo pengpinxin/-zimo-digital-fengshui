@@ -13,6 +13,7 @@ export default function Home(){
   const [cEmail, setCEmail] = useState('');
   const [cAddress, setCAddress] = useState('');
   const [cRemark, setCRemark] = useState('');
+  const [agreedTerms, setAgreedTerms] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [activeImage, setActiveImage] = useState(null);
   const [highlightedArt, setHighlightedArt] = useState(null);
@@ -201,6 +202,10 @@ export default function Home(){
       alert('購物車是空的'); 
       return; 
     }
+    if(!agreedTerms){
+      alert('請先勾選同意「授權條款與例外商品不適用 7 天鑑賞期聲明」再送出訂單');
+      return;
+    }
 
     trackMetaEvent('InitiateCheckout', {
       content_name: cart.map(i => i.name).join(', '),
@@ -270,6 +275,7 @@ export default function Home(){
         alert('感謝 ' + cName + ' 緣主！訂單已成功送出。');
         setCart([]);
         setIsVip(false);
+        setAgreedTerms(false);
         setCName(''); setCPhone(''); setCEmail(''); setCAddress(''); setCRemark('');
         closeCart();
       } else {
@@ -445,7 +451,7 @@ export default function Home(){
             <ul style={{paddingLeft:'16px',fontSize:'0.75rem',lineHeight:'1.6'}}>
               <li><strong>1. 預約流程：</strong>手機、車牌、店鋪、住址配置高端生旺風水號碼，須請您先自行向相關單位申請或初步選定您喜歡的 3～5 組號碼，再透過預約表單告訴紫墨老師，老師將為您進行人工深度解析與最終吉凶配置！</li>
               <li><strong>2. 專業鑑定聲明：</strong>經過老師數字分析之後，如若您的原生號碼本身就是生旺您的吉數，那麼便是最好的數字配置，則不需要更換；然而，老師則同樣會收取您的鑑定費用。因為這是消耗老師大量精力的專業性諮詢服務，還請緣主務必尊重學術文學的強大驅動力。</li>
-              <li><strong>3. 服務性質：</strong>數位與命理客製化配置服務確認開始執行後，恕不接受無理由退款。</li>
+              <li><strong>3. 服務性質與鑑賞期例外：</strong>本服務屬「例外商品類別」，不適用 7 天鑑賞期法規（屬依消費者要求所為之客製化給付，及非以有形媒介提供之數位內容或一經提供即為完成之線上服務，經消費者事先同意始提供）。確認開始執行後，恕不接受無理由退款。</li>
               <li><strong>4. 理性參考：</strong>所有風水磁場與號碼配置旨在輔助提升運勢與心境，個人努力與正念亦為成就之本。</li>
               <li><strong>5. 備註填寫：</strong>購買服務請在備註欄位填寫您的出生年月日時，及現有號碼跟您欲要更換的號碼，謝謝您！</li>
             </ul>
@@ -596,10 +602,28 @@ export default function Home(){
               </ul>
             </div>
 
+            <div style={{borderTop:'1px dashed var(--border)',paddingTop:'10px',marginBottom:'10px'}}>
+              <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'6px'}}>📜 個人居家使用 vs. 商業空間授權條款</p>
+              <ul style={{paddingLeft:'16px',fontSize:'0.78rem',lineHeight:'1.65',color:'#d0c5b4'}}>
+                <li>
+                  <strong style={{color:'var(--gold-l)'}}>個人居家珍藏授權（官網 4K／8K 直接選購適用）：</strong>
+                  限購買者本人於居家空間（客廳、玄關、書房、臥室、餐廳）自用輸出裝裱，或作為非營利性質之私人禮贈。嚴禁將原圖檔轉售、重製實體畫作販售、用於商品包裝／廣告投放／品牌商標，或上傳至公開圖庫及 AI 模型訓練。
+                </li>
+                <li>
+                  <strong style={{color:'var(--gold-l)'}}>商業空間與企業專案授權（需另行洽詢授權）：</strong>
+                  舉凡企業與總裁辦公室、飯店、茶舍、餐廳、診所、商業會館陳列、室內設計專案採購、開業批量印製，或客製化專屬商用圖案，請加入官方 LINE（0987955906）或來信洽詢專案報價與書面授權書。
+                </li>
+                <li>
+                  <strong style={{color:'var(--gold-l)'}}>著作權歸屬：</strong>
+                  本站所有五行畫作之完整著作權均永久歸屬「品心美學／彭品心老師」所有；購買僅取得對應範圍之非專屬使用授權，而非買斷完整版權。
+                </li>
+              </ul>
+            </div>
+
             <div style={{borderTop:'1px dashed var(--border)',paddingTop:'10px'}}>
-              <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'4px'}}>📜 版權與授權說明</p>
-              <p style={{fontSize:'0.78rem',lineHeight:'1.6',color:'#d0c5b4'}}>
-                購買本站所有五行畫作均只授權使用，而非完整授權；如需提供大量商業需求，或需要其它用途客製化商用特殊圖案，皆歡迎加入官方聯繫方式進一步了解。
+              <p style={{fontSize:'0.82rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'4px'}}>⚠️ 數位商品不適用 7 天鑑賞期聲明</p>
+              <p style={{fontSize:'0.78rem',lineHeight:'1.65',color:'#f3efe6'}}>
+                <strong>此商品屬「例外商品類別」，不適用 7 天鑑賞期法規。</strong>非以有形媒介提供之數位內容或一經提供即為完成之線上服務，經消費者事先同意始提供。高解析原圖大檔一經 Email 寄出即完成交付，恕不接受退換貨或退款。
               </p>
             </div>
           </div>
@@ -665,10 +689,11 @@ export default function Home(){
         </section>
 
         <section id="legal" className="notice-box">
-          <h4>⚖️ 法律責任與版權聲明</h4>
+          <h4>⚖️ 法律責任、授權與鑑賞期例外聲明</h4>
           <ul>
-            <li><strong>著作權保護：</strong>本站所有學術文學著作（《生命的出口》、《進階思維的後裔》）、原創藝術畫作及影音內容，均受中華民國著作權法與國際公約保護。</li>
-            <li><strong>禁止盜用：</strong>未經書面授權，任何人不得擅自重製、轉載、散布或作商業營利使用，違者必究，將依法追究相關民刑事法律責任。</li>
+            <li><strong>不適用 7 天鑑賞期宣告（例外商品類別）：</strong>本站原創數位畫作原檔與紫墨數字風水／八字客製化配置服務，均屬《消費者保護法》通訊交易解除權合理例外情事之「例外商品類別」，不適用 7 天鑑賞期法規（非以有形媒介提供之數位內容或一經提供即為完成之線上服務，及依消費者要求所為之客製化給付，經消費者事先同意始提供）。檔案寄出或服務啟動後恕不退費。</li>
+            <li><strong>居家與商業授權界定：</strong>官網直接選購之 4K／8K 數位原檔僅限「個人居家自用與非營利禮贈」；任何商業空間陳列、企業專案、設計公司配合或營利性再製，均須另行簽訂商業授權。</li>
+            <li><strong>著作權保護與禁止盜用：</strong>本站所有學術文學著作（《生命的出口》、《進階思維的後裔》）、原創藝術畫作及影音內容，均受中華民國著作權法與國際公約保護。未經書面授權，任何人不得擅自重製、轉載、散布或作商業營利使用，違者必究，將依法追究民刑事法律責任。</li>
             <li><strong>免責聲明：</strong>本站提供的數字風水、命理諮詢與心靈文學內容均屬學術研究與哲學探討範疇，不構成任何具體投資、法律或醫療保證。</li>
           </ul>
         </section>
@@ -730,7 +755,53 @@ export default function Home(){
           <input type="email" value={cEmail} onChange={(e) => setCEmail(e.target.value)} placeholder="Email"/>
           <input type="text" value={cAddress} onChange={(e) => setCAddress(e.target.value)} placeholder="收件地址"/>
           <textarea value={cRemark} onChange={(e) => setCRemark(e.target.value)} rows="2" placeholder="備註（選填）"></textarea>
-          <button className="btn" style={{width:'100%',marginTop:'5px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
+
+          {/* 結帳前「事先同意」確認框（符合消保法例外商品類別規定） */}
+          <div
+            role="checkbox"
+            aria-checked={agreedTerms}
+            tabIndex={0}
+            onClick={() => setAgreedTerms(prev => !prev)}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setAgreedTerms(prev => !prev); } }}
+            style={{
+              display:'flex',
+              alignItems:'flex-start',
+              gap:'8px',
+              background:'rgba(212,175,55,0.08)',
+              border: agreedTerms ? '1px solid var(--gold)' : '1px solid var(--border)',
+              borderRadius:'6px',
+              padding:'8px 10px',
+              marginBottom:'10px',
+              cursor:'pointer',
+              userSelect:'none'
+            }}
+          >
+            <span
+              style={{
+                width:'16px',
+                height:'16px',
+                marginTop:'2px',
+                flexShrink:0,
+                borderRadius:'4px',
+                border:'1.5px solid var(--gold)',
+                background: agreedTerms ? 'var(--gold)' : '#1a1714',
+                color:'#1a1714',
+                display:'flex',
+                alignItems:'center',
+                justifyContent:'center',
+                fontSize:'0.72rem',
+                fontWeight:'bold',
+                lineHeight:1
+              }}
+            >
+              {agreedTerms ? '✓' : ''}
+            </span>
+            <span style={{fontSize:'0.7rem',lineHeight:'1.5',color:'#d0c5b4'}}>
+              我已詳閱並同意<strong style={{color:'var(--gold-l)'}}>個人居家／商業空間授權條款</strong>；並事先同意本訂單所含數位畫作原檔（非以有形媒介提供之數位內容）及客製化命理服務（一經提供即為完成之線上服務），均屬<strong style={{color:'var(--gold-l)'}}>「例外商品類別」，不適用 7 天鑑賞期法規</strong>。
+            </span>
+          </div>
+
+          <button className="btn" style={{width:'100%',marginTop:'2px',padding:'10px'}} onClick={handleCheckout} disabled={isCheckingOut}>
             {isCheckingOut ? '正在處理訂單與綠界跳轉...' : '確認送出訂單'}
           </button>
         </div>
