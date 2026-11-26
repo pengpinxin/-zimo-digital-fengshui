@@ -1,91 +1,125 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
+import nodemailer from 'nodemailer';
 
-// 綠界標準檢查碼 (CheckMacValue) 產生邏輯
+const MerchantID = process.env.ECPAY_MERCHANT_ID || '3518432';
+const HashKey = process.env.ECPAY_HASH_KEY || 'mvDQgLp0Jb1yR940';
+const HashIV = process.env.ECPAY_HASH_IV || 'bUZWJsz26zUGE1UP';
+const baseUrl = 'https://www.pengpinxin.com';
+
 function generateCheckMacValue(params, hashKey, hashIV) {
-  const sortedParams = Object.keys(params)
-    .sort()
-    .reduce((acc, key) => {
-      acc[key] = params[key];
-      return acc;
-    }, {});
+  const sortedKeys = Object.keys(params).sort((a, b) =>
+    a.toLowerCase().localeCompare(b.toLowerCase())
+  );
 
-  let queryStr = Object.keys(sortedParams)
-    .map((key) => `${key}=${sortedParams[key]}`)
-    .join('&');
-
+  let queryStr = sortedKeys.map((key) => `${key}=${params[key]}`).join('&');
   queryStr = `HashKey=${hashKey}&${queryStr}&HashIV=${hashIV}`;
 
   const encoded = encodeURIComponent(queryStr)
-    .toLowerCase()
     .replace(/%20/g, '+')
-    .replace(/%21/g, '!')
-    .replace(/%2a/g, '*')
-    .replace(/%27/g, "'")
-    .replace(/%28/g, '(')
-    .replace(/%29/g, ')');
+    .replace(/'/g, '%27')
+    .replace(/~/g, '%7e')
+    .toLowerCase();
 
   return crypto.createHash('sha256').update(encoded).digest('hex').toUpperCase();
+}
+
+function getTaiwanDateParts() {
+  const tw = new Date(Date.now() + 8 * 60 * 60 * 1000);
+  const year = tw.getUTCFullYear();
+  const month = String(tw.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(tw.getUTCDate()).padStart(2, '0');
+  const hours = String(tw.getUTCHours()).padStart(2, '0');
+  const minutes = String(tw.getUTCMinutes()).padStart(2, '0');
+  const seconds = String(tw.getUTCSeconds()).padStart(2, '0');
+  return {
+    tradeDate: `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`,
+    compactDate: `${year}${month}${day}${hours}${minutes}${seconds}`,
+  };
 }
 
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { itemName, totalAmount, customerName, customerPhone, customerEmail, shippingAddress } = body;
+    const {
+      itemName,
+      totalAmount,
+      customerName,
+      customerPhone,
+      customerEmail,
+      shippingAddress,
+      remark,
+      note,
+    } = body;
 
-    // 1. 您的官方綠界正式帳號與密鑰（固定且正確）
-    const MerchantID = '3518432';
-    const HashKey = 'mvDQgLp0Jb1yR940';
-    const HashIV = 'bUZWJsz26zUGE1UP';
-    const baseUrl = 'https://pengpinxin.com';
+    const amount = Math.round(Number(totalAmount) || 0);
+    if (amount <= 0) {
+      return NextResponse.json({ success: false, error: '訂單金額無效' }, { status: 400 });
+    }
 
-    // 2. 產生標準綠界時間格式
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    
-    const MerchantTradeDate = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
-    const formattedDate = `${year}${month}${day}${hours}${minutes}${seconds}`;
-    const MerchantTradeNo = 'PX' + formattedDate + Math.floor(100 + Math.random() * 900);
+    const finalItemName = String(itemName || '品心美學服務與書籍').trim().slice(0, 400);
+    const finalRemark = String(remark || note || '').trim();
+    const { tradeDate, compactDate } = getTaiwanDateParts();
+    const MerchantTradeNo = 'PX' + compactDate + Math.floor(100 + Math.random() * 900);
 
-    // 3. 設定綠界參數與地址夾帶（CustomField）
+    // 結帳前先寄完整訂單與備註給老師（避免綠界 50 字截斷與漏掉商品名稱/備註）
+    if (process.env.GMAIL_APP_PASSWORD) {
+      try {
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'aaa0987955906aaa@gmail.com',
+            pass: process.env.GMAIL_APP_PASSWORD,
+          },
+        });
+
+        await transporter.sendMail({
+          from: '"品心書閣系統" <aaa0987955906aaa@gmail.com>',
+          to: 'aaa0987955906aaa@gmail.com',
+          subject: `【待付款明細】訂單編號：${MerchantTradeNo}`,
+          html: `
+            <h3>客人已前往綠界刷卡（請以「已付款成功」通知信為準出貨）</h3>
+            <p><strong>訂單編號：</strong>${MerchantTradeNo}</p>
+            <p><strong>購買品項：</strong>${finalItemName}</p>
+            <p><strong>實付金額：</strong>NT$ ${amount}</p>
+            <hr/>
+            <p><strong>姓名：</strong>${customerName || ''}</p>
+            <p><strong>電話：</strong>${customerPhone || ''}</p>
+            <p><strong>信箱：</strong>${customerEmail || ''}</p>
+            <p><strong>完整收件地址：</strong><span style="color:red;font-weight:bold;">${shippingAddress || ''}</span></p>
+            <p><strong>客人備註（生辰／換號／贈畫）：</strong><span style="color:#b5651d;font-weight:bold;">${finalRemark || '無'}</span></p>
+          `,
+        });
+      } catch (mailErr) {
+        console.error('Pre-order email error:', mailErr);
+      }
+    }
+
     const baseParams = {
-      MerchantID: MerchantID,
-      MerchantTradeNo: MerchantTradeNo,
-      MerchantTradeDate: MerchantTradeDate,
+      MerchantID,
+      MerchantTradeNo,
+      MerchantTradeDate: tradeDate,
       PaymentType: 'aio',
-      TotalAmount: String(totalAmount),
+      TotalAmount: String(amount),
       TradeDesc: 'PinXinMeixueOrder',
-      ItemName: itemName || '品心美學服務與書籍',
+      ItemName: finalItemName,
       ReturnURL: `${baseUrl}/api/ecpay/callback`,
-      ClientBackURL: `${baseUrl}/order-success?orderno=${MerchantTradeNo}`,
+      ClientBackURL: `${baseUrl}/order-success?orderno=${MerchantTradeNo}&amount=${amount}`,
       ChoosePayment: 'Credit',
       EncryptType: '1',
-      // 透過自定義欄位夾帶收件資訊，免資料庫也能完整收地址
-      CustomField1: customerName || '',
-      CustomField2: customerPhone || '',
-      CustomField3: shippingAddress || '',
-      CustomField4: customerEmail || '',
+      CustomField1: String(customerName || '').trim().slice(0, 50),
+      CustomField2: String(customerPhone || '').trim().slice(0, 50),
+      CustomField3: String(shippingAddress || '').trim().slice(0, 50),
+      CustomField4: String(customerEmail || '').trim().slice(0, 50),
     };
 
     const CheckMacValue = generateCheckMacValue(baseParams, HashKey, HashIV);
 
-    const ecpayParams = {
-      ...baseParams,
-      CheckMacValue,
-    };
-
-    // 4. 回傳給前端進行綠界跳轉
     return NextResponse.json({
       success: true,
       gatewayUrl: 'https://payment.ecpay.com.tw/Cashier/AioCheckOut/V5',
-      params: ecpayParams,
+      params: { ...baseParams, CheckMacValue },
     });
-
   } catch (error) {
     console.error('ECPay Error:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
