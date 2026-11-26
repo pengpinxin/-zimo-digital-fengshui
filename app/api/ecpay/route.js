@@ -38,6 +38,10 @@ function getTaiwanDateParts() {
   };
 }
 
+function cleanText(val, maxLen) {
+  return String(val || '').replace(/[\r\n]+/g, ' ').trim().slice(0, maxLen);
+}
+
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -57,19 +61,27 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: '訂單金額無效' }, { status: 400 });
     }
 
-    const finalItemName = String(itemName || '品心美學服務與書籍').trim().slice(0, 400);
-    const finalRemark = String(remark || note || '').trim();
+    const rawItemName = cleanText(itemName || '品心美學服務與書籍', 200);
+    const rawRemark = String(remark || note || '').trim();
+    const safeRemark = cleanText(rawRemark, 100);
+    const ecpayItemName = safeRemark
+      ? cleanText(`${rawItemName}【備註：${safeRemark}】`, 200)
+      : rawItemName;
+
     const { tradeDate, compactDate } = getTaiwanDateParts();
     const MerchantTradeNo = 'PX' + compactDate + Math.floor(100 + Math.random() * 900);
 
-    // 結帳前先寄完整訂單與備註給老師（避免綠界 50 字截斷與漏掉商品名稱/備註）
-    if (process.env.GMAIL_APP_PASSWORD) {
+    // 1. 寄完整明細與備註到你的 Gmail（自動去除密碼空白）
+    const gmailPass = (process.env.GMAIL_APP_PASSWORD || '').replace(/\s+/g, '');
+    if (gmailPass) {
       try {
         const transporter = nodemailer.createTransport({
-          service: 'gmail',
+          host: 'smtp.gmail.com',
+          port: 465,
+          secure: true,
           auth: {
             user: 'aaa0987955906aaa@gmail.com',
-            pass: process.env.GMAIL_APP_PASSWORD,
+            pass: gmailPass,
           },
         });
 
@@ -80,21 +92,24 @@ export async function POST(request) {
           html: `
             <h3>客人已前往綠界刷卡（請以「已付款成功」通知信為準出貨）</h3>
             <p><strong>訂單編號：</strong>${MerchantTradeNo}</p>
-            <p><strong>購買品項：</strong>${finalItemName}</p>
+            <p><strong>購買品項：</strong>${rawItemName}</p>
             <p><strong>實付金額：</strong>NT$ ${amount}</p>
             <hr/>
             <p><strong>姓名：</strong>${customerName || ''}</p>
             <p><strong>電話：</strong>${customerPhone || ''}</p>
             <p><strong>信箱：</strong>${customerEmail || ''}</p>
             <p><strong>完整收件地址：</strong><span style="color:red;font-weight:bold;">${shippingAddress || ''}</span></p>
-            <p><strong>客人備註（生辰／換號／贈畫）：</strong><span style="color:#b5651d;font-weight:bold;">${finalRemark || '無'}</span></p>
+            <p><strong>客人備註（生辰／換號／贈畫）：</strong><span style="color:#b5651d;font-weight:bold;">${rawRemark || '無'}</span></p>
           `,
         });
       } catch (mailErr) {
         console.error('Pre-order email error:', mailErr);
       }
+    } else {
+      console.error('Missing GMAIL_APP_PASSWORD env var');
     }
 
+    // 2. 同步帶入綠界 ItemName（收款通知信會顯示）與 Remark（綠界後台備註欄）
     const baseParams = {
       MerchantID,
       MerchantTradeNo,
@@ -102,16 +117,20 @@ export async function POST(request) {
       PaymentType: 'aio',
       TotalAmount: String(amount),
       TradeDesc: 'PinXinMeixueOrder',
-      ItemName: finalItemName,
+      ItemName: ecpayItemName,
       ReturnURL: `${baseUrl}/api/ecpay/callback`,
       ClientBackURL: `${baseUrl}/order-success?orderno=${MerchantTradeNo}&amount=${amount}`,
       ChoosePayment: 'Credit',
       EncryptType: '1',
-      CustomField1: String(customerName || '').trim().slice(0, 50),
-      CustomField2: String(customerPhone || '').trim().slice(0, 50),
-      CustomField3: String(shippingAddress || '').trim().slice(0, 50),
-      CustomField4: String(customerEmail || '').trim().slice(0, 50),
+      CustomField1: cleanText(customerName, 50),
+      CustomField2: cleanText(customerPhone, 50),
+      CustomField3: cleanText(shippingAddress, 50),
+      CustomField4: cleanText(customerEmail, 50),
     };
+
+    if (safeRemark) {
+      baseParams.Remark = safeRemark;
+    }
 
     const CheckMacValue = generateCheckMacValue(baseParams, HashKey, HashIV);
 
