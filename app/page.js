@@ -7,7 +7,6 @@ export default function Home(){
   const [cart, setCart] = useState([]);
   const [isVip, setIsVip] = useState(false);
   const [artworks, setArtworks] = useState([]);
-  const [vipCode, setVipCode] = useState('');
   const [cName, setCName] = useState('');
   const [cPhone, setCPhone] = useState('');
   const [cEmail, setCEmail] = useState('');
@@ -174,15 +173,6 @@ export default function Home(){
     setCart(prev => prev.filter((_, idx) => idx !== index));
   };
 
-  const handleVerifyVipCode = () => {
-    if(vipCode.trim() === 'VIP880'){
-      setIsVip(true);
-      alert('VIP 優惠碼驗證成功！');
-    } else {
-      alert('優惠代碼錯誤');
-    }
-  };
-
   const checkPhoneVip = (phone) => {
     const cleanPhone = phone.trim();
     if(!cleanPhone) return;
@@ -227,7 +217,7 @@ export default function Home(){
         remark: cRemark,
         items: cart,
         total: total,
-        isVip: isVip
+        isVip: isVip || isFullDiscount
       };
 
       const res = await fetch('/api/ecpay', {
@@ -294,9 +284,11 @@ export default function Home(){
   const openMenu = () => document.getElementById('menu')?.classList.add('open');
   const closeMenu = () => document.getElementById('menu')?.classList.remove('open');
 
-  let total = cart.reduce((s, i) => s + i.price, 0);
-  if(isVip) total = Math.round(total * 0.9);
-  const vipText = isVip ? ' (已享 VIP 9折)' : '';
+  const subtotal = cart.reduce((s, i) => s + i.price, 0);
+  const isFullDiscount = subtotal >= 5000;
+  const hasDiscount = isVip || isFullDiscount;
+  const total = hasDiscount ? Math.round(subtotal * 0.9) : subtotal;
+  const discountText = isVip ? ' (已享 VIP 9折)' : (isFullDiscount ? ' (已享滿5000九折)' : '');
 
   return (
     <div style={{minHeight:'100vh', background:'#1a1714', color:'#f3efe6'}} onContextMenu={(e) => e.preventDefault()}>
@@ -743,12 +735,11 @@ export default function Home(){
           )}
         </div>
         <div style={{borderTop:'1px solid var(--border)',paddingTop:'10px'}}>
-          <div style={{display:'flex',gap:'5px',marginBottom:'8px'}}>
-            <input type="text" value={vipCode} onChange={(e) => setVipCode(e.target.value)} placeholder="VIP碼 (VIP880)" style={{margin:0}}/>
-            <button className="btn btn-o" onClick={handleVerifyVipCode}>驗證</button>
+          <div style={{background:'rgba(212,175,55,0.12)',border:'1px solid var(--gold)',borderRadius:'6px',padding:'8px 10px',marginBottom:'8px',textAlign:'center',fontSize:'0.8rem',color:'var(--gold-l)',fontWeight:'bold'}}>
+            {isFullDiscount ? '🎉 已達滿 5,000，自動享 9 折優惠' : '✨ 滿 5,000 自動打九折'}
           </div>
           <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.9rem',fontWeight:'bold',color:'var(--gold-l)',marginBottom:'10px'}}>
-            <span>總計：<span>NT$ {total} {vipText}</span></span>
+            <span>總計：<span>NT$ {total} {discountText}</span></span>
           </div>
           <input type="text" value={cName} onChange={(e) => setCName(e.target.value)} placeholder="姓名"/>
           <input type="text" value={cPhone} onChange={(e) => setCPhone(e.target.value)} onBlur={(e) => checkPhoneVip(e.target.value)} placeholder="已是會員請輸入您的手機號碼即可"/>
