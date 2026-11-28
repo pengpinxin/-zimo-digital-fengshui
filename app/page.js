@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-const META_PIXEL_ID = '1079390228492766';
+const META_PIXEL_ID = '2001571467480785';
 
 export default function Home(){
   const [cart, setCart] = useState([]);
@@ -19,6 +19,9 @@ export default function Home(){
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    const allowedHosts = ['www.pengpinxin.com', 'pengpinxin.com'];
+    if (!allowedHosts.includes(window.location.hostname)) return;
+
     if (!window.fbq) {
       const fbq = function () {
         if (fbq.callMethod) {
